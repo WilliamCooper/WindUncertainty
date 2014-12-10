@@ -1,0 +1,219 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usetheme{WAC}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[default]{}
+\setbeamertemplate{navigation symbols}{}
+%\setbeamercovered{transparent}
+%\setbeamercovered{opaque}
+\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+\end_preamble
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\bullet 1 0 30 -1
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This report documents how measurements of wind are made from the NSF/NCAR
+ Gulfstream V research aircraft (hereafter, GV) and provides a characterization
+ of the uncertainty associated with those measurements.
+ The characterization applies to the system as it existed in 2014, in particular
+ as it operated in the DEEPWAVE research project flown from New Zealand
+ in June-July 2014.
+ Key aspects influencing the uncertainty in the measurements as characterized
+ here are the presence of 
+\begin_inset Quotes eld
+\end_inset
+
+OmniSTAR
+\begin_inset Quotes erd
+\end_inset
+
+ GPS measurements, providing measurements of the velocity of the aircraft
+ relative to the earth, a calibration of airspeed provided by the Laser
+ Air Motion Sensor (Cooper et al., 2014), and a newly developed all-weather
+ wind sensor or 
+\begin_inset Quotes eld
+\end_inset
+
+gust pod
+\begin_inset Quotes erd
+\end_inset
+
+ employing a Rosemount 858 probe mounted under the wing of the GV.
+ These complemented the standard wind-sensing system comprised of a Honeywell
+ XXX inertial reference unit, normal GPS measurements, and a gust-sensing
+ system based on pressure ports in the nose radome.
+ The results obtained here do not necessarily apply to measurements from
+ earlier projects when not all these components were available.
+\end_layout
+
+\begin_layout Standard
+Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Components"
+
+\end_inset
+
+ describes the components of the wind-measuring system in more detail, and
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Calibrations"
+
+\end_inset
+
+ summarizes how the measurements have been calibrated, tested, and intercompared.
+ Some related studies affecting the measurements are then presented in the
+ next sections.
+ This information all provides the basis for Section
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Uncertainty-components"
+
+\end_inset
+
+, where the contributions to uncertainty from various sources are tabulabed
+ and where there is a discussion of the basis for each estimate contributing
+ to uncertainty in the measured wind.
+ This report then concludes with a summary characterizing the overall uncertaint
+y and the separate systematic and random components included in that uncertainty.
+\end_layout
+
+\begin_layout Standard
+The reference program for this document can be found on NCAR/EOL computer
+ space in the directory /h/eol/cooperw/RStudio/DEEPWAVE/GustPod and is named
+ WindUncertainty.Rnw.
+ That program runs the analysis program R within 
+\begin_inset Quotes erd
+\end_inset
+
+RStudio
+\begin_inset Quotes erd
+\end_inset
+
+ and also, via 
+\begin_inset Quotes erd
+\end_inset
+
+knitr,
+\begin_inset Quotes erd
+\end_inset
+
+ generates this text document from 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+LaTeX
+\end_layout
+
+\end_inset
+
+ statements embedded in that file.
+ The data used reside on associated file space and are archived in the directory
+ /h/eol/cooperw/STudio/DEEPWAVE as R data files, with names ending in 
+\begin_inset Quotes erd
+\end_inset
+
+Rdata.gz.
+\begin_inset Quotes erd
+\end_inset
+
+ It is thus possible to reproduce this document from archived data and to
+ repeat the included analyses with new data as needed.
+ This document thus is 
+\begin_inset Quotes erd
+\end_inset
+
+reproducible research
+\begin_inset Quotes erd
+\end_inset
+
+ as that term is used by the author of knitr.
+ References for knitr and the analysis packages in R are included in the
+ Acknowledgements.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,1912 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+
+\end_preamble
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format pdf2
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\bullet 1 0 30 -1
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Uncertainty components and overall standard uncertainty
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Uncertainty-components"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Radome-based system
+\end_layout
+
+\begin_layout Subsubsection
+Preliminary estimates of uncertainty
+\end_layout
+
+\begin_layout Paragraph
+Vertical wind
+\end_layout
+
+\begin_layout Standard
+Because the calculation of wind from the contributing measurements involves
+ coordinate transformations, evaluation of the uncertainty in wind components
+ involves difficult error propagation through the transformation matrices
+ and other equations of Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:General-comments"
+
+\end_inset
+
+.
+ For application to straight-and-level flight (or flight where the intent
+ is to remain level), simplified equations suffice for evaluation of the
+ error terms, but it will also be useful to employ Monte-Carlo simulations
+ to be sure that error contributions are propagated correctly.
+\end_layout
+
+\begin_layout Standard
+For the vertical wind, Eq.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Weq"
+
+\end_inset
+
+ provides an approximate relationship that leads to straightforward error
+ propagation, esp.
+\begin_inset space ~
+\end_inset
+
+if it is assumed that the angle of attack 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and pitch 
+\begin_inset Formula $\phi$
+\end_inset
+
+ are small angles so that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+w=V(\alpha-\phi)+w_{p}\label{eq:Weq-1}
+\end{equation}
+
+\end_inset
+
+and errors in 
+\begin_inset Formula $w$
+\end_inset
+
+ (
+\begin_inset Formula $\delta w$
+\end_inset
+
+) can be related to the errors in the basic measurements (
+\begin_inset Formula $\delta V$
+\end_inset
+
+, 
+\begin_inset Formula $\delta\alpha$
+\end_inset
+
+, 
+\begin_inset Formula $\delta\phi$
+\end_inset
+
+, 
+\begin_inset Formula $\delta w_{p}$
+\end_inset
+
+) by differentiating Eq.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Weq-1"
+
+\end_inset
+
+: 
+\begin_inset Formula 
+\begin{equation}
+\delta w=(\alpha-\phi)\delta V+V(\delta\alpha-\delta\phi)+\delta w_{p}\,\,\,.\label{eq:delta-w}
+\end{equation}
+
+\end_inset
+
+Correlations among these error terms are possible, so a full evaluation
+ that does not assume independence among the errors leads to:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\left\langle (\delta w)^{2}\right\rangle  & = & (\alpha-\phi)^{2}\left\langle (\delta V)^{2}\right\rangle +V^{2}\left(\left\langle (\delta\alpha)^{2}\right\rangle +\left\langle (\delta\phi)^{2}\right\rangle \right)+\left\langle (\delta w_{p})^{2}\right\rangle \nonumber \\
+ &  & +2\left((\alpha-\phi)\left(V(\left\langle \delta V\delta\alpha\right\rangle -\left\langle \delta V\delta\phi\right\rangle )+\left\langle \delta V\delta w_{p}\right\rangle \right)\right)\nonumber \\
+ &  & +2V\left(\left\langle \delta\alpha\delta w_{p}\right\rangle +\left\langle \delta\phi\delta w_{p}\right\rangle \right)-2V^{2}\left\langle \delta\alpha\delta\phi\right\rangle \label{eq:delta-w-sq}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The approximate magnitudes of these terms, discussed in detail below, are:
+ 
+\begin_inset Formula $\delta V$
+\end_inset
+
+=0.1
+\begin_inset space ~
+\end_inset
+
+m/s, 
+\begin_inset Formula $\delta\alpha=0.1^{\circ}\simeq2$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+mrad, 
+\begin_inset Formula $\delta\phi\simeq1$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+mrad, and 
+\begin_inset Formula $\delta w_{p}=0.03$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+m/s.
+ Other typical magnitudes are 
+\begin_inset Formula $V\simeq200$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+m/s, 
+\begin_inset Formula $\alpha\simeq\phi\simeq2^{\circ}\simeq3.5$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+mrad.
+ For these typical magnitudes, the only terms in Eq.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:delta-w-sq"
+
+\end_inset
+
+ that make potentially significant contributions are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\left\langle (\delta w)^{2}\right\rangle  & = & V^{2}\left(\left\langle (\delta\alpha)^{2}\right\rangle -2\left\langle \delta\alpha\delta\phi\right\rangle +\left\langle (\delta\phi)^{2}\right\rangle \right)\label{eq:delta-w-sq-simplified}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The error in pitch arises from measurements from the IRU and is affected
+ mostly by an initial offset during alignment and then further changes in
+ this error arising from the Schuler oscillation and from accelerations
+ that affect this error.
+ The error in angle-of-attack, on the other hand, arises from a combination
+ of measurement error from the pressure transducers and error in the formula
+ used to deduce angle-of-attack from the pressure measurements.
+ However, the calibration of the radome to determine sensitivity coefficients
+ for calculating angle-of-attack relies on matching the angle-of-attack
+ to the pitch angle when the aircraft flies level and there is no vertical
+ wind, so a calibration error in pitch would produce the same calibration
+ error in angle-of-attack and errors that are positively correlated.
+ This positive correlation would reduce the net variance in vertical-wind
+ measurements, but other errors arising from sources like uncertainty in
+ the measurements from the pressure transducers likely produce errors in
+ angle-of-attack uncorrelated with those in pitch.
+ The calibration procedure averages over long periods of flight during which
+ any pitch error likely undergoes a Schuler oscillation and other changes,
+ so the angle-of-attack calibration averages over such errors in pitch.
+ Because of these arguments and the difficulty of determining the true correlati
+on between these errors, it seems appropriate to drop the correlation term
+ from Eq.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:delta-w-sq-simplified"
+
+\end_inset
+
+ and then consider the result as an upper limit to the squared error in
+ vertical wind.
+\end_layout
+
+\begin_layout Standard
+It is possible to estimate the magnitudes of these errors from measurements.
+ Because the GV instrumention includes two identical inertial systems, the
+ difference in measurements of pitch from those two systems provides one
+ lower-bound estimate of the uncertainty in pitch.
+ Measurements discussed in Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Attitude-angles"
+
+\end_inset
+
+ suggest that, for periods when the roll of the aircraft was within 5
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ of zero, the difference between these redundant measurements was about
+ 0.3
+\begin_inset space ~
+\end_inset
+
+mrad.
+ This is comparable to the estimated uncertainty in angle-of-attack, for
+ which the variance spectra discussed in Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Variance-spectra-for-W-components"
+
+\end_inset
+
+ suggest a random error of about 0.02
+\begin_inset Formula $^{\circ}\simeq0.35$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+mrad.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+DEEPWAVE flight 15, 3:40--3:55, spectrum for AKRD, compared to simulated
+ spectrum with random-noise amplitude of 0.07.
+ As generated, this has mean of half the amplitude, so it corresponds to
+ a standard deviation of .07/
+\begin_inset Formula $\sqrt{12}\simeq0.02^{\circ}\simeq0.35$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+mrad.
+\end_layout
+
+\end_inset
+
+ The estimated uncertainties in angle-of-attack and pitch are thus comparable,
+ and both influence the uncertainty in vertical wind.
+ The rough-estimate uncertainty in vertical wind (to be refined later) is,
+ for flight at about 230
+\begin_inset space ~
+\end_inset
+
+m/s, about 
+\begin_inset Formula $230\sqrt{0.0003^{2}+0.00035^{2}}\simeq0.1$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+m/s.
+ Other factors, esp.
+\begin_inset space ~
+\end_inset
+
+the radome calibration, need to be considered for a refined estimate.
+\end_layout
+
+\begin_layout Paragraph
+Horizontal wind
+\end_layout
+
+\begin_layout Standard
+Errors in measurements affect the longitudinal and lateral components of
+ the horizontal wind in different ways.
+ For the longitudinal component, and relative-wind measurement has been
+ calibrated by comparison to measurements of the single-beam LAMS to an
+ estimated standard uncertainty of about 0.1
+\begin_inset space ~
+\end_inset
+
+m/s (Cooper et al., 2014).
+ The lateral component is measured using the sideslip angle, which is determined
+ in a manner similar to that used to calibrate the measurement of angle-of-attac
+k.
+ However, the zero reference angle for attack is determined well by assuming
+ that, on average in quiescent air, the vertical wind should be zero.
+ No similar reference angle exists for sideslip, and trim adjustments to
+ the aircraft can change the mean sideslip angle, so a different procedure
+ with additional sources of uncertainty must be used.
+ Two maneuvers are particularly effective for determining the zero reference
+ for sideslip (at which angle the lateral horizontal component of the relative
+ wind would be zero): (i) Reverse-heading maneuvers, where a straight leg
+ is flown for a short time (typically 2 min), then the flight track reverses
+ heading and flies back along the reverse heading, with the result that
+ the wind component perpendicular to the longitudinal axis of the aircraft
+ should reverse sign; or (ii) constant-bank circles flown drifting with
+ the wind, for which the lateral component of the wind should exhibit a
+ sinusoidal variation around the circle.
+ Both can provide a reference for zero sideslip angle.
+\end_layout
+
+\begin_layout Standard
+As for vertical wind, the GPS-measured components of aircraft motion relative
+ to the Earth have uncertainty significantly less than that of the relative
+ wind, so errors are dominated by those arising from the relative-wind component
+s.
+ The first-order equation for the lateral component of the relative wind
+ (
+\begin_inset Formula $v_{y}$
+\end_inset
+
+), analogous to Eq.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Weq-1"
+
+\end_inset
+
+, is 
+\begin_inset Formula $v_{y}=V\psi$
+\end_inset
+
+ where 
+\begin_inset Formula $\psi$
+\end_inset
+
+ is the sideslip angle, and 
+\begin_inset Formula $V$
+\end_inset
+
+ is known to typically 0.05% so the error is dominated by that in sideslip.
+ For the random error, one limit is obtained as for angle-of-attack by examining
+ the variance spectrum in calm conditions.
+ However, BDIFR and SSLIP do not exhibit such pure noise spectra at high
+ frequency as did ADIFR and AKRD.
+ QCF and QCF show noise spectra representative of random errors of about
+ 0.15
+\begin_inset space ~
+\end_inset
+
+hPa, slightly higher than estimated for ADIFR.
+ For BDIFR, an example is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:bdifrSpectrum"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename BDIFRspectrum.png
+	width 90text%
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+protect
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:bdifrSpectrum"
+
+\end_inset
+
+Variance spectrum for BDIFR for DEEPWAVE flight 15, 3:40--3:55 UTC.
+ The dashed orange lines indicate expected white-noise spectra for respective
+ standard deviations of 0.1 and 0.05
+\begin_inset space ~
+\end_inset
+
+hPa.
+ Units for 
+\begin_inset Formula $fP(f)$
+\end_inset
+
+ are hPa
+\begin_inset Formula $^{2}$
+\end_inset
+
+ per logarithmic interval in frequency.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The slope in the high-frequency region does not match that expected for
+ a white-noise signal, for which the variance would be constant and in these
+ plots, where the spectral density is multiplied by the frequency, the plotted
+ line should increase linearly with frequency parallel to the orange dashed
+ lines.
+ Instead, the spectrum for BDIFR has smaller slope than this, looking perhaps
+ as if the spectrum starts out at a point where a white-noise spectrum with
+ standard deviation 0.1
+\begin_inset space ~
+\end_inset
+
+hPa would be appropriate, but then is filtered or otherwise smoothed
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+perhaps by the response in the lines connecting the ports to the pressure
+ sensors
+\end_layout
+
+\end_inset
+
+ so that at the high-frequency limit the equivalent white-noise standard
+ deviation would be 0.05
+\begin_inset space ~
+\end_inset
+
+hPa.
+ The spectrum for SSLIP looks similarly filtered, with an equivalent white-noise
+ spectrum somewhere in the range of 0.02
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, similar to that characterizing AKRD.
+ The resulting preliminary estimate of the standard uncertainty in the lateral
+ component of the relative wind is about 0.1
+\begin_inset space ~
+\end_inset
+
+m/s, as for the vertical wind.
+ Like vertical wind, this needs to be refined for application to the Earth-relat
+ive wind by consideration of the uncertainty in the determination of sensitivity
+ coefficients for sideslip, the uncertainty in heading (needed for transformatio
+n to coordinates fixed relative to the Earth), and other contributions to
+ the net uncertainty in wind.
+\end_layout
+
+\begin_layout Subsubsection
+Elemental sources of uncertainty in vertical wind, tabulated
+\end_layout
+
+\begin_layout Standard
+Next, we tabulate the elemental sources of uncertainty in the measurement
+ of vertical wind and attempt to reconcile them with the indications of
+ uncertainty in the preceding paragraphs.
+ Table
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Elemental-w"
+
+\end_inset
+
+ summarizes the results.
+ The following is a discussion of the individual elements in that table.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="6">
+<features rotate="0" booktabs="true" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+element
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+source of uncertainty
+\series default
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+bias
+\series default
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+random error
+\series default
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $\delta w$
+\end_inset
+
+ bias
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $\delta w$
+\end_inset
+
+ random 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ADIFR transducer 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.07
+\begin_inset space ~
+\end_inset
+
+hPa 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.002
+\begin_inset space ~
+\end_inset
+
+hPa 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+AKRD=
+\begin_inset Formula $c{}_{0}+c_{1}$
+\end_inset
+
+(ADIFR/QCF)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.03
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.001
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.12 m/s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.04
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BDIFR transducer 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.07
+\begin_inset space ~
+\end_inset
+
+hPa 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.002
+\begin_inset space ~
+\end_inset
+
+hPa 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+QCF transducer 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.34
+\begin_inset space ~
+\end_inset
+
+hPa 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.01
+\begin_inset space ~
+\end_inset
+
+hPa 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<0.02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.001
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pitch 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.05
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.02
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.19
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.08
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+aircraft vertical velocity 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.03
+\begin_inset space ~
+\end_inset
+
+m/s 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<0.03
+\begin_inset space ~
+\end_inset
+
+m/s 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<0.03
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+horiz.
+ velocity components of GV 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.03
+\begin_inset space ~
+\end_inset
+
+m/s 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+<0.03
+\begin_inset space ~
+\end_inset
+
+m/s 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PSF transducer 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.10
+\begin_inset space \thinspace{}
+\end_inset
+
+hPa
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.001
+\begin_inset space \thinspace{}
+\end_inset
+
+hPa
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ATX
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+C 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+--
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Elemental contributions to the uncertainty in measurement of vertical wind.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Elemental-w"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+ADIFR: 
+\series default
+See Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Airflow-angles"
+
+\end_inset
+
+ and Table
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Radome-system-measurements"
+
+\end_inset
+
+.
+ The uncertainty listed there is assigned to bias because it is likely a
+ calibration uncertainty and the resolution and stability are much smaller
+ than this bias.
+ However, a calibration bias in this measurement does not affect the final
+ wind measurement because the procedure in Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:radome-sensitivity"
+
+\end_inset
+
+, determines the angle of attack from flight data in a way that can be considere
+d a calibration of the measurement of angle of attack, and a bias in ADIFR
+ would be reflected in a change in sensitivity coefficients determined in
+ that section that would compensate for bias in ADIFR.
+ Only random errors in ADIFR would propagate to the final measurement 
+\begin_inset Formula $w$
+\end_inset
+
+, and such errors are thought to be negligible, so the propagated error
+ for ADIFR is listed as negligible.
+ The next item considers the determination of sensitivity coefficient for
+ angle of attack and is the dominant contribution to uncertainty in 
+\begin_inset Formula $w$
+\end_inset
+
+ arising from the measurement of angle of attack.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+AKRD:
+\series default
+ The calibration procedure of Sect.
+\begin_inset space ~
+\end_inset
+
+]
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:radome-sensitivity"
+
+\end_inset
+
+ effectively removes the effects of possible biases in ADIFR and QCR and
+ instead introduces uncertainties arising from the coefficients {
+\begin_inset Formula $c_{0},\, c_{1}$
+\end_inset
+
+} in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOArecommended"
+
+\end_inset
+
+).
+ The estimated bias and random error are those obtained by simulation in
+ that section using the estimated uncertainties in the coefficients in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOArecommended"
+
+\end_inset
+
+).
+ For propagation to vertical wind 
+\begin_inset Formula $w$
+\end_inset
+
+, (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:VWind"
+
+\end_inset
+
+) indicates that the result is approximately 
+\begin_inset Formula $\delta w=V\delta\alpha$
+\end_inset
+
+ where 
+\begin_inset Formula $V$
+\end_inset
+
+ is true airspeed TASX, with additional contributions from correlated errors
+ involving 
+\begin_inset Formula $V$
+\end_inset
+
+ that are small in comparison to that listed.
+ A typical value for V is about 220
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+, leading to the listed elemental uncertainties in 
+\begin_inset Formula $w$
+\end_inset
+
+ arising from uncertainty in AKRD.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+BDIFR:
+\series default
+ The sideslip angle has negligible effect on the vertical wind as long as
+ the roll angle is small, so for measurements made during straight-and-level
+ flight this contribution to uncertainty in vertical wind is negligible.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+QCF:
+\series default
+ The values listed are the characteristics of the transducer.
+ Application of the calibration procedure based on comparison to the laser
+ air motion sensor (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "CooperEtAl2014"
+
+\end_inset
+
+) led to an alternate uncertainty estimate of 0.3
+\begin_inset space \thinspace{}
+\end_inset
+
+hPa.
+ As in the case of ADIFR, the procedure to determine sensitivity coefficients
+ removes any effect of bias in QCF by calibration in terms of the coefficients
+ {
+\begin_inset Formula $c_{0},\, c_{1}$
+\end_inset
+
+} so the effect on bias in 
+\begin_inset Formula $w$
+\end_inset
+
+ is replaced by possible bias in those coefficients, as discussed for element
+ 2.
+ The effect of a random error in QCF of 0.01
+\begin_inset space ~
+\end_inset
+
+hPa is, from (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOArecommended"
+
+\end_inset
+
+).
+ to introduce an uncertainty in angle of attack of about 0.0002
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ or a contribution to uncertainty in 
+\begin_inset Formula $w$
+\end_inset
+
+ of less than 0.001
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+.
+ QCF is also used to determine the true airspeed, which affects 
+\begin_inset Formula $w$
+\end_inset
+
+, but the effect is negligible for the estimated uncertainty in QCF (<0.2%
+ of the measured value of 
+\begin_inset Formula $w$
+\end_inset
+
+, or 0.02
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+ for 10
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+ vertical wind).
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+PITCH:
+\series default
+ The bias listed is from the specifications for the IRU, assuming that the
+ specification for 
+\begin_inset Quotes eld
+\end_inset
+
+accuracy
+\begin_inset Quotes erd
+\end_inset
+
+ from the manufacturer is best assigned to bias because it largely results
+ from errors in initial alignment to determine the vertical direction and
+ from errors introduced by accelerations during flight.
+ The assignment depends on the interval considered, though, because Schuler
+ precession will cause variation in this error with the Schuler-oscillation
+ period of about 84 min and so for periods long compared to this will appear
+ as a random-error component.
+ The estimate of random error tabulated here arises from comparison between
+ two identical IRUs during flight.
+ The propagated uncertainty in 
+\begin_inset Formula $w$
+\end_inset
+
+ arising from the listed bias, at 220
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+, is about 0.19
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Aircraft Vertical Velocity:
+\series default
+ The measurement used for vertical motion of the aircraft is discussed is
+ Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:VerticalVelocity"
+
+\end_inset
+
+.
+ The values listed here are those specified for measurements when 
+\begin_inset Quotes eld
+\end_inset
+
+OmniSTAR
+\begin_inset Quotes erd
+\end_inset
+
+ corrections are available; if not, the values should be increased to about
+ 0.1
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+.
+ This is likely a mixture of bias and random error, because the primary
+ source is uncertainty in ionospheric corrections which will be persistent
+ for important parts of flights but likely to change at least from flight
+ to flight.
+ Because of the likely persistence of the error, it is assigned here primarily
+ to bias.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Horizontal Velocity Components of the Aircraft:
+\series default
+ For straight-and-level flight, the measurement of vertical wind is not
+ dependent on the ground-speed components, so these are listed as negligible.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+PSF:
+\series default
+ The measured ambient pressure affects vertical wind only through the dependence
+ of true airspeed TASX on PSF, as described in the document on 
+\begin_inset CommandInset href
+LatexCommand href
+name "RAF processing algorithms"
+target "https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing"
+
+\end_inset
+
+, Section 4.7.1.
+ Evaluation at typical values shows that the dependence of measured vertical
+ wind on uncertainty in this variable is negligible.
+ For example, TASX for PSF=300
+\begin_inset space \thinspace{}
+\end_inset
+
+hPa, QCF=80
+\begin_inset space \thinspace{}
+\end_inset
+
+hPa, and ATX=
+\begin_inset Formula $-40^{\circ}$
+\end_inset
+
+C differs from that for PSF=300.1 by 0.03
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+ or about 0.01%, so this would also be the percentage change in vertical
+ wind.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+ATX:
+\series default
+ Temperature is needed to calculate TASX, but as for PSF the effect is negligibl
+e.
+ This was tested as for PSF by evaluating at representative points.
+ A representative result was that the listed bias in temperature would lead
+ to a bias in TASX of about 0.05%, leading to a similar percentage change
+ in the value of the vertical wind.
+ This is negligible in comparison to other sources of uncertainty.
+\end_layout
+
+\begin_layout Standard
+The result of adding the elemental sources of uncertainty in quadrature
+ is a bias estimate of 0.23
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s and a randum-uncertainty estimate of 0.09
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+.
+ It is unrealistic, though, to add the bias terms in this way.
+ With such a small number of contributions, it is more likely that they
+ will correlate so as to give addition or subtraction as a more realistic
+ result.
+ There is a more fundamental correlation, though.
+ The calibration of angle-of-attack depends on the measurement of pitch,
+ and for a given flight period over which the pitch bias remains constant
+ the calibration of angle of attack will compensate for an error in pitch.
+ For this reason, the bias arising from the calibration of angle of attack
+ alone would be representative of flight segments for which the sensitivity
+ coefficients have been determined.
+ In that case, the representative bias in vertical wind would be 0.12
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+, the bias in angle-of-attack.
+ Furthermore, bias in pitch would not be a function of other measurements
+ so the first coefficient in the representation of angle of attack, or 
+\begin_inset Formula $c_{0}$
+\end_inset
+
+ in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOArecommended"
+
+\end_inset
+
+), also addresses the bias in pitch.
+ If that bias stayed the same, only the bias in angle of attack would be
+ needed to determine the bias in vertical wind.
+ 
+\end_layout
+
+\begin_layout Standard
+This suggests that, when calculating vertical wind, the coefficient 
+\begin_inset Formula $c_{1}$
+\end_inset
+
+ should be kept at the value determined in Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:radome-sensitivity"
+
+\end_inset
+
+ , (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOArecommended"
+
+\end_inset
+
+).
+ However, there is justification for adjusting 
+\begin_inset Formula $c_{0}$
+\end_inset
+
+ to compensate for the varying bias in pitch, as long as it does not vary
+ by more than about 0.05
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, the estimated bias in the pitch measurement.
+ The error in pitch is key to maintaining low uncertainty in the measurement
+ of vertical wind, so anything that can reduce that error can lead to important
+ improvement in the wind measurement.
+ Investigations might examine if the CMIGITS IRU, which incorporates a Kalman
+ filter to control the errors in its measurements, might provide better
+ information.
+ The APPLANIX IRU should provide another route to improvement.
+ Also, a more ambitious project to incorporate adjustment of the measurement
+ of pitch based on the expected changes produced by accelerations and the
+ Schuler oscillation could lead to significant improvement.
+\end_layout
+
+\begin_layout Subsection
+Gust-pod system
+\end_layout
+
+\begin_layout Section
+Net uncertainty in measurements of wind
+\end_layout
+
+\begin_layout Section
+Potential for improvement in measurement of wind
+\end_layout
+
+\end_body
+\end_document

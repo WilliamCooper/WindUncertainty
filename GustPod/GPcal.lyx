@@ -1,0 +1,2351 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass report
+\begin_preamble
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\topicofnote} \global\topicofnote={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Aircraft Algorithm Memo re: \the\topicofnote \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+\newcommand{\RAFAlgorithmMemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Research Aviation Facility}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Algorithm Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.2truein\leftline{\textcolor{blue}{\textsf{Subject: \the\topicofnote}}}
+\leftline{\textcolor{blue}{\textsf{Al Cooper}}}
+\leftline{\textcolor{blue}{\textsf{\datetoday}}} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lyxlist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding default
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize letterpaper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.54cm
+\topmargin 3.54cm
+\rightmargin 2.54cm
+\bottommargin 2.54cm
+\headheight 1cm
+\headsep 2cm
+\footskip 0.5cm
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+set topicofnote to topic of note
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+topicofnote={The All-Weather Wind Pod}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+RAFAlgorithmMemo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Background
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+usually, definition of the variable, uses, history, math expressions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An all-weather wind pod has been developed by Allen Schanot and is available
+ for mounting under the wing of the GV.
+ It is based on a Rosemount 858 probe, but the location under the wing is
+ one where there is substantial flow distortion in comparison to the free
+ stream, so a calibration is needed to use the measurements.
+ The goal of this system was to provide a wind measurement in cases where
+ icing or other problems cause failure of the standard radome-based system.
+ The probe that is the basis for this system is heated and should be unaffected
+ by icing or ice accumulation.
+ A preliminary calibration is in use now, but it does not appear to perform
+ very well.
+ The goal of this note is to develop a new calibration and demonstrate that
+ the gust pod provides a valid alternative to wind measurements based on
+ the radome.
+ Also included here are some illustrative variance spectra, but better informati
+on on time response needs higher rate data that used here.
+\end_layout
+
+\begin_layout Standard
+The following variables are now produced in netCDF files (as of the date
+ of this note):
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Many of these should be changed, e.g., by the addition of 
+\begin_inset Quotes eld
+\end_inset
+
+Gust Pod
+\begin_inset Quotes erd
+\end_inset
+
+ where applicable.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="13" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Quotes eld
+\end_inset
+
+Long Name
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ADIFR_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Vertical Differential Pressure, Gust Pod
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BDIFR_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Horizontal Differential Pressure, Gust Pod
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PS_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Raw Static Pressure, Gust Pod
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This is mislabeled as dynamic pressure in current use; that should be changed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+QC_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Raw Dynamic Pressure, Gust Pod
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PSC_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Corrected Static Pressure, Gust Pod
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+QCC_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Corrected Dynamic Pressure, Gust Pod
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+AK_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Attack Angle, Diff.
+ Pressure
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SS_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sideslip Angle, Radome Diff.
+ Pressure
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+TAS_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aircraft True Airspeed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+WD_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Horizontal Wind Direction
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+WS_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Horizontal Wind Speed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+WI_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Wind Vector, Vertical Gust Component
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In addition, an IRU installed with the gust pod provides these measurements:
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+There are also additional housekeeping variables like measurement of temperature
+ in the pod.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="15" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Quotes eld
+\end_inset
+
+Long Name
+\begin_inset Quotes erd
+\end_inset
+
+
+\series default
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+CMIGITS
+\begin_inset Quotes erd
+\end_inset
+
+ should be changed to the correct term for the new IRU that replaces the
+ CMIGITS unit.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CALT_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reference CMIGITS3 Altitude (MSL)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CLAT_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reference CMIGITS3 Latitude
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CLON_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reference CMIGITS3 Longitude
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CPITCH_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reference CMIGITS3 Aircraft Pitch
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CROLL_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reference CMIGITS3 Aircraft Roll
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CTHDG_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reference CMIGITS3 True Heading
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CVEW_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reference CMIGITS3 Ground Speed Vector, East Component
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CVNS_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reference CMIGITS3 Ground Speed Vector, North Component
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CVSPD_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reference CMIGITS3 Verticle Speed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MODE_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CMIGITS Mode - 2=init,4=align,7=nav
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+UI_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Wind Vector, East Component
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+VI_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Wind Vector, North Component
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+UX_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Wind Vector, Longitudinal Component
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+VY_GP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Wind Vector, Lateral Component
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Calibration of the Angle of Attack
+\end_layout
+
+\begin_layout Standard
+The first-order expression for the vertical wind 
+\begin_inset Formula $w$
+\end_inset
+
+ is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+w=V\sin(\alpha-\phi)+w_{p}\label{eq:VWind}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $V$
+\end_inset
+
+ is the true airspeed, 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ the angle of attack, 
+\begin_inset Formula $\phi$
+\end_inset
+
+ the pitch, and 
+\begin_inset Formula $w_{p}$
+\end_inset
+
+ the vertical motion or rate-of-climb of the aircraft.
+ The solution for the angle-of-attack is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\alpha=\phi+\arcsin\frac{w-w_{p}}{V}\label{eq:SolvedForAOA}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If it is reasonable to assume that 
+\begin_inset Formula $w$
+\end_inset
+
+ is zero, or that it averages to zero, then 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\alpha=\phi-\arcsin\frac{w_{p}}{V}\label{eq:alphaWithwZero}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+can be used to determine the angle-of-attack from the measurements of pitch,
+ rate-of-climb, and true airspeed.
+ Even in the presence of waves, fitting to this as functions of the radome
+ measurements and other flight characteristics should average any real effects
+ of vertical wind as long as the vertical wind over the flight segments
+ used averages to zero.
+\end_layout
+
+\begin_layout Standard
+The measurements used in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:alphaWithwZero"
+
+\end_inset
+
+) should be those from the gust pod, and they may differ from those measured
+ relative to the fuselage; for example, the pitch of the gust pod is several
+ degrees different from that of the fuselage because of the way in which
+ the gust-pod IRU is installed.
+ However, the true airspeed 
+\begin_inset Formula $V$
+\end_inset
+
+ in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:alphaWithwZero"
+
+\end_inset
+
+) is measured better by the fuselage system, so TASX will be used for 
+\begin_inset Formula $V$
+\end_inset
+
+.
+ The equation with the appropriate variables is then:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\alpha=\mathrm{CPITCH\_GP}-\arcsin\frac{\mathrm{CVSPD\_GP}}{\mathrm{TASX}}\label{eq:AOAeq}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Calibration of the angle-of-attack then requires determining a function
+ 
+\begin_inset Formula $f(\{x_{i}\})$
+\end_inset
+
+ of measured quantities that matches 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ determined from (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOAeq"
+
+\end_inset
+
+).
+ Possible terms in that function 
+\begin_inset Formula $\{x_{i}\}$
+\end_inset
+
+ may include ADIFR_GP and related measurements of pressure as well as Mach
+ number, attitude angles of the pod, etc.
+\end_layout
+
+\begin_layout Standard
+It is expected, from the theory of the 858 probe, that one element of 
+\begin_inset Formula $\{x_{i}\}$
+\end_inset
+
+ will be ADIFR_GP/QC_GP, and indeed a fit to only that term represented
+ 90% of the variance in the fit and yielded a residual standard error of
+ 0.1
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+ Various added functional dependences, including PS_GP, QC_GP, Mach number,
+ QC+GP/PS_GP, and products of these variables, at most reduced the standard
+ error by about 10%, so the fit with only ADIFR_GP/QC_GP seems best to use.
+ It is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+AK\_RD=c_{0}+c_{1}\frac{\mathrm{ADIFR\_GP}}{QC\_GP}\label{eq:AOAfit}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\{c_{0},\, c_{1}\}=\{-0.361,\,6.641\}$
+\end_inset
+
+.
+ A plot of the values obtained from the fit vs the reference values used
+ in the fit is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Angle-of-attack"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename GPcalFig1.png
+	lyxscale 50
+	width 8cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Angle-of-attack"
+
+\end_inset
+
+
+\shape slanted
+Angle-of-attack determined from (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOAfit"
+
+\end_inset
+
+) as a function of the reference value for the fit provided by (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOAeq"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The resulting angle-of-attack, suitable for use as AK_GP, is offset from
+ AKRD because the gust pod is installed so that the pitch angle measured
+ relative to the axis of the IRU installed in the gust pod is different
+ from that measured relative to the fuselage-installed IRU.
+ In terms of measured variables, typically AK_GP is about 3.66 deg smaller
+ than AKRD and CPITCH_GP is smaller than PITCH by the same amount.
+ When corresponding variables are used for pitch and angle-of-attack in
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:VWind"
+
+\end_inset
+
+), the same vertical wind will result.
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:AOA_GPvsAKRD"
+
+\end_inset
+
+ shows a comparison of the angle of attack based on the gust pod to that
+ based on the radome gust system.
+ The standard deviation of the difference between these measurements is
+ 0.04
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, which would correspond to a standard deviation in vertical wind of about
+ 0.16 m/s.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename GPcalFig3.png
+	lyxscale 50
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:AOA_GPvsAKRD"
+
+\end_inset
+
+
+\shape slanted
+Angle-of-attack determined from the gust pod, plotted against the corresponding
+ measurement from the radome gust system.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Calibration of the Sideslip Angle
+\end_layout
+
+\begin_layout Standard
+Yaw maneuvers are needed for calibration of the sideslip angle.
+ The symmetry of the 858 probe would indicate that the same sensitivity
+ should apply to the angle-of-attack and the sideslip angle, but the location
+ under the wing introduces a pronounced asymmetry because changes in angle-of-at
+tack and sideslip have potentially quite different effects when seen through
+ the distortion pattern in the wind that results from the wings and fuselage
+ of the aircraft.
+ While a preliminary estimate might be to use SS_GP=
+\begin_inset Formula $c_{1}$
+\end_inset
+
+(BDIFR/QC_GP), better calibration should be obtained.
+ The best will be to compare to the LAMS measurements in yaw maneuvers,
+ and yaw maneuvers alone have proven to be a difficult way to perform this
+ calibration, so completion of this study will await acquisition of suitable
+ maneuvers for this calibration.
+ In the meantime, the calibration used here subtracts an offset of 2.9
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ from the sideslip calculated using this formula in order to match the offset
+ of the radome gust-sensing system.
+\end_layout
+
+\begin_layout Section*
+The Components of the Relative Wind
+\end_layout
+
+\begin_layout Standard
+In the standard coordinate system with 
+\begin_inset Formula $x$
+\end_inset
+
+ forward, 
+\begin_inset Formula $y$
+\end_inset
+
+ starboard, and 
+\begin_inset Formula $z$
+\end_inset
+
+ downward, the three corresponding components of the relative wind are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{v=}\begin{pmatrix}u_{r}\\
+v_{r}\\
+w_{r}
+\end{pmatrix}=\begin{pmatrix}V\\
+V\thinspace\tan\beta\\
+V\thinspace\tan\alpha
+\end{pmatrix}\label{eq:relative wind}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $V$
+\end_inset
+
+ is the true airspeed, 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is the angle of attack and 
+\begin_inset Formula $\beta$
+\end_inset
+
+ is the sideslip angle.
+ The sign convention is such that the relative wind is positive when 
+\emph on
+from 
+\emph default
+the direction of the axis for each component.
+ To obtain true airspeed, either of the following two approaches could be
+ taken:
+\end_layout
+
+\begin_layout Enumerate
+Use the variable TASX as determined from the pitot-tube and static pressure
+ and the measured temperature.
+ The advantage of using this variable is that it has been calibrated to
+ low uncertainty using reference to earlier measurements from LAMS and is
+ thought to be one of the highest-quality measurements on the aircraft.
+ The disadvantage is that it is measured from static and dynamic ports on
+ the fuselage and so is displaced from the gust pod, and in a turbulent
+ wind field there may be different values of the true airspeed at the two
+ locations.
+\end_layout
+
+\begin_layout Enumerate
+Use a new variable calculated from the gust-probe measurements and adjusted
+ to match TASX in the mean, to take advantage of the calibration of TASX
+ but still use measurements that will represent departures from that if
+ there is spatial variability in the true airspeed at a separation of about
+ 6 m laterally and 10 m longitudinally, the latter presumably introducing
+ a delay.
+ To follow this path, TAS_GP is calculated from PS_GP, QC_GP, and ATX.
+ Conventionally, the would be calculated as 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V=\sqrt{2\left(\frac{(c_{p}-R_{a}}{R_{a}}\right)\left(1+\frac{q}{p}\right)^{\frac{R_{a}}{c_{p}}-1}\left(\frac{c_{p}}{c_{v}}R_{a}T\right)}\label{eq:TASformula}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $c_{p}$
+\end_inset
+
+, 
+\begin_inset Formula $c_{v}$
+\end_inset
+
+, and 
+\begin_inset Formula $R_{d}$
+\end_inset
+
+ are the specific heat of air at constant pressure, the specific heat of
+ air at constant volume, and the gas constant for air and 
+\begin_inset Formula $p$
+\end_inset
+
+ is the static pressure, 
+\begin_inset Formula $q$
+\end_inset
+
+ the dynamic pressure, and 
+\begin_inset Formula $T$
+\end_inset
+
+ the absolute temperature.
+ Here, it is desirable to retain this form to the extent possible, but it
+ is a characteristic of the gust-probe measurements that 
+\begin_inset Formula $q_{g}/p_{g}$
+\end_inset
+
+=QC_GP/PS_GP differs from 
+\begin_inset Formula $q/p$
+\end_inset
+
+=GCXC/PSXC, the conventional quantity, For that reason, a possible fit procedure
+ is to determine 
+\begin_inset Formula $q/p$
+\end_inset
+
+ from 
+\begin_inset Formula $q_{g}/p_{g}$
+\end_inset
+
+ so that the resulting representation of 
+\begin_inset Formula $q/p$
+\end_inset
+
+ can be used in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:TASformula"
+
+\end_inset
+
+) to calculate TAS_GP.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+To follow this approach, fits were obtained for functions 
+\begin_inset Formula $f(q_{g}/p_{g},\,\ldots)$
+\end_inset
+
+ used to estimate 
+\begin_inset Formula $q/p$
+\end_inset
+
+.
+ For example, the simplest fit was 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{q}{p}=d_{0}+d_{1}\frac{q_{g}}{p_{g}}\label{eq:simpleqbypfit}
+\end{equation}
+
+\end_inset
+
+which yielded a fit accounting for 98% of the variance and having a residual
+ error of <0.005 or 1% of the typical pressure ratio.
+\end_layout
+
+\begin_layout Standard
+When used in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:TASformula"
+
+\end_inset
+
+), the true airspeed that resulted from this fit had an rms deviation from
+ TASX of about 1 m/s.
+ However, it was clear that this deviation was not random and that a better
+ fit could be obtained.
+ The largest deviations were during the flight portions with flight speed
+ below 200 m/s.
+ These had large angle-of-attack as during the climb, and incorporating
+ the ratio (ADIFR_GP/QC_GP) in the fit reduced the standard deviation between
+ the new TAS and TASX to 0.6 m/s.
+ However, for straight-and-level flight, the rms deviation was about 0.3
+ m/s, and this is about the claimed accuracy for true airspeed, so this
+ appears to be an adequate fit.
+ Specifically, the fit obtained was 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\frac{q}{p}=d_{0}+d_{1}\frac{q_{g}}{p_{g}}+d_{2}\left(\frac{q_{g}}{p_{g}}\right)^{2}+d_{3}\frac{ADIFR\_GP}{q_{g}}\label{eq:TASfit}
+\end{equation}
+
+\end_inset
+
+where the coefficients are {0.0328, 1.037, 1.083, 0.134}.
+ The appropriate measurements from the gust probe, entered into (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:TASformula"
+
+\end_inset
+
+), then give the value to be used for TAS_GP.
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:TASfromGP"
+
+\end_inset
+
+ shows the result compared to the standard true airspeed, TASX.
+ The standard deviation between the two measurements is 0.1 m/s, so TAS obtained
+ from the gust pod provides a measurement that is within normal estimated
+ uncertainty of the standard measurement (0.3 m/s).
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename GPcalFig4.png
+	lyxscale 50
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:TASfromGP"
+
+\end_inset
+
+
+\shape slanted
+The true airspeed determined from the gust-pod measurements of static and
+ dynamic pressure, compared to the standard true airspeed measured by the
+ fuselage-mounted pressure sensors.
+ Data from flight rf01 of the DEEPWAVE project, 6 June 2014.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Once the true airspeed 
+\begin_inset Formula $V$
+\end_inset
+
+ is known, (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relative wind"
+
+\end_inset
+
+) with appropriate values for angle of attack and sideslip will give the
+ relative wind.
+\end_layout
+
+\begin_layout Section*
+Transformation to an Earth Reference Frame
+\end_layout
+
+\begin_layout Standard
+The gust-pod orientation is measured by an IRU in the pod, while the aircraft
+ orientation is measured by a fuselage-mounted IRS.
+ Each measures heading, pitch, and roll.
+ There are again two alternate paths that can be followed: Transform to
+ the aircraft reference frame and use the standard software (gusto.c), or
+ transform to an Earth reference frame directly and use the gust-pod ground
+ speeds to obtain the wind.
+ The former takes advantage of the higher-quality IRU in the cabin, but
+ involves additional complications arising from contributions of angular
+ velocity of the aircraft and mis-alignment between the inertial systems.
+ The latter course will be followed here, but it may be worth exploring
+ if the former might give higher-quality measurements.
+\end_layout
+
+\begin_layout Standard
+The required transformation is described by three rotation matrices, defined
+ in Bulletin 23 Eqs.
+ 2.5 and 2.6:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{1}=\left(\begin{array}{ccc}
+1 & 0 & 0\\
+0 & \cos\phi & -\sin\phi\\
+0 & \sin\phi & \cos\phi
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{2}=\left(\begin{array}{ccc}
+\cos\theta & 0 & \sin\theta\\
+0 & 1 & 0\\
+-\sin\theta & 0 & \cos\theta
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{3}=\left(\begin{array}{ccc}
+\cos\psi & -\sin\psi & 0\\
+\sin\psi & \cos\psi & 0\\
+0 & 0 & 1
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where {
+\begin_inset Formula $\phi,\,\theta,\,\psi$
+\end_inset
+
+} are {roll, pitch, heading}.
+\end_layout
+
+\begin_layout Standard
+The transformation should be made in the following order: 
+\end_layout
+
+\begin_layout Enumerate
+Rotate by 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ using the roll angle 
+\begin_inset Formula $\phi^{\prime}$
+\end_inset
+
+ measured by the gust-pod IRU (CROLL_GP) to level the wings by a rotation
+ about the x axis.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Rotate by 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+ using the pitch angle 
+\begin_inset Formula $\theta^{\prime}$
+\end_inset
+
+ (CPITCH_GP) to level the aircraft by a rotation about the y axis.
+\end_layout
+
+\begin_layout Enumerate
+Rotate by 
+\begin_inset Formula $T_{3}$
+\end_inset
+
+ using the heading angle 
+\begin_inset Formula $\psi^{\prime}$
+\end_inset
+
+ (CTHDG_GP) to obtain components in a true-north reference frame.
+ At this point, the relative-wind vector in an Earth-reference coordinate
+ system is 
+\begin_inset Formula $\mathbf{v}_{r}=T_{3}(T_{2}(T_{1}\mathbf{v}))$
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{v}$
+\end_inset
+
+ is given by (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:relative wind"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+At this point, the measured ground-speeds of the gust pod can be added to
+ the relative wind to get the true Earth-relative wind.
+ The final equations.
+ defining new wind variables {WDG, WSG, WIG} corresponding to {WDC, WSC,
+ WIC} from the radome gust system, are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{v}_{g}=\mathbf{v}_{r}+\left(\begin{array}{c}
+-\mathrm{CVNS\_GP}\\
+-\mathrm{CVEW\_GP}\\
+\mathrm{CVSPD\_GP}
+\end{array}\right)\label{eq:vg}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\mathrm{WDG=\arctan2(v_{g,y},}v_{g,x})\label{eq:wd}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\mathrm{WSG=\sqrt{(v_{g,x}^{2}+v_{g,y}^{2})}}\label{eq:ws}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\mathrm{WIG=v_{g,z}}\label{eq:wi}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Evaluation:
+\end_layout
+
+\begin_layout Subsection*
+Vertical Wind
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename GPcalFig2.png
+	lyxscale 50
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:WIG"
+
+\end_inset
+
+
+\shape slanted
+Comparison of measurements from the radome gust system (WIC) and from the
+ gust pod (WIG).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+The vertical wind obtained from (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:wi"
+
+\end_inset
+
+) is plotted in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:WIG"
+
+\end_inset
+
+ against the corresponding measurements of vertical wind obtained from the
+ radome gust system, WIC.
+ As calculated here, these measurements are completely independent; all
+ measurements entering the calculation of WIG are provided by the gust pod,
+ including the attitude angles, true airspeed, and the vertical motion of
+ the aircraft.
+ The small offset between the mean values from the two measurements (0.2
+ m/s) could be removed by adding this value to measurements of WIG, and
+ there is some justification for this because the mean value of WIG alone
+ for several flights is consistently about -0.15 m/s while the mean value
+ for WIC is +0.05 m/s.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename GPcalFig7.png
+	lyxscale 60
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:WIGexample"
+
+\end_inset
+
+
+\shape slanted
+An example of the measurements from the gust pod and from the radome-based
+ system, for a flight leg in DEEPWAVE flight rf05 (16 June 2014).
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+An example of vertical wind measured using the two systems is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:WIGexample"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The preceding approach treats the gust pod as an independent system that
+ should be self-contained to the extent possible, although the true-airspeed
+ measurement was based on a fit to measurements from the standard system
+ to take advantage of the low-uncertainty prior calibration of that system.
+ Another approach could be to calculate the vertical wind to match that
+ from the radome system, and it would be possible to obtain still lower
+ variance between the measurements from the two systems by following this
+ approach.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename GPcalFig5.png
+	lyxscale 50
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:WIXvsWIC"
+
+\end_inset
+
+
+\shape slanted
+The vertical wind obtained by fitting angle-of-attack measurements from
+ the gust pod to match those from the radome and then using that fitted
+ angle-of-attack with the conventional measurement of true airspeed (TASX)
+ to obtain the vertical wind, compared to the conventional measurement (WIC).
+ Data from the flight of 16 June 2014, DEEPWAVE rf05.
+ Measurements restricted to roll within 
+\begin_inset Formula $\pm$
+\end_inset
+
+10
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, TASX>130 m/s, and rate of climb within 
+\begin_inset Formula $\pm$
+\end_inset
+
+2 m/s.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+For example, Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:WIXvsWIC"
+
+\end_inset
+
+ shows a comparison of the vertical wind calculated in this way to the conventio
+nal measurement.
+ The standard deviation between the two measurements is 0.07 m/s, and so
+ is significantly lower than that shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:WIG"
+
+\end_inset
+
+.
+ However, the weakness in this approach is that, in turns, the results are
+ substantially worse than those leading to WIG.
+\end_layout
+
+\begin_layout Subsection*
+Horizontal Wind
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename GPcalFig6.png
+	lyxscale 50
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:HorizWindComparison"
+
+\end_inset
+
+
+\shape slanted
+Comparison between the wind measurement based on the gust pod (WDG, WSG)
+ and that based on the radome gust system (WDC, WSC).
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:HorizWindComparison"
+
+\end_inset
+
+ shows a comparison of the horizontal wind measurements from the gust pod
+ to the conventional wind measurements.
+ The standard deviations between measurements of wind direction and wind
+ speed are 3
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ and 1.0 m/s, respectively.
+\end_layout
+
+\begin_layout Standard
+One problem that appears in the horizontal wind measurements is that there
+ are occasional spikes in the horizontal wind, usually of 1-s duration.
+ These occur when the heading moves through 180
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, where for some reason the gust-probe IRU produces a jump in heading of
+ about 10
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+ In the data examined, these all occur during turns.
+ It will be useful either to flag these as missing value points or interpolate
+ through the jumps in order to avoid these spikes, which can be as large
+ as 10 m/s in wind speed or very large angle changes in wind direction.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Variance Spectra
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename GPcalFig8.png
+	lyxscale 50
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:VarSpec"
+
+\end_inset
+
+
+\shape slanted
+Variance spectra for the vertical wind based on the gust probe (WIG, blue
+ line) and based on the conventional radome-based gust system (WIC, dark
+ green line).
+ Both are smoothed; the unsmooted spectrum for WIG is shown as the thin
+ red line.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+The variance spectra for the two measurements of vertical wind look quite
+ similar, as shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:VarSpec"
+
+\end_inset
+
+.
+ It will be interesting to repeat this plot for high-rate data, but at low
+ rate there is little difference between the spectra except that the conventiona
+l system appears to show more clearly a high-frequency noise spectrum, as
+ would be expected at these low turbulence levels because the high-frequency
+ variations approach the resolution of the measuring system.
+ The 858 sensor is much smaller and has shorter pressure lines, so it may
+ be that the high-frequency response will be better from that system.
+\end_layout
+
+\begin_layout Section*
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+this (and all) are optional, may not be needed -- intended for research-level
+ exploration of meaning of the variable or subtleties regarding its calculation,
+ as needed to develop the case for recommendations
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+
+\emph on
+Recommendations
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+keep this short - 1/2 page or less
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There are several options to consider for processing:
+\end_layout
+
+\begin_layout Enumerate
+Incorporate this code into nimbus.
+ The processing is sample-by-sample, so this would be possible, although
+ the matrix multiplications need to be coded unless existing code from gusto.c
+ can be used for this purpose.
+\end_layout
+
+\begin_layout Enumerate
+Call an R script to do the processing sample-by-sample and return the result
+ to nimbus.
+ This is probably impractical because of the need to start and stop R each
+ sample, unless the R options for compiling scripts can be used.
+ (I have never used this and don't know if it is a practical option.)
+\end_layout
+
+\begin_layout Enumerate
+Use a second-pass program to add the gust-probe variables, as I have done.
+ As an example, see the file /scr/raf_data/DWrf05_GP.nc, where I have added
+ variables named WIG, WDG, and WSG for the vertical wind, the horizontal
+ wind direction, and the horizontal wind speed.
+ These can be examined as for any netCDF file, using for example ncplot.
+ (I haven't added all the expected attributes yet to this file.) 
+\end_layout
+
+\begin_layout Standard
+For reference: The script I used is saved as ~cooperw/RStudio/DEEPWAVE/GustPod.R,
+ accessible in EOL file space from machines like tikal.
+ It reads a netCDF file and adds the new variables 
+\series bold
+\emph on
+\color red
+to the same file.
+ 
+\series default
+\emph default
+\color black
+It does attempt to avoid the problem mentioned above that introduces spikes
+ as the CMIGITS heading moves through 180
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, but eventually this should be done better, perhaps via interpolation.
+ The R script needs some work also because I didn't vectorize the angle
+ transformations yet, in the interest of getting this to work first.
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+vskip0.5truein 
+\backslash
+centerline{
+\backslash
+textcolor{blue}{---- END ----}}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+this is just a closing line to note end of the memo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+attach{attachment}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+attachm{first
+\backslash
+
+\backslash
+second}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+uncomment to include a list of attachments according to the model in the
+ TeX example
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+cc{first attachment
+\backslash
+
+\backslash
+second
+\backslash
+
+\backslash
+3rd att}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+optional list of people to include in cc list (beyond algorithm committee,
+ who always should get these)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

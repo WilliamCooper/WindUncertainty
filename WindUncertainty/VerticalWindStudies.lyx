@@ -1,0 +1,3177 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+
+\end_preamble
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format pdf2
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\bullet 1 0 30 -1
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Studies of the Vertical Wind
+\end_layout
+
+\begin_layout Subsection
+The vertical velocity of the aircraft
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:VerticalVelocity"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Available measurements
+\end_layout
+
+\begin_layout Standard
+There are several independent measurements of the vertical motion of the
+ aircraft:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Variable
+\series default
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Source
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+VSPD 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Honeywell IRU
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+VSPD_A 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Avionics system (Honeywell IRU)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GGVSPDB 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GPS receiver, possibly with OMNISTAR corrections
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CVSPD_GP 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CMIGITS IRU, gust pod
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CVSPD_LAMS 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CMIGITS IRU, LAMS pod
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The vertical wind calculation depends on a measurement of vertical motion
+ of the aircraft, which has been VSPD (from the IRU) or VSPD_G or GGVSPDB
+ (from the GPS) or, much earlier, WP3.
+ For the systems based on the gust pod or LAMS, additional vertical-velocity
+ measurements are provided by their pod-mounted IRUs, respectively CVSPD_GP
+ and CVSPD_LAMS.
+ VSPD is controlled against the known instability of IRU measurements in
+ the vertical by updating to a reference value provided by pressure altitude,
+ so it has some drawbacks: pressure altitude is not really a measure of
+ altitude but of pressure, so the reference altitude can be biased, and
+ the IRU imposes an unknown baro-inertial loop with uncertain response character
+istics and uncertainty.
+ The advantage of an IRU variable over a GPS measurement has been, until
+ recently, better response at high frequency at the expense of absolute
+ accuracy.
+ GPS measurements have now improved, esp.
+\begin_inset space ~
+\end_inset
+
+with OmniSTAR, so it is worth considering what variable or combination of
+ variables should be used in the calculation of vertical wind.
+ For horizontal wind, the standard solution in use since the early 1990s
+ has been a complementary-filter solution where the difference between IRU
+ and GPS measurements is low-pass filtered and the result is added to the
+ IRU measurement.
+ This preserves the high-frequency response of the IRU measurement but causes
+ the low-frequency components to match the GPS measurements, thus providing
+ both absolute accuracy and valid high-frequency measurements.
+ It seems worthwhile to explore a similar approach for the vertical wind,
+ to see if there is an advantage to a variable that is provided by an analogous
+ complementary filter.
+ When OMNISTAR is available, the measurement is so good that it may be preferabl
+e to use that directly.
+ That will be explored here also.
+\end_layout
+
+\begin_layout Standard
+Currently, two vertical-wind variables are produced from the radome-based
+ system, WI and WIC.
+ These are called, respectively, 
+\begin_inset Quotes eld
+\end_inset
+
+Wind Vector, Vertical Gust Component
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+GPS-Corrected Wind Vector, Vertical Gust Component
+\begin_inset Quotes erd
+\end_inset
+
+.
+ They are calculated by adding the relative wind measured by the radome
+ system to the vertical motion of the aircraft, either VSPD (WI) or GGVSPDB
+ (WIC).
+ The former is directly from the Honeywell IRU; the latter is produced by
+ the GPS receiver and may benefit from OmniSTAR accuracy (flagged by GGQUAL
+ equal to 5).
+\end_layout
+
+\begin_layout Standard
+The names are not really appropriate.
+ Neither is the gust component; both are the full vertical wind including
+ gust and mean.
+ Also, WIC is not GPS-corrected, it is completely based on the GPS and does
+ not use the IRU at all except as the attitude angles are involved in determinin
+g the relative wind (the same for both).
+ These calculations employ the nimbus function 
+\begin_inset Quotes eld
+\end_inset
+
+gusto
+\begin_inset Quotes erd
+\end_inset
+
+, which implements the code as described by Lenschow (XXX) or Lenschow and
+ Spyers-Duran (XXX) and as described in Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:General-comments"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In addition, the Honeywell IRU provides a measure of vertical acceleration.
+ In a special calculation, this was integrated to get velocity and the result
+ compared to VSPD.
+ The variance spectrum was quite similar, provided that a feedback loop
+ was used to avoid exponentially growing errors from positive feedback.
+\end_layout
+
+\begin_layout Subsubsection
+Variance spectra for components affecting the vertical wind
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Variance-spectra-for-W-components"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For evaluation of these measurements of aircraft velocity, it is useful
+ to compare the variance spectra among them, including coherence and phase,
+ and to evaluate the contribution made to the vertical wind.
+ For this purpose, one flight from DEEPWAVE, RF16 (4 July 2014) was used
+ because it provided a good example of relatively intense and prolonged
+ vertical motion, with the core 6 h period of the flight from 6:30:00 --
+ 12:30:00 having a standard deviation in vertical wind of 1.0
+\begin_inset space \thinspace{}
+\end_inset
+
+m/s.
+ Much of the variation in vertical wind was from waves, so the field was
+ not fully developed turbulence, but the signals to be resolved had enough
+ intensity that noise floors on the measurements were not a problem.
+ (See below for examples where noise does enter the measurements.)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename VSPDspectra.png
+	width 90text%
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+protect
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Variance-spectra-VSPD"
+
+\end_inset
+
+Variance spectra [units: m
+\begin_inset Formula $^{2}$
+\end_inset
+
+s
+\begin_inset Formula $^{-2}$
+\end_inset
+
+, density functions per logarithmic interval in frequency expressed in Hz]
+ for various components entering vertical-wind calculations.
+ Data from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC.
+ The red trace is that for the vertical wind variable WIC; others show either
+ measurements of the aircraft vertical motion (VSPD, GGVSPDB, VSPD_A, CVSPD_GP,
+ CVSPD_LAMS) or, as GUSTW, the relative-wind contribution to WIC.
+ The green lines labeled 
+\begin_inset Quotes eld
+\end_inset
+
+EDR
+\begin_inset Quotes erd
+\end_inset
+
+ show the slope expected for an inertial subrange and, for the heavy line
+ labelled 
+\begin_inset Quotes eld
+\end_inset
+
+!0
+\begin_inset Formula $^{-4}$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+, corresponding to an eddy dissipation rate of 
+\begin_inset Formula $1\times10^{-4}$
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset Formula $^{2}$
+\end_inset
+
+s
+\begin_inset Formula $^{-3}$
+\end_inset
+
+.
+ Other green reference lines are displaced by an order of magnitude in eddy
+ dissipation rate.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Variance-spectra-VSPD"
+
+\end_inset
+
+ shows variance spectra calculated for the entire 6-h period, for a number
+ of measurements entering vertical-wind calculations.
+ The red trace shows the spectrum for the vertical wind measurement WIC,
+ with a pronounced broad peak near 10 km wavelength, a relatively small
+ inertial subrange extending only to about 3 km, and (after smoothing in
+ 50 logarithmic intervals across the range of the plot) uncertainty estimates
+ that range from about 5% at the lowest frequencies to <1% at the highest
+ frequencies.
+\end_layout
+
+\begin_layout Standard
+The black trace, GUSTW, is the measurement of the vertical component of
+ the relative wind.
+ It is everywhere above the spectrum for WIC except above about 0.3 Hz.
+ Because the vertical wind is the sum of GGVSPDB and GUSTW.
+ At most frequencies, GUSTW and GGVSPDB make contributions having opposite
+ sign, so that the resulting WIC is smaller than GUSTW; this is particularly
+ evident at wavelengths longer than about 10 km, This can only arise if
+ the amplitude of the aircraft vertical motion exceeds that of the vertical
+ wind, causing the amplitude of the relative wind to exceed that of the
+ vertical wind.
+ At the lowest frequencies or longest wavelengths, there is little real
+ signal in WIC so the measurements of relative wind and aircraft motion
+ result almost entirely from aircraft motion and they almost cancel to produce
+ a small spectral density for WIC.
+ WIC exceeds WIC only at frequencies above about 0.3
+\begin_inset space \thinspace{}
+\end_inset
+
+Hz, where the aircraft motion makes a small addition to the relative wind.
+\end_layout
+
+\begin_layout Standard
+At frequencies above about 0.1
+\begin_inset space \thinspace{}
+\end_inset
+
+Hz, the two IRU-only aircraft vertical speeds, VSPD and VSPD_A, begin to
+ fall below the three measurements based solely on GPS or updated to GPS
+ via Kalman filters.
+ This causes the variance spectrum for WI (not shown) to fall well below
+ that for WIC, and well below the 5/3-spectrum line, at the highest frequencies.
+ Coherence between VSPD and GGVSPDB starts to drop above 0.1
+\begin_inset space \thinspace{}
+\end_inset
+
+Hz and falls to near 0.5 at 0.5 Hz.
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Variance-spectra-VSPD"
+
+\end_inset
+
+ shows that VSPD also departs from GGVSPDB at frequencies below 0.01 Hz,
+ leading to the spectrum for WI to lie above that for WIC at high frequency.
+ The spectrum for VSPD_A is the same as that for VSPD except above about
+ 0.1
+\begin_inset space \thinspace{}
+\end_inset
+
+Hz, where it decreases even faster than VSPD as frequency increases.
+ The latter effect is probably the result of filtering internal to the IRUs
+ providing the signals.
+ This comparison suggests that WI (based on VSPD) has deficiencies and might
+ better be eliminated from the data products.
+ As a backup to WIC, a variable based on either one of the products updated
+ to GPS measurements (CVSPD_GP or CVSPD_LAMS) would mostly match WIC.
+\end_layout
+
+\begin_layout Standard
+The dark green spectrum represents GGVSPDB, the measurement from the GPS
+ system.
+ In this case, OMNISTAR corrections were available throughout the flight,
+ so this is a low-uncertainty measurement and perhaps the best.
+ In this plot, it is perfectly over-plotted by the violet and orange lines,
+ except at frequencies above 0.1 Hz where there is a small departure.
+ Even there, the measurements from the two pod-mounted systems (CVSPD_GP
+ and CVSPD_LAMS), mounted on the same wing pylon in adjacent canisters,
+ produce identical spectra.
+ This was confirmed by very high coherence (>0.99 except near 1 Hz, where
+ the coherence dropped to about 0.97) and phase within a few degrees of zero
+ throughout the frequency range.
+ This is exceptional agreement between two independent measurements (although
+ they are not fully independent because both use a GPS signal in a Kalman
+ filter to adjust their response, and both receive the same GPS signal but
+ process it independently).
+ The small departure between GGVSPDG (dark green) and CVSPD_LAMS (orange)
+ occurs only a frequencies above 0.1 Hz.
+\end_layout
+
+\begin_layout Standard
+Some of the relative magnitudes shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Variance-spectra-VSPD"
+
+\end_inset
+
+ may change for different intensities of turbulence.
+ However, some tentative conclusions seem indicated by this figure and the
+ discussion above: 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename WIxpectra.png
+	width 90text%
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+protect
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:WIWICcomparison"
+
+\end_inset
+
+Variance spectra for vertical-wind variables WI and WIC, from DEEPWAVE flight
+ 16, 4 July 2014, 6:30:00--12:30:00.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Consider eliminating the variable WI from the data archives.
+ VSPD, on which WI is based, has problems at both high and low frequency
+ and tends to produce variance spectra with incorrect distributions at high
+ frequencies where an inertial-subrange shape might be expected.
+ Having this variable could lead to the mistaken expectation that this is
+ the uncorrected version of WIC.
+ The argument for using a variable based on VSPD has been that this represents
+ the high-frequency contribution better than a GPS variable.
+ That is not the case any longer, because GPS measurements have improved
+ greatly and the IRU-provided measurements are obviously filtered at high
+ frequency.
+ Fig.
+\begin_inset space ~
+\end_inset
+
+XXX shows that, while the variance spectra of WI and WIC are reasonably
+ similar, the WI spectrum is above that for WIC for frequencies from about
+ 0.007--0.3 Hz, with WI often 30% higher, and then falls below the WIC spectrum
+ above 0.3 Hz.
+ The high-frequency decrease in WI is apparently attributable to the drop
+ in VSPD at high frequency, thought to be from imposed filters in the IRU
+ providing this variable.
+ WIC is reasonably consistent with a -5/3 spectrum for frequencies above
+ 0.1 Hz, while WI is not.
+ The difference in magnitude between 0.01--0.1 Hz is not evident: The variance
+ spectra from VSPD and GGVSPDB have the same magnitude, coherence near unity
+ and phase near zero, through this range.
+ This needs further investigation unless the variable WI is no longer produced.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+VSPD does not have better frequency response than GGVSPDB at high frequency,
+ as might be expected; the reverse is the case, possibly because of filters
+ imposed on VSPD in the inertial unit itself.
+ This argues for direct use of GGVSPDB in the vertical-wind calculation,
+ at least when OMNISTAR corrections are available.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The relative-wind variance spectrum exceeds that of the vertical wind, indicatin
+g that the contribution from aircraft motion counters the relative-wind
+ contribution at all but the highest frequencies.
+ The variable GGVSPDB is close to 180
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ out-of-phase with the relative wind (GUSTW in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Variance-spectra-VSPD"
+
+\end_inset
+
+) for frequencies smaller than 0.2
+\begin_inset space \thinspace{}
+\end_inset
+
+Hz.
+ At low frequency, the motion of the aircraft probably produces the vertical
+ component of the relative wind; at intermediate frequency (near 0.1 Hz)
+ the aircraft perhaps responds to the vertical wind so as to move out-of-phase
+ with it, exaggerating the measured vertical component of the relative wind.
+ There is a transition in phase from being above 180
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ to being below 180
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ as the frequency increases through 0.05
+\begin_inset space \thinspace{}
+\end_inset
+
+Hz, perhaps representing a transition from where the pilots or autopilot
+ cause motions that produce the relative-wind vertical component to where
+ the vertical wind causes the aircraft response.
+ 
+\end_layout
+
+\begin_layout Enumerate
+At high frequency (>0.3 Hz), the gust component dominates over the aircraft
+ response and the coherence between them falls to values between 0.1--0.5
+ and the phase relationship becomes variable before settling near zero at
+ 0.5 Hz.
+ 
+\end_layout
+
+\begin_layout Standard
+An example where there was very low turbulence is shown in 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename WIXHR1.png
+	width 90text%
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+protect
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:WIXHR1"
+
+\end_inset
+
+Variance spectra for the vertical wind (here, WIX) and for the contributions
+ to it made by the relative wind (GUSTW) and the aircraft motion (GGVSPDB).
+ Also shown for comparison is the spectrum for the IRU-provided aircraft
+ motion (VSPD, dashed line).
+ Data from DEEPWAVE flight 15, 3:40:00--3:55:00.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:WIXHR1"
+
+\end_inset
+
+.
+ The intensity of vertical-wind fluctuations was quite small for this flight
+ segment, with a standard deviation in vertical wind of only about 0.2 m/s.
+ Some features of this plot are explained below: 
+\end_layout
+
+\begin_layout Enumerate
+The measured vertical wind at high frequency (>1
+\begin_inset space \thinspace{}
+\end_inset
+
+Hz) is a white-noise spectrum with intensity that can be matched by generating
+ a random-noise signal with peak amplitude of 0.15--0.2 m/s, which would lead
+ to a random error of about (0.15--0.2)/
+\begin_inset Formula $\sqrt{12}\simeq0.05$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+m/s.
+ The noise is dominated by the relative-wind contribution; there is essentially
+ no contribution at these frequencies from the motion of the aircraft.
+ The noise arises almost entirely from the angle-of-attack contribution
+ to the relative wind, and specifically from the measurements 
+\begin_inset Quotes eld
+\end_inset
+
+ADIFR
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+QCR
+\begin_inset Quotes erd
+\end_inset
+
+, which exhibit noise spectra for frequencies above 1
+\begin_inset space ~
+\end_inset
+
+Hz.
+ In ADIFR, the noise is at a level that would arise from a white-noise signal
+ with peak amplitude of 0.4
+\begin_inset space ~
+\end_inset
+
+hPa or a random error of about 0.1
+\begin_inset space ~
+\end_inset
+
+hPa.
+ Similar noise is present in both QCR and QCF, so it may be linked to the
+ nature of the transducers used or to some effect originating in the pressure
+ lines connecting the transducers to the ports.
+ The specifications for the pressure transducer that measures ADIFR assert
+ a standard uncertainty of about 0.03 Hpa, and as sampled and digitized by
+ the data system the resolution is about 0.002 hPa (
+\begin_inset Formula $\pm70\,$
+\end_inset
+
+hPa for 
+\begin_inset Formula $2^{16}$
+\end_inset
+
+ range digital encoding).
+ Thus the white-noise spectrum indicates a random error about three times
+ greater than expected from the transducer characteristics.
+ This needs further investigation because it imposes an important limit
+ on capability to measure low-intensity turbulence.
+ 
+\end_layout
+
+\begin_layout Enumerate
+GGVSPDB as plotted here was obtained by interpolating linearly between 1-Hz
+ measurements and then applying a low-pass filter with cutoff frequency
+ 1 Hz.
+ Simple linear interpolation leads to a pronounced peak at 1
+\begin_inset space ~
+\end_inset
+
+Hz and peaks also at 2, 4, ...
+ Hz, so some better interpolation procedure is useful.
+ Smoothing with Savitzky-Golay polynomias with a 25-point span might be
+ best
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+A test of this with 4th-order Savitzky-Golay polynomials spanning 25 points
+ produced a signal without the phase shift that arises with a Butterworth
+ filter near the cutoff frequency.
+\end_layout
+
+\end_inset
+
+, but that can't be done in the conventional processing chain of nimbus
+ which necessarily handles data second-by-second.
+ [XXX check what is actually done for filtering and if a higher-rate is
+ available for GGVSPDB.] VSPD (from the IRU), on the other hand, is present
+ in the 25-Hz data files at 25 Hz, but it either has already been filtered
+ in the IRU or simply reflects, with GGVSPDB, the absence of contributions
+ from aircraft motion at these frequencies.
+ It falls below even filtered GGVSPDB, though, so it probably doesn't represent
+ any real signal at frequency above about 1 Hz.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The relative-wind contribution (GUSTW) and the aircraft-motion contribution
+ (GGVSPDB) both have peaks at about 0.05
+\begin_inset space \thinspace{}
+\end_inset
+
+Hz, with cancelling contributions so that no peak occurs at that frequency
+ in the resulting vertical wind.
+ This peak arises from the autopilot controlling the aircraft, which has
+ a noticeable oscillation about the set altitude with a period of about
+ 15--20
+\begin_inset space ~
+\end_inset
+
+s.
+ A regular oscillation with this period is quite evident in 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename GGALTB.png
+	width 0.8text%
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+protect
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:AltOscillationFMS"
+
+\end_inset
+
+The GPS-measured altitude during a flight segment in very smooth air.
+ Data from DEEPWAVE flight 15, variable GGALTB.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:AltOscillationFMS"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The disagreement between VSPD and GGVSPDB even at low frequency is another
+ indication that the IRU-provided value (VSPD) should not be used, because
+ the GPS-measured value at low frequency is surely a better measurement
+ than is possible from the IRU.
+ (OMNISTAR corrections were present throughout this flight.) 
+\end_layout
+
+\begin_layout Enumerate
+The difference between WIC and GUSTW near 0.3
+\begin_inset space ~
+\end_inset
+
+Hz, seen also as a possible effect in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Variance-spectra-VSPD"
+
+\end_inset
+
+, indicates that both the relative wind and the aircraft motion are making
+ contributions that add at these frequencies.
+ The spectrum of vertical wind here may be suspect because it is not clear
+ if the amplitude of this contribution from the GPS measurements should
+ be trusted at these frequencies.
+ [XXX exploration of high-frequency GGVSPDB might be useful if such are
+ available; they were not present in the 25-Hz file I used.] 
+\end_layout
+
+\begin_layout Subsection
+Timing of measurements contributing to the vertical wind
+\end_layout
+
+\begin_layout Standard
+It is necessary that the different measurements entering the calculation
+ of vertical wind be sampled at the same time.
+ That is particularly difficult in the case of samples from the inertial
+ reference system and GPS because they produce sample streams according
+ to their own timing and not in response to requests from the aircraft data
+ system.
+ The variables involved in calculating the vertical wind are: 
+\end_layout
+
+\begin_layout Itemize
+Angle of attack, from transducers attached to radome ports via lines that
+ can introduce small lags.
+ No lag is currently used in processing.
+ 
+\end_layout
+
+\begin_layout Itemize
+Pitch, from the IRU, transferred to the aircraft data system after some
+ delay that must be removed in processing.
+ The standard processing has a 
+\begin_inset Quotes eld
+\end_inset
+
+delay
+\begin_inset Quotes erd
+\end_inset
+
+ of -80
+\begin_inset space ~
+\end_inset
+
+ms; i.e., the measurement is advanced in time by 80 ms so as to apply to a
+ time later than when it is received.
+ It is hard to understand how this is justified.
+ 
+\end_layout
+
+\begin_layout Itemize
+Other attitude angles (heading and roll), which enter in minor ways if the
+ aircraft is not flying a straight-and-level course.
+ The timing of these can probably be neglected for calculations of vertical
+ wind, but the standard variables are also given a time lag of -80 ms.
+ 
+\end_layout
+
+\begin_layout Itemize
+True airspeed, measured using the pitot-tube measurement of dynamic pressure,
+ used also with a measurement of temperature.
+ While no lag is assumed for dynamic pressure, the reference total temperature
+ for DEEPWAVE is RTHR1 (tentatively), and a time lag of -1
+\begin_inset space ~
+\end_inset
+
+s is used for this measurement.
+ (No lag is assumed for RTRL, another candidate for the reference temperature.)
+ 
+\end_layout
+
+\begin_layout Itemize
+The vertical speed of the aircraft, taken for the preferred vertical wind
+ variable from GGVSPDB, the variable produced by the Novatel GPS receiver
+ employing OMNISTAR corrections when possible.
+ This variable is only sampled at a rate of 5 Hz, and no time lag is used
+ in processing.
+ 
+\end_layout
+
+\begin_layout Standard
+It is useful to try to determine appropriate lags from the data and from
+ appropriate maneuvers.
+ For example, in pitch maneuvers (in which the pitch is alternately increased
+ and decreased with typically a 10-s period) if the timing of measurements
+ of pitch and angle-of-attack are not matched or if the measurement of vertical
+ speed of the aircraft is not timed correctly there will be a residual measured
+ vertical wind, so these maneuvers are particularly stringent tests of relative
+ timing of the signals.
+\end_layout
+
+\begin_layout Standard
+An approximate formula for the vertical wind 
+\begin_inset Formula $w$
+\end_inset
+
+ is
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{equation}
+w=V\sin(\alpha-\phi)+w_{p}\label{eq:Weq}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $V$
+\end_inset
+
+ is true airspeed, 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is angle-of-attack, 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is pitch and 
+\begin_inset Formula $w_{p}$
+\end_inset
+
+ is the vertical velocity of the aircraft.
+ This equation can be used to adjust relative timing among the signals to
+ minimize the variance in vertical wind during the pitch maneuvers.
+ A good example is that from DEEPWAVE flight 15, 3:15--3:18 UTC.
+ As initially processed using standard processing at the time of DEEPWAVE,
+ the standard deviation in vertical wind through the pitch maneuvers was
+ 0.4
+\begin_inset space ~
+\end_inset
+
+m/s while the variance in vertical motion of the aircraft was 5.6
+\begin_inset space ~
+\end_inset
+
+m/s.
+ A long-standing criterion for acceptable pitch maneuvers is for less than
+ 10% of the imposed velocity to enter the vertical wind, so by this criterion
+ the test was successful.
+ However, a plot of the vertical wind shows a clear match to the imposed
+ velocity, so it is worthwhile to see if better results are possible.
+\end_layout
+
+\begin_layout Standard
+Speed runs have been used to determine the sensitivity coefficients for
+ determining 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ from the measured pressure differences on the radome, so the sensitivity
+ coefficients should not be adjusted on the basis of the pitch maneuvers.
+ The relative timing of the measurements entering Eq.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Weq"
+
+\end_inset
+
+, however, can be adjusted to determine if the residual vertical wind can
+ be reduced.
+ The sensors producing 
+\begin_inset Formula $V$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ are located close together and are processed in the standard manner by
+ the data acquisition system, so these can be assumed to determine the reference
+ time.
+ However, the other variables 
+\begin_inset Formula $\phi$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{p}$
+\end_inset
+
+ are determined by independent systems and may have timing offsets from
+ the standard measurements, so these are the variables whose lags are explored
+ here.
+\end_layout
+
+\begin_layout Standard
+The approach was to shift the measurements forward or backward in time and,
+ using Eq.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Weq"
+
+\end_inset
+
+, recalculate the vertical wind.
+ The best result obtained in this was was to shift PITCH forward 0.04
+\begin_inset space ~
+\end_inset
+
+s and shift GGVSPDB backward 0.04
+\begin_inset space ~
+\end_inset
+
+s.
+ Almost as good was to shift PITCH forward 0.08
+\begin_inset space ~
+\end_inset
+
+s and shift GGVSPDB backward 0.04
+\begin_inset space ~
+\end_inset
+
+s.
+ This reset the assumed lag in PITCH to zero while imposing a small lag
+ of -0.04
+\begin_inset space ~
+\end_inset
+
+s in GGVSPDB.
+ For the purpose of this study, to avoid the phase lag produced by filters
+ at the high-frequency limit, Savitzsky-Golay filtering was used for GGVSPDB
+ with 4th-order polynomials applied over 25-measurement intervals to smooth
+ the original measurements.
+ The resulting standard deviation in WIX was 0.22
+\begin_inset space ~
+\end_inset
+
+m/s, vs 0.23 with no shift in GGVSPDB, so it may be preferable to leave the
+ assumed lag for GGVSPDB at zero to avoid the awkwardness of advancing the
+ measurement in time.
+\end_layout
+
+\begin_layout Standard
+With the assumed time lag in PITCH removed, the standard deviation in measured
+ wind through the pitch maneuvers is only 4% of the imposed vertical motion
+ of the aircraft.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename PitchManeuvers.png
+	width 80text%
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+protect
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:pitchManeuvers"
+
+\end_inset
+
+Vertical wind measured during pitch maneuvers.
+ The variable VSPDX (which is GGVSPDB interpolated, filtered, and shifted)
+ shows the vertical motion imposed on the aircraft, and WIX shows the resulting
+ measurement of vertical wind.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Furthermore, there is little signal corresponding to the imposed vertical
+ motion or variations in pitch, and the measured standard deviation in vertical
+ wind is about the same as that for measurements just before and just after
+ the pitch maneuvers.
+ It thus appears that the measuring system is able to remove the effects
+ of the pitch maneuvers with essentially undetectable residual.
+\end_layout
+
+\begin_layout Subsubsection
+Unresolved Questions
+\end_layout
+
+\begin_layout Enumerate
+To obtain the result shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pitchManeuvers"
+
+\end_inset
+
+, it was necessary to use Savitzky-Golay polynomials for smoothing.
+ It needs to be investigated if the situation is different from GGVSPDB
+ measurements at 5 Hz interpolated and filtered for 25-Hz output, as would
+ be the case for high-rate wind measurements.
+ 
+\end_layout
+
+\begin_layout Enumerate
+It appears unresolved if GGVSPDB underestimates the contribution to the
+ variance around 0.3 Hz.
+ VSPD clearly makes no contribution here.
+ The contributions from the two pod-mounted IRUs (with Kalman filtering
+ to use GPS measurements) show slightly higher variance than GGVSPDB at
+ these frequencies.
+ 
+\end_layout
+
+\begin_layout Subsection
+Correcting the pitch by detecting the Schuler oscillation
+\end_layout
+
+\begin_layout Subsubsection
+The basis for the correction
+\end_layout
+
+\begin_layout Standard
+The normal weakness in measurement of vertical wind is the measurement of
+ pitch, which is provided only by inertial reference systems and therefore
+ has the uncertainty and fluctuations associated with those systems.
+ An inertial system aligns during initialization to detect the local vertical
+ direction and then calculates the new vertical direction as the aircraft
+ moves (changing the local vertical direction) and accelerates (which can
+ cause gyros to precess).
+ Any mis-alignment present at initialization persists but also can oscillate
+ and can cause errors in roll and pitch to mix as the aircraft changes flight
+ direction.
+ The standard error associated with this measurement is 0.05
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ for flight duration of a few hours, and the error often increases during
+ the flight as heading errors and accelerometer biases affect the results.
+\end_layout
+
+\begin_layout Standard
+Following the work of Schuler, coupling among some of these error sources
+ leads to limits on the growth of errors and simultaneous oscillations in
+ some of the measurement errors.
+ In particular, an error in pitch leads to an error in horizontal acceleration,
+ and integration of that error in horizontal acceleration leads to a position
+ error that compensates for the original error in pitch.
+ However, when the error in pitch is reduced to zero, errors in position
+ and velocity have been accumulated and those lead to growth of the error
+ in pitch in the direction opposite to the original error.
+ The result is a Schuler oscillation having a period of 
+\begin_inset Formula $T_{Sch}=(R_{e}/g)^{0.5}/(2\pi)\approx5064\thinspace s$
+\end_inset
+
+ or 84.4
+\begin_inset space \thinspace{}
+\end_inset
+
+min, where 
+\begin_inset Formula $R_{e}$
+\end_inset
+
+ is the radius of the Earth and 
+\begin_inset Formula $g$
+\end_inset
+
+ the acceleration of gravity.
+ The existence of this coupling allows estimation of the pitch error if
+ the error in horizontal acceleration is known.
+ That is the case in DEEPWAVE because high-quality measurements of velocity
+ are available from GPS and those measurements can be compared to the uncorrecte
+d measurements from the inertial systems to measure the error in velocity
+ and, from its derivative, the error in acceleration.
+ The specified uncertainty for the IRU, 0.05
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, contributes an uncertainty in measured vertical wind of about 0.2 m/s,
+ and it is shown later that this is the dominant contribution to uncertainty
+ in that measurement, so improving on this can lead to significant reduction
+ in the uncertainty associated with measurement of vertical wind.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<reinitialization,echo=FALSE,include=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggplot2)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(grid)
+\end_layout
+
+\begin_layout Plain Layout
+
+library(knitr)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggthemes)
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(fig.width=6, fig.height=5, fig.loc="center", digits=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+thisFileName <- "XXX"
+\end_layout
+
+\begin_layout Plain Layout
+
+Directory <- DataDirectory ()
+\end_layout
+
+\begin_layout Plain Layout
+
+Flight <- "ff02" 				# XXX change this
+\end_layout
+
+\begin_layout Plain Layout
+
+Project = "DEEPWAVE"			 # XXX change this
+\end_layout
+
+\begin_layout Plain Layout
+
+fname = sprintf("%s%s/%s%s.nc", Directory,Project,Project,Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+VarNames <- c("BLATA", "BLONGA", "BNORMA", "VNS", "VEW", "VSPD", "GGVNS",
+ "GGVEW", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "GGVSPDB", "LAT", "LON", "ALT", "THDG", "PITCH", "ROLL") 
+\end_layout
+
+\begin_layout Plain Layout
+
+Data <- getNetCDF (fname, standardVariables(VarNames))		
+\end_layout
+
+\begin_layout Plain Layout
+
+SaveRData <- sprintf("%s.Rdata.gz", thisFileName)
+\end_layout
+
+\begin_layout Plain Layout
+
+Cradeg <- pi / 180
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Simple illustration of the origin of the Schuler oscillation
+\end_layout
+
+\begin_layout Standard
+Although the following is standard material, it is presented here to make
+ the discussion of the Schuler oscillation self-contained and for tutorial
+ purposes.
+ Those familiar with the Schuler oscillation should skip this section.
+\end_layout
+
+\begin_layout Standard
+Consider first the case of steady flight to the north.
+ If, at some starting point at rest, there is a pitch error 
+\begin_inset Formula $\delta\theta$
+\end_inset
+
+, that will cause gravity to be resolved into a NS component, as shown in
+ this diagram where a pitch error of 
+\begin_inset Formula $\delta\theta$
+\end_inset
+
+ produces an erroneous northward acceleration of 
+\begin_inset Formula $g\thinspace\sin(\delta\theta)\simeq g\delta\theta$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<plot-illustrating-pitch-coupling, fig.width=4.5, fig.height=5, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(sin(0:360*pi/180), cos(0:360*pi/180), type='l', xlim=c(-0.2,1.5),ylim=c(-0.2,1.
+5), xlab=' ', ylab=' ')
+\end_layout
+
+\begin_layout Plain Layout
+
+points (0., 0., pch=16)
+\end_layout
+
+\begin_layout Plain Layout
+
+A <- 45
+\end_layout
+
+\begin_layout Plain Layout
+
+x1 <- sin(A*pi/180); y1 <- cos(A*pi/180)
+\end_layout
+
+\begin_layout Plain Layout
+
+lines (c(0, 1.4*x1), c(0, 1.4*y1), col='red')
+\end_layout
+
+\begin_layout Plain Layout
+
+lines (c(x1/2, 3*x1/2), c(3*y1/2, y1/2), col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+delta=10
+\end_layout
+
+\begin_layout Plain Layout
+
+x2 <- sin((A+delta)*pi/180); y2 <- cos((A+delta)*pi/180)
+\end_layout
+
+\begin_layout Plain Layout
+
+lines (c(x1-x2/2, x1+x2/2), c(y1-y2/2, y1+y2/2), col='darkorange', lty=2,
+ lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+lines (c(x1-y2/2, x1+y2/2), c(y1+x2/2, y1-x2/2), col='darkorange', lty=2,
+ lwd=2) 
+\end_layout
+
+\begin_layout Plain Layout
+
+arrows (x1, y1, x1/2, y1/2, length=0.05, col='darkgreen', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+arrows (x1-x2/2, y1-y2/2, x1/2, y1/2, length=0.05, col='darkgreen')
+\end_layout
+
+\begin_layout Plain Layout
+
+arrows (y1+0.4*x2, x1+0.4*y2, 1.4*x1, 1.4*y1, length=0.03, col='darkgreen', code=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+text (0.75*x1+0.05, 0.5*y1+0.05, 'g', col='darkgreen')
+\end_layout
+
+\begin_layout Plain Layout
+
+text (0.05, 0.30, expression(paste("g",delta,theta)), col='darkgreen', cex=0.8)
+\end_layout
+
+\begin_layout Plain Layout
+
+text ((1.3*x1+1.3*y1+1.3*0.4*x2)/2, (1.3*y1+1.3*x1+1.3*0.4*y2)/2, expression(paste(delta
+,theta)), col='darkgreen', cex=0.75)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The result is that this erroneous acceleration produces a false northward
+ velocity and, integrated, a northward error in position.
+ However, the error then causes the integrated position to become too far
+ north, where the calculated direction toward the center of the earth becomes
+ biased in the opposite direction, and at some point the calculated offset
+ from being too far north equals the pitch bias, as shown in the next figure:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<plot-change-gravity-w-motion, include=TRUE, fig.width=4.5, fig.height=5>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(sin(0:360*pi/180), cos(0:360*pi/180), type='l', xlim=c(-1.5,1.5),ylim=c(-1.5,1.
+5), xlab=' ', ylab=' ')
+\end_layout
+
+\begin_layout Plain Layout
+
+A <- 50
+\end_layout
+
+\begin_layout Plain Layout
+
+x1a <- sin(A*pi/180); y1a <- cos(A*pi/180)
+\end_layout
+
+\begin_layout Plain Layout
+
+lines (c(0, 1.4*x1a), c(0, 1.4*y1a), col='red')
+\end_layout
+
+\begin_layout Plain Layout
+
+lines (c(x1a-sin((90-A)*pi/180), x1a+sin((90-A)*pi/180)), c(y1a+cos((90-A)*pi/18
+0), y1a-cos((90-A)*pi/180)), col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+#arrows (x1a, y1a, x1a/2, y1a/2, length=0.05, col='darkgreen')
+\end_layout
+
+\begin_layout Plain Layout
+
+A <- 60
+\end_layout
+
+\begin_layout Plain Layout
+
+x1 <- sin(A*pi/180); y1 <- cos(A*pi/180)
+\end_layout
+
+\begin_layout Plain Layout
+
+lines (c(0, 1.4*x1), c(0, 1.4*y1), col='darkorange', lty=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+lines (c(x1-sin((90-A)*pi/180), x1+sin((90-A)*pi/180)), c(y1+cos((90-A)*pi/180),
+ y1-cos((90-A)*pi/180)), col='darkorange', lty=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+delta=10
+\end_layout
+
+\begin_layout Plain Layout
+
+x2 <- sin((A+delta)*pi/180); y2 <- cos((A+delta)*pi/180)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines (c(x1+x2/2, x1-x2/2), c(y1-y2/2, y1+y2/2), col='darkorange', lty=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines (c(x1+y2/2, x1-y2/2), c(y1+x2/2, y1-x2/2), col='darkorange', lty=2)
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+#arrows (x1-x1a/2, y1-y1a/2, x1/2, y1/2, length=0.05, col='darkgreen', code=1,
+ lty=1)
+\end_layout
+
+\begin_layout Plain Layout
+
+#arrows (x1+0.4*y2, y1+0.4*x2, 1.4*x1, 1.4*y1, length=0.03, col='darkgreen',
+ code=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+#text (0.75*x1-0.15, 0.75*y1+0.15, 'g', col='darkgreen')
+\end_layout
+
+\begin_layout Plain Layout
+
+#text (0.0, 0.35, expression(paste("g",delta,lambda)), col='darkgreen', cex=0.6)
+\end_layout
+
+\begin_layout Plain Layout
+
+#arrows (x1, y1, x1-x1a/2, y1-y1a/2, length=0.05, col='darkgreen', lty=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+text (1.4*(x1a+x1)/2,1.4*(y1a+y1)/2, expression(paste(delta,lambda)), col='darkgre
+en', cex=0.75)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+However, at the point where the error in latitude cancels the error in pitch,
+ there is an accumulated error in velocity, so the integrated solution for
+ position overshoots the equilibrium position by an amount such that the
+ error in pitch becomes the negative of the original error, at which point
+ the integrated velocity is zero but the new error in pitch now causes a
+ reversal of the position error.
+ The result is that the errors in pitch, velocity and position all oscillate
+ with a period equal to the Schuler period, 
+\begin_inset Formula $T_{s}\simeq5064$
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+s, determined from 
+\begin_inset Formula $T=(R_{e}/g)^{0.5}/(2\pi)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Here are the equations predicting how this oscillation will occur:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+v_{n}=\frac{dx_{n}}{dt}=R_{e}\frac{d\lambda}{dt}\label{eq:vn}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{d^{2}x_{n}}{dt^{2}}=a_{n}\label{eq:an}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $x_{n}$
+\end_inset
+
+ is the north coordinate of the position and 
+\begin_inset Formula $a_{n}$
+\end_inset
+
+ is the northward acceleration.
+ However, if 
+\begin_inset Formula $a_{n}=a_{n}^{*}+\delta a_{n}$
+\end_inset
+
+ where 
+\begin_inset Formula $a_{n}^{*}$
+\end_inset
+
+ is the true northward acceleration of the aircraft and 
+\begin_inset Formula $\delta a_{n}$
+\end_inset
+
+ is the erroneous acceleration that results from pitch and displacement
+ errors, then
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\delta a_{n}=g(\delta\lambda-\delta\theta)\label{eq:delta-an}
+\end{equation}
+
+\end_inset
+
+with 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ the latitude, 
+\begin_inset Formula $\delta\lambda=\delta x_{n}/R_{e}$
+\end_inset
+
+ the error in latitude, and 
+\begin_inset Formula $\delta\theta$
+\end_inset
+
+ the error in pitch.
+ Then
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\frac{d(\delta v_{n})}{dt}=-g\delta\theta\label{eq:delta-vn-dot}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\frac{d(\delta\theta)}{dt}=\frac{\delta v_{n}}{R_{e}}=-\frac{1}{g}\frac{d^{2}(\delta v_{n})}{dt^{2}}\label{eq:delta-theta-dot}
+\end{equation}
+
+\end_inset
+
+which has the solution:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\delta v_{n}=V_{n}\cos(\omega t+\zeta_{n})\label{eq:delta-vn-solution}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\omega=\sqrt{g/R_{e}}\simeq0.00124$
+\end_inset
+
+ is the Schuler angular velocity.
+ The error in the north component of the velocity therefore oscillates with
+ the Schuler period and a phase 
+\begin_inset Formula $\zeta_{n}$
+\end_inset
+
+.
+ Integrating in time gives
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\delta x_{n}=\int\delta v_{n}dt=\frac{V_{n}}{\omega}\sin(\omega t+\zeta_{n})\label{eq:delta-xn-solution}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family sans
+\color black
+The key to developing a correction to the pitch angle is that both 
+\begin_inset Formula $\delta x_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta v_{n}$
+\end_inset
+
+ are observable because reference measurements are available from GPS.
+ For example,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\delta x_{n} & = & R_{e}(\mathrm{LAT-GGLAT)}\nonumber \\
+\delta v_{n} & = & \mathrm{VNS-GGVNS}\label{eq:observed-errors}
+\end{eqnarray}
+
+\end_inset
+
+These observations can determine 
+\begin_inset Formula $A_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\zeta_{n}$
+\end_inset
+
+ in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:delta-vn-solution"
+
+\end_inset
+
+).
+ From these, the error in pitch can be found from (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:delta-vn-dot"
+
+\end_inset
+
+):
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\delta\theta=-\frac{1}{g}\frac{d(V_{n}\cos(\omega t+\zeta_{n})}{dt}=\frac{V_{n}\omega}{g}\sin(\omega t+\zeta_{n})\label{eq:solution-delta-theta}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Analogous equations lead to a similar coupling between the roll angle and
+ the east component of the ground velocity:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\delta\phi=\frac{V_{e}\omega}{g}\sin(\omega t+\zeta_{e})\label{eq:solution-delta-phi}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is the roll angle and 
+\begin_inset Formula $V_{e}$
+\end_inset
+
+ and 
+\begin_inset Formula $\zeta_{e}$
+\end_inset
+
+ are determined from fits to the observed error 
+\begin_inset Formula $\delta v_{e}=\mathrm{VEW-GGVEW}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Thus the observed errors in the components of the aircraft groundspeed can
+ be used to find corrections to be applied to the measurements of pitch
+ and roll.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+An example illustrating the presence of the Schuler oscillation
+\end_layout
+
+\begin_layout Standard
+An example from the second ferry flight of DEEPWAVE is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:v-errors-straight-leg}
+\end_layout
+
+\end_inset
+
+.
+ The heading for most of this flight is close to southbound and steady,
+ so to a reasonable approximation the errors in pitch and heading will be
+ given by the respective derivatives in the error terms 
+\begin_inset Formula $\delta v_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta v_{e}$
+\end_inset
+
+.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The amplitude of the Schuler oscillation is about 0.5 to 0.75 m/s, which would
+ indicate that the pitch error is about (0.5--0.75)(0.00124)/9.8
+\begin_inset Formula $\simeq0.005^{\circ}$
+\end_inset
+
+.
+ For this flight, the error in pitch is very small compared to the expected
+ uncertainty in angle-of-attack (0.1
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+).
+ A Schuler oscillation in the north component of the aircraft ground-speed
+ of 1 m/s indicates that, in the l-frame, the pitch error is <0.01
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<v-errors-straight-leg, fig.lp="fig:",fig.cap="Errors in the NS and EW components
+ of groundspeed as determined by comparison to GPS, for DEEPWAVE flight
+ ff02, a ferry flight starting on 1 June 2014 and traveling from Hawaii
+ to Pago-Pago.", include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- Data[Data$TASX > 130., ]
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- plotWAC (D$Time, D$GGVEW-D$VEW, ylab="Ve error", ylim=c(-2.5,3.))
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- lineWAC (D$Time, D$GGVNS-D$VNS, ylab="Vn error", col='darkgreen')
+\end_layout
+
+\begin_layout Plain Layout
+
+legend ('topright', legend=c('VEW-GGVEW', 'VNS-GGVNS'), lwd=2, col=c('blue',
+ 'darkgreen'), text.col=c('blue', 'darkgreen'))
+\end_layout
+
+\begin_layout Plain Layout
+
+#Z <- lineWAC (D$Time, D$THDG/360, col='darkorange')
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The errors can be determined directly from the time-derivatives of the error
+ terms in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:delta-vn-dot"
+
+\end_inset
+
+) and the analogous equation for roll, restated as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\delta\theta & = & -\frac{1}{g}\frac{d(\delta v_{n})}{dt}\label{eq:delta-theta}\\
+\delta\phi & = & -\frac{1}{g}\frac{d(\delta v_{e})}{dt}\label{eq:delta-phi}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Therefore, rather than fitting variations like that shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:v-errors-straight-leg}
+\end_layout
+
+\end_inset
+
+ to sine or cosine functions, it is possible to obtain an estimate of the
+ time derivatives of the velocity-error terms over some shorter interval
+ and then use that derivative in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:delta-theta"
+
+\end_inset
+
+) or (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:delta-phi"
+
+\end_inset
+
+) to find the errors in pitch and roll.
+ It is important to note, though, that this gives errors in the local reference
+ frame with axes eastward, northward, and upward, here called the l-frame,
+ and these errors will then need to be transformed to the aircraft reference
+ frame to get errors in the measured quantities.
+ The choice made here is to estimate the derivatives using Savitzky-Golay
+ polynomials, as shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:Savitzky-Golay-estimates}
+\end_layout
+
+\end_inset
+
+ .
+ Savitzky-Golay polynomials were chosen because they are computationally
+ efficient, don't introduce a time shift, and can provide derivatives directly.
+ A rather long averaging period of 1009 s, or about 1/5 of a Schuler oscillation
+, was used to reduce noise in the result, and interpolation filled some
+ gaps in the measurements.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<sg-poly-smoothing, include=TRUE, fig.lp="fig:", fig.cap="Deduced error in
+ pitch and roll angles for DEEPWAVE ferry flight ff02.">>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# deal with missing values:
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- D[!is.na (D$Time), ]
+\end_layout
+
+\begin_layout Plain Layout
+
+#interpolate if necessary:
+\end_layout
+
+\begin_layout Plain Layout
+
+VNS <- zoo::na.approx (as.vector(D$VNS), maxgap=100, na.rm = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+VEW <- zoo::na.approx (as.vector(D$VEW), maxgap=100, na.rm = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+GGVNS <- zoo::na.approx (as.vector(D$GGVNS), maxgap=100, na.rm = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+GGVEW <- zoo::na.approx (as.vector(D$GGVEW), maxgap=100, na.rm = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+# 1013 points (must be odd) to span about 1/5 Schuler osc.
+ -- about 16.8 min
+\end_layout
+
+\begin_layout Plain Layout
+
+vndot <- signal::sgolayfilt (VNS-GGVNS, 3, 1013, m=1)  # m=1 for first deriv.
+\end_layout
+
+\begin_layout Plain Layout
+
+vedot <- signal::sgolayfilt (VEW-GGVEW, 3, 1013, m=1)
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaPitch <- -vndot/Ranadu::Gravity (D$LAT, D$GGALT)
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaRoll <- -vedot/Ranadu::Gravity (D$LAT, D$GGALT)
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- plotWAC(D$Time, deltaRoll/Cradeg, ylab='Error in Angle [deg]', col='darkgre
+en')
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- lineWAC (D$Time, deltaPitch/Cradeg, col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+legend('top', legend=c("Pitch error", "Roll Error"), lwd=2, col=c("blue",
+ "darkgreen"), text.col=c("blue", "darkgreen"), cex=0.8)
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The result is that the pitch error is limited to about 0.01
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ in magnitude for most of this flight, except for the final descent, and
+ the roll error is limited to less than about 0.015
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+for the same period.
+ This is evidence for low uncertainty in the pitch measurement for this
+ flight, well below the specification of 0.05
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Application-to-research"
+
+\end_inset
+
+ contains further discussion of the errors from the research flights, where
+ the estimated errors can be larger.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Transformation of attitude angles
+\end_layout
+
+\begin_layout Standard
+In a reference frame called the 
+\begin_inset Formula $l$
+\end_inset
+
+-frame or ENU frame, where the coordinate axes are local-east, local-north,
+ and upward, the preceding section showed that the pitch and roll errors
+ are related, vis (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:delta-theta"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:delta-phi"
+
+\end_inset
+
+), to the time-derivatives of the errors in horizontal velocity.
+ Pitch and roll as used in these equations will be the respective errors
+ in platform alignment
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The inertial system used is a strap-down system, so there is no actual motion
+ of the 
+\begin_inset Quotes eld
+\end_inset
+
+platform
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Instead, from measured rotations and accelerations, the system calculates
+ the expected orientation if there were a true stabilized platform.
+ The errors referenced here are those relative to that calculated platform
+ orientation.
+\end_layout
+
+\end_inset
+
+ in the north-south and east-west directions, so these angles must be transforme
+d to account for the orientation of the aircraft when it is not flying straight-
+and-level to the north.
+ Coordinates in the body or 
+\begin_inset Formula $b$
+\end_inset
+
+-frame of the aircraft are obtained from those in the ENU or 
+\begin_inset Formula $l$
+\end_inset
+
+-frame by applying three rotations to account for the heading, pitch, and
+ roll of the 
+\begin_inset Formula $b$
+\end_inset
+
+-frame.
+ This transformation leads to pitch errors in the body frame of the aircraft
+ (where measured pitch and roll are measured and where the pitch measurement
+ affects the calculated vertical wind) that are mixtures of pitch and roll
+ errors in the 
+\begin_inset Formula $l$
+\end_inset
+
+-frame, with the mixture dependent primarily on the heading.
+ A positive pitch error for northbound level flight will be a negative pitch
+ error for southbound level flight, and for eastbound flight an 
+\begin_inset Formula $l$
+\end_inset
+
+-frame roll error becomes a 
+\begin_inset Formula $b$
+\end_inset
+
+-frame pitch error while an 
+\begin_inset Formula $l$
+\end_inset
+
+-frame pitch error become a negative 
+\begin_inset Formula $b$
+\end_inset
+
+-frame roll error.
+ 
+\end_layout
+
+\begin_layout Standard
+Consider a unit vector representing the orientation errors in pitch and
+ roll in the 
+\begin_inset Formula $l$
+\end_inset
+
+-frame, with components {
+\begin_inset Formula $\sin\delta\phi,\,\sin\delta\theta,\,\sqrt{1-\sin^{2}\delta\phi-\sin^{2}\delta\theta}$
+\end_inset
+
+} or, because the errors are always small, approximately {
+\begin_inset Formula $\delta\phi,\,\delta\theta,\,1$
+\end_inset
+
+}.
+ The three-angle transformation of this vector from the 
+\begin_inset Formula $l$
+\end_inset
+
+-frame to the 
+\begin_inset Formula $b$
+\end_inset
+
+-frame is then represented by the following matrices, with {
+\begin_inset Formula $\phi,\,\theta,\,\psi$
+\end_inset
+
+} representing {roll, pitch, heading}:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R_{l}^{b}=\begin{bmatrix}\cos\psi\cos\phi+\sin\psi\sin\phi\sin\theta & -\sin\psi\cos\phi+\cos\psi\sin\phi\sin\theta & -\cos\theta\sin\phi\\
+\sin\psi\cos\theta & \cos\psi\cos\theta & \sin\theta\\
+\cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi & -\sin\psi\sin\phi-\cos\psi\sin\theta\sin\phi & \cos\theta\cos\phi
+\end{bmatrix}\label{eq:transform-l-to-b}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\mathbf{b^{(b)}=}R_{l}^{b}\mathbf{b^{(l)}} & \approx & \left[\begin{array}{ccc}
+\cos\psi & -\sin\psi & 0\\
+\sin\psi & \cos\psi & 0\\
+0 & 0 & 1
+\end{array}\right]\begin{bmatrix}\delta\phi\\
+\delta\theta\\
+1
+\end{bmatrix}=\begin{bmatrix}\cos\psi\delta\phi-\sin\psi\delta\theta\\
+\sin\psi\delta\phi+\cos\psi\delta\theta\\
+1
+\end{bmatrix}\label{eq:b-vector-in-b-frame}
+\end{eqnarray}
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\mathbf{b^{(b)}=}R_{l}^{b}\mathbf{b^{(l)}}=R_{l}^{b}\begin{bmatrix}\sin\delta\phi\\
+\sin\delta\theta\\
+\sqrt{1-\sin^{2}\delta\phi-\sin^{2}\delta\theta}
+\end{bmatrix}\approx\left[\begin{array}{ccc}
+\cos\psi & -\sin\psi & 0\\
+\sin\psi & \cos\psi & 0\\
+0 & 0 & 1
+\end{array}\right]\begin{bmatrix}\delta\phi\\
+\delta\theta\\
+1
+\end{bmatrix}=\begin{bmatrix}\cos\psi\delta\phi-\sin\psi\delta\theta\\
+\sin\psi\delta\phi+\cos\psi\delta\theta\\
+1
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which leads to 
+\begin_inset Formula $\delta\theta^{(b)}$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta\phi^{(b)}$
+\end_inset
+
+, the pitch and roll errors in the 
+\begin_inset Formula $b$
+\end_inset
+
+-frame:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\delta\theta^{(b)} & \simeq & \sin\psi\delta\phi+\cos\psi\delta\theta\label{eq:final-answer}\\
+\delta\phi^{(b)} & \approx & \cos\psi\delta\phi-\sin\psi\delta\theta\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+In turns, the roll angle is no longer negligible, so in general the full
+ transformation should be used and the pitch error should be found from
+ the results of (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:b-vector-in-b-frame"
+
+\end_inset
+
+).
+ Because the pitch and roll angles are applied by this full transformation,
+ the resulting errors are obtained by subtracting the measured pitch and
+ roll from the transformed result; e.g., 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\delta\theta^{(b)}=\arctan\frac{b_{2}^{(b)}}{b_{3}^{(b)}}-\theta\label{eq:pitch-error-wo-approx}
+\end{equation}
+
+\end_inset
+
+This pitch error should then be subtracted from the measured pitch to obtain
+ a corrected value of the pitch for use in the calculation of vertical wind.
+\end_layout
+
+\begin_layout Subsubsection
+Application to research flights
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Application-to-research"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The research flights have frequent changes in heading, with mixing of the
+ roll and pitch errors but also accelerations that affect those errors and
+ introduction of new errors from heading errors.
+ The corrections to pitch therefore appear much less systematic than was
+ the case for the ferry flight.
+ An example, DEEPWAVE flight 1, is presented here.
+ Figure 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:processing-1}
+\end_layout
+
+\end_inset
+
+ shows the measured errors in ground-speed components, and Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:processing-2}
+\end_layout
+
+\end_inset
+
+ shows the deduced pitch and roll errors.
+ There are instances where the pitch error abruptly reverses sign; those
+ are cases where the flight direction changes by about 180 deg.
+ During turns, the full transformation leads to a result significantly different
+ from the small-angle-approximation result, as shown by the orange line
+ in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:processing-2}
+\end_layout
+
+\end_inset
+
+, but when not turning the full-transformation results replicate the small-angle
+-approximation results (blue line), as indicated by the orange dashed line
+ overlapping the blue line.
+ The proposed solution is to use the full transformation for processing
+ a corrected pitch variable, to be named 
+\begin_inset Quotes eld
+\end_inset
+
+PITCHC
+\begin_inset Quotes erd
+\end_inset
+
+, to be used for calculation of the vertical wind.
+ In straight-and-level flight, the needed corrections are about 
+\begin_inset Formula $\pm$
+\end_inset
+
+0.03
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ at some times, and this error can lead (for true airspeed of 220 m/s) to
+ an error in vertical wind of about 
+\begin_inset Formula $\pm0.1$
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+m/s.
+ Correction for this error thus should lead to a significant reduction in
+ the uncertainty associated with the measured vertical wind.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<Xform-l-from-b>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+XformLB <- function (bvector, .roll, .pitch, .heading, .reverse=FALSE) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  Cradeg <- pi/180
+\end_layout
+
+\begin_layout Plain Layout
+
+  sr <- sin(.roll*Cradeg); cr <- cos(.roll*Cradeg)
+\end_layout
+
+\begin_layout Plain Layout
+
+  sp <- sin(.pitch*Cradeg); cp <- cos(.pitch*Cradeg)
+\end_layout
+
+\begin_layout Plain Layout
+
+  sh <- sin(.heading*Cradeg); ch <- cos(.heading*Cradeg)
+\end_layout
+
+\begin_layout Plain Layout
+
+  M <- c (ch*cr+sh*sr*sp, -sh*cr+ch*sr*sp, -cp*sr, sh*cp, ch*cp, sp, 
+\end_layout
+
+\begin_layout Plain Layout
+
+          ch*sr-sh*sp*cr, -sh*sr-ch*sp*sr, cp*cr)
+\end_layout
+
+\begin_layout Plain Layout
+
+  dim (M) <- c(3,3)
+\end_layout
+
+\begin_layout Plain Layout
+
+  if (.reverse) {M <- t(M)}
+\end_layout
+
+\begin_layout Plain Layout
+
+  return (M %*% bvector)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<processing-1, fig.height=3.5, fig.cap="Measured errors in ground-speed components
+ for DEEPWAVE flight 1.
+ VEW and VNS are the east and north components of the ground speed measured
+ by the inertial system, and GGVEW and GGVNS are the corresponding components
+ measured independently by the GPS system.", include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+Flight <- "rf01"
+\end_layout
+
+\begin_layout Plain Layout
+
+fname <- sprintf ("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+VarNames <- c("VNS", "VEW","GGVNS", "GGVEW", "GGALT", "LATC", "LONC", "THDG",
+ "PITCH", "ROLL")
+\end_layout
+
+\begin_layout Plain Layout
+
+Data <- getNetCDF (fname, standardVariables(VarNames))
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- Data[Data$TASX > 130., ]
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- plotWAC (D$Time, D$GGVEW-D$VEW, ylab="Ve error [m/s]", ylim=c(-5, 5.))
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- lineWAC (D$Time, D$GGVNS-D$VNS, col='darkgreen', lwd=1)
+\end_layout
+
+\begin_layout Plain Layout
+
+legend ('topleft', legend=c('VEW-GGVEW', 'VNS-GGVNS'), lwd=c(2,1), col=c('blue',
+ 'darkgreen'), text.col=c('blue', 'darkgreen'))
+\end_layout
+
+\begin_layout Plain Layout
+
+figcapP2="Errors in pitch and roll determined from the measured errors in
+ ground-speed components, after transformation to the reference frame that
+ is the body frame of the aircraft.
+ The orange line labeled 'Full Xfm' uses (
+\backslash
+
+\backslash
+ref{eq:b-vector-in-b-frame}) and (
+\backslash
+
+\backslash
+ref{eq:pitch-error-wo-approx}), while the blue line uses the approximate
+ result (
+\backslash
+
+\backslash
+ref{eq:final-answer}).
+ The limits $
+\backslash
+
+\backslash
+pm$0.03 correspond to roll angle of $
+\backslash
+
+\backslash
+pm 30^{
+\backslash
+
+\backslash
+circ}$ after division by 1000, so the regions with vertical black lines
+ are ones with significant roll."
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+<<processing-2, fig.height=5.5, fig.cap=figcapP2, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# deal with missing values:
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- D[!is.na (D$Time), ]
+\end_layout
+
+\begin_layout Plain Layout
+
+#interpolate if necessary:
+\end_layout
+
+\begin_layout Plain Layout
+
+VNS <- zoo::na.approx (as.vector(D$VNS), maxgap=100, na.rm = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+VEW <- zoo::na.approx (as.vector(D$VEW), maxgap=100, na.rm = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+GGVNS <- zoo::na.approx (as.vector(D$GGVNS), maxgap=100, na.rm = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+GGVEW <- zoo::na.approx (as.vector(D$GGVEW), maxgap=100, na.rm = FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+# 1013 points (must be odd) to span about 1/5 Schuler osc.
+ -- about 16.8 min
+\end_layout
+
+\begin_layout Plain Layout
+
+vndot <- signal::sgolayfilt (VNS-GGVNS, 3, 1013, m=1)  # m=1 for first deriv.
+\end_layout
+
+\begin_layout Plain Layout
+
+vedot <- signal::sgolayfilt (VEW-GGVEW, 3, 1013, m=1)
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaPitchL <- -vndot/Ranadu::Gravity (D$LAT, D$GGALT)
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaRollL <- -vedot/Ranadu::Gravity (D$LAT, D$GGALT)
+\end_layout
+
+\begin_layout Plain Layout
+
+HDG <- D$THDG*Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaPitch <- (sin(HDG)*deltaRollL + cos(HDG)*deltaPitchL)/Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaRoll <- (cos(HDG)*deltaRollL - sin(HDG)*deltaPitchL)/Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+## replace with the full transformation matrix:
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaPitch2 <- vector ("numeric", length(deltaPitch))
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaRoll2  <- vector ("numeric", length(deltaRoll))
+\end_layout
+
+\begin_layout Plain Layout
+
+for (i in 1:length(D$THDG)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  bl <- c(sin(deltaRollL[i]), sin(deltaPitchL[i]), 
+\end_layout
+
+\begin_layout Plain Layout
+
+          sqrt(1.-sin(deltaRollL[i])^2 - sin(deltaPitchL[i])^2))
+\end_layout
+
+\begin_layout Plain Layout
+
+  bb <- as.vector(XformLB (bl, D$ROLL[i], D$PITCH[i], D$THDG[i], .reverse=TRUE))
+\end_layout
+
+\begin_layout Plain Layout
+
+  deltaPitch2[i] <- atan(bb[2]/bb[3]) / Cradeg - D$PITCH[i]
+\end_layout
+
+\begin_layout Plain Layout
+
+  deltaRoll2[i]  <- atan(bb[1]/bb[3]) / Cradeg - D$ROLL[i]
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- plotWAC (D$Time, deltaPitch, ylab='Error in Angle [deg]', lwd=2.5)
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- lineWAC (D$Time, deltaRoll, col='darkgreen', lty=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- lineWAC (D$Time, deltaPitch2, col='darkorange', lty=2, lwd=1.5)
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- lineWAC (D$Time, D$ROLL/1000, col='black', lwd=1)
+\end_layout
+
+\begin_layout Plain Layout
+
+legend('topleft', legend=c("Pitch error", "Full Xfm", "Roll Error", "Roll/1000")
+, lwd=c(2.5,2,1.5,1), lty=c(1,2,2,1), col=c("blue", "darkorange", "darkgreen",
+ "black"), text.col=c("blue", "darkorange", "darkgreen", "black"), cex=0.8,
+ bg='lightyellow')
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Tests of the validity of the deduced correction to pitch
+\end_layout
+
+\begin_layout Standard
+Some possible tests that lead to some confidence that the correction to
+ pitch is valid are these:
+\end_layout
+
+\begin_layout Enumerate
+If the oscillating error in pitch indeed makes a significant contribution
+ to the error in vertical wind, it would be expected that incorporation
+ of this correction, especially in regions of relatively quiescent air,
+ would reduce the variance in the measured vertical wind.
+\end_layout
+
+\begin_layout Enumerate
+On course reversal, such as often occurred during DEEPWAVE flights, any
+ pitch error should reverse sign and produce a corresponding offset in the
+ vertical wind.
+ Because after course reversal the aircraft often flew at the same altitude
+ through the same region measured previously, it would be expected that,
+ after correction, the two legs would have vertical wind closer to the same
+ value for each direction of flight.
+\end_layout
+
+\begin_layout Enumerate
+The vertical wind measured on individual flights, or for the full project,
+ might be expected to average closer to zero after correction.
+ This should particularly be the case for over-water flight away from the
+ islands of New Zealand.
+\end_layout
+
+\end_body
+\end_document

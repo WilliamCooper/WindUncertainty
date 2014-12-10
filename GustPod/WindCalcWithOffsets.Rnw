@@ -1,0 +1,789 @@
+
+<<Initialization,echo=F,include=F>>=
+
+#' @title WindCalc
+#' @description Calculates gust-pod wind and radome-based wind.
+#' @details Documents (via a generated memo) the math basis for the calculations, and implements the calculation of wind from both the radome and the gust-pod systems. Produces hew variables WDG, WSG, WIG, TASG (analogous to WDC, WSC, WIC, TASX) and also WDX, WSX, WIX from recalculation of variables that should duplicate WDC, WSC, WIC. Processes a specific netCDF file, incorporating sensitivity coefficients determined from other programs (e.g., WindUncertainty.Rnw). The generated memo also includes illustrations of the results.
+
+#' @author Al Cooper
+#' @export 
+#' @param 
+require(Ranadu)
+require(signal)
+library(knitr)
+Flight <- "rf15HR"
+Directory <- "/home/Data/"
+Project <- "DEEPWAVE"
+fname = sprintf("%s%s/DEEPWAVE%s.nc", Directory, Project,Flight)
+# copy to a new file before adding variables to it:
+fnew = sprintf("%s%s/DW%s_GPy.nc", Directory, Project,Flight)
+system(paste ("cp", fname, fnew, sep=' '), wait=TRUE)
+VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS",
+              "ADIFR", "AKRD", "SSLIP", "PITCH", "TASX",
+              "ROLL", "THDG", "BDIFR", "EWX", "GGVSPDB",
+              "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
+              "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
+              "CVNS_GP", "CVEW_GP", "VSPD", "CVSPD_GP",
+              "ATX", "PSF", "QCF", "GGVEWB", "GGVNSB")
+Data <- getNetCDF (fname, VarNames) # high-rate data OK here
+Cradeg <- pi / 180.
+# get rid of lines where any variable is NA (esp. causes filter problems):
+# No, can't do this; creates problems with alignment of data already in netCDF file
+#Data <- na.omit(Data)
+
+@
+
+%% LyX 2.1.0 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt]{report}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=3.54cm,bmargin=2.54cm,lmargin=2.54cm,rmargin=2.54cm,headheight=1cm,headsep=2cm,footskip=0.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+%%\fancyfoot[CE,CO]{}
+\newtoks{\topicofnote} \global\topicofnote={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Aircraft Algorithm Memo re: \the\topicofnote \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+\ifcase\month\or January\or February\or March\or April\or May\or
+June\or July\or August\or September\or October\or November\or
+December\fi
+\space\number\year}
+\newcommand{\RAFAlgorithmMemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Research Aviation Facility}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Algorithm Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.2truein\leftline{\textcolor{blue}{\textsf{Subject: \the\topicofnote}}}
+\leftline{\textcolor{blue}{\textsf{Al Cooper}}}
+\leftline{\textcolor{blue}{\textsf{\datetoday}}} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lyxlist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+
+\makeatother
+
+\begin{document}
+\begin{comment}
+set topicofnote to topic of note
+\end{comment}
+
+
+\topicofnote={Calculation of Wind Components}
+
+\RAFAlgorithmMemo
+
+
+\section*{Background}
+
+
+
+\section*{The Components of the Relative Wind}
+
+In the standard coordinate system with $x$ forward, $y$ starboard,
+and $z$ downward, the three corresponding components of the relative
+wind are:
+
+\begin{equation}
+\mathbf{v=}\begin{pmatrix}u_{r}\\
+v_{r}\\
+w_{r}
+\end{pmatrix}=\begin{pmatrix}V\\
+V\thinspace\tan\beta\\
+V\thinspace\tan\alpha
+\end{pmatrix}\label{eq:relative wind}
+\end{equation}
+where $V$ is the true airspeed, $\alpha$ is the angle of attack
+and $\beta$ is the sideslip angle. The sign convention is such that
+the relative wind is positive when \emph{from }the direction of the
+axis for each component.
+
+Once the true airspeed $V$ is known, (\ref{eq:relative wind}) with
+appropriate values for angle of attack and sideslip will give the
+relative wind.
+
+
+
+% # now get the relative wind components
+<<Relative-Wind-Code,echo=F,include=F>>=
+
+attach(Data)    # get the unrestricted full data file
+AQR <- ADIFR / QCXC
+RR <- QCXC/PSXC
+Mach <- MachNumber (PSXC, QCXC)
+AQR_GP <- ADIFR_GP/QC_GP
+RR_GP <- QC_GP/PS_GP
+# use coefficients saved from WindUncertainty.Rnw; revise for projects other than DEEPWAVE
+#cf_GP <- c(-0.9151291, 3.9277735, 3.1905422, 1.3502541)
+cf_GP <- c(-0.9168, 3.918, 3.2505, 1.3531)
+cfr <- c(4.4554, 21.4007)
+AOA <- cfr[1] + AQR * cfr[2] 
+AOA_GP <- cf_GP[1] + AQR_GP * (cf_GP[2] + cf_GP[3]*Mach) + cf_GP[4]*RR_GP
+cfs <- c(0., 21.335) 
+cfs <- c(0.016, 21.9915)
+cfs <- c(0.086, 21.9915)       # offset from circle studies
+cfs_GP <- c(-3.498, 11.443)
+cfs_GP <- c(-3.6091, 12.138)
+SS <- cfs[1] + cfs[2] * BDIFR / QCXC
+SS_GP <- cfs_GP[1] + cfs_GP[2] * BDIFR_GP / QC_GP
+bf <- c(-0.07791, -1.1571, 2.6691, -1.3588, -0.0046686, 0.53110)
+RRS_GP <- QC_GP / PS_GP
+RRS <- bf[1] + RRS_GP * (bf[2] + bf[3] * Mach + bf[4] * RRS_GP) + bf[5] * ADIFR_GP / QC_GP + bf[6] * Mach
+# note that PSXC in the next equation doesn't matter, only the ratio RRS
+TAS_GP <- TrueAirspeed (MachNumber (PSXC, PSXC*RRS), ATX)
+
+# before using TASX, apply PCOR corrections:
+DeltaP <- PCorFunction (PSF, QCF, ADIFR, qcr=QCF, bcoef=c(cfr[1], cfr[2], 0.), AC="GV")
+PSXC <- PSF + DeltaP
+QCXC <- QCF - DeltaP
+Mach <- MachNumber (PSXC, QCXC, EWX)
+TASX <- TrueAirspeed (Mach, ATX, EWX/PSXC)
+# apply circle-analysis corrections
+circleDV <- 0.8
+circleDH <- -0.06
+print(sprintf("offsets of %.1f and %.1f being applied to TASX and THDG for wind calculation", circleDV, circleDH))
+TASX <- TASX + circleDV
+THDG <- THDG + circleDH
+# define a dataframe for the relative wind from the gust pod:
+d <- data.frame("U_RW"=TASX)   #use TASX instead of TAS_GP for lower-uncertainty components
+d["V_RW"] <- TASX * tan (SS_GP * Cradeg)
+d["W_RW"] <- TASX * tan (AOA_GP * Cradeg)
+
+d2 <- data.frame ("U2"=TASX)
+d2["V2"] <- (TASX) * tan (SS * Cradeg)
+d2["W2"] <- (TASX) * tan (AOA * Cradeg)
+
+@
+
+
+
+\section*{Transformation to an Earth Reference Frame}
+
+The gust-pod orientation is measured by an IRU in the pod, while the
+aircraft orientation is measured by a fuselage-mounted IRS. Each measures
+heading, pitch, and roll. There are again two alternate paths that
+can be followed: Transform to the aircraft reference frame and use
+the standard software (gusto.c), or transform to an Earth reference
+frame directly and use the gust-pod ground speeds to obtain the wind.
+The former takes advantage of the higher-quality IRU in the cabin,
+but involves additional complications arising from contributions of
+angular velocity of the aircraft and mis-alignment between the inertial
+systems. The latter course will be followed here, but it may be worth
+exploring if the former might give higher-quality measurements.
+
+The required transformation is described by three rotation matrices,
+defined in Bulletin 23 Eqs. 2.5 and 2.6:
+
+\[
+T_{1}=\left(\begin{array}{ccc}
+1 & 0 & 0\\
+0 & \cos\phi & -\sin\phi\\
+0 & \sin\phi & \cos\phi
+\end{array}\right)
+\]
+
+
+\[
+T_{2}=\left(\begin{array}{ccc}
+\cos\theta & 0 & \sin\theta\\
+0 & 1 & 0\\
+-\sin\theta & 0 & \cos\theta
+\end{array}\right)
+\]
+
+
+\[
+T_{3}=\left(\begin{array}{ccc}
+\cos\psi & -\sin\psi & 0\\
+\sin\psi & \cos\psi & 0\\
+0 & 0 & 1
+\end{array}\right)
+\]
+
+
+where \{$\phi,\,\theta,\,\psi$\} are \{roll, pitch, heading\}.
+
+The transformation should be made in the following order: 
+\begin{enumerate}
+\item Rotate by $T_{1}$ using the roll angle $\phi^{\prime}$ measured
+by the gust-pod IRU (CROLL\_GP) to level the wings by a rotation about
+the x axis. 
+\item Rotate by $T_{2}$ using the pitch angle $\theta^{\prime}$ (CPITCH\_GP)
+to level the aircraft by a rotation about the y axis.
+\item Rotate by $T_{3}$ using the heading angle $\psi^{\prime}$ (CTHDG\_GP)
+to obtain components in a true-north reference frame. At this point,
+the relative-wind vector in an Earth-reference coordinate system is
+$\mathbf{v}_{r}=T_{3}(T_{2}(T_{1}\mathbf{v}))$ where $\mathbf{v}$
+is given by (\ref{eq:relative wind}).
+\end{enumerate}
+At this point, the measured ground-speeds of the gust pod can be added
+to the relative wind to get the true Earth-relative wind. 
+
+
+The transformations coded here are described by the matrices
+$T_1$, $T_2$, and $T_3$ defined above. Although the following
+is coded as a 'for' loop, full matrices are calculated
+here that represent the sample-by-sample transformations in
+anticipation that a vector implementation of this can be
+found. That is the reason than data-array-length vectors 
+containing 1 or 0 are defined as well as vectors cosphi, ...,
+representing the trigonometric functions of the attitude
+angles.
+
+<<Rotation-matrices,echo=FALSE>>=
+
+rw <- as.matrix(d)
+rw2 <- as.matrix(d2)
+cosphi <- cos (CROLL_GP * Cradeg)
+sinphi <- sin (CROLL_GP * Cradeg)
+costheta <- cos (CPITCH_GP * Cradeg)
+sintheta <- sin (CPITCH_GP * Cradeg)
+cospsi <- cos (CTHDG_GP * Cradeg)
+sinpsi <- sin (CTHDG_GP * Cradeg)
+cosphi2 <- cos (ROLL * Cradeg)
+sinphi2 <- sin (ROLL * Cradeg)
+costheta2 <- cos (PITCH * Cradeg)
+sintheta2 <- sin (PITCH * Cradeg)
+cospsi2 <- cos (THDG * Cradeg)
+sinpsi2 <- sin (THDG * Cradeg)
+DL <- length(TASX)
+One <- rep (1, DL)
+Z <- rep (0, DL)
+T1 <- aperm(array (c(One,Z,Z,Z,cosphi,-sinphi,Z,sinphi,cosphi), 
+                   dim=c(DL,3,3)))
+T2 <- aperm(array (c (costheta,Z,sintheta,Z,One,Z,-sintheta,Z,costheta), 
+                   dim=c(DL,3,3)))
+T3 <- aperm(array (c (cospsi,-sinpsi,Z,sinpsi,cospsi,Z,Z,Z,One), 
+                   dim=c(DL,3,3)))
+TT1 <- aperm(array (c(One,Z,Z,Z,cosphi2,-sinphi2,Z,sinphi2,cosphi2), 
+                    dim=c(DL,3,3)))
+TT2 <- aperm(array (c (costheta2,Z,sintheta2,Z,One,Z,-sintheta2,Z,costheta2), 
+                    dim=c(DL,3,3)))
+TT3 <- aperm(array (c (cospsi2,-sinpsi2,Z,sinpsi2,cospsi2,Z,Z,Z,One), 
+                    dim=c(DL,3,3)))
+@
+
+The relative-wind vector in an Earth-reference coordinate system is
+$\mathbf{v}_{r}=T_{3}(T_{2}(T_{1}\mathbf{v}))$ where $\mathbf{v}$
+is given by (\ref{eq:relative wind}). Next, the measured ground-speeds of the gust pod can be added
+to the relative wind to get the true Earth-relative wind. The final
+equations. defining new wind variables \{WDG, WSG, WIG\} corresponding
+to \{WDC, WSC, WIC\} from the radome gust system, are:
+
+\begin{equation}
+\mathbf{v}_{g}=\mathbf{v}_{r}+\left(\begin{array}{c}
+-\mathrm{CVNS\_GP}\\
+-\mathrm{CVEW\_GP}\\
+\mathrm{CVSPD\_GP}
+\end{array}\right)\label{eq:vg}
+\end{equation}
+
+\begin{equation}
+\mathrm{WDG}=\arctan2(v_{g,y},\ v_{g,x})\label{eq:wd}
+\end{equation}
+\begin{equation}
+\mathrm{WSG}=\sqrt{(v_{g,x}^{2}+v_{g,y}^{2})}\label{eq:ws}
+\end{equation}
+\begin{equation}
+\mathrm{WIG}=v_{g,z}\label{eq:wi}
+\end{equation}
+
+To be comparable to \{WDC, WSC, WIC\}, however, the same complementary filter should be applied that adjusts VEW and VNS by comparison to GGVEW and GGVNS. This is accomplished by running the same complementary filter on CVEW\_GP and CVNS\_GP as used for VEW and VNS, before using them as above to
+find the wind components.
+
+The code also attempts to flag bad CTHDG\_GP measurements,
+which apparently occur as the heading moves through 180 deg.
+This would be better replaced by interpolation at these points.
+
+<<Calculate-new-wind-variables-WDG-WSG-WIG,echo=FALSE>>=
+
+WDG <- vector ("numeric", DL)
+WSG <- vector ("numeric", DL)
+WIG <- vector ("numeric", DL)
+WDX <- vector ("numeric", DL)
+WSX <- vector ("numeric", DL)
+WIX <- vector ("numeric", DL)
+GUSTW <- vector ("numeric", DL)
+GUSTA <- vector ("numeric", DL)  # special test, V*AKRD*Cradeg
+GUSTB <- vector ("numeric", DL)  # special test, V*PITCH*Cradeg
+TASG <- vector ("numeric", DL)
+# to avoid problems with filtering NA, reset them to zero:
+CVEW_GP[is.na(CVEW_GP)] <- 0.
+CVNS_GP[is.na(CVNS_GP)] <- 0.
+VEW[is.na(VEW)] <- 0.
+VNS[is.na(VNS)] <- 0.
+GGVEWB[is.na(GGVEWB)] <- 0.
+GGVNSB[is.na(GGVNSB)] <- 0.
+netCDFfile <- open.ncdf (fname, write=FALSE)
+if ("sps25" %in% names(netCDFfile$dim)) {
+  print("processing includes shifting GGVEWB and GGVNSB forward by 240 ms")
+  n = 6
+  NLG <- length(GGVNSB)
+  GGVNSB <- c(GGVNSB[(1+n):NLG],rep(GGVNSB[NLG],n))
+  GGVEWB <- c(GGVEWB[(1+n):NLG],rep(GGVEWB[NLG],n))
+}
+close.ncdf(netCDFfile)
+CVEWC_GP <- ComplementaryFilter (CVEW_GP, GGVEWB, 150.)
+CVNSC_GP <- ComplementaryFilter (CVNS_GP, GGVNSB, 150.)
+VEWC <- ComplementaryFilter (VEW, GGVEWB, 150.)  # repeat this to remove old-filter bias
+VNSC <- ComplementaryFilter (VNS, GGVNSB, 150.)
+Hlast <- 0.
+# note: tried e.g. tensor (aperm(T1), rw, 2, 2) -- fails
+#       because of size of vector that it tries to allocate
+# This works, though:
+# Y1t <- mapply(FUN="%*%", lapply(X=apply(aperm(T1), 3, as.data.frame), FUN=as.matrix, nrow=3, ncol=3), as.data.frame(aperm(rw)))
+# etc.
+# There may be a better way, though
+# apply(T1, 3, as.data.frame) produces a list, DL long, of
+# 3x3 dataframes. lapply() converts that dataframe to a matrix
+# and then mapply multiplies rw by the matrix.
+# However, the loop below is fast (typically <1 s) and the
+# following attempt to vectorize takes more than 10 times
+# as long, so this is left commented for reference.
+# system.time(
+# {Y1 <- mapply(FUN="%*%", lapply(X=apply(T1, 3, as.data.frame), FUN=as.matrix, nrow=3, ncol=3), as.data.frame(aperm(rw)))
+# Y2 <- mapply(FUN="%*%", lapply(X=apply(T2, 3, as.data.frame), FUN=as.matrix, nrow=3, ncol=3), as.data.frame(Y1))
+# Y3 <- mapply(FUN="%*%", lapply(X=apply(T3, 3, as.data.frame), FUN=as.matrix, nrow=3, ncol=3), as.data.frame(Y2))
+# WG <- aperm(matrix (c(-CVNS_GP, -CVEW_GP, CVSPD_GP), DL, 3))
+# Y4 <- Y3 + WG
+# WDG <- atan2 (Y4[2,], Y4[1,]) / Cradeg
+# WSG <- sqrt (Y4[1,]**2 + Y4[2,]**2)
+# WIG <- Y4[3,]
+# WDG[!is.na(WDG) & (WDG < 0.)] <- WDG[!is.na(WDG) & (WDG < 0.)] + 360.
+# }) 
+# here is the loop equivalent:
+for (i in 1:DL) {
+  Y1 <- T1[,,i] %*% matrix (rw[i,], 3, 1)
+  Y2 <- T2[,,i] %*% Y1
+  Y3 <- T3[,,i] %*% Y2
+  WG <- matrix (c(-CVNSC_GP[i], -CVEWC_GP[i], CVSPD_GP[i]), 
+                3, 1)
+  Y4 <- Y3 + WG
+  WDG[i] <- atan2 (Y4[2], Y4[1]) / Cradeg
+  if ((!is.na(WDG[i])) & (WDG[i] < 0.)) {
+    WDG[i] <- WDG[i] + 360.
+  }
+  WSG[i] <- sqrt (Y4[1]**2 + Y4[2]**2)
+  WIG[i] <- Y4[3]
+           # attempt to flag bad CTHDG_GP points as missing
+  if (!is.na(CTHDG_GP[i])) {
+    if ((abs(CTHDG_GP[i]-Hlast) > 3.) 
+                             & (abs(Hlast-180.) < 5.)) {
+      WIG[i] <- NA
+      WDG[i] <- NA
+      WSG[i] <- NA
+    }
+  } else {
+    WIG[i] <- NA
+    WDG[i] <- NA
+    WSG[i] <- NA    
+  }
+  if (!is.na(CTHDG_GP[i])) {
+    Hlast <- CTHDG_GP[i]
+  }
+  Y1 <- TT1[,,i] %*% matrix (rw2[i,], 3, 1)
+  Y2 <- TT2[,,i] %*% Y1
+  Y3 <- TT3[,,i] %*% Y2
+  WG <- matrix (c(-VNSC[i], -VEWC[i], GGVSPDB[i]), 
+                3, 1)
+  Y4 <- Y3 + WG
+  WDX[i] <- atan2 (Y4[2], Y4[1]) / Cradeg
+  if ((!is.na(WDX[i])) & (WDX[i] < 0.)) {
+    WDX[i] <- WDX[i] + 360.
+  }
+  WSX[i] <- sqrt (Y4[1]**2 + Y4[2]**2)
+  WIX[i] <- Y4[3]
+  GUSTW[i] <- Y3[3]
+}
+VSPDX <- GGVSPDB
+GUSTA <- TASX * AOA * Cradeg
+GUSTB <- TASX * PITCH * Cradeg
+
+@
+
+<<Add-WIG-WDG-WSG-TASG-to-the-netCDF-file,echo=F,include=F>>=
+# add new variables to the netCDF file:
+
+netCDFfile <- open.ncdf (fnew, write=TRUE)
+
+if ("sps25" %in% names(netCDFfile$dim)) {
+  DLL <- length(TASX)/25
+  dim(WIG) <- c(25, DLL)
+  dim(WSG) <- c(25, DLL)
+  dim(WDG) <- c(25, DLL)
+  dim(TAS_GP) <- c(25, DLL)
+  dim(WIX) <- c(25, DLL)
+  dim(WSX) <- c(25, DLL)
+  dim(WDX) <- c(25, DLL)
+  dim(GUSTW) <- c(25, DLL)
+  dim(GUSTA) <- c(25, DLL)
+  dim(GUSTB) <- c(25, DLL)
+  dim(VSPDX) <- c(25, DLL)
+
+  varWIG <- var.def.ncdf ("WIG", "m/s", 
+            c(netCDFfile$dim["sps25"], 
+              netCDFfile$dim["Time"]), -32767.,
+            "Vertical wind based on measurements from the gust pod")
+  varWDG <- var.def.ncdf ("WDG", "deg.", 
+            c(netCDFfile$dim["sps25"],
+              netCDFfile$dim["Time"]), -32767.,
+            "Wind direction based on measurements from the gust pod")
+  varWSG <- var.def.ncdf ("WSG", "m/s", 
+          c(netCDFfile$dim["sps25"],
+            netCDFfile$dim["Time"]), -32767.,
+          "Wind speed based on measurements from the gust pod")
+  varWIX <- var.def.ncdf ("WIX", "m/s", 
+            c(netCDFfile$dim["sps25"], 
+              netCDFfile$dim["Time"]), -32767.,
+            "Vertical wind based on measurements from the radome, revised")
+  varWDX <- var.def.ncdf ("WDX", "deg.", 
+            c(netCDFfile$dim["sps25"],
+              netCDFfile$dim["Time"]), -32767.,
+            "Wind direction based on measurements from the radome, revised")
+  varWSX <- var.def.ncdf ("WSX", "m/s", 
+          c(netCDFfile$dim["sps25"],
+            netCDFfile$dim["Time"]), -32767.,
+          "Wind speed based on measurements from the radome, revised")
+  varTASG <- var.def.ncdf ("TASG", "m/s", 
+          c(netCDFfile$dim["sps25"],
+            netCDFfile$dim["Time"]), -32767.,
+          "True Airspeed, gust pod")
+  varGUSTW <- var.def.ncdf ("GUSTW", "m/s", 
+                            c(netCDFfile$dim["sps25"],
+                              netCDFfile$dim["Time"]),
+                          -32767., "Gust component, vertical wind")
+  varGUSTA <- var.def.ncdf ("GUSTA", "m/s", 
+                            c(netCDFfile$dim["sps25"],
+                              netCDFfile$dim["Time"]),
+                          -32767., "Gust component A, vertical wind")
+  varGUSTB <- var.def.ncdf ("GUSTB", "m/s", 
+                            c(netCDFfile$dim["sps25"],
+                              netCDFfile$dim["Time"]),
+                          -32767., "Gust component B, vertical wind")
+  varVSPDX <- var.def.ncdf ("VSPDX", "m/s", 
+                            c(netCDFfile$dim["sps25"],
+                              netCDFfile$dim["Time"]),
+                          -32767., "Aircraft vertical speed. filtered")
+} else {
+  varWIG <- var.def.ncdf ("WIG", "m/s", 
+            netCDFfile$dim["Time"], -32767.,
+            "Vertical wind based on measurements from the gust pod")
+  varWDG <- var.def.ncdf ("WDG", "deg.", 
+            netCDFfile$dim["Time"], -32767.,
+            "Wind direction based on measurements from the gust pod")
+  varWSG <- var.def.ncdf ("WSG", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "Wind speed based on measurements from the gust pod") 
+  varWIX <- var.def.ncdf ("WIX", "m/s", 
+            netCDFfile$dim["Time"], -32767.,
+            "Vertical wind based on measurements from the radome, revised")
+  varWDX <- var.def.ncdf ("WDX", "deg.", 
+            netCDFfile$dim["Time"], -32767.,
+            "Wind direction based on measurements from the radome, revised")
+  varWSX <- var.def.ncdf ("WSX", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "Wind speed based on measurements from the radome, revised") 
+  varTASG <- var.def.ncdf ("TASG", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "True Airspeed, gust pod") 
+    varGUSTW <- var.def.ncdf ("GUSTW", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "Gust component, vertical wind") 
+    varGUSTA <- var.def.ncdf ("GUSTA", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "Gust component A, vertical wind") 
+    varGUSTB <- var.def.ncdf ("GUSTB", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "Gust component B, vertical wind")  
+    varVSPDX <- var.def.ncdf ("VSPDX", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "Aircraft vertical speed, GPS") 
+}
+# Later may want to add code here to modify values of TASX to give new results. 
+# Not used here, though, so not needed yet.
+newfile <- var.add.ncdf (netCDFfile, varWIG)
+newfile <- var.add.ncdf (newfile, varWDG)
+newfile <- var.add.ncdf (newfile, varWSG)
+newfile <- var.add.ncdf (newfile, varWIX)
+newfile <- var.add.ncdf (newfile, varWDX)
+newfile <- var.add.ncdf (newfile, varWSX)
+newfile <- var.add.ncdf (newfile, varTASG)
+newfile <- var.add.ncdf (newfile, varGUSTW)
+newfile <- var.add.ncdf (newfile, varGUSTA)
+newfile <- var.add.ncdf (newfile, varGUSTB)
+newfile <- var.add.ncdf (newfile, varVSPDX)
+put.var.ncdf (newfile, "WIG", WIG)
+put.var.ncdf (newfile, "WDG", WDG)
+put.var.ncdf (newfile, "WSG", WSG)
+put.var.ncdf (newfile, "WIX", WIX)
+put.var.ncdf (newfile, "WDX", WDX)
+put.var.ncdf (newfile, "WSX", WSX)
+put.var.ncdf (newfile, "TASG", TAS_GP)
+put.var.ncdf (newfile, "GUSTW", GUSTW)
+put.var.ncdf (newfile, "GUSTA", GUSTA)
+put.var.ncdf (newfile, "GUSTB", GUSTB)
+put.var.ncdf (newfile, "VSPDX", VSPDX)
+close.ncdf (newfile)
+
+detach(Data)
+rm(WIG, WDG, WSG, WIX, WDX, WSX, TAS_GP, GUSTW, VSPDX)
+Data <- getNetCDF (fnew, c(VarNames,"WIG", "WDG", "WSG", "TASG", "WIX", "WDX", "WSX", "VSPDX"))
+r <- setRange(Data$Time,42530,42830)
+D <- Data[r,]
+plotWAC(D$Time,D$VSPDX, ylab="VSPDX")
+lineWAC(D$Time,D$WIX,col='red')
+g <- ggplot (data=D, aes(x=D$Time))
+yv <- c("VSPDX","WIX")
+xl <- "Time [UTC]"
+yl <- "WIX [m/s]"
+clr <- yv
+col <- c("blue","red")
+for (j in 1:2) {
+  a <- eval(sprintf("aes (y=D[,yv[%d]], colour='%s')",j,yv[j]))
+  g <-  g + geom_line (eval(parse(text=a)))
+}
+if (length(yv) > 1) {
+  g <- g + scale_colour_manual("", 
+                              breaks = clr,
+                              values = col)
+  g <- g + xlab(xl)+ylab(yl) + ylim(-14.,14.) + ggtitle("Pitch Maneuvers")+theme_WAC ()
+}
+#g <- g + annotate("rect", xmin = -2.5, xmax = 0, ymin = 1, ymax = 2,
+#            alpha = 1, fill="lightyellow")
+g
+
+print(sprintf("WIX standard deviation: %4.2f", sd(D$WIX)))
+print(sprintf("VSPD standard deviation: %4.2f", sd(D$VSPDX)))
+PS <- D$PITCH
+WX <- D$TASX*((AOA[r]-PS)*Cradeg) + D$VSPDX
+print(sprintf("no delay, s.d.=%4.3f", sd(WX)))
+# shift PITCH forward:
+rl <- r[length(r)]
+for (i in 1:4) {
+  PS <- c(Data$PITCH[(rl-i):(rl-1)], D$PITCH)
+  length(PS) <- length(PS)-i
+  WX <- D$TASX*((AOA[r]-PS)*Cradeg) + D$VSPDX
+  print(sprintf("PITCH delay %d samples, s.d.=%4.3f", i, sd(WX)))
+}
+PS <- D$PITCH
+for (i in 1:4) {
+  VS <- c(Data$VSPDX[(rl-i):(rl-1)], D$VSPDX)
+  length(VS) <- length(VS)-i
+  WX <- D$TASX*((AOA[r]-PS)*Cradeg) + VS
+  print(sprintf("VSPDX delay %d samples, s.d.=%4.3f", i, sd(WX)))
+}
+for (i in 1:4) {
+  VS <- c(D$VSPDX, Data$VSPDX[(rl+1):(rl+i)])
+  VS <- VS[(i+1):(length(r)+i)]
+  WX <- D$TASX*((AOA[r]-PS)*Cradeg) + VS
+  print(sprintf("VSPDX advance %d samples, s.d.=%4.3f", i, sd(WX)))
+}
+
+
+
+@
+
+
+Here are some plots that show the results. For similar results from DEEPWAVE rf05, saved for reference, see GPcal.pdf, a note saved on 22 June 2014.
+
+<<Plotted-Results, fig.cap=c("WIG (vertical wind based on the gust pod) plotted against WIC (vertical wind from the conventional radome-based gust system)", "Angle of attack determined from gust-pod measurements, plotted vs. corresponding measurements AKRD from the standard wind sensing system", "Comparison of horizontal wind measurements from the gust pod (red lines) and from the standard wind measurements WDC and WSC (thicker blue lines).", "Comparison of vertical wind measurements from the gust pod (red line) and from the standard wind measurement (WIC, blue line)."), out.width="300pt", fig.align="center",echo=FALSE>>=
+
+print (c("Flight processed in this run: ", Flight))
+Data <- getNetCDF (fnew, c(VarNames,"WIG", "WDG", "WSG", "TASG", "WIX", "WDX", "WSX"))
+Valid <- ((Data$TASX > 130.) & (abs(Data$ROLL) < 5))
+plot (Data$WIX[Valid], Data$WIG[Valid], ylab="WIG (gust pod vertical wind, m/s)",
+      xlim=c(-5.,5.), ylim=c(-5.,5.),
+      xlab="WIX, radome vertical wind [m/s]", pch=16, 
+      cex=0.5, col='blue')
+lines (c(-5.,5.), c(-5.,5.), lty=2, lwd=2, col='orange')
+print (mean (Data$WIG[Valid]-Data$WIX[Valid], na.rm=TRUE))
+print (sd (Data$WIG[Valid]-Data$WIX[Valid], na.rm=TRUE))
+print (mean (Data$WIG[Valid]-Data$WIC[Valid], na.rm=TRUE))
+print (sd (Data$WIG[Valid]-Data$WIC[Valid], na.rm=TRUE))
+# text (1.,-3.5, "mean WIG-WIC: -0.21 m/s\nst dev 0.25 m/s")
+plot (Data$AKRD[Valid], AOA_GP[Valid], pch=16, cex=0.5, xlab="AKRD [deg.]", 
+      xlim=c(1.,5.), ylim=c(-3.,2.),
+      ylab="AOA from GP [deg.]")
+lines (c(2.0, 3.6), c(2.0-3.65, 3.6-3.66), lty=2, lwd=2, 
+       col='orange')
+
+op <- par (mfrow=c(2,1), mar=c(4,4,0,2)+0.1)
+plotWAC (Data$Time, Data$WDC, ylab="Wind Direction [deg.]")
+points (Data$Time, Data$WDG, type='l', col='red')
+legend ("bottomright", legend=c("WDC", "WDG"), lty=1, col=c('blue', 'red'))
+plotWAC (Data$Time, Data$WSC, ylab="Wind Speed [m/s]")
+points (Data$Time, Data$WSG, type='l', col='red')
+legend ("bottomright", legend=c("WSC", "WSG"), lty=1, col=c('blue', 'red'))
+op <- par (mfrow=c(1,1), mar=c(4,4,5,2)+0.1)
+plotWAC (Data$Time, Data$WIC, ylab="Vertical Wind [m/s]")
+points (Data$Time, Data$WIG, type='l', col='red')
+legend ("bottomright", legend=c("WIC", "WIG"), lty=1, col=c('blue', 'red'))
+# sd (Data$WSC-WSG, na.rm=TRUE)
+# sd (Data$WDC-WDG, na.rm=TRUE)
+
+
+@
+
+
+
+\section*{Additional Illustrative Plots}
+
+
+
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=10cm]{GPrf11Fig1}
+\par\end{centering}
+
+\protect\caption{\label{fig:3panelHWVW}A comparison between the conventional wind
+components (blue lines) and the wind from the gust pod (red lines).
+Data from flight RF05.}
+\end{figure}
+Some plots showing the nature of the new variables (WDG,
+WSG, WIG) are included here. The first one (Fig.~\ref{fig:3panelHWVW}) shows a comparison
+of all three wind variables for a segment from flight RF11. The spike
+in WSG at about 9:43 has a known origin and will be removed. There
+is also a short period near 9:23 when the vertical wind measurements
+appear offset by a few tenths m/s. Otherwise, the gust pod provides
+a good representation of the standard variables. 
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=10cm]{GPrf11Fig2}
+\par\end{centering}
+
+\protect\caption{\label{fig:ExpandedViewF1}An expanded view of a section of Fig.~\ref{fig:3panelHWVW}.}
+
+
+\end{figure}
+Figure \ref{fig:ExpandedViewF1} shows an expanded view and emphasizes
+the small difference between wind speeds from the two systems; this
+is likely caused by IRU differences and can later be improved by reference
+to the GPS signals with OMNISTAR. The similarities and differences
+in WIG vs WIC are also more evident in this figure.
+
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=10cm]{GPrf11Fig5}
+\par\end{centering}
+
+\protect\caption{\label{fig:VarSpecWICandWIG}variance spectra for WIC (red line, and
+also shown smoothed as the blue line), compared to the spectrum for
+WIG from the gust pod (green line). Data from flight RF05, 9:15:00--9:40:00.}
+
+
+\end{figure}
+Figure \ref{fig:VarSpecWICandWIG} shows the high-rate variance spectra
+from the two systems. There is a significant difference at frequencies
+above about 3 Hz, with the gust-pod distribution dropping faster but
+the standard wind WIC showing more variance. The high frequency spectrum
+from the gust pod may be more realistic; it is unusual to see high
+variance at these frequencies without a related generating source.
+These spectra were also studied for coherence, which was above 0.9
+for frequencies less than 1 Hz but then fell to around 0.2 at 10 Hz.
+This is an indication that the two measurements are different in important
+ways at the high frequency. This would not be the case if they were
+responding with different amplitudes; the signals must really be mostly
+incoherent at the highest frequency. The separation wing-to-fuselage
+is about 7 m lateral and 13 m longitudinal, so that doesn't seem enough
+to cause the low high-frequency coherence. The phase changes from
+in-phase at frequencies less than 1 Hz to 180$^{\circ}$ out-of-phase
+at 9 Hz, with WIG lagging, so this is consistent with the longitudinal
+offset. Shifting WIG relative to WIC also gave maximum coherence if
+WIG were shifted forward 1/25 s. 
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=10cm]{GPrf11WIGshiftM1}
+\par\end{centering}
+
+\protect\caption{\label{fig:FurtherExpandedWIGshifted}Comparison of WIG (red line)
+and WIC (blue line) after shifting WIG 1/25 s earlier to compensate
+for the longitudinal displacement of the sensor.}
+
+
+\end{figure}
+ With this shift, there does not appear to be any difference in phase
+between the two measurements.
+
+It is important to note that the gust pod does not yet perform well
+in turns. The reason is that the orientation of the gust-pod IRU is
+not perfectly along the longitudinal axis of the aircraft, and as
+a result any roll of the aircraft introduces complex combinations
+of roll, heading, and pitch into the gust-pod IRU. It should be possible
+to remove these to some extent, although differences in alignment
+of the IRU from flight to flight may perturb these angles and make
+it difficult to get good measurements in turns. The circle maneuvers
+from the calibration flight should provide valuable information regarding
+the potential for improving the in-turn performance of the gust pod
+.
+
+
+\section*{Next Steps}
+\begin{enumerate}
+\item A procedure for processing the gust-pod measurements will be needed.
+It may be possible to use code in gusto.c for this purpose or otherwise
+to implement the process used here into nimbus, because this is being
+done second-by-second as needed for nimbus. Alternately, the code
+used here can run after nimbus processing to add the gust-pod variables. If this course is followed, the R script could be improved because
+I didn't vectorize the angle transformations yet, in the interest
+of getting it to work first.
+The software / data processing group will have to decide which is
+better, and it may be preferable to use different procedures for DEEPWAVE
+and for future use in order to produce the DEEPWAVE data quickly.
+\item As noted above, there are issues with the gust-pod measurements in
+turns that need to be addressed. These issues will affect the standard
+data also because in turbulence the roll changes and this may feed
+into the other measurements even at small roll angles.
+\item The relative timing of the measurements entering the calculation of
+wind still needs to be addressed. The IRU information is transmitted
+for recording with some delay, and corrections for those delays are
+in place. However, small errors in those delays can cause phase shifts
+among the measurements that, for example, result in residual perturbations
+of the vertical wind during pitch maneuvers. These should be tuned
+to minimize those perturbations.
+\item An additional worthwhile study will be to see if using GPS measurements
+to determine the Schuler oscillation can improve measurements of pitch
+and heading and so lead to improved wind measurements. There is some
+evidence of this problem in an apparent changing offset in the vertical
+wind, so any improvement here can be very useful to DEEPWAVE.
+\end{enumerate}
+
+
+
+\centerline{-- End of This Note --}
+
+\end{document}

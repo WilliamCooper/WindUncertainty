@@ -1,0 +1,486 @@
+
+<<Initialization,echo=F,include=F>>=
+require(Ranadu)
+library(knitr)
+Flight <- "rf15"        # this was the flight with cal maneuvers
+fname = sprintf("/home/Data/DEEPWAVE/DEEPWAVE%s.nc", Flight)
+# copy to a new file before adding variables to it:
+fnew = sprintf("/home/Data/DEEPWAVE/DW%shr_GP.nc", Flight)
+system(paste ("cp", fname, fnew, sep=' '), wait=TRUE)
+VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
+              "ADIFR", "AKRD", "SSLIP", "PITCH", 
+              "ROLL", "THDG", "BDIFR", "EWX",
+              "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
+              "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
+              "CVNS_GP", "CVEW_GP", "VSPD", "CVSPD_GP",
+              "ATX")
+Data <- getNetCDF (fname, VarNames)      # this handles high-rate data also
+
+
+@
+
+%% LyX 2.1.0 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt]{report}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=3.54cm,bmargin=2.54cm,lmargin=2.54cm,rmargin=2.54cm,headheight=1cm,headsep=2cm,footskip=0.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+%%\fancyfoot[CE,CO]{}
+\newtoks{\topicofnote} \global\topicofnote={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Aircraft Algorithm Memo re: \the\topicofnote \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+\ifcase\month\or January\or February\or March\or April\or May\or
+June\or July\or August\or September\or October\or November\or
+December\fi
+\space\number\year}
+\newcommand{\RAFAlgorithmMemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Research Aviation Facility}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Algorithm Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.2truein\leftline{\textcolor{blue}{\textsf{Subject: \the\topicofnote}}}
+\leftline{\textcolor{blue}{\textsf{Al Cooper}}}
+\leftline{\textcolor{blue}{\textsf{\datetoday}}} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lyxlist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+
+\makeatother
+
+\begin{document}
+\begin{comment}
+set topicofnote to topic of note
+\end{comment}
+
+
+\topicofnote={The All-Weather Wind Pod}
+
+\RAFAlgorithmMemo
+
+
+\section*{Background}
+
+An all-weather wind pod has been developed by Allen Schanot and is
+available for mounting under the wing of the GV. It is based on a
+Rosemount 858 probe, but the location under the wing is one where
+there is substantial flow distortion in comparison to the free stream,
+so a calibration is needed to use the measurements. The goal of this
+system was to provide a wind measurement in cases where icing or other
+problems cause failure of the standard radome-based system. The probe
+that is the basis for this system is heated and should be unaffected
+by icing or ice accumulation. A preliminary calibration is in use
+now, but it does not appear to perform very well. The goal of this
+note is to develop a new calibration and demonstrate that the gust
+pod provides a valid alternative to wind measurements based on the
+radome. Also included here are some illustrative variance spectra,
+but better information on time response needs data at a higher rate than the 1-Hz data used here.
+
+The format of this note is that the text is interspersed with the R code that performed the processing. This file is located at ~cooperw/RStudio/DEEPWAVE/GustPodProcess.Rnw and, if run from within the html interface to RStudio on tikal using the "Compile PDF" function, will produce this memo while 
+processing a netCDF file to add new gust-probe variables to it. When this file is viewed in RStudio, grayed sections indicate R code.
+
+A separate memo describes the calibration of the gust-pod measurements as well as those from the standard radome gust-sensing system. The calibrations documented in that memo will be used in this processor, which adds gust-pod variables to a standard netCDF data file.
+
+
+\section*{The Components of the Relative Wind}
+
+In the standard coordinate system with $x$ forward, $y$ starboard,
+and $z$ downward, the three corresponding components of the relative
+wind are:
+
+\begin{equation}
+\mathbf{v=}\begin{pmatrix}u_{r}\\
+v_{r}\\
+w_{r}
+\end{pmatrix}=\begin{pmatrix}V\\
+V\thinspace\tan\beta\\
+V\thinspace\tan\alpha
+\end{pmatrix}\label{eq:relative wind}
+\end{equation}
+where $V$ is the true airspeed, $\alpha$ is the angle of attack
+and $\beta$ is the sideslip angle. The sign convention is such that
+the relative wind is positive when \emph{from }the direction of the
+axis for each component. To obtain true airspeed, either of the following
+two approaches could be taken:
+\begin{enumerate}
+\item Use the variable TASX as determined from the pitot-tube and static
+pressure and the measured temperature. The advantage of using this
+variable is that it has been calibrated to low uncertainty using reference
+to earlier measurements from LAMS and is thought to be one of the
+highest-quality measurements on the aircraft. The disadvantage is
+that it is measured from static and dynamic ports on the fuselage
+and so is displaced from the gust pod, and in a turbulent wind field
+there may be different values of the true airspeed at the two locations.
+\item Use a new variable calculated from the gust-probe measurements and
+adjusted to match TASX in the mean, to take advantage of the calibration
+of TASX but still use measurements that will represent departures
+from that if there is spatial variability in the true airspeed at
+a separation of about 6 m laterally and 10 m longitudinally, the latter
+presumably introducing a delay. To follow this path, TAS\_GP is calculated
+from PS\_GP, QC\_GP, and ATX. Conventionally, the true airspeed would be calculated
+as 
+
+
+\begin{equation}
+V=\sqrt{2\left(\frac{(c_{p}-R_{a}}{R_{a}}\right)\left(1+\frac{q}{p}\right)^{\frac{R_{a}}{c_{p}}-1}\left(\frac{c_{p}}{c_{v}}R_{a}T\right)}\label{eq:TASformula}
+\end{equation}
+where $c_{p}$, $c_{v}$, and $R_{d}$ are the specific heat of air
+at constant pressure, the specific heat of air at constant volume,
+and the gas constant for air. In (2), $p$ is the static pressure, $q$
+the dynamic pressure, and $T$ the absolute temperature. Here, it
+is desirable to retain this form to the extent possible, but it is
+a characteristic of the gust-probe measurements that $q_{g}/p_{g}$=QC\_GP/PS\_GP
+differs from $q/p$=GCXC/PSXC, the conventional quantity, For that
+reason, a possible fit procedure is to determine $q/p$ from $q_{g}/p_{g}$
+so that the resulting representation of $q/p$ can be used in (\ref{eq:TASformula})
+to calculate TAS\_GP.\\
+\\
+To follow this approach, fits were obtained for functions $f(q_{g}/p_{g},\,\ldots)$
+used to estimate $q/p$. For example, the simplest fit was 
+
+
+\begin{equation}
+\frac{q}{p}=d_{0}+d_{1}\frac{q_{g}}{p_{g}}\label{eq:simpleqbypfit}
+\end{equation}
+which yielded a fit accounting for 98\% of the variance and having
+a residual error of <0.005 or 1\% of the typical pressure ratio.
+
+
+When used in (\ref{eq:TASformula}), the true airspeed that resulted
+from this fit had an rms deviation from TASX of about 1 m/s. However,
+it was clear that this deviation was not random and that a better
+fit could be obtained. The largest deviations were during the flight
+portions with flight speed below 200 m/s. These had large angle-of-attack
+as during the climb, and incorporating the ratio (ADIFR\_GP/QC\_GP)
+in the fit reduced the standard deviation between the new TAS and
+TASX to 0.6 m/s. However, for straight-and-level flight, the rms deviation
+was about 0.3 m/s, and this is approaching the standard uncertainty of TASX (0.1 m/s), so this appears to be an adequate fit. Specifically, the
+fit obtained was \\
+\begin{equation}
+\frac{q}{p}=d_{0}+d_{1}\frac{q_{g}}{p_{g}}+d_{2}\left(\frac{q_{g}}{p_{g}}\right)^{2}+d_{3}\frac{ADIFR\_GP}{q_{g}}\label{eq:TASfit}
+\end{equation}
+where the coefficients are \{0.0328, 1.037, 1.083, 0.134\}. The appropriate
+measurements from the gust probe, entered into (\ref{eq:TASformula}),
+then give the value to be used for TAS\_GP. 
+
+Figure~\ref{fig:TASfromGP}
+shows the result (TAS\_GP) compared to the standard true airspeed, TASX. The
+standard deviation between the two measurements is 0.1 m/s, so TAS
+obtained from the gust pod provides a measurement that is within normal
+estimated uncertainty of the standard measurement (0.3 m/s). This plot corresponds to Fig.\ # above but is a plot saved from DEEPWAVE rf05 while Fig.\ # is generated for the flight now being processed.
+
+\end{enumerate}
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=10cm]{GPcalFig4}
+\par\end{centering}
+
+\protect\caption{\label{fig:TASfromGP}\textsl{The true airspeed determined from the
+gust-pod measurements of static and dynamic pressure, compared to
+the standard true airspeed measured by the fuselage-mounted pressure
+sensors. Data from flight rf01 of the DEEPWAVE project, 6 June 2014.}}
+
+
+\end{figure}
+Once the true airspeed $V$ is known, (\ref{eq:relative wind}) with
+appropriate values for angle of attack and sideslip will give the
+relative wind.
+
+
+Note that in the code segment that follows the restricted dataframe D is detached and the
+full dataframe Data is attached, so that all measurements
+will be processed. "D" was used to base the preceding fits
+only on valid straight-and-level measurements, because it
+appears that use of the gust-pod measurements in turns will
+be complicated by the mixing of attitude angles when the
+aircraft turns.
+
+<<Relative-Wind-Code,echo=F,include=F>>=
+
+# now get the relative wind components
+attach(Data)
+AQR <- ADIFR / QCXC
+RR2 <- QCXC/PSXC
+Mach <- MachNumber (PSXC, QCXC)
+AQR_GP <- ADIFR_GP/QC_GP
+RR2_GP <- QC_GP/PS_GP
+# use coefficients saved from CalibrationPart1.rnw:
+cf <- c(-0.3653708, 6.5799081)
+cf4 <- c(0.04141006, 0.80189030, 1.71344358, 0.19407782) 
+SS <- cf[2] * BDIFR_GP / QC_GP-2.9
+B2 <- QC_GP/PS_GP
+B3 <- cf4[1]+cf4[2]*B2+cf4[3]*B2**2+cf4[4]*AQR
+Vg <- TrueAirspeed (MachNumber (PSXC, PSXC*B3), ATX)
+#A2 <- cf3[1]+cf3[2]*AQR+cf3[3]*RR2+cf3[4]*PS_GP+cf3[5]*QC_GP+cf3[6]*Mach
+A3 <- cf[1]+cf[2]*AQR
+# dataframe for the relative wind:
+d <- data.frame("U_RW"=Vg)
+d["V_RW"] <- Vg * tan(SS * Cradeg)
+d["W_RW"] <- Vg * tan (A3 * Cradeg)
+@
+
+
+\section*{Transformation to an Earth Reference Frame}
+
+The gust-pod orientation is measured by an IRU in the pod, while the
+aircraft orientation is measured by a fuselage-mounted IRS. Each measures
+heading, pitch, and roll. There are again two alternate paths that
+can be followed: Transform to the aircraft reference frame and use
+the standard software (gusto.c), or transform to an Earth reference
+frame directly and use the gust-pod ground speeds to obtain the wind.
+The former takes advantage of the higher-quality IRU in the cabin,
+but involves additional complications arising from contributions of
+angular velocity of the aircraft and mis-alignment between the inertial
+systems. The latter course will be followed here, but it may be worth
+exploring if the former might give higher-quality measurements.
+
+The required transformation is described by three rotation matrices,
+defined in Bulletin 23 Eqs. 2.5 and 2.6:
+
+\[
+T_{1}=\left(\begin{array}{ccc}
+1 & 0 & 0\\
+0 & \cos\phi & -\sin\phi\\
+0 & \sin\phi & \cos\phi
+\end{array}\right)
+\]
+
+
+\[
+T_{2}=\left(\begin{array}{ccc}
+\cos\theta & 0 & \sin\theta\\
+0 & 1 & 0\\
+-\sin\theta & 0 & \cos\theta
+\end{array}\right)
+\]
+
+
+\[
+T_{3}=\left(\begin{array}{ccc}
+\cos\psi & -\sin\psi & 0\\
+\sin\psi & \cos\psi & 0\\
+0 & 0 & 1
+\end{array}\right)
+\]
+
+
+where \{$\phi,\,\theta,\,\psi$\} are \{roll, pitch, heading\}.
+
+The transformation should be made in the following order: 
+\begin{enumerate}
+\item Rotate by $T_{1}$ using the roll angle $\phi^{\prime}$ measured
+by the gust-pod IRU (CROLL\_GP) to level the wings by a rotation about
+the x axis. 
+\item Rotate by $T_{2}$ using the pitch angle $\theta^{\prime}$ (CPITCH\_GP)
+to level the aircraft by a rotation about the y axis.
+\item Rotate by $T_{3}$ using the heading angle $\psi^{\prime}$ (CTHDG\_GP)
+to obtain components in a true-north reference frame. At this point,
+the relative-wind vector in an Earth-reference coordinate system is
+$\mathbf{v}_{r}=T_{3}(T_{2}(T_{1}\mathbf{v}))$ where $\mathbf{v}$
+is given by (\ref{eq:relative wind}).
+\end{enumerate}
+At this point, the measured ground-speeds of the gust pod can be added
+to the relative wind to get the true Earth-relative wind. 
+
+
+The transformations coded here are described by the matrices
+$T_1$, $T_2$, and $T_3$ defined above. Although the following
+is coded as a 'for' loop, full matrices are calculated
+here that represent the sample-by-sample transformations in
+anticipation that a vector implementation of this can be
+found. That is the reason than data-array-length vectors 
+containing 1 or 0 are defined as well as vectors cosphi, ...,
+representing the trigonometric functions of the attitude
+angles.
+
+<<Rotation-matrices>>=
+
+rw <- as.matrix(d)
+cosphi <- cos (CROLL_GP * Cradeg)
+sinphi <- sin (CROLL_GP * Cradeg)
+costheta <- cos (CPITCH_GP * Cradeg)
+sintheta <- sin (CPITCH_GP * Cradeg)
+cospsi <- cos (CTHDG_GP * Cradeg)
+sinpsi <- sin (CTHDG_GP * Cradeg)
+DL <- length(TASX)
+One <- rep (1, DL)
+Z <- rep (0, DL)
+T1 <- array (c(One,Z,Z,Z,cosphi,-sinphi,Z,sinphi,cosphi), 
+             dim=c(DL,3,3))
+T2 <- array (c (costheta,Z,sintheta,Z,One,Z,-sintheta,Z,costheta),
+             dim=c(DL,3,3))
+T3 <- array (c (cospsi,-sinpsi,Z,sinpsi,cospsi,Z,Z,Z,One),
+             dim=c(DL,3,3))
+@
+
+The relative-wind vector in an Earth-reference coordinate system is
+$\mathbf{v}_{r}=T_{3}(T_{2}(T_{1}\mathbf{v}))$ where $\mathbf{v}$
+is given by (\ref{eq:relative wind}). Next, the measured ground-speeds of the gust pod can be added
+to the relative wind to get the true Earth-relative wind. The final
+equations. defining new wind variables \{WDG, WSG, WIG\} corresponding
+to \{WDC, WSC, WIC\} from the radome gust system, are:
+
+\begin{equation}
+\mathbf{v}_{g}=\mathbf{v}_{r}+\left(\begin{array}{c}
+-\mathrm{CVNS\_GP}\\
+-\mathrm{CVEW\_GP}\\
+\mathrm{CVSPD\_GP}
+\end{array}\right)\label{eq:vg}
+\end{equation}
+\begin{equation}
+\mathrm{WDG=\arctan2(v_{g,y},}v_{g,x})\label{eq:wd}
+\end{equation}
+\begin{equation}
+\mathrm{WSG=\sqrt{(v_{g,x}^{2}+v_{g,y}^{2})}}\label{eq:ws}
+\end{equation}
+\begin{equation}
+\mathrm{WIG=v_{g,z}}\label{eq:wi}
+\end{equation}
+
+The following also attempts to flag bad CTHDG\_GP measurements,
+which apparently occur as the heading moves through 180 deg.
+This would be better replaced by interpolation at these points.
+
+<<Calculate-new-wind-variables-WDG-WSG-WIG>>=
+
+WDG <- vector ("numeric", DL)
+WSG <- vector ("numeric", DL)
+WIG <- vector ("numeric", DL)
+Hlast <- 0.
+for (i in 1:DL) {
+  rwx <- matrix(rw[i,], 3, 1)
+  Y1 <- aperm(T1[i,,]) %*% matrix (rw[i,], 3, 1)
+  Y2 <- aperm(T2[i,,]) %*% Y1
+  Y3 <- aperm(T3[i,,]) %*% Y2
+  WG <- matrix (c(-CVNS_GP[i], -CVEW_GP[i], CVSPD_GP[i]), 
+                3, 1)
+  Y4 <- Y3 + WG
+  WDG[i] <- atan2 (Y4[2], Y4[1]) / Cradeg
+  if ((!is.na(WDG[i])) & (WDG[i] < 0.)) {
+    WDG[i] <- WDG[i] + 360.
+  }
+  WSG[i] <- sqrt (Y4[1]**2 + Y4[2]**2)
+  WIG[i] <- Y4[3]
+           # attempt to flag bad CTHDG_GP points as missing
+  if (!is.na(CTHDG_GP[i])) {
+    if ((abs(CTHDG_GP[i]-Hlast) > 3.) 
+                             & (abs(Hlast-180.) < 5.)) {
+      WIG[i] <- NA
+      WDG[i] <- NA
+      WSG[i] <- NA
+    }
+  } else {
+    WIG[i] <- NA
+    WDG[i] <- NA
+    WSG[i] <- NA    
+  }
+  if (!is.na(CTHDG_GP[i])) {
+    Hlast <- CTHDG_GP[i]
+  }
+}
+
+@
+
+Here are some plots that show the results. For similar results from DEEPWAVE rf05, saved for reference, see GPcal.pdf, a note saved on 22 June 2014.
+
+<<Plotted-Results, fig.cap=c("WIG (vertical wind based on the gust pod) plotted against WIC (vertical wind from the conventional radome-based gust system)", "Angle of attack determined from gust-pod measurements, plotted vs. corresponding measurements AKRD from the standard wind sensing system", "Comparison of horizontal wind measurements from the gust pod (red lines) and from the standard wind measurements WDC and WSC (thicker blue lines).", "Comparison of vertical wind measurements from the gust pod (red line) and from the standard wind measurement (WIC, blue line)."), out.width="300pt", fig.align="center">>=
+
+plot (Data$WIC[Valid], WIG[Valid], ylab="WIG (gust pod vertical wind, m/s)",
+      xlim=c(-5.,5.), ylim=c(-5.,5.),
+      xlab="WIC, standard vertical wind [m/s]", pch=16, 
+      cex=0.5, col='blue')
+lines (c(-5.,5.), c(-5.,5.), lty=2, lwd=2, col='orange')
+print (mean (WIG[Valid]-Data$WIC[Valid], na.rm=TRUE))
+print (sd (WIG[Valid]-Data$WIC[Valid], na.rm=TRUE))
+# text (1.,-3.5, "mean WIG-WIC: -0.21 m/s\nst dev 0.25 m/s")
+plot (Data$AKRD[Valid], A3[Valid], pch=16, cex=0.5, xlab="AKRD [deg.]", 
+      xlim=c(-2.,2.), ylim=c(-2.,2.),
+      ylab="AOA from GP [deg.]")
+lines (c(2.0, 3.6), c(2.0-3.65, 3.6-3.66), lty=2, lwd=2, 
+       col='orange')
+
+op <- par (mfrow=c(2,1), mar=c(4,4,0,2)+0.1)
+plotWAC (Data$Time, Data$WDC, ylab="Wind Direction [deg.]")
+points (Data$Time, WDG, type='l', col='red')
+legend ("bottomright", legend=c("WDC", "WDG"), lty=1, col=c('blue', 'red'))
+plotWAC (Data$Time, Data$WSC, ylab="Wind Speed [m/s]")
+points (Data$Time, WSG, type='l', col='red')
+legend ("bottomright", legend=c("WSC", "WSG"), lty=1, col=c('blue', 'red'))
+op <- par (mfrow=c(1,1), mar=c(4,4,5,2)+0.1)
+plotWAC (Data$Time, Data$WIC, ylab="Vertical Wind [m/s]")
+points (Data$Time, WIG, type='l', col='red')
+legend ("bottomright", legend=c("WIC", "WIG"), lty=1, col=c('blue', 'red'))
+# sd (Data$WSC-WSG, na.rm=TRUE)
+# sd (Data$WDC-WDG, na.rm=TRUE)
+@
+
+In the following code segment, the new variables are added to the netCDF file and the file is written when closed. This is the end of the processing.
+
+
+<<Add-WIG-WDG-WSG-to-the-netCDF-file>>=
+# add new variables to the netCDF file:
+AQR <- ADIFR_GP/QC_GP
+RR2 <- QC_GP/PS_GP
+Mach <- MachNumber (PSXC, QCXC)
+#  use coefficients from above
+cf2 <- c(-7.646471221, 6.246412116, -12.210597624, 
+         0.005582473, 18.366724259, -0.008482039)
+# A <- cf2[1]+cf2[2]*AQR+cf2[3]*RR2+cf2[4]*PS_GP+cf2[5]*Mach+cf2[6]*QC_GP
+# WIX <- TASX*(A-PITCH)*Cradeg + VSPD
+
+netCDFfile <- open.ncdf (fnew, write=TRUE)
+#Time <- get.var.ncdf (netCDFfile, "Time")
+varWIG <- var.def.ncdf ("WIG", "m/s", netCDFfile$dim["Time"], -32767., "Vertical wind based on measurements from the gust pod")
+varWDG <- var.def.ncdf ("WDG", "deg.", netCDFfile$dim["Time"], -32767., "Wind direction based on measurements from the gust pod")
+varWSG <- var.def.ncdf ("WSG", "m/s", netCDFfile$dim["Time"], -32767., "Wind speed based on measurements from the gust pod")
+newfile <- var.add.ncdf (netCDFfile, varWIG)
+newfile <- var.add.ncdf (newfile, varWDG)
+newfile <- var.add.ncdf (newfile, varWSG)
+put.var.ncdf (newfile, "WIG", WIG, count=-1)
+put.var.ncdf (newfile, "WDG", WDG)
+put.var.ncdf (newfile, "WSG", WSG)
+close.ncdf (newfile)
+
+detach(Data)
+
+@
+
+\centerline{-- End of This Note --}
+
+\end{document}

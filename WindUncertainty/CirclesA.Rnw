@@ -1,0 +1,304 @@
+%% LyX 2.1.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{graphicx}
+\usepackage[authoryear]{natbib}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{html}
+\usepackage{graphics}
+\usepackage{epsfig}
+\bibliographystyle{alpha}
+\include{report}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+
+\title{Circle Studies}
+
+
+\author{Al Cooper}
+
+\maketitle
+
+\section{Data source}
+
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=0.47\textwidth]{Circle1}~~\includegraphics[width=0.49\textwidth]{Circle1Drift}
+\par\end{centering}
+
+\protect\caption{Segment of the flight track from DEEPWAVE flight 15, 3:38:30 -- 3:54:30
+UTC. The maneuver consisted of two 360$^{\circ}$ constant-roll-angle
+turns to the left, a short straight segment, and then two similar
+turns to the right. The left side shows the track in fixed coordinates
+with respect to the reference latitude and longitude (45.1$^{\circ}$S
+and 172$^{\circ}$E), while the right side shows the track plotted
+in a reference frame drifting with the measured wind.\label{fig:CirclePattern} }
+
+
+\end{figure}
+DEEPWAVE flight 15 included circle patterns flown in calm air as part
+of a series of special maneuvers for studies of the wind measurements.
+A segment of the flight track with these turns is shown in Fig.\textasciitilde{}\ref{fig:CirclePattern},
+the right side in a drifting reference frame to show the consistency
+with which these maneuvers were flown. There are other similar segments
+at 4:36--4:44 AND 5:33--5:42 UTC.
+
+<<getData, echo=FALSE>>=
+require(Ranadu) 
+library(knitr) 
+require(ggplot2) 
+require(grid) 
+require(ggthemes) 
+require(vioplot) 
+require(plyr) 
+require(signal)
+require(stats) 
+# set global chunk options 
+opts_chunk$set(fig.path='figure/WU-', fig.align='center', fig.show='hold')
+options(replace.assign=TRUE,width=49, digits=4)
+Flight <- "rf15"        # this was the flight with cal maneuvers
+Directory = "/home/Data/"
+fname = sprintf("%sDEEPWAVE/DW%s_GPx.nc", Directory, Flight)
+VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
+              "ADIFR", "AKRD", "SSLIP", "PITCH", "PSF", "QCF",
+              "ROLL", "THDG", "BDIFR", "EWX", "GGVSPDB",
+              "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
+              "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
+              "CVNS_GP", "GGVEWB", "GGVNSB", "CVEW_GP", "VSPD", "CVSPD_GP",
+              "ATX", "VNSC", "VEWC", "WDX", "WDG", "WSX", "WSG", "WIX", "WIG")
+D <- getNetCDF (fname, VarNames, F=15)      # this handles high-rate data also
+
+r <- setRange(D$Time, 33800,35500)
+D <- D[r,]
+cfs <- c(0.016, 21.9915)
+SS <- cfs[1] + cfs[2]*D$BDIFR/D$QCF
+Cradeg = pi/180.
+
+@
+
+This maneuver imposes a strict constraint on the measured wind, because
+the horizontal wind vector should remain constant around the turns.
+A difference varying sinusoidally can indicate from these errors in
+measurement:
+\begin{enumerate}
+\item If true airspeed is measured with a bias, the measured wind speed
+will change by twice that bias as the heading changes from downwind
+to upwind (in the case of the example shown, from heading of 43 to
+223$^{\circ}$). 
+\item If there is an offset error in the sideslip measurement, as would
+occur from an incorrect first coefficient in the sensitivity coefficients,
+the measured wind speed will change by twice the error that bias introduces
+as the heading changes from crosswind-starboard to crosswind-port;
+i.e., in this case, from 133 to 313$^{\circ}$. A correction must
+be made for roll because roll causes a change in sideslip required
+for level flight, as discussed in item 3.
+\item From symmetry considerations, the sideslip angle produced by roll
+and required for level flight should be of opposite sign for right
+vs.~left turns. If the aircraft has a non-zero sideslip in level
+flight, e.g., from introduced trim, this will produce a departure
+from the expected sign reversal with turn direction, but that should
+then be reflected in a difference in angle-of-attack required for
+level flight in the turns. The vertical component of the relative
+wind. $w^{\prime}$, is given approximately by the following equation:\\
+\begin{equation}
+w^{\prime}=V(\sin\alpha\cos\phi+\sin\beta\sin\phi)\label{eq:WinTurn}
+\end{equation}
+where $\alpha$ is the angle of attack, $\beta$ the sideslip angle,
+and $\phi$ the roll angle. Because $w^{\prime}$ should be the same
+in the circles turning to the right and those turning to the left
+but roll reverses sign, the sideslip angle should also reverse sign. 
+\item The drift of the GPS-measured ground track provides an independent
+measurement of the horizontal wind if the maneuver is flown precisely
+so that the pattern is a true circle in the reference frame moving
+with the wind. In that case, an error in heading will be reflected
+in an error in the direction of the mean measured wind, after correction
+for a possible bias in sideslip. As an example, the measurements of
+ground-speed components are shown in Fig.~XXX along with the expected
+components 
+\end{enumerate}
+<<plotGS, fig.lp="fig:", fig.cap="East and north components of the ground speed for the circle maneuver (flight 15, 3:38:00 -- 3:55:00), overplotted with a drifting-circle prediction for wind of 223$^{\circ}$/17.7 m/s.", echo=FALSE>>=
+
+plotWAC(D$Time, D$GGVEWB, ylab="VEW [blue] or VNS [green]")
+lineWAC(D$Time, D$GGVNSB, col='green')
+# define a chisquare error function:
+wx <- 12.3
+wy <- 13.2
+V <- 154.
+hdg <- D$THDG * Cradeg
+csq <- function (x, D) {
+  hdg <- (D$THDG+x[4]) * pi / 180.
+  dvx <- D$GGVEWB - (x[2] + x[1]*sin(hdg))
+  dvy <- D$GGVNSB - (x[3] + x[1]*cos(hdg))
+  chisq <- sum (dvx**2 + dvy**2)
+}
+A <- nlm (csq, c(V, wx, wy, -0.1), D, hessian=TRUE)
+print(A$estimate)
+V <- A$estimate[1]
+wx <- A$estimate[2]
+wy <- A$estimate[3]
+dh <- A$estimate[4]
+print(sprintf(" wind estimate: %.1f / %.1f", atan2(wx,wy)*180/pi+180, sqrt(wx**2+wy**2)))
+vx <- V * cos(hdg+dh*Cradeg) + wx
+vy <- V * sin(hdg+dh*Cradeg) + wy
+lineWAC (D$Time, vx, col='red', lty=2, lwd=2)
+lineWAC (D$Time, vy, col='orange', lty=2, lwd=2)
+rms <- (A$minimum/length(D$THDG))**0.5
+print(sprintf("RMS error: %4.1f m/s", rms))
+dev1 <- (D$GGVEWB-wx-V*sin(hdg+dh*Cradeg))
+dev2 <- (D$GGVNSB-wy-V*cos(hdg+dh*Cradeg))
+plotWAC(D$Time, dev1)
+
+
+@
+
+Item 3 will be investigated first. For the turns, roll changes symmetrically,
+at $\pm27^{\circ}$ during the turns, and angle-of-attack is also
+consistent at about 3.3$^{\circ}$. However, Fig.~\ref{fig:plotSS}
+shows a surprising asymmetry in measured sideslip: While the measurement
+in level flight is near zero, for the left-turning circles the sideslip
+is about -0.37$^{\circ}$ while for right-turning circles the sideslip
+is about 0.22$^{\circ}.$
+
+<<plotSS, fig.lp="fig:", fig.cap="Sideslip measured turning the circle maneuvers, first turning left (3:40:00 -- 3:45:00) and then turning right (3:47:30 -- 3:53:30). Mean values for these segments are indicated by dashed orange lines.", echo=FALSE>>=
+plotWAC(D$Time, SS, ylab="Sideslip")
+lines(c(D$Time[1], D$Time[length(D$Time)]), c(-0.02,-0.02), col='darkorange', lty=2, lwd=2)
+yr <- mean(SS[setRange(D$Time,34000,34500)])
+lines(c(D$Time[getIndex(D$Time,34000)], D$Time[getIndex(D$Time, 34500)]), c(yr,yr), col='darkorange', lty=2, lwd=4)
+yr <- mean(SS[setRange(D$Time, 34730,35330)])
+lines(c(D$Time[getIndex(D$Time,34730)], D$Time[getIndex(D$Time, 35330)]), c(yr,yr), col='darkorange', lty=2, lwd=4)
+
+#plotWAC(D$Time, D$GGVEWB, ylab="VEW")
+#lineWAC(D$Time, D$GGVNSB, col='darkgreen')
+# define a chisquare error function:
+wx <- 12.3
+wy <- 13.2
+V <- 154.
+hdg <- D$THDG * Cradeg
+csq <- function (x, D) {
+  hdg <- (D$THDG+x[4]) * pi / 180.
+  dvx <- D$GGVEWB - (x[2] + x[1]*sin(hdg))
+  dvy <- D$GGVNSB - (x[3] + x[1]*cos(hdg))
+  chisq <- sum (dvx**2 + dvy**2)
+}
+A <- nlm (csq, c(V, wx, wy, -0.1), D, hessian=TRUE)
+print(A$estimate)
+V <- A$estimate[1]
+wx <- A$estimate[2]
+wy <- A$estimate[3]
+print(sprintf(" wind estimate: %.1f / %.1f", atan2(wx,wy)*180/pi+180, sqrt(wx**2+wy**2)))
+vx <- V * cos(hdg) + wx
+vy <- V * sin(hdg) + wy
+#lineWAC (D$Time, vx, col='red', lty=2, lwd=2)
+#lineWAC (D$Time, vy, col='orange', lty=2, lwd=2)
+rms <- (A$minimum/length(D$THDG))**0.5
+
+@
+
+Item 2 will be investigated next because correct sideslip is beneficial
+when the other checks are performed. The wind component lateral to
+the aircraft but in a horizontal plane is approximately
+
+\begin{equation}
+v^{\prime}=V^{*}(\sin\beta\cos\phi+\sin\alpha\sin\phi)-v_{a}\label{eq:LateralWind}
+\end{equation}
+where $v^{*}$ is the true airspeed, $v_{a}$ the lateral component
+of the aircraft ground velocity, $\beta$ the sideslip angle, $\alpha$
+the angle of attack and $\phi$ the roll angle. This component of
+the wind, added to the lateral component of the ground motion of the
+aircraft, results in the measured wind component lateral to the aircraft,
+so 
+
+with heading indicates either an error in the longitudinal component
+of the wind (likely arising from an error in true airspeed) or an
+error in the lateral component arising from an offset in the sideslip
+measurements. However, for a given heading, an offset in sideslip
+will XXXX Because these variations are 90$^{\circ}$ out of phase,
+a sinusoidal fit to the observed variation in wind can determine both
+of these errors simultaneously. 
+
+<<plot-track, fig.lp="fig:", fig.cap="The measured wind speed as a function of heading for the measurements from the flight segment shown in the preceding figure.", echo=TRUE>>=
+St <- 33900
+Ed <- 35500
+#plotTrack (D$LONC, D$LATC, D$Time, xc=172., yc=-45.1, sz=0.2, WDC=D$WDC, WSC=D$WSC, .Range=setRange (D$Time, St, Ed), .Spacing=5, .WindFlags=5)
+#title ("3 July 2014, 3:39 to 3:55 UTC")
+r <- setRange(D$Time, St, Ed)
+Ang <- D$THDG[r] - 223.3
+Roll <- D$ROLL[r]
+Ang[Roll <= 0.] <- Ang[Roll <= 0.] + 180.
+Ang[Ang < 0.] <- Ang[Ang < 0.] + 360.
+Ang[Ang > 360.] <- Ang[Ang > 360.] - 360.
+plot (Ang, D$WSX[r], xlim=c(0,360), pch=19, col='blue')
+lines(c(180,180), c(0.,50.), col='red', lwd=2)
+lines(c(90,90), c(0.,50.), col='red', lwd=2)
+lines(c(270,270), c(0.,50.), col='red', lwd=2)
+print(mean(D$WDX[r],na.rm=TRUE))
+
+@
+
+<<Circle-original>>=
+
+
+op <- par (mfrow=c(2,1), mar=c(4,4,0,2)+0.1)
+r=setRange (D$Time, St, Ed)
+# r <- c(setRange (Time, 192335, 193145), 
+#        setRange (Time, 193345, 194200))
+plotWAC (D$Time[r], D$WDC[r], ylim=c(0,360),
+         ylab=expression(paste("Wind Direction [",degree,"]")))
+points (D$Time[r], D$THDG[r], type='l', lty=2, col="red")
+plotWAC (D$Time[r], D$WSC[r], type='l', 
+         ylab="Wind Speed [m/s]")
+op <- par (mfrow=c(1,1), mar=c(4,4,5,2)+0.1)
+plot (D$THDG[r], D$WSC[r], pch=16)
+B <- vector ("numeric", length=24)
+for (i in 1:24) {
+  lw <- 15.*(i-1)
+  hh <- 15.*i
+  B[i] <- mean(D$WSC[r][(D$THDG[r] > lw) & (D$THDG[r] < hh)], na.rm=TRUE)
+  print (c(i, B[i]))
+}
+
+plot((1:24)*15-7.5, B, xlim=c(0,360),xaxt='n', yaxt='n', xlab=expression(paste("Heading [",degree,"]")), 
+     ylab="Wind Speed [m/s]", type='p', pch=16, col="blue", xaxs="r", yaxs="r")
+axis(1,at=c(0,45,90,135,180,225,270,315,360),
+     labels=c("0","","90","","180","","270","","360"),tck=0.02)
+axis(3,at=c(0,45,90,135,180,225,270,315,360),labels=NA,tck=0.02)
+axis(2,at=c(18.75,19.0,19.25,19.5,19.75,20.0),
+     labels=c("","19.0","","19.5","","20.0"),tck=0.02)
+axis(4,at=c(18.75,19.0,19.25,19.5,19.75,20.0),
+     labels=NA,tck=0.02)
+fm <- lm (WSC[r]~sin(THDG[r]*pi/180.)+cos(THDG[r]*pi/180.), data=D)
+
+legend (0., 19.9, c("before correction", "after correction"), col=c("blue", "orange"), pch=16)
+print (c(mean(B+0.57*sin(((1:24)*15-7.5-25)*pi/180.)),
+         sd(B+0.57*sin(((1:24)*15-7.5-25)*pi/180.))))
+
+summary(fm)
+cf <- coefficients (fm)
+print (sqrt(cf[2]**2+cf[3]**2))
+BB <- vector ("numeric", 121)
+for (j in 1:121) {
+  i = j-0.5
+  BB[j] <- cf[1] +cf[2]*sin(i*3*pi/180.)+cf[3]*cos(i*3*pi/180.)
+}
+points ((1:121)*3-1.5, BB, type='l', lwd=2, col="red")
+points ((1:24)*15-7.5, B+0.57*sin(((1:24)*15-7.5-25.)*pi/180.), type='p',
+        pch=16., col="orange")
+lines (c(0.,360.), c(19.335,19.335), lwd=2, col="orange")
+title ("Amplitude of sine wave: 0.6 m/s\nAfter correction: RMS=0.1 m/s")
+
+detach(Data)
+
+@
+
+testing...
+\end{document}

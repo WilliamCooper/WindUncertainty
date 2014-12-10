@@ -1,0 +1,821 @@
+%% LyX 2.1.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass{beamer}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\ifx\hypersetup\undefined
+  \AtBeginDocument{%
+    \hypersetup{unicode=true}
+  }
+\else
+  \hypersetup{unicode=true}
+\fi
+\usepackage{breakurl}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+ % this default might be overridden by plain title style
+ \newcommand\makebeamertitle{\frame{\maketitle}}%
+ \AtBeginDocument{
+   \let\origtableofcontents=\tableofcontents
+   \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+   \def\gobbletableofcontents#1{\origtableofcontents}
+ }
+ \long\def\lyxframe#1{\@lyxframe#1\@lyxframestop}%
+ \def\@lyxframe{\@ifnextchar<{\@@lyxframe}{\@@lyxframe<*>}}%
+ \def\@@lyxframe<#1>{\@ifnextchar[{\@@@lyxframe<#1>}{\@@@lyxframe<#1>[]}}
+ \def\@@@lyxframe<#1>[{\@ifnextchar<{\@@@@@lyxframe<#1>[}{\@@@@lyxframe<#1>[<*>][}}
+ \def\@@@@@lyxframe<#1>[#2]{\@ifnextchar[{\@@@@lyxframe<#1>[#2]}{\@@@@lyxframe<#1>[#2][]}}
+ \long\def\@@@@lyxframe<#1>[#2][#3]#4\@lyxframestop#5\lyxframeend{%
+   \frame<#1>[#2][#3]{\frametitle{#4}#5}}
+ \def\lyxframeend{} % In case there is a superfluous frame end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usetheme{WAC}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[default]{}
+\setbeamertemplate{navigation symbols}{}
+%\setbeamercovered{transparent}
+%\setbeamercovered{opaque}
+\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+
+\AtBeginDocument{
+  \def\labelitemii{\(\rightarrow\)}
+}
+
+\makeatother
+
+\begin{document}
+\setbeamercolor{normal text}{bg=yellow!10}
+
+
+\title[Circle Maneuvers]{Circle Maneuvers}
+
+
+\subtitle{Some Things You Can Learn by Flying in Circles}
+
+
+\author{Al Cooper}
+
+
+\institute{NCAR/EOL/RAF\\
+}
+
+
+\date{RSIG Presentation 15 Sept 2014}
+
+\makebeamertitle
+
+
+%\pgfdeclareimage[height=0.5cm]{institution-logo}{institution-logo-filename}
+
+%\logo{\pgfuseimage{institution-logo}}
+
+
+
+
+
+
+
+%\beamerdefaultoverlayspecification{<+->}
+
+
+\lyxframeend{}\section{Data Used}
+
+
+\lyxframeend{}\lyxframe{EXAMPLE OF CIRCLE MANEUVER}
+\begin{exampleblock}
+{DEEPWAVE flight 15, 3:38:30 -- 3:54:30 UTC.}
+
+\begin{center}
+\includegraphics[width=8cm]{Circle1}
+\par\end{center}
+
+\end{exampleblock}
+
+
+\lyxframeend{}\lyxframe{SAME MANEUVER, DRIFTING WITH WIND}
+\begin{exampleblock}
+{DEEPWAVE flight 15, 3:38:30 -- 3:54:30 UTC.}
+
+\begin{center}
+\includegraphics[width=8cm]{Circle1Drift}
+\par\end{center}
+
+\end{exampleblock}
+
+
+
+<<getData, echo=FALSE, include=FALSE>>=
+require(Ranadu) 
+library(knitr) 
+require(ggplot2) 
+require(grid) 
+require(ggthemes) 
+require(vioplot) 
+require(plyr) 
+require(signal)
+require(stats) 
+# set global chunk options 
+opts_chunk$set(fig.path='figure/WU-', fig.align='center', fig.show='hold')
+options(replace.assign=TRUE,width=49, digits=4)
+Flight <- "rf15HR"        # this was the flight with cal maneuvers
+Directory = "/home/Data/"
+fname = sprintf("%sDEEPWAVE/DW%s_GPx.nc", Directory, Flight)
+VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
+              "ADIFR", "AKRD", "SSLIP", "PITCH", "PSF", "QCF",
+              "ROLL", "THDG", "BDIFR", "EWX", "GGVSPDB",
+              "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
+              "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
+              "CVNS_GP", "GGVEWB", "GGVNSB", "CVEW_GP", "VSPD", "CVSPD_GP",
+              "ATX", "VNSC", "VEWC", "WDX", "WDG", "WSX", "WSG", "WIX", "WIG")
+# D <- getNetCDF (fname, VarNames, F=15)      # this handles high-rate data also
+# save(D, file="~/RStudio/DEEPWAVE/CircleData.Rdata.gz", compress="gzip")
+load(file="~/RStudio/DEEPWAVE/CircleData.Rdata.gz") # loads D as previously saved
+cfs <- c(0.016, 21.9915)
+#cfs[1] <- cfs[1]+0.07
+D["SS"] <- cfs[1] + cfs[2]*D$BDIFR/D$QCF
+Dsave <- D
+r <- setRange(D$Time, 33800,35500)
+r1 <- setRange(D$Time, 33930, 34615)
+r2 <- setRange(D$Time, 34710, 35350)
+D <- D[r,]
+Cradeg = pi/180.
+
+@
+
+
+\lyxframeend{}\section{Calculation of Offsets}
+
+
+\lyxframeend{}\subsection{Constraints from constant wind}
+
+
+\lyxframeend{}\lyxframe{EXPECT CONSTANT WIND AROUND TURNS}
+\begin{summaryblock}
+{Constraints Imposed:}
+\begin{enumerate}
+\item Wind can be determined from GPS track only!
+\item TAS bias: Wind will change from upwind to downwind direction.
+\item Heading or sideslip bias: Wind will change from crosswind-right to
+crosswind-left positions.
+\item These can be separated by using circle maneuvers with different roll
+angles and measured sideslip vs roll.
+\item Departures from constant wind can be used to determine possible time
+shifts.
+\end{enumerate}
+\end{summaryblock}
+
+\begin{exampleblock}
+{}
+
+Each will be explored in this presentation.
+
+\end{exampleblock}
+
+<<plotGSRMS, echo=FALSE, include=FALSE>>=
+
+# define a chisquare error function:
+csq <- function (x, D) {
+  hdg <- (D$THDG+D$SS*cos(D$ROLL*pi/180)+x[4]) * pi / 180.
+  dvx <- D$GGVEWB - (x[2] + x[1]*sin(hdg))
+  dvy <- D$GGVNSB - (x[3] + x[1]*cos(hdg))
+  chisq <- sum (dvx**2 + dvy**2)
+}
+# try shifting GGVxxB forward n samples
+rms <- vector("numeric", 29)
+GGVEWB <- D$GGVEWB
+GGVNSB <- D$GGVNSB
+NL <- length(D$GGVEWB)
+rmsmin <- 1000
+for (n in 9:29) {
+  D$GGVNSB <- c(D$GGVNSB[(1+n):NL],rep(D$GGVNSB[NL],n))
+  D$GGVEWB <- c(D$GGVEWB[(1+n):NL],rep(D$GGVEWB[NL],n))
+  wx <- 12.3
+  wy <- 13.2
+  V <- 154.
+  hdg <- D$THDG * Cradeg
+  A <- nlm (csq, c(V, wx, wy, -0.1), D, hessian=TRUE)
+  D$GGVEWB <- GGVEWB
+  D$GGVNSB <- GGVNSB
+  #print(A$estimate)
+  V <- A$estimate[1]
+  wx <- A$estimate[2]
+  wy <- A$estimate[3]
+  dh <- A$estimate[4]
+ #print(sprintf(" wind estimate: %.1f / %.1f", atan2(wy,wx)*180/pi+180, sqrt(wx**2+wy**2)))
+  vx <- V * cos(hdg+dh*Cradeg) + wx
+  vy <- V * sin(hdg+dh*Cradeg) + wy
+  rms[n] <- (A$minimum/length(D$THDG))**0.5
+  if (rms[n] < rmsmin) {
+    rmsmin <- rms[n]
+    bestFit <- A$estimate
+    nbest <- n
+  }
+  #print(sprintf("RMS error for shift of %d samples: %5.2f m/s", n, rms[n]))
+}
+
+# impose best-fit shift nbest units forward in time
+D$GGVNSB <- c(D$GGVNSB[(1+nbest):NL],rep(D$GGVNSB[NL],nbest))
+D$GGVEWB <- c(D$GGVEWB[(1+nbest):NL],rep(D$GGVEWB[NL],nbest))
+# best-fit wind:
+bestWD <- (atan2(bestFit[2], bestFit[3]) / Cradeg + 180.) %% 360
+bestWS <- sqrt(bestFit[2]**2 + bestFit[3]**2)
+mwd <- mean(D$WDC, na.rm=TRUE)
+mws <- mean(D$WSC, na.rm=TRUE)
+mtas <- mean(D$TASX, na.rm=TRUE)
+
+@
+
+
+\lyxframeend{}\subsection{Finding the wind from GPS}
+
+
+\lyxframeend{}\lyxframe{WIND FROM GPS TRACK}
+\begin{columns}%{}
+
+
+\column{11 cm}
+\begin{block}
+{Fit to GPS ground-speed components:}
+\begin{itemize}
+\item Fit~Parameters: wind($u_{x}$, $u_{y}$), TAS, $\delta\psi$
+\item Minimize error function defined as\\
+\[
+\chi^{2}=\sum(\delta v_{x}^{2}+\delta v_{y}^{2})
+\]
+
+
+
+where\\
+\[
+\delta v_{x}=g_{x}-u_{x}-TAS\,\sin(\psi+\delta\psi)
+\]
+\[
+\delta v_{y}=g_{y}-u_{y}-TAS\,\cos(\psi+\delta\psi)
+\]
+\\
+
+
+\item Best fit: Wind \Sexpr{format(round(bestWD,1), nsmall=1)} / \Sexpr{round(bestWS,1)},
+TAS=\Sexpr{round(bestFit[1],1)}, $\delta\psi=$\Sexpr{round(bestFit[4],1)}.
+\item Compare~to: \Sexpr{round(mwd,1)} / \Sexpr{format(round(mws,1), nsmall=1)},
+\Sexpr{round(mtas,1)} from mean of measurements.
+\end{itemize}
+\end{block}
+
+\end{columns}%{}
+
+\begin{alertblock}
+{Uncertainties: Postpone estimates: Want to improve $\chi^2$ first}
+\end{alertblock}
+
+<<getRMS, echo=FALSE>>=
+
+hdg <- (D$THDG+bestFit[4])*Cradeg
+vx <- bestFit[1] * cos(hdg) + bestFit[2]   
+vy <- bestFit[1] * sin(hdg) + bestFit[3]
+gs <- sqrt(D$GGVEWB**2+D$GGVNSB**2)
+vs <- sqrt(vx**2+vy**2)
+rmsgs <- (sum((gs-vs)**2)/length(gs))**0.5
+
+@
+
+
+\lyxframeend{}\lyxframe{BEST-FIT MATCH BETWEEN GROUNDSPEEDS}
+
+\vskip -1 cm
+
+<<PlotGSvsWSc, fig.lp="fig:", fig.width=4.3, fig.height=3.0, hold=FALSE,echo=FALSE>>=
+
+Z <- plotWAC(D$Time, D$GGVEWB, ylab="GS Component, m/s", lwd=2)
+Z <- lineWAC(D$Time, D$GGVNSB, col='green', lwd=2)
+Z <- lineWAC(D$Time, vx, col='red',lwd=2,lty=2)
+Z <- lineWAC(D$Time, vy, col='red',lwd=2,lty=2)
+subtitle <- sprintf("best fit: red dashed lines")
+title(main="G-EW [blue]; G-NS [green]", cex.main=0.75, sub=subtitle)
+
+
+@
+\begin{columns}%{}
+
+
+\column{7.5 cm}
+\begin{alertblock}
+{}
+
+RMS error between ground-speeds: \Sexpr{round(rmsgs, 1)} m/s.
+
+\end{alertblock}
+
+\end{columns}%{}
+
+
+\lyxframeend{}\subsection{Offsets in TAS and heading}
+
+
+\lyxframeend{}\lyxframe{EFFECT OF AN ERROR IN TAS}
+\begin{columns}%{}
+
+
+\column{4 cm}
+\begin{block}
+{Assume an error of $\delta V$:}
+\begin{itemize}
+\item Expect change of 2$\delta V$ from upwind to downwind flight direction
+\item No change for cross-wind flight
+\item Expect a cosine-wave fluctuation with peak amplitude $\delta V$.
+\end{itemize}
+\end{block}
+
+
+\column{7 cm}
+
+
+<<sine-plot, fig.lp="fig:", fig.width=2.75, fig.height=3.5,echo=FALSE, hold=FALSE>>=
+Ang <- (1:1440)/4.
+plot(Ang, cos(Ang*pi/180.)+bestWS, type='l', col='darkorange', lwd=4, xlab="heading minus WD", ylab="Measured WS [m/s]", xlim=c(0.,400.))
+title("Simulation")
+text(180.,bestWS, labels=expression(paste(2,delta,V)))
+#lines(c(180.,180.), c(bestWS+0.2, bestWS+1), col='red', lwd=2)
+#lines(c(180.,180.), c(bestWS-0.2, bestWS-1), col='red', lwd=2)
+arrows(180.,bestWS+0.2,180.,bestWS+1.,length=0.2, col='red', lwd=2)
+arrows(180.,bestWS-0.2,180.,bestWS-1.,length=0.2, col='red', lwd=2)
+
+@
+
+\end{columns}%{}
+
+
+\lyxframeend{}\lyxframe{EFFECT OF AN ERROR IN HEADING}
+\begin{columns}%{}
+
+
+\column{4 cm}
+\begin{block}
+{Assume an error of $\delta \psi$:}
+\begin{itemize}
+\item Expect change of 2V$\delta\psi$ from crosswind-left to crosswind-right
+flight direction
+\item No change for along-wind flight
+\item Expect a sine-wave fluctuation with peak amplitude $V\delta\psi$.
+\end{itemize}
+\end{block}
+
+
+\column{7 cm}
+
+
+<<cosine-plot, fig.lp="fig:", fig.width=2.75, fig.height=3.5,echo=FALSE, hold=FALSE>>=
+plot(Ang, sin(Ang*pi/180.)+bestWS, type='l', col='darkorange', lwd=4, xlab="heading minus WD", ylab="Measured WS [m/s]", xlim=c(0.,400.))
+title("Simulation")
+text(90.,bestWS, labels=expression(paste(2,V,delta,psi)))
+#lines(c(180.,180.), c(bestWS+0.2, bestWS+1), col='red', lwd=2)
+#lines(c(180.,180.), c(bestWS-0.2, bestWS-1), col='red', lwd=2)
+arrows(90.,bestWS+0.2,90.,bestWS+1.,length=0.2, col='red', lwd=2)
+arrows(90.,bestWS-0.2,90.,bestWS-1.,length=0.2, col='red', lwd=2)
+
+@
+
+\end{columns}%{}
+
+
+\lyxframeend{}\lyxframe{EFFECT OF ERRORS IN TAS AND HEADING}
+\begin{columns}%{}
+
+
+\column{4 cm}
+\begin{block}
+{Assume errors of $\delta V=1$\ m/s and $\delta \psi$=0.3$^{\circ}$:}
+\begin{itemize}
+\item Expect a sum of sine and cosine curves:{\footnotesize{}
+\begin{align*}
+\delta G & =A_{1}\cos\theta+A_{2}\sin\theta
+\end{align*}
+}{\footnotesize \par}
+\item Can fit to the error curve and determine both $A_{1}=\delta V$ and
+$A_{2}=V(\delta\psi)\pi/180$:
+\end{itemize}
+\end{block}
+
+
+\column{7 cm}
+
+
+<<sine-cosine-plot, fig.lp="fig:", fig.width=2.75, fig.height=3.5,echo=FALSE, hold=FALSE>>=
+A1 <- 1.
+A2 <- mtas*0.3*pi/180.
+plot(Ang, A2*sin(Ang*pi/180.)+A1*cos(Ang*pi/180.) + bestWS, type='l', col='darkorange', lwd=4, xlab="heading minus WD", ylab="Measured WS [m/s]", xlim=c(0.,400.))
+title("Simulation")
+text(90.,bestWS, labels=expression(paste(2,V,delta,psi)),cex=0.75)
+#lines(c(180.,180.), c(bestWS+0.2, bestWS+1), col='red', lwd=2)
+#lines(c(180.,180.), c(bestWS-0.2, bestWS-1), col='red', lwd=2)
+arrows(90.,bestWS+0.2,90.,bestWS+A2,length=0.2, col='red', lwd=2)
+arrows(90.,bestWS-0.2,90.,bestWS-A2,length=0.2, col='red', lwd=2)
+text(180.,bestWS, labels=expression(paste(2,delta,V)), cex=0.75)
+#lines(c(180.,180.), c(bestWS+0.2, bestWS+A1), col='red', lwd=2)
+#lines(c(180.,180.), c(bestWS-0.2, bestWS-A1), col='red', lwd=2)
+arrows(180.,bestWS+0.2,180.,bestWS+A1,length=0.2, col='red', lwd=2)
+arrows(180.,bestWS-0.2,180.,bestWS-A1,length=0.2, col='red', lwd=2)
+lines(c(0.,360.),c(bestWS+A1,bestWS+A1), col='blue',lty=2,lwd=0.7)
+lines(c(0.,360.),c(bestWS-A1,bestWS-A1), col='blue',lty=2,lwd=0.7)
+lines(c(0.,360.),c(bestWS+A2,bestWS+A2), col='darkgreen',lty=2,lwd=0.7)
+lines(c(0.,360.),c(bestWS-A2,bestWS-A2), col='darkgreen',lty=2,lwd=0.7)
+
+@
+
+\end{columns}%{}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{MEASUREMENTS FROM LEFT-TURN CIRCLES}
+
+<<left-turn-circles, fig.lp="fig:", fig.width=4.0, fig.height=3.0, echo=FALSE, hold=FALSE>>=
+
+WS <- D$WSX
+Ang <- (D$THDG+D$SS*cos(D$ROLL*pi/180)-mwd) %% 360
+rs <- (D$ROLL < -15.)
+DF <- D[rs,]
+DF["Ang"] <- Ang[rs]
+DF["WS"] <- WS[rs]
+fm1 <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+cf1 <- coefficients(fm1)
+clr = c("fit", "measurements", "fit")
+col = c("darkorange", "blue", "darkorange")
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+g <- g + geom_point(colour=col[2], size=2, aes(shape="measurements")) 
+g <- g + geom_line(aes(y=cf1[1]+cf1[2]*sin(DF$Ang*pi/180.)+cf1[3]*cos(DF$Ang*pi/180.),  colour=clr[1]), lwd=3)
+g <- g + scale_colour_manual("", labels = clr, values = col)
+g <- g + scale_shape_manual ("", labels="measurements", values=19)
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()     
+g <- g + theme(legend.position=c(0.7,0.94))
+g
+#plot (Ang[rs], WS[rs], pch=19, col='blue')
+#lines(c(180,180), c(0.,50.), col='red', lwd=2)
+#lines(c(0,0), c(0.,50.), col='red', lwd=2)
+#lines(c(90,90), c(0.,50.), col='red', lwd=2)
+#lines(c(270,270), c(0.,50.), col='red', lwd=2)
+#lines(c(360,360), c(0.,50.), col='red', lwd=2)
+#lines(Ang[rs], cf1[1]+cf1[2]*sin(Ang[rs]*pi/180.)+cf1[3]*cos(Ang[rs]*pi/180.), col='darkorange', lwd=4)
+
+@
+\begin{columns}%{}
+
+
+\column{7.6 cm}
+\begin{block}
+{}
+
+Fit: $\delta V=$\Sexpr{format(round(cf1[3],1), nsmall=1)} m/s, $\delta\psi^{\prime}=$\Sexpr{format(round(cf1[2]/(mtas*pi/180.),2), nsmall=2)}$^{\circ}$,
+sd=\Sexpr{round(summary(fm1)$sigma,2)} m/s
+
+\end{block}
+
+\end{columns}%{}
+
+
+\lyxframeend{}\lyxframe{MEASUREMENTS FROM RIGHT-TURN CIRCLES}
+
+<<right-turn-circles, fig.lp="fig:", fig.width=4.0, fig.height=3.0, echo=FALSE, hold=FALSE>>=
+
+WS <- D$WSX
+Ang <- (D$THDG+D$SS*cos(D$ROLL*pi/180)-mwd) %% 360
+rs <- (D$ROLL > 15.)
+DF <- D[rs,]
+DF["Ang"] <- Ang[rs]
+DF["WS"] <- WS[rs]
+fm2 <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+cf2 <- coefficients(fm2)
+clr = c("fit", "measurements", "fit")
+col = c("darkorange", "darkgreen", "darkorange")
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+g <- g + geom_point(colour=col[2], size=2, aes(shape="measurements")) 
+g <- g + geom_line(aes(y=cf2[1]+cf2[2]*sin(DF$Ang*pi/180.)+cf2[3]*cos(DF$Ang*pi/180.),  colour=clr[1]), lwd=3)
+g <- g + scale_colour_manual("", labels = clr, values = col)
+g <- g + scale_shape_manual ("", labels="measurements", values=19)
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()     
+g <- g + theme(legend.position=c(0.25,0.94))
+g
+#plot (Ang[rs], WS[rs], pch=19, col='blue')
+#lines(c(180,180), c(0.,50.), col='red', lwd=2)
+#lines(c(0,0), c(0.,50.), col='red', lwd=2)
+#lines(c(90,90), c(0.,50.), col='red', lwd=2)
+#lines(c(270,270), c(0.,50.), col='red', lwd=2)
+#lines(c(360,360), c(0.,50.), col='red', lwd=2)
+#lines(Ang[rs], cf2[1]+cf2[2]*sin(Ang[rs]*pi/180.)+cf2[3]*cos(Ang[rs]*pi/180.), col='darkorange', lwd=4)
+
+@
+\begin{columns}%{}
+
+
+\column{7.7 cm}
+\begin{block}
+{}
+
+Fit: $\delta V=$\Sexpr{format(round(cf2[3],1), nsmall=1)} m/s, $\delta\psi^{\prime}=$\Sexpr{format(round(cf2[2]/(mtas*pi/180.),2), nsmall=2)}$^{\circ}$,
+sd=\Sexpr{round(summary(fm2)$sigma,2)} m/s
+
+\end{block}
+
+\end{columns}%{}
+
+
+\lyxframeend{}\subsection{Offset in Sideslip}
+
+
+\lyxframeend{}\lyxframe{RESOLVING AN AMBIGUITY PROBLEM}
+\begin{block}
+{$\delta\psi^{\prime}$ combines errors from heading and sideslip:}
+\begin{itemize}
+\item Sensitive to combined offsets in heading $\psi$ and sideslip $\beta$:\\
+\[
+\delta\psi^{\prime}=\delta\psi+\cos\phi\delta\beta
+\]
+where $\phi=$roll.
+\item Right and left turns: same values of $\cos\phi$.
+\item Circles with different roll angles could separate these effects:
+
+
+->This occurs naturally for circles at different altitudes
+
+\item Another approach: Compare sideslip in left vs right turns:
+
+
+->As the aircraft rolls, angle-of-attack and sideslip combine to produce
+a net lift.
+
+
+->This must result in the same lift in right vs left turns.
+
+
+->Therefore, sideslip reverses sign in right vs left turns.
+
+\end{itemize}
+\end{block}
+
+
+\lyxframeend{}\lyxframe{MEASUREMENTS OF SIDESLIP}
+
+\vskip -2 cm
+
+<<plotSS, fig.lp="fig:", fig.width=4, fig.height=4, echo=FALSE>>=
+
+Capn <- "Sideslip measured turning the circle maneuvers, first turning left (3:40:00 -- 3:45:00) and then turning right (3:47:30 -- 3:53:30). Mean values for these segments are indicated by dashed orange lines."
+Z <- plotWAC(D$Time, D$SS, ylab="Sideslip")
+lines(c(D$Time[1], D$Time[length(D$Time)]), c(-0.07,-0.07), col='red', lty=2, lwd=4)
+yr <- mean(D$SS[setRange(D$Time,34000,34500)])
+lines(c(D$Time[getIndex(D$Time,34000)], D$Time[getIndex(D$Time, 34500)]), c(yr,yr), col='darkorange', lty=2, lwd=4)
+yr <- mean(D$SS[setRange(D$Time, 34730,35330)])
+lines(c(D$Time[getIndex(D$Time,34730)], D$Time[getIndex(D$Time, 35330)]), c(yr,yr), col='darkorange', lty=2, lwd=4)
+#title(main=' ', sub="add 0.07 deg. to SSLIP to correct for offset", cex.sub=0.7)
+
+@
+
+\vskip-0.7cm
+\begin{columns}%{}
+
+
+\column{5.5 cm}
+\begin{block}
+{}
+
+For symmetry, add 0.07$^{\circ}$ to SSLIP
+
+\end{block}
+
+\end{columns}%{}
+
+
+\lyxframeend{}\subsection{Summary of Results}
+
+
+\lyxframeend{}\lyxframe{COMBINED RESULTS}
+
+<<combined-circles, fig.lp="fig:", fig.width=4.0, fig.height=3.0, echo=FALSE, hold=FALSE>>=
+
+D["WS"] <- D$WSX
+D["Ang"] <- (D$THDG+D$SS*cos(D$ROLL*pi/180)-mwd) %% 360
+D["TurnDirection"] <- as.integer(ifelse((D$ROLL > 0),1,2))
+rs <- (D$ROLL > 15.) | (D$ROLL < -15.)
+DF <- D[rs,]
+fmc <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+cfc <- coefficients(fmc)
+
+clr = c("fit", "left", "right")
+col = c("darkorange", "blue", "darkgreen")
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+#g <- g + geom_point(colour=col[2], size=2, aes(x=Ang[test], y=WS[test],shape="left turn"))
+g <- g + geom_point(data=DF[DF$TurnDirection == 2,],size=2, aes(colour=clr[2],shape=clr[2]))
+g <- g + geom_point(data=DF[DF$TurnDirection == 1,],size=2, aes(colour=clr[3],shape=clr[3]))
+#g <- g + geom_point(data=DF2,size=2, aes(x=Ang, y=WS,colour=clr[3],shape="right turn"))
+g <- g + geom_line(aes(y=cfc[1]+cfc[2]*sin(DF$Ang*pi/180.)+cfc[3]*cos(DF$Ang*pi/180.),  colour=clr[1]), lwd=3)
+g <- g + scale_colour_manual("", labels = clr, values = col)
+g <- g + scale_shape_manual ("", guide=FALSE, labels = clr, values = rep(20,3))
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()     
+g <- g + theme(legend.position=c(0.75,0.94))
+g
+
+@
+\begin{columns}%{}
+
+
+\column{7.5 cm}
+\begin{block}
+{}
+
+Fit: $\delta V=$\Sexpr{format(round(cfc[3],1), nsmall=1)} m/s, $\delta\psi=$\Sexpr{round(cfc[2]/(mtas*pi/180.)-0.07,2)}$^{\circ}$,
+sd=\Sexpr{round(summary(fmc)$sigma,2)} m/s
+
+\end{block}
+
+\end{columns}%{}
+
+
+\lyxframeend{}\lyxframe{SUMMARY OF RESULTS}
+\begin{summaryblock}
+{To minimize wind variations in circles:}
+
+Left circles:
+\begin{enumerate}
+\item Offset in TAS: Add \Sexpr{format(round(cf1[3],1),nsmall=1)} m/s
+\item Offset in sideslip: Add 0.07$^{\circ}$.
+\item Offset in heading: Add \Sexpr{format(round(cf1[2]/(mtas*pi/180.)-0.07,2), nsmall=2)}$^{\circ}$
+\end{enumerate}
+
+Right circles:
+\begin{enumerate}
+\item Offset in TAS: Add \Sexpr{format(round(cf2[3],1),nsmall=1)} m/s
+\item Offset in sideslip: Add 0.07$^{\circ}$.
+\item Offset in heading: Add \Sexpr{format(round(cf2[2]/(mtas*pi/180.)-0.07,2), nsmall=2)}$^{\circ}$.
+\end{enumerate}
+
+Combined::
+\begin{enumerate}
+\item Offset in TAS: Add \Sexpr{format(round(cfc[3],1),nsmall=1)} m/s
+\item Offset in sideslip: Add 0.07$^{\circ}$.
+\item Offset in heading: Add \Sexpr{format(round(cfc[2]/(mtas*pi/180.)-0.07,2), nsmall=2)}$^{\circ}$.
+\end{enumerate}
+\end{summaryblock}
+
+
+\lyxframeend{}\section{Discussion}
+
+
+\lyxframeend{}\subsection{Difference between left and right circles}
+
+
+\lyxframeend{}\lyxframe{WHY ARE LEFT AND RIGHT CIRCLES DIFFERENT?}
+\begin{block}
+{Is the TAS 
+correction reasonable?}
+\begin{enumerate}
+\item Two left turns consistent, two right turns consistent
+\item mean TASX 154.4 (left) vs 154.2 (right); corrected, 153.4 vs 153.6
+-- mean roll is about 0.45$^{\circ}$ larger in right turns, requiring
+a slightly higher airspeed for level flight.
+\item Difference expected: lift {*} cos(roll) = g and lift $\sim$ $V^{2}$
+so for same vertical component $V^{2}\cos\phi$= constant. \\
+\[
+\frac{2}{V}\delta V=-\frac{\sin\phi}{\cos\phi}\delta\phi
+\]
+\[
+\delta V=\frac{V\tan\phi}{2}\delta\phi=0.3
+\]
+consistent with the +0.2~m/s change in corrected wind.
+\item Varying correction seems needed to get the right answer
+\item Puzzle then is why the correction varies with turn direction.
+\end{enumerate}
+\end{block}
+
+
+\lyxframeend{}\lyxframe{HEADING CORRECTION IS MORE PROBLEMATIC}
+
+<<time-shift-check, echo=FALSE>>=
+n <- 6
+NL <- length(DF$GGVEWB)
+VNSD <- c(DF$GGVNSB[(1+n):NL],rep(DF$GGVNSB[NL],n))-DF$GGVNSB
+VEWD <- c(DF$GGVEWB[(1+n):NL],rep(DF$GGVEWB[NL],n))-DF$GGVEWB
+WNS <- DF$WSX*cos(DF$WDX*Cradeg)
+WEW <- DF$WSX*sin(DF$WDX*Cradeg)
+DF$WS <- sqrt((WNS-VNSD)**2+(WEW-VEWD)**2)
+fms <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+cfs <- coefficients(fms)
+
+@
+\begin{alertblock}
+{Effect is significant:}
+
+Change in correction is 0.8$^{\circ}$, amounting to crosswind component
+change of $V\tan\delta\psi\simeq$2 m/s.
+
+\end{alertblock}
+
+\begin{block}
+{Possible explanations?}
+\begin{enumerate}
+\item Real heading error may accumulate as a result of prolonged acceleration
+in turns? (No evidence of this in plots)
+\item Timing difference may cause reference groundspeed and relative-wind
+components to differ in phase, producing a different offset turning
+right vs left.
+
+\begin{enumerate}
+\item Explored shifting GGVEWB in time: best RMS for moving GPS speeds forward
+6 25-Hz samples (240 ms)
+\item RMS of shifted data: \Sexpr{round(summary(fms)$sigma,1)}
+\end{enumerate}
+\end{enumerate}
+\end{block}
+
+
+\lyxframeend{}\subsection{Time shifts}
+
+
+\lyxframeend{}\lyxframe{PLOT OF SHIFTED DATA}
+
+<<plot-time-shift, fig.width=4., fig.height=3.,echo=FALSE>>=
+clr = c("fit", "left", "right")
+col = c("darkorange", "blue", "darkgreen")
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+#g <- g + geom_point(colour=col[2], size=2, aes(x=Ang[test], y=WS[test],shape="left turn"))
+g <- g + geom_point(data=DF[DF$TurnDirection == 2,],size=2, aes(colour=clr[2],shape=clr[2]))
+g <- g + geom_point(data=DF[DF$TurnDirection == 1,],size=2, aes(colour=clr[3],shape=clr[3]))
+#g <- g + geom_point(data=DF2,size=2, aes(x=Ang, y=WS,colour=clr[3],shape="right turn"))
+g <- g + geom_line(aes(y=cfs[1]+cfs[2]*sin(DF$Ang*pi/180.)+cfs[3]*cos(DF$Ang*pi/180.),  colour=clr[1]), lwd=3)
+g <- g + scale_colour_manual("", labels = clr, values = col)
+g <- g + scale_shape_manual ("", guide=FALSE, labels = clr, values = rep(20,3))
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()     
+g <- g + theme(legend.position=c(0.75,0.94))
+g
+
+@
+\begin{columns}%{}
+
+
+\column{7.3 cm}
+\begin{block}
+{}
+
+Fit: $\delta V=$\Sexpr{format(round(cfs[3],1), nsmall=1)} m/s, $\delta\psi=$\Sexpr{round(cfs[2]/(mtas*pi/180.)-0.07,2)}$^{\circ}$,
+sd=\Sexpr{round(summary(fms)$sigma,2)} m/s
+
+\end{block}
+
+\end{columns}%{}
+
+
+\lyxframeend{}\section{Summary}
+
+
+\lyxframeend{}\lyxframe{RESULTS -- SUMMARY}
+\begin{summaryblock}
+{Offsets:}
+
+Combined::
+\begin{enumerate}
+\item Offset in TAS: Add \Sexpr{format(round(cfs[3],1),nsmall=1)} m/s
+\item Offset in sideslip: Add 0.07$^{\circ}$.
+\item Offset in heading: Add \Sexpr{format(round(cfs[2]/(mtas*pi/180.)-0.07,2), nsmall=2)}$^{\circ}$
+\item Delay in GGVSPB, etc: Move forward 6 25-Hz samples.
+\end{enumerate}
+\end{summaryblock}
+
+\begin{exampleblock}
+{Remaining Problems:}
+\begin{itemize}
+\item Why is there a difference in deduced wind speed in right vs left turns?
+(1.2 m/s)
+\item (related) Why is the best residual error still 0.6 m/s? (0.26 if WS
+offset removed)
+\item Plots of residuals show an apparent sin(2$\psi$) pattern; what can
+cause this?
+\item Estimate uncertainties in correction terms.
+\end{itemize}
+\end{exampleblock}
+
+
+\lyxframeend{}\lyxframe{A NOTE RE SOURCES AND ARCHIVAL}
+
+This presentation was generated using RStudio via the program CirclePresentation140915.Rnw,
+available on tikal.eol.ucar.edu. Running this on tikal via the web
+interface to RStudio generates the pdf-format presentation file while
+running R to generate the fits and plots discussed in that presentation,
+so the program can be adapted to additional circle maneuvers by changing
+the data and time references. The data used are those from in-the-field
+processing and are also stored on EOL workspace in the file /h/eol/cooperw/RStudio/DEEPWAVE/CircleData.Rdata.gz.\\
+ \vskip0.3cm
+
+The presentation is available at \href{https://drive.google.com/file/d/0B1kIUH45ca5AM0JZUXFLcmRrVWs/edit?usp=sharing}{this link}:
+https://drive.google.com/file/d/0B1kIUH45ca5AM0JZUXFLcmRrVWs\\
+/edit?usp=sharing
+
+
+\lyxframeend{}
+\end{document}

@@ -1,0 +1,329 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}\definecolor{messagecolor}{rgb}{0, 0, 0}\definecolor{warningcolor}{rgb}{1, 0, 1}\definecolor{errorcolor}{rgb}{1, 0, 0}\usepackage{babel}
+% macro for italic page numbers in the index
+\newcommand{\IndexDef}[1]{\textit{#1}}
+\newcommand{\IndexPrimary}[1]{\textbf{#1}}
+
+% workaround for a makeindex bug,
+% see sec. "Index Entry Order"
+% only uncomment this when you are using makindex
+%\let\OrgIndex\index 
+%\renewcommand*{\index}[1]{\OrgIndex{#1}}
+%\usepackage{splitidx}
+
+\AtBeginDocument{
+  \def\labelitemii{\(\circ\)}
+  \def\labelitemiii{\(\triangleright\)}
+}
+
+
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\end_preamble
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children true
+\language english
+\language_package babel
+\inputencoding iso8859-15
+\fontencoding T1
+\font_roman times
+\font_sans helvet
+\font_typewriter lmtt
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format pdf2
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_title "Technical Note: Uncertainty in Wind Measurements"
+\pdf_author "RAF"
+\pdf_subject "characterization of the uncertainty in wind measurements, GV"
+\pdf_keywords "wind,uncertainty, NCAR Research Aviation Facility, research aircraft, NCAR/EOL/RAF"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle false
+\papersize letterpaper
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\backgroundcolor #ffffff
+\boxbgcolor #f7f7f7
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1.2in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict true
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Characterization of Uncertainty 
+\begin_inset Newline newline
+\end_inset
+
+ in Measurements of Wind
+\begin_inset Newline newline
+\end_inset
+
+ from the NSF/NCAR Gulfstream V Research Aircraft
+\end_layout
+
+\begin_layout Author
+Al Cooper, Dick Friesen (and, eventually, many others)
+\end_layout
+
+\begin_layout Date
+
+\color red
+DRAFT/OUTLINE
+\color inherit
+ 10/20/2014
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "./Introduction.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "./ComponentsOfWindSensingSystem.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "./SensitivityCoefficients.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "./VerticalWindStudies.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "./HorizontalWindStudies.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "./ElementsOfUncertaintyAndSummary.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Acknowledgements
+\end_layout
+
+\begin_layout Standard
+The analyses reported here were mostly performed using R
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+R Core Team (2014).
+ R: A language and environment for statistical computing.
+ R Foundation for Statistical Computing, Vienna, Austria.
+ URL http://www.R-project.org/.
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Rlanguage"
+
+\end_inset
+
+, with RStudio
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+RStudio (2012).
+ RStudio: Integrated development environment for R (Version 0.98.879) [Computer
+ software].
+ Boston, MA.
+ Available from http://www.rstudio.org/
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "RStudio2012"
+
+\end_inset
+
+ and knitr
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Xie, Y.
+ (2013), 
+\begin_inset Quotes eld
+\end_inset
+
+knitr: A general-purpose package for dynamic report generation in R.
+ R package version 1.3,
+\begin_inset Quotes erd
+\end_inset
+
+ Version 1.6 was used for this work.
+ See also Xie, Y (2014), 
+\begin_inset Quotes eld
+\end_inset
+
+Dynamic documents with R and knitr,
+\begin_inset Quotes erd
+\end_inset
+
+ CRC Press, Chapman and Hall, 190 pp.
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Xie2014a,Xie2014b"
+
+\end_inset
+
+.
+ Substantial use also was made of the ggplot2 package
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+H.
+ Wickham.
+ ggplot2: elegant graphics for data analysis.
+ Springer New York, 2009.
+ 
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wickham2009"
+
+\end_inset
+
+ for R.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "Cooper2014"
+options "plainnat"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

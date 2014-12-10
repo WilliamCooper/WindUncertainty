@@ -1,0 +1,838 @@
+%% LyX 2.1.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{calc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\AtBeginDocument{
+  \def\labelitemii{\(\rightarrow\)}
+}
+
+\makeatother
+
+\begin{document}
+
+\section{Studies of the Horizontal Wind}
+
+
+\subsection{Analysis of circle maneuvers}
+
+
+\subsubsection{Data Used}
+
+\begin{center}
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.49\textwidth]{Circle1}\includegraphics[width=0.49\textwidth]{Circle1Drift}
+\par\end{centering}
+
+\protect\caption{Example of circle flight pattern, DEEPWAVE flight 15, 3:38:30--3:54:30
+UTC. Left side: normal flight track; right side, flight track plotted
+in a reference frame drifting with the horizontal wind.\label{fig:CircleFlightPatterns}}
+\end{figure}
+
+\par\end{center}
+
+
+
+<<getData, echo=FALSE, include=FALSE>>=
+require(Ranadu) 
+library(knitr) 
+require(ggplot2) 
+require(grid) 
+require(ggthemes) 
+require(vioplot) 
+require(plyr) 
+require(signal)
+require(stats) 
+# set global chunk options 
+opts_chunk$set(fig.path='figure/WU-', fig.align='center', fig.show='hold')
+options(replace.assign=TRUE,width=49, digits=4)
+Flight <- "rf15HR"        # this was the flight with cal maneuvers
+Directory = "/home/Data/"
+fname = sprintf("%sDEEPWAVE/DW%s_GPx.nc", Directory, Flight)
+VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
+              "ADIFR", "AKRD", "SSLIP", "PITCH", "PSF", "QCF",
+              "ROLL", "THDG", "BDIFR", "EWX", "GGVSPDB", "GGSPDB",
+              "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
+              "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
+              "CVNS_GP", "GGVEWB", "GGVNSB", "CVEW_GP", "VSPD", "CVSPD_GP",
+              "ATX", "VNSC", "VEWC", "WDX", "WDG", "WSX", "WSG", "WIX", "WIG")
+# D <- getNetCDF (fname, VarNames, F=15)      # this handles high-rate data also
+# save(D, file="~/RStudio/DEEPWAVE/CircleData.Rdata.gz", compress="gzip")
+load(file="~/RStudio/DEEPWAVE/CircleData.Rdata.gz") # loads D as previously saved
+cfs <- c(0.016, 21.9915)
+#cfs[1] <- cfs[1]+0.07
+D["SS"] <- cfs[1] + cfs[2]*D$BDIFR/D$QCF
+Dsave <- D
+r <- setRange(D$Time, 33830,35450)
+r1 <- setRange(D$Time, 33946, 34600)
+r2 <- setRange(D$Time, 34725, 35340)
+D <- D[r,]
+Cradeg = pi/180.
+
+@
+
+
+\subsubsection{Constraints arising from the assumption that the wind is steady}
+
+If the wind remains steady around the turns, analyses of the measurements
+can lead to these results:
+\begin{enumerate}
+\item Wind can be determined from GPS track only!
+\item TAS bias: Wind will change from upwind to downwind direction.
+\item Heading or sideslip bias: Wind will change from crosswind-right to
+crosswind-left positions.
+\item These can be separated by using circle maneuvers with different roll
+angles and measured sideslip vs roll.
+\item Departures from constant wind can be used to determine possible time
+shifts.
+\end{enumerate}
+Each will be explored in this section.
+
+<<plotGSRMS, echo=FALSE, include=FALSE>>=
+
+# define a chisquare error function:
+csq <- function (x, D) {
+  hdg <- (D$THDG+D$SS*cos(D$ROLL*pi/180)+x[4]) * pi / 180.
+  dvx <- D$GGVEWB - (x[2] + x[1]*sin(hdg))
+  dvy <- D$GGVNSB - (x[3] + x[1]*cos(hdg))
+  chisq <- sum (dvx**2 + dvy**2)
+}
+# try shifting GGVxxB forward n samples
+rms <- vector("numeric", 29)
+GGVEWB <- D$GGVEWB
+GGVNSB <- D$GGVNSB
+NL <- length(D$GGVEWB)
+rmsmin <- 1000
+for (n in 9:29) {
+  D$GGVNSB <- c(D$GGVNSB[(1+n):NL],rep(D$GGVNSB[NL],n))
+  D$GGVEWB <- c(D$GGVEWB[(1+n):NL],rep(D$GGVEWB[NL],n))
+  wx <- 12.3
+  wy <- 13.2
+  V <- 154.
+  hdg <- D$THDG * Cradeg
+  A <- nlm (csq, c(V, wx, wy, -0.1), D, hessian=TRUE)
+  D$GGVEWB <- GGVEWB
+  D$GGVNSB <- GGVNSB
+  #print(A$estimate)
+  V <- A$estimate[1]
+  wx <- A$estimate[2]
+  wy <- A$estimate[3]
+  dh <- A$estimate[4]
+ #print(sprintf(" wind estimate: %.1f / %.1f", atan2(wy,wx)*180/pi+180, sqrt(wx**2+wy**2)))
+  vx <- V * cos(hdg+dh*Cradeg) + wx
+  vy <- V * sin(hdg+dh*Cradeg) + wy
+  rms[n] <- (A$minimum/length(D$THDG))**0.5
+  if (rms[n] < rmsmin) {
+    rmsmin <- rms[n]
+    bestFit <- A$estimate
+    nbest <- n
+  }
+  #print(sprintf("RMS error for shift of %d samples: %5.2f m/s", n, rms[n]))
+}
+
+# impose best-fit shift nbest units forward in time
+D$GGVNSB <- c(D$GGVNSB[(1+nbest):NL],rep(D$GGVNSB[NL],nbest))
+D$GGVEWB <- c(D$GGVEWB[(1+nbest):NL],rep(D$GGVEWB[NL],nbest))
+# best-fit wind:
+bestWD <- (atan2(bestFit[2], bestFit[3]) / Cradeg + 180.) %% 360
+bestWS <- sqrt(bestFit[2]**2 + bestFit[3]**2)
+mwd <- mean(D$WDC, na.rm=TRUE)
+mws <- mean(D$WSC, na.rm=TRUE)
+mtas <- mean(D$TASX, na.rm=TRUE)
+
+@
+
+<<getRMS, echo=FALSE>>=
+
+hdg <- (D$THDG+bestFit[4])*Cradeg
+vx <- bestFit[1] * cos(hdg) + bestFit[2]   
+vy <- bestFit[1] * sin(hdg) + bestFit[3]
+gs <- sqrt(D$GGVEWB**2+D$GGVNSB**2)
+vs <- sqrt(vx**2+vy**2)
+rmsgs <- (sum((gs-vs)**2)/length(gs))**0.5
+# restore original values
+D$GGVNSB <- GGVNSB
+D$GGVEWB <- GGVEWB
+
+@
+
+
+\paragraph{Finding the wind from GPS}
+
+If it is assumed that $\bar{u_{x}}$, $\bar{u_{y}}$, TAS, and $\delta\psi$
+(the two components of the horizontal wind, the true airspeed, and
+an assumed error in heading) are constant, then the expected ground-speed
+components will be:
+
+\begin{align}
+v_{x} & =\bar{u_{x}}+TAS\,\sin(\psi+\delta\psi)\label{eq:circle-gs-components}\\
+v_{y} & \begin{split}= & \bar{u_{y}}+TAS\,\cos(\psi+\delta\psi)\end{split}
+\nonumber 
+\end{align}
+where $\psi$ is the heading. The error between these expressions
+for the ground speed and the measured ground-speed components $g_{x}$
+and $g_{y}$ then can be minimized to find the four constant parameters
+in (\ref{eq:circle-gs-components}) using this expression as a measure
+of the error:
+
+\begin{equation}
+\chi^{2}=\sum((g_{x}-v_{x})^{2}+(g_{y}-v_{y})^{2})\label{eq:gs-chisq}
+\end{equation}
+
+
+The resulting best-fit values, with wind converted to wind direction
+$\bar{v_{d}}$ and wind speed $\bar{v_{s}}$, are shown in the following
+table:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+ & $\bar{v_{d}}\,[^{\circ}]$ & $\bar{v_{s}}$~{[}m/s{]} & TAS~{[}m/s{]} & $\delta\psi\,[^{\circ}]$ & residual error {[}m/s{]}\tabularnewline
+\hline 
+\hline 
+fit result & \Sexpr{format(round(bestWD,1), nsmall=1)} & \Sexpr{round(bestWS,1)} & \Sexpr{round(bestFit[1],1)} & \Sexpr{round(bestFit[4],1)}. & \Sexpr{format(round(rmsgs,1), nsmall=1)}\tabularnewline
+\hline 
+mean of measurements & \Sexpr{round(mwd,1)} & \Sexpr{format(round(mws,1), nsmall=1)} & \Sexpr{round(mtas,1)} &  & \tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+<<PlotGSvsWSc, fig.lp="fig:", fig.cap="The ground-speed components measured by GPS (blue line, EW; green line, NS) and the corresponding results from the fit (red dashed lines) for the period of the circle maneuver.", fig.width=4.3, fig.height=3.0, hold=FALSE,echo=FALSE>>=
+
+Z <- plotWAC(D$Time, D$GGVEWB, ylab="GS Component, m/s", lwd=2)
+Z <- lineWAC(D$Time, D$GGVNSB, col='green', lwd=2)
+Z <- lineWAC(D$Time, vx, col='red',lwd=2,lty=2)
+Z <- lineWAC(D$Time, vy, col='red',lwd=2,lty=2)
+subtitle <- sprintf("best fit: red dashed lines")
+title(main="G-EW [blue]; G-NS [green]", cex.main=0.75, sub=subtitle)
+
+
+@
+
+<<plotGSRMS2, echo=FALSE, include=FALSE>>=
+
+# define a chisquare error function:
+csq3 <- function (x, D) {
+  hdg <- (D$THDG+D$SS*cos(D$ROLL*pi/180)+x[4]) * pi / 180.
+  dvx <- D$GGVEWB - (x[2] + (D$TASX+x[1])*sin(hdg))
+  dvy <- D$GGVNSB - (x[3] + (D$TASX+x[1])*cos(hdg))
+  chisq <- sum (dvx**2 + dvy**2)
+}
+# try shifting GGVxxB forward n samples
+rms <- vector("numeric", 29)
+GGVEWB <- D$GGVEWB
+GGVNSB <- D$GGVNSB
+NL <- length(D$GGVEWB)
+rmsmin <- 1000
+for (n in 9:29) {
+  D$GGVNSB <- c(D$GGVNSB[(1+n):NL],rep(D$GGVNSB[NL],n))
+  D$GGVEWB <- c(D$GGVEWB[(1+n):NL],rep(D$GGVEWB[NL],n))
+  wx <- 12.3
+  wy <- 13.2
+  dV <- 1.
+  hdg <- D$THDG * Cradeg
+  A <- nlm (csq, c(dV, wx, wy, -0.1), D, hessian=TRUE)
+  D$GGVEWB <- GGVEWB
+  D$GGVNSB <- GGVNSB
+  #print(A$estimate)
+  dV <- A$estimate[1]
+  wx <- A$estimate[2]
+  wy <- A$estimate[3]
+  dh <- A$estimate[4]
+ #print(sprintf(" wind estimate: %.1f / %.1f", atan2(wy,wx)*180/pi+180, sqrt(wx**2+wy**2)))
+  vx <- (D$TASX+dV) * cos(hdg+dh*Cradeg) + wx
+  vy <- (D$TASX+dV) * sin(hdg+dh*Cradeg) + wy
+  rms[n] <- (A$minimum/length(D$THDG))**0.5
+  if (rms[n] < rmsmin) {
+    rmsmin <- rms[n]
+    bestFit <- A$estimate
+    nbest <- n
+  }
+  #print(sprintf("RMS error for shift of %d samples: %5.2f m/s", n, rms[n]))
+}
+
+# impose best-fit shift nbest units forward in time
+D$GGVNSB <- c(D$GGVNSB[(1+nbest):NL],rep(D$GGVNSB[NL],nbest))
+D$GGVEWB <- c(D$GGVEWB[(1+nbest):NL],rep(D$GGVEWB[NL],nbest))
+# best-fit wind:
+bestWD <- (atan2(bestFit[2], bestFit[3]) / Cradeg + 180.) %% 360
+bestWS <- sqrt(bestFit[2]**2 + bestFit[3]**2)
+mwd <- mean(D$WDC, na.rm=TRUE)
+mws <- mean(D$WSC, na.rm=TRUE)
+mtas <- mean(D$TASX, na.rm=TRUE)
+
+@
+
+<<getRMS2, echo=FALSE>>=
+
+hdg <- (D$THDG+bestFit[4])*Cradeg
+vx <- bestFit[1] * cos(hdg) + bestFit[2]   
+vy <- bestFit[1] * sin(hdg) + bestFit[3]
+gs <- sqrt(D$GGVEWB**2+D$GGVNSB**2)
+vs <- sqrt(vx**2+vy**2)
+rmsgs <- (sum((gs-vs)**2)/length(gs))**0.5
+
+@
+
+
+\paragraph{Offsets in TAS and heading}
+
+The preceding fit used a constant true airspeed, but it is also possible
+to fit in the same way for an assumed error in true airspeed, by using
+$V=V_{m}+\delta V$ where $V_{m}$ is the measured value and $\delta V$
+is an assumed error in that measurement. There is some small variation
+in measured true airspeed during the maneuver, so this approach may
+be preferable. The resulting best-fit values, with wind converted
+to wind direction $\bar{v_{d}}$ and wind speed $\bar{v_{s}}$, are
+shown in the following table:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+ & $\bar{v_{d}}\,[^{\circ}]$ & $\bar{v_{s}}$~{[}m/s{]} & $\delta V$~{[}m/s{]} & $\delta\psi\,[^{\circ}]$ & residual error {[}m/s{]}\tabularnewline
+\hline 
+\hline 
+fit result & \Sexpr{format(round(bestWD,1), nsmall=1)} & \Sexpr{round(bestWS,1)} & \Sexpr{round(bestFit[1],1)} & \Sexpr{round(bestFit[4],1)}. & \Sexpr{format(round(rmsgs,1), nsmall=1)}\tabularnewline
+\hline 
+mean of measurements & \Sexpr{round(mwd,1)} & \Sexpr{format(round(mws,1), nsmall=1)} &  &  & \tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+An alternate way of determining the offsets in airspeed and heading,
+which illustrates the value of the circle maneuver for developing
+these constraints, is to plot the dependence of measured wind speed
+$v_{s}$ on the heading. The expected variation is for $v_{s}$ to
+change by $2\delta V$ from upwind to downwind flight and by $2V\delta\psi$
+from crosswind-right to crosswind-left flight direction (i.e., 90$^{\circ}$
+right of downwind vs.~90$^{\circ}$ left). The net effect is to produce
+a variation in $v_{s}$ given by:
+
+\begin{equation}
+v_{s}=\bar{v_{s}}+\delta V\cos\theta+V\delta\psi\sin\theta\label{eq:SinCosDep}
+\end{equation}
+where $\theta$ is the difference between the heading and the wind
+direction. Figure \ref{fig:sine-cosine-plot} illustrates the expected
+dependence that would result from errors of $\delta V$ = 1~m/s and
+$\delta\psi=0.3^{\mbox{\ensuremath{\circ}}}$. The plot is constructed
+so that $0^{\circ}$ corresponds to downwind flight and the difference
+between values at 0 and 180$^{\circ}$correspont to $2\delta V$,
+while the difference from $90$ to 270$^{\circ}$ represents $2V\delta\psi$. 
+
+<<sine-cosine-plot, fig.lp="fig:", fig.cap="Predicted dependence of measured wind speed on direction of flight relative to the wind direction, for assumed errors of $\\delta V=1$ m/s and $\\delta\\psi=0.3^{\\circ}$.", fig.width=4.0, fig.height=3.0,echo=FALSE, hold=FALSE>>=
+A1 <- 1.
+A2 <- mtas*0.3*pi/180.
+Ang <- (1:1440)/4.
+plot(Ang, A2*sin(Ang*pi/180.)+A1*cos(Ang*pi/180.) + bestWS, type='l', col='darkorange', lwd=4, xlab="heading minus WD", ylab="Measured WS [m/s]", xlim=c(0.,400.))
+title("Simulation")
+text(90.,bestWS, labels=expression(paste(2,V,delta,psi)),cex=0.75)
+#lines(c(180.,180.), c(bestWS+0.2, bestWS+1), col='red', lwd=2)
+#lines(c(180.,180.), c(bestWS-0.2, bestWS-1), col='red', lwd=2)
+arrows(90.,bestWS+0.2,90.,bestWS+A2,length=0.2, col='red', lwd=2)
+arrows(90.,bestWS-0.2,90.,bestWS-A2,length=0.2, col='red', lwd=2)
+text(180.,bestWS, labels=expression(paste(2,delta,V)), cex=0.75)
+#lines(c(180.,180.), c(bestWS+0.2, bestWS+A1), col='red', lwd=2)
+#lines(c(180.,180.), c(bestWS-0.2, bestWS-A1), col='red', lwd=2)
+arrows(180.,bestWS+0.2,180.,bestWS+A1,length=0.2, col='red', lwd=2)
+arrows(180.,bestWS-0.2,180.,bestWS-A1,length=0.2, col='red', lwd=2)
+lines(c(0.,360.),c(bestWS+A1,bestWS+A1), col='blue',lty=2,lwd=0.7)
+lines(c(0.,360.),c(bestWS-A1,bestWS-A1), col='blue',lty=2,lwd=0.7)
+lines(c(0.,360.),c(bestWS+A2,bestWS+A2), col='darkgreen',lty=2,lwd=0.7)
+lines(c(0.,360.),c(bestWS-A2,bestWS-A2), col='darkgreen',lty=2,lwd=0.7)
+
+@
+
+It is possible to determine $\delta V$ and $\delta\psi$ by fitting
+(\ref{eq:SinCosDep}) to observations. The measurements will be shown
+separately for the left-turn circles and the right-turn circles because
+a difference appears that will be discussed later. For left-turn circles,
+Fig.~\ref{fig:left-turn-circles} shows the measurements:
+
+<<left-turn-circles, fig.lp="fig:", fig.cap="Measured wind speed from the left-turn circles in the circle pattern shown in Fig.\\ \\ref{fig:CircleFlightPattern}, as a function of the difference between the heading and the mean wind direction.",fig.width=4.0, fig.height=3.0, echo=FALSE, hold=FALSE>>=
+
+WS <- D$WSX
+Ang <- (D$THDG+D$SS*cos(D$ROLL*pi/180)-mwd) %% 360
+rs <- setRange(D$Time, 33946, 34600)
+DF <- D[rs,]
+DF["Ang"] <- Ang[rs]
+DF["WS"] <- WS[rs]
+fm1 <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+cf1 <- coefficients(fm1)
+clr = c("fit", "measurements", "fit")
+col = c("darkorange", "blue", "darkorange")
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+g <- g + geom_point(colour=col[2], size=2, aes(shape="measurements")) 
+g <- g + geom_line(aes(y=cf1[1]+cf1[2]*sin(DF$Ang*pi/180.)+cf1[3]*cos(DF$Ang*pi/180.),  colour=clr[1]), lwd=3)
+g <- g + scale_colour_manual("", labels = clr, values = col)
+g <- g + scale_shape_manual ("", labels="measurements", values=19)
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()     
+g <- g + theme(legend.position=c(0.7,0.94))
+g
+#plot (Ang[rs], WS[rs], pch=19, col='blue')
+#lines(c(180,180), c(0.,50.), col='red', lwd=2)
+#lines(c(0,0), c(0.,50.), col='red', lwd=2)
+#lines(c(90,90), c(0.,50.), col='red', lwd=2)
+#lines(c(270,270), c(0.,50.), col='red', lwd=2)
+#lines(c(360,360), c(0.,50.), col='red', lwd=2)
+#lines(Ang[rs], cf1[1]+cf1[2]*sin(Ang[rs]*pi/180.)+cf1[3]*cos(Ang[rs]*pi/180.), col='darkorange', lwd=4)
+
+@
+
+The best fit is for the values in the following table:
+
+\noindent \begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+ & mean wind {[}m/s{]} & $\delta V$~{[}m/s{]} & $\delta\psi\,[^{\circ}]$ & residual error {[}m/s{]}\tabularnewline
+\hline 
+\hline 
+left-turn circles & \Sexpr{round(cf1[1],1)} & $\delta V=$\Sexpr{format(round(cf1[3],1), nsmall=1)} & \Sexpr{format(round(cf1[2]/(mtas*pi/180.),2), nsmall=2)} & \Sexpr{round(summary(fm1)$sigma,2)}\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+The right-turn circles show a rather different pattern, as shown in
+Fig.~\ref{fig:right-turn-circles}:
+
+<<right-turn-circles, fig.lp="fig:", fig.cap="As for Fig.\\ \\ref{fig:left-turn-circles} but for the right-hand circles.", fig.width=4.0, fig.height=3.0, echo=FALSE, hold=FALSE>>=
+
+WS <- D$WSX
+Ang <- (D$THDG+D$SS*cos(D$ROLL*pi/180)-mwd) %% 360
+rs <- setRange(D$Time, 34725, 35340)
+DF <- D[rs,]
+DF["Ang"] <- Ang[rs]
+DF["WS"] <- WS[rs]
+fm2 <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+cf2 <- coefficients(fm2)
+clr = c("fit", "measurements", "fit")
+col = c("darkorange", "darkgreen", "darkorange")
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+g <- g + geom_point(colour=col[2], size=2, aes(shape="measurements")) 
+g <- g + geom_line(aes(y=cf2[1]+cf2[2]*sin(DF$Ang*pi/180.)+cf2[3]*cos(DF$Ang*pi/180.),  colour=clr[1]), lwd=3)
+g <- g + scale_colour_manual("", labels = clr, values = col)
+g <- g + scale_shape_manual ("", labels="measurements", values=19)
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()     
+g <- g + theme(legend.position=c(0.25,0.94))
+g
+#plot (Ang[rs], WS[rs], pch=19, col='blue')
+#lines(c(180,180), c(0.,50.), col='red', lwd=2)
+#lines(c(0,0), c(0.,50.), col='red', lwd=2)
+#lines(c(90,90), c(0.,50.), col='red', lwd=2)
+#lines(c(270,270), c(0.,50.), col='red', lwd=2)
+#lines(c(360,360), c(0.,50.), col='red', lwd=2)
+#lines(Ang[rs], cf2[1]+cf2[2]*sin(Ang[rs]*pi/180.)+cf2[3]*cos(Ang[rs]*pi/180.), col='darkorange', lwd=4)
+
+@
+
+The best-fit corrections are shown in the following table, along with
+those repeated for the left-turn circles:
+
+\noindent \begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+ & mean wind {[}m/s{]} & $\delta V$~{[}m/s{]} & $\delta\psi\,[^{\circ}]$ & residual error {[}m/s{]}\tabularnewline
+\hline 
+\hline 
+left-turn circles & \Sexpr{round(cf1[1],1)} & \Sexpr{format(round(cf1[3],1), nsmall=1)} & \Sexpr{format(round(cf1[2]/(mtas*pi/180.),2), nsmall=2)} & \Sexpr{round(summary(fm1)$sigma,2)}\tabularnewline
+\hline 
+right-turn circles & \Sexpr{round(cf2[1],1)} & \Sexpr{format(round(cf2[3],1), nsmall=1)} & \Sexpr{format(round(cf2[2]/(mtas*pi/180.),2), nsmall=2)} & \Sexpr{round(summary(fm2)$sigma,2)}\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+A difference of about $0.8^{\circ}$ in heading offset translates
+to a change in wind speed of about 2 m/s. The left turns and right
+turns are clearly different. This is partly attributable to time shifts
+in the measured components of the wind, as discussed below. First,
+another problem related to sideslip will be discussed.
+
+
+\paragraph{Offset in Sideslip}
+
+In the preceding, the error $\delta\psi$ was discussed as an error
+in heading, but the error could also be one in sideslip. These errors
+are difficult to separate and normal reverse-heading maneuvers do
+not provide a separation. Furthermore, heading errors likely change
+during a flight because error terms undergo a Schuler oscillation
+and are also affected by horizontal accelerations such as occur persistently
+in turns like those in the circle maneuver. The error term determined
+as in the above tables is $\delta\psi^{\prime}$ given by
+
+\begin{equation}
+\delta\psi^{\prime}=\delta\psi+\cos\phi\delta\beta\label{eq:dpsiprime}
+\end{equation}
+where $\phi$ is the roll angle and $\delta\beta$ is the offset in
+sideslip. The sideslip calibration was determined in Sect.~\ref{sub:calibration-SS}
+from yaw maneuvers, but those maneuvers also cannot separate an offset
+in heading from an offset in sideslip so the first coefficient in
+the calibration, representing the zero offset, is not constrained
+well by these maneuvers. Because the dependence in (\ref{eq:dpsiprime})
+is on the cosine of the roll which is an even function, left and right
+turns are affected in the same way and cannot distinguish the two
+terms in the equation.
+
+Two approaches could be taken. Because the roll angle changes when
+circles are flown at different altitudes, results from different-altitude
+circles could be used to distinguish a sideslip offset from a heading
+offset. Perhaps a more straightforward test, though, is to compare
+the sideslip measurement in left vs right turns. In these two cases,
+some sideslip is introduced as the aircraft configuration remains
+slightly nose-up during the turn, and that sideslip should reverse
+sign by symmetry. The lift required to maintain altitude would be
+the same if the roll angles were opposite, and they nearly are for
+these maneuvers (0.45$^{\circ}$ larger for right turns), and the
+angle of attack is also close to the same, so the expected sign reversal
+in sideslip can be used to determine the offset in sideslip. The measurements
+of sideslip%
+\footnote{The sensitivity coefficients as determined in Sect.~\ref{sub:calibration-SS}
+have been used to construct this figure.%
+} are shown in Fig.~\ref{fig:plotSS}, where it is evident that an
+offset of about 0.07$^{\circ}$needs to be added to the sideslip measurements
+to produce the expected symmetry. This indicates that the sideslip
+sensitivity coefficients should be \{$e_{o},\, e_{1}$\} = \{0.086,
+21.99\}. 
+
+<<plotSS, fig.lp="fig:", fig.cap = "Measurement of sideslip during the circle maneuver from DEEPWAVE flight 15, with left-turn circles from 3:40:00 -- 3:45:00 UTC, followed by a straight segment and then right-turn circles 3:47:30 -- 3:53:30 UTC.", fig.width=4, fig.height=4, echo=FALSE>>=
+
+Capn <- "Sideslip measured turning the circle maneuvers, first turning left (3:40:00 -- 3:45:00) and then turning right (3:47:30 -- 3:53:30). Mean values for these segments are indicated by dashed orange lines."
+Z <- plotWAC(D$Time, D$SS, ylab="Sideslip")
+lines(c(D$Time[1], D$Time[length(D$Time)]), c(-0.07,-0.07), col='red', lty=2, lwd=4)
+yr <- mean(D$SS[setRange(D$Time,34000,34500)])
+lines(c(D$Time[getIndex(D$Time,34000)], D$Time[getIndex(D$Time, 34500)]), c(yr,yr), col='darkorange', lty=2, lwd=4)
+yr <- mean(D$SS[setRange(D$Time, 34730,35330)])
+lines(c(D$Time[getIndex(D$Time,34730)], D$Time[getIndex(D$Time, 35330)]), c(yr,yr), col='darkorange', lty=2, lwd=4)
+#title(main=' ', sub="add 0.07 deg. to SSLIP to correct for offset", cex.sub=0.7)
+
+@
+
+With this shift applied, the dependence of the left-turn and right-turn
+circles is shown in Fig.~\ref{fig:combined-circles}. The substantial
+difference between measurements in the two directions is evident.
+
+<<combined-circles, fig.lp="fig:", fig.cap="Wind speed as a function of heading relative to the wind direction.", fig.width=4.0, fig.height=3.0, echo=FALSE, hold=FALSE>>=
+
+D["WS"] <- D$WSX
+D["Ang"] <- (D$THDG+(D$SS+0.07)*cos(D$ROLL*pi/180)-mwd) %% 360
+D["TurnDirection"] <- as.integer(ifelse((D$ROLL > 0),1,2))
+rs <- (D$ROLL > 15.) | (D$ROLL < -15.)
+rs <- c(setRange(D$Time,33946,34600),setRange(D$Time, 34725, 35340))
+DF <- D[rs,]
+fmc <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+cfc <- coefficients(fmc)
+
+clr = c("fit", "left", "right")
+col = c("darkorange", "blue", "darkgreen")
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+g <- g + geom_point(data=DF[DF$TurnDirection == 2,],size=2, aes(colour=clr[2],shape=clr[2]))
+g <- g + geom_point(data=DF[DF$TurnDirection == 1,],size=2, aes(colour=clr[3],shape=clr[3]))
+#g <- g + geom_point(data=DF2,size=2, aes(x=Ang, y=WS,colour=clr[3],shape="right turn"))
+g <- g + geom_line(aes(y=cfc[1]+cfc[2]*sin(DF$Ang*pi/180.)+cfc[3]*cos(DF$Ang*pi/180.),  colour=clr[1]), lwd=3)
+g <- g + scale_colour_manual("", labels = clr, values = col)
+g <- g + scale_shape_manual ("", guide=FALSE, labels = clr, values = rep(20,3))
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()     
+g <- g + theme(legend.position=c(0.75,0.94))
+g
+
+@
+
+The best-fit coefficients are as shown in the following table, where
+the values for left-turn-only and right-turn-only measurements are
+repeated:
+
+\noindent \begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+ & mean wind {[}m/s{]} & $\delta V$~{[}m/s{]} & $\delta\psi\,[^{\circ}]$ & residual error {[}m/s{]}\tabularnewline
+\hline 
+\hline 
+left-turn circles & \Sexpr{round(cf1[1],1)} & \Sexpr{format(round(cf1[3],1), nsmall=1)} & \Sexpr{format(round(cf1[2]/(mtas*pi/180.),2), nsmall=2)} & \Sexpr{round(summary(fm1)$sigma,2)}\tabularnewline
+\hline 
+right-turn circles & \Sexpr{round(cf2[1],1)} & \Sexpr{format(round(cf2[3],1), nsmall=1)} & \Sexpr{format(round(cf2[2]/(mtas*pi/180.),2), nsmall=2)} & \Sexpr{round(summary(fm2)$sigma,2)}\tabularnewline
+\hline 
+combined & \Sexpr{round(cfc[1],1)} & \Sexpr{format(round(cfc[3],1), nsmall=1)} & \Sexpr{round(cfc[2]/(mtas*pi/180.)-0.07,2)} & \Sexpr{round(summary(fmc)$sigma,2)}\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+The airspeed correction as applied differently to the two turn directions
+leads to one aspect of consistency in the measurements: The mean TAS,
+originally higher in the left turns but after correction higher in
+the right turns, conforms to the expected difference required by the
+higher absolute value of the roll angle in right vs left turns. If
+the lift $L$ is proportional to $V^{2}$ as expected, and $L\propto V^{2}\cos\phi$
+remains constant, the (from the total derivative of this expression)
+
+\[
+\frac{2}{V}\delta V=-\frac{\sin\phi}{\cos\phi}\delta\phi
+\]
+\[
+\delta V=\frac{V\tan\phi}{2}\delta\phi\simeq+0.3
+\]
+which is close to the 0.2~m/s difference in the corrected measurements.
+
+<<time-shift-check, echo=FALSE>>=
+n <- 6
+NL <- length(DF$GGVEWB)
+VNSD <- c(DF$GGVNSB[(1+n):NL],rep(DF$GGVNSB[NL],n))-DF$GGVNSB
+VEWD <- c(DF$GGVEWB[(1+n):NL],rep(DF$GGVEWB[NL],n))-DF$GGVEWB
+WNS <- DF$WSX*cos(DF$WDX*Cradeg)
+WEW <- DF$WSX*sin(DF$WDX*Cradeg)
+DF$WS <- sqrt((WNS-VNSD)**2+(WEW-VEWD)**2)
+fms <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+cfs <- coefficients(fms)
+
+@
+
+One correction that could lead to more consistency in the measurements
+is to impose a time shift in the measured ground-speed components
+from the GPS. The delayed measurements will be offset in different
+directions as the direction of the turns changes. For this reason,
+a time shift was introduced in the GPS-measured ground-speed components
+and the wind components were recalculated. The minimum-residual-error
+solution was for a shift of 240~ms; i.e., the measurements GGVNSB
+and GGVEWB were applied 240 ms ahead of where they were originally
+recorded in the data files.%
+\footnote{No offset was introduced in that original processing for these components.
+For THDG, the heading variable, an offset was introduced of 80~ms
+to account for the expected transmission time of the measurement from
+the IRU to the data system, so the best-fit lag between heading and
+ground speed is 160 ms. If the lag in THDG is changed, the lag in
+GGVEWB and GGVNSB should be changed also.%
+} The fit to the shifted measurements was reduced to {\Sexpr{round(summary(fms)$sigma,1)}}~m/s,
+still larger than desirable but a considerable improvement over the
+fit to the unshifted measurements. A plot of the results is shown
+in Fig.~\ref{fig:plot-time-shift}. The best-fit results were $\delta V=$\Sexpr{format(round(cfs[3],1), nsmall=1)}
+m/s, $\delta\psi=$\Sexpr{round(cfs[2]/(mtas*pi/180.)-0.07,2)}$^{\circ}$,
+and mean wind speed \Sexpr{round(cfs[1],1)}~m/s.
+
+
+<<plot-time-shift, fig.ls="fig:", fig.cap="The measured wind speed after shifting the GPS measurements of ground speed 240 ms forward in time, for the circle maneuver of DEEPWAVE flight 15, 3:38:30--3:54:30, for times when the magnitude of the roll angle was greater than $15^{\\circ}$.",fig.width=4., fig.height=3.,echo=FALSE>>=
+clr = c("fit", "left", "right")
+col = c("darkorange", "blue", "darkgreen")
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+#g <- g + geom_point(colour=col[2], size=2, aes(x=Ang[test], y=WS[test],shape="left turn"))
+g <- g + geom_point(data=DF[DF$TurnDirection == 2,],size=2, aes(colour=clr[2],shape=clr[2]))
+g <- g + geom_point(data=DF[DF$TurnDirection == 1,],size=2, aes(colour=clr[3],shape=clr[3]))
+#g <- g + geom_point(data=DF2,size=2, aes(x=Ang, y=WS,colour=clr[3],shape="right turn"))
+g <- g + geom_line(aes(y=cfs[1]+cfs[2]*sin(DF$Ang*pi/180.)+cfs[3]*cos(DF$Ang*pi/180.),  colour=clr[1]), lwd=3)
+g <- g + scale_colour_manual("", labels = clr, values = col)
+g <- g + scale_shape_manual ("", guide=FALSE, labels = clr, values = rep(20,3))
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()     
+g <- g + theme(legend.position=c(0.75,0.94))
+g
+
+@
+
+
+
+
+\paragraph{Summary}
+
+The best results obtained from analysis of the circle maneuvers are:
+
+Combined::
+\begin{enumerate}
+\item Offset in TAS: Add \Sexpr{format(round(cfs[3],1),nsmall=1)} m/s
+\item Offset in sideslip: Add 0.07$^{\circ}$.
+\item Offset in heading: Add \Sexpr{format(round(cfs[2]/(mtas*pi/180.)-0.07,2), nsmall=2)}$^{\circ}$
+\item Delay in GGVSPB, etc: Move forward 6 25-Hz samples or 240 ms.
+\end{enumerate}
+
+\paragraph*{Remaining problems:}
+\begin{itemize}
+\item Why is there so large a difference in deduced wind speed in right
+vs left turns? (1.2 m/s)
+\item (related) Why is the best residual error still 0.6 m/s? (0.26 if WS
+offset removed)
+\item Plots of residuals show an apparent sin(2$\psi$) pattern; what can
+cause this?
+\item Estimate uncertainties in correction terms.
+\end{itemize}
+
+<<further-study,echo=FALSE>>=
+DFS <- DF
+#DF <- DF[DF$ROLL > 15,]
+DF <- DF[DF$ROLL < -15,]
+DF$Ang <- DF$Ang +2
+fmx <- lm (GGSPDB~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+cfx <- coefficients(fmx)
+clr = c("fit", "left", "right")
+col = c("darkorange", "blue", "darkgreen")
+g <- ggplot(data=DF, aes(x=Ang, y=GGSPDB))
+g <- g + geom_point(data=DF[DF$TurnDirection == 2,],size=2, aes(colour=clr[2],shape=clr[2]))
+# g <- g + geom_point(data=DF[DF$TurnDirection == 1,],size=2, aes(colour=clr[3],shape=clr[3]))
+g <- g + geom_line(aes(y=cfx[1]+cfx[2]*sin(DF$Ang*pi/180.)+cfx[3]*cos(DF$Ang*pi/180.),  colour=clr[1]), lwd=3)
+g <- g + scale_colour_manual("", labels = clr, values = col)
+g <- g + scale_shape_manual ("", guide=FALSE, labels = clr, values = rep(20,3))
+g <- g + xlab("Heading - Wind Dir.") + ylab("Ground Speed [m/s]")+theme_WAC()     
+g <- g + theme(legend.position=c(0.75,0.94))
+g
+summary(fmx)
+DF <- DFS
+
+
+@
+
+\subsection{The complementary filter applied to horizontal components}
+
+Wind measurements combine a measurement of relative wind with a measurement
+of aircraft motion to determine the air motion relative to the ground.
+The aircraft motion has long been measured by an IRS, and recently
+also by a GPS. These have complementary strengths: The IRS provides
+very good information on short-term motion but drifts with a characteristic
+period of more than an hour, while the GPS provides good absolute
+accuracy but sometimes is unable to receive the GPS signals and (except
+in differential-GPS mode) can have short-term errors that make short
+segments of the track look jagged. To take advantage of the strengths
+of each, a complementary-filter calculation was developed and implemented
+in the 1980s, but it was never documented publicly. This section is
+partly an attempt to remedy that and partly a suggestion to make some
+minor changes to how it is implemented. This discussion is complementary
+to the information in ProcessingAlgorithms.pdf, section 3.4, and contains
+additional detail as well as notes regarding implementation of changes.
+
+To accomplish this combining of measurements, a low-pass filter, $F_{L}(\{\mathrm{GVNS,GVEW\}})$,
+is applied to the GPS measurements of groundspeed, \{GVNS,GVEW\},
+which are assumed to be valid for frequencies at or lower than the
+cutoff frequency $f_{c}$ of the filter. Then the complementary high-pass
+filter, denoted ($1-F_{L}$)($\{\mathrm{VNS,VEW\}}$), is applied
+to the IRS measurements of groundspeed, \{VNS,VEW\}, which are assumed
+valid for frequencies at or higher than $f_{c}$. Ideally, the transition
+frequency would be selected where the GPS errors (increasing with
+frequency) are equal to the IRS errors (decreasing with frequency).
+The filter used is a three-pole Butterworth lowpass filter, coded
+following the algorithm described in Bosic, S.~M., 1980: \emph{Digital
+and Kalman filtering : An Introduction to Discrete-Time Filtering
+and Optimum Linear Estimation, }p. 49. The digital filter used is
+recursive, not centered, to permit calculation during a single pass
+through the data. If the cutoff frequency lies where both the GPS
+and INS measurements are valid and are almost the same, then the detailed
+characteristics of the filter in the transition region (e.g., phase
+shift) do not matter because the complementary filters have cancelling
+effects when applied to the same signal. The transition frequency
+$f_{c}$ was chosen to be (1/600) Hz (but this value can be overridden
+via the ``defaults'' file). The Butterworth filter was chosen because
+it provides flat response away from the transition. The resulting
+variables for aircraft motion, \{VNSC,VEWC\}, are then each the sum
+of two filtered signals, calculated as described in the following
+box:\\
+ %
+\fbox{%
+\begin{minipage}[t]{0.95\textwidth}%
+VEW = IRS-measured east component of the aircraft ground speed\\
+ VNS = IRS-measured north component of the aircraft ground speed\\
+ GVEW = GPS-measured east component of the aircraft ground speed\\
+ GVNS = GPS-measured north component of the aircraft ground speed\\
+ $F_{L}()$ = three-pole Butterworth lowpass recursive digital filter\\
+ \\
+ \rule[0.5ex]{1\linewidth}{1pt}
+
+\[
+\{\mathrm{VNSC}\}=\{\mathrm{VNS}\}+F_{L}(\mathrm{\{GVNS\}-\{\mathrm{VNS\}})}
+\]
+\[
+\{\mathrm{VEWC}\}=\{\mathrm{VEW\}+}F_{L}(\mathrm{\{GVEW\}-\{\mathrm{VEW}\})}
+\]
+%
+\end{minipage}}
+
+This is straightforward and effective when both sets of measurements
+(IRS and GPS) are available. The approach in use becomes more complicated
+when the GPS signals are lost, as sometimes happens in sharp turns.
+Then some means is needed to avoid sudden discontinuities in velocity
+(and hence windspeed), which would introduce spurious effects into
+variance spectra and other properties dependent on a continuously
+valid measurement of wind. To extrapolate measurements through periods
+when the GPS measurements are not available, a fit is determined to
+the difference between the best-estimate variables \{VNSC,VEWC\} and
+the IRS variables \{VNS,VEW\} for the period before GPS reception
+was lost, and that fit is used to extrapolate through periods when
+GPS reception is not available. The procedure is described in section
+3.4 of ProcessingAlgorithms.pdf.
+
+The following provides more documentation of the fit procedure used
+to determine the Schuler oscillation. The errors are assumed to result
+primarily from this oscillation, so the three-term fit is of the form
+$\Delta=c_{1}+c_{2}\sin(\Omega_{Sch}t)+c_{3}\cos(\Omega_{Sch}t)$
+, where $\Omega_{Sch}$ is the angular frequency of the Schuler oscillation
+(taken to be $2\pi/(5067\, s))$ and $t$ is the time since the start
+of the flight. A separate fit is used for each component of the velocity
+and each component of the position (discussed below under LATC and
+LONC). The fit matrix used to determine these coefficients is updated
+each time step but the accumulated fit factors decay exponentially
+with about 30-min decay constant, so the terms used to determine the
+fit are exponentially weighted over the period of valid data with
+a time constant that decays exponentially into the past with a characteristic
+time of 30 min. This is long enough to determine a significant portion
+of the Schuler oscillation but short enough to emphasize recent measurements
+of the correction. The procedures for accumulating the matrices for
+the fit are as follows:\\
+ \\
+ %
+\fbox{%
+\begin{minipage}[t]{0.9\columnwidth}%
+Define $u_{G}$ as the aircraft eastward velocity measured by the
+GPS and $u_{I}$ the corresponding velocity measured by the IRS, so
+that the difference is
+
+\[
+\delta u=u_{G}-u_{I}
+\]
+If $\Omega_{S}$ is the Schuler oscillation period, with $\Omega_{S}=2\pi t/T_{s}$
+where $T_{s}=5040$ s, $\tau_{u}$ is the time constant for the update
+(1800 s), $t$ is the time from the start of the flight, and the measurement
+matrix is $A_{ij}$, then updated terms of the measurement matrix
+each sample period ($A_{i,j}^{\prime}$) are (for $\delta u$):
+
+\[
+A_{0,1}^{\prime}=A_{0.1}(1-\frac{1}{\tau_{u}})+\delta u
+\]
+\[
+A_{1,1}^{\prime}=A_{1,1}(1-\frac{1}{\tau_{u}})+\delta u\,\sin(\Omega_{S}t)
+\]
+\[
+A_{2,1}^{\prime}=A_{2,1}(1-\frac{1}{\tau_{u}})+\delta u\,\cos(\Omega_{S}t)
+\]
+
+
+The matrix components $A_{j,0}$ apply to the northward velocity component
+and so are represented by the same equations with $\delta u$ replaced
+by $\delta v$. Similar matrices are calculated for latitude $\theta$
+and longitude $\phi$, based on the differences $\delta\theta$ and
+$\delta\phi$ between GPS and IRS measurements. The information matrix
+$H_{ij}$ is calculated via
+
+\[
+H_{i,j}=H_{i,j}(1-\frac{1}{\tau_{u}})+V_{i,j}
+\]
+
+
+where $V_{0,0}=1$, $V_{0,1}=V_{1,0}=\sin(\Omega_{S}t)$, $V_{0,2}=V_{2,0}=\cos(\Omega_{S}t)$,
+$V_{1,1}=\sin^{2}(\Omega_{S}t)$, $V_{1,2}=V_{2,1}=\sin(\Omega_{S}t)\cos(\Omega_{S}t)$,
+and $V_{2,2}=\cos^{2}(\Omega_{S}t)$. When the fit is needed, the
+matrix $H_{i,j}$ is inverted and the result multiplied by the measurement
+matrix $A_{i,j}$ to get the fit coefficients $C_{ij}$ to use for
+predicting the results for $\delta u$, $\delta v$, $\delta\theta$,
+and $\delta\phi$ via equations like $\delta u=C_{0,1}+C_{1,1}\sin(\Omega_{S}t)+C_{2,1}\cos(\Omega t)$.%
+\end{minipage}}
+\end{document}

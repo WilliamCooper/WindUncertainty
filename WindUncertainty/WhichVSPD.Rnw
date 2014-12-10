@@ -1,0 +1,560 @@
+%% LyX 2.1.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt]{report}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=3.54cm,bmargin=2.54cm,lmargin=2.54cm,rmargin=2.54cm,headheight=1cm,headsep=2cm,footskip=0.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{array}
+\usepackage{verbatim}
+\usepackage{graphicx}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\topicofnote} \global\topicofnote={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Aircraft Algorithm Memo re: \the\topicofnote \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+\newcommand{\RAFAlgorithmMemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Research Aviation Facility}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Algorithm Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.2truein\leftline{\textcolor{blue}{\textsf{Subject: \the\topicofnote}}}
+\leftline{\textcolor{blue}{\textsf{Al Cooper}}}
+\leftline{\textcolor{blue}{\textsf{\datetoday}}} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lyxlist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+
+\makeatother
+
+\begin{document}
+\begin{comment}
+set topicofnote to topic of note
+\end{comment}
+
+
+\topicofnote={VSPD for reprocessing of projects before OMNISTAR was available}
+
+\RAFAlgorithmMemo
+
+
+\section*{Background}
+
+Two questions are addressed in this memo:
+\begin{enumerate}
+\item Which variable or combination of variables should be used to represent
+the vertical motion of the aircraft in vertical-wind calculations?
+\item What is the time delay that should be used with that variable?
+\end{enumerate}
+
+\section*{Present Processing Code}
+
+As originally processed, many projects used VSPD\_G or GVSPD\_A or
+VSPD\_A, all called the ``Avionics GPS Vertical Velocity'', as the
+variable entering calculation of WIC, the vertical wind. Furthermore,
+calibration coefficients were often used to modify this variable from
+what was reported by the avionic system. For example, for HIPPO-4
+the files were processed with these calibration coefficients (taken
+from the netCDF files): -0.06f, 1.02f. It is hard to understand why
+this measurement, based on GPS, should need adjustment or calibration.
+As used in HIPPO-4, the measurement was further adjusted by an assumed
+time lag of -500~ms. This variable is recorded at a sample rate of
+1 Hz in CONTRAST and most other projects, although some erroneously
+have listed a 50-Hz sample rate. In HIPPO-4, where the variable name
+was GVSPD\_A, a time lag of -1~s was applied in processing, but there
+was no calibration applied. For CONTRAST, the choice of variable to
+use is GGVSPDB because OMNISTAR-quality measurements were often available,
+so this experiment provides some ability to compare the other measures
+of vertical aircraft speed to the reference OMNISTAR-adjusted measurements.
+
+
+\section*{Analysis}
+
+
+\subsection*{Available variables}
+
+One important aspect to consider is the spectral response of these
+different signals. CONTRAST provides good opportunities to evaluate
+this response because there were some periods of moderate turbulence
+in clouds, so that experiment will be used for this assessment. A
+good candidate is flight 14, 7:23--7:28, a fairly turbulent period
+of in-cloud flight. These variables are relevant to this study:
+
+\noindent \begin{center}
+\begin{tabular}{|c|>{\raggedright}p{6cm}|>{\centering}p{7cm}|}
+\hline 
+\textbf{Variable} & \textbf{Description} & \textbf{Comments}\tabularnewline
+\hline 
+\hline 
+VSPD & IRS Vertical Speed & 25 Hz, sampled at 50 Hz, -60 ms lag\tabularnewline
+\hline 
+VSPD\_IRS2 & IRS Vertical Speed, IRS2 & 25 Hz, sampled 50 Hz, no time lag\tabularnewline
+\hline 
+GVSPD\_A & Avionics GPS Vertical Velocity & sampled at 1 Hz, \\
+no shift in reprocessed file\tabularnewline
+\hline 
+GGVSPDB & Reference GPS Vertical Speed & sampled at 5 Hz, output at 1 Hz, \\
+no shift in reprocessed file\tabularnewline
+\hline 
+WIC & GPS-Corrected Wind Vector,\\
+Vertical Gust Component & derived using GGVSPDB; 25 Hz\tabularnewline
+\hline 
+GUSTW & Relative wind vertical component & special processing, 25 Hz\tabularnewline
+\hline 
+WIX & Wind, Vertical Component & special processing, 25 Hz\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+Because GVSPD\_A and GGVSPDB are recorded at 1 Hz even in the high-rate
+file, these were recalculated in a special processing step that applied
+interpolation and filtering to obtain a 25-Hz measurement, using Savitzky-Golay
+polynomials (4-th order, 25 points) for smoothing. The resulting variables
+were saved as VSPDX (GGVSPDB interpolated/smoothed) and GVSPDX (GVSPD\_A
+interpolated and smoothed). That special processing step also calculated
+another vertical-wind variable, WIX, by application of the PCORS and
+sensitivity coefficients determined after the project for CONTRAST,
+and it also saved the relative-wind contribution to WIC or WIX in
+the variable GUSTW. GUSTW+GGVSPDB is then the vertical wind.
+
+<<Initialization,echo=FALSE,include=FALSE>>=
+
+# FIRST=FALSE avoids recalculating all this
+# this and several following sections get the high-rate data, do normal wind processing,
+# and add some 25-Hz variables that represent interpolated/smoothed versions of
+# lower-rate variables for, e.g., GGVSPDB or GVSPD_A.
+require(Ranadu)
+require(signal)
+library(knitr)
+NeedOriginalData = TRUE		# set false after first processing for speed
+Flight <- "rf14hrt"
+Directory <- DataDirectory ()
+Project <- "CONTRAST"
+fname = sprintf("%s%s/CONTRAST%s.nc", Directory, Project,Flight)
+fsubs = sprintf("%swac/CST%sss.nc", Directory, Flight)
+VList <- c(standardVariables(), "ATX", "DPXC", "EWX", "GGALT", "LATC", "LONC", "MACHX", "MR", "PALT", "PSXC", "QCXC", "TASX", "WDC", "WSC", "WIC", "VYC", "GGVEW", "GGVNS", "GGVNSB", "GGVEWB", "VEW", "VNS", "AKRD", "SSLIP", "PITCH", "ROLL", "VSPD", "GVSPD_A", "THDG", "VSPD_IRS2", "GGVSPDB", "ADIFR", "BDIFR", "GGSPDB")
+if (NeedOriginalData) {
+  ncsubset(fname, fsubs, 72000,73000, VList)
+}
+DataSetsUsed = sprintf("netCDF file %s accessed %s", fname, date())
+DataSetsUsed = c(DataSetsUsed, sprintf("subset file %s accessed %s", fsubs, date()))
+# copy to a new file before adding variables to it:
+fnew = sprintf("%swac/CST%sss_x.nc", Directory, Flight)
+DataSetsUsed = c(DataSetsUsed, sprintf("added-variable file %s accessed %s", fnew, date()))
+Cradeg <- pi / 180.
+
+
+<<get-orig-data, echo=FALSE, eval=FIRST>>=
+
+system(paste ("cp", fsubs, fnew, sep=' '), wait=TRUE)
+Data <- getNetCDF (fsubs, VList) # high-rate data OK here
+# get rid of lines where any variable is NA (esp. causes filter problems):
+# No, can't do this; creates problems with alignment of data already in netCDF file
+#Data <- na.omit(Data)
+
+<<Relative-Wind-Code,echo=FALSE,include=FALSE, eval=FIRST>>=
+
+attach(Data)    # get the unrestricted full data file
+AQR <- ADIFR / QCXC
+RR <- QCXC/PSXC
+Mach <- MachNumber (PSXC, QCXC)
+#AQR_GP <- ADIFR_GP/QC_GP
+#RR_GP <- QC_GP/PS_GP
+# # use coefficients saved from WindUncertainty.Rnw; revise for projects other than DEEPWAVE
+# #cf_GP <- c(-0.9151291, 3.9277735, 3.1905422, 1.3502541)
+# cf_GP <- c(-0.9168, 3.918, 3.2505, 1.3531)
+cfr <- c(4.4554, 21.4007)    	# DEEPWAVE
+cfr <- c(4.338, 20.982)		  # CONTRAST
+AOA <- cfr[1] + AQR * cfr[2] 
+#AOA_GP <- cf_GP[1] + AQR_GP * (cf_GP[2] + cf_GP[3]*Mach) + cf_GP[4]*RR_GP
+cfs <- c(0., 21.335) 
+cfs <- c(0.016, 21.9915)
+#cfs_GP <- c(-3.498, 11.443)
+#cfs_GP <- c(-3.6091, 12.138)
+SS <- cfs[1] + cfs[2] * BDIFR / QCXC
+#SS_GP <- cfs_GP[1] + cfs_GP[2] * BDIFR_GP / QC_GP
+bf <- c(-0.07791, -1.1571, 2.6691, -1.3588, -0.0046686, 0.53110)
+#RRS_GP <- QC_GP / PS_GP
+#RRS <- bf[1] + RRS_GP * (bf[2] + bf[3] * Mach + bf[4] * RRS_GP) + bf[5] * ADIFR_GP / QC_GP + bf[6] * Mach
+# note that PSXC in the next equation doesn't matter, only the ratio RRS
+#TAS_GP <- TrueAirspeed (MachNumber (PSXC, PSXC*RRS), ATX)
+
+# before using TASX, apply PCOR corrections:
+# (skipping; should have already been done in reprocessing Sept 2014)
+#DeltaP <- PCorFunction (PSF, QCF, ADIFR, qcr=QCF, bcoef=c(cfr[1], cfr[2], 0.), AC="GV")
+#PSXC <- PSF + DeltaP
+#QCXC <- QCF - DeltaP
+Mach <- MachNumber (PSXC, QCXC, EWX)
+TASX <- TrueAirspeed (Mach, ATX, EWX/PSXC)
+
+# # define a dataframe for the relative wind from the gust pod:
+# d <- data.frame("U_RW"=TASX)   #use TASX instead of TAS_GP for lower-uncertainty components
+# d["V_RW"] <- TASX * tan (SS_GP * Cradeg)
+# d["W_RW"] <- TASX * tan (AOA_GP * Cradeg)
+
+d2 <- data.frame ("U2"=TASX)
+d2["V2"] <- TASX * tan (SS * Cradeg)
+d2["W2"] <- TASX * tan (AOA * Cradeg)
+
+<<Rotation-matrices,echo=FALSE, eval=FIRST>>=
+
+rw2 <- as.matrix(d2)
+cosphi2 <- cos (ROLL * Cradeg)
+sinphi2 <- sin (ROLL * Cradeg)
+costheta2 <- cos (PITCH * Cradeg)
+sintheta2 <- sin (PITCH * Cradeg)
+cospsi2 <- cos (THDG * Cradeg)
+sinpsi2 <- sin (THDG * Cradeg)
+DL <- length(TASX)
+One <- rep (1, DL)
+Z <- rep (0, DL)
+TT1 <- aperm(array (c(One,Z,Z,Z,cosphi2,-sinphi2,Z,sinphi2,cosphi2), 
+                    dim=c(DL,3,3)))
+TT2 <- aperm(array (c (costheta2,Z,sintheta2,Z,One,Z,-sintheta2,Z,costheta2), 
+                    dim=c(DL,3,3)))
+TT3 <- aperm(array (c (cospsi2,-sinpsi2,Z,sinpsi2,cospsi2,Z,Z,Z,One), 
+                    dim=c(DL,3,3)))
+<<Calculate-new-wind-variables-WDG-WSG-WIG,echo=FALSE, eval=FIRST>>=
+
+WDX <- vector ("numeric", DL)
+WSX <- vector ("numeric", DL)
+WIX <- vector ("numeric", DL)
+GUSTW <- vector ("numeric", DL)
+GUSTA <- vector ("numeric", DL)  # special test, V*AKRD*Cradeg
+GUSTB <- vector ("numeric", DL)  # special test, V*PITCH*Cradeg
+# to avoid problems with filtering NA, reset them to zero:
+VEW[is.na(VEW)] <- 0.
+VNS[is.na(VNS)] <- 0.
+GGVEW[is.na(GGVEW)] <- 0.
+GGVNS[is.na(GGVNS)] <- 0.
+VEWC <- ComplementaryFilter (VEW, GGVEWB, 150.)  # repeat this to remove old-filter bias
+VNSC <- ComplementaryFilter (VNS, GGVNSB, 150.)
+Hlast <- 0.
+# note: tried e.g. tensor (aperm(T1), rw, 2, 2) -- fails
+#       because of size of vector that it tries to allocate
+# This works, though:
+# Y1t <- mapply(FUN="%*%", lapply(X=apply(aperm(T1), 3, as.data.frame), FUN=as.matrix, nrow=3, ncol=3), as.data.frame(aperm(rw)))
+# etc.
+# There may be a better way, though
+# apply(T1, 3, as.data.frame) produces a list, DL long, of
+# 3x3 dataframes. lapply() converts that dataframe to a matrix
+# and then mapply multiplies rw by the matrix.
+# However, the loop below is fast (typically <1 s) and the
+# following attempt to vectorize takes more than 10 times
+# as long, so this is left commented for reference.
+# system.time(
+# {Y1 <- mapply(FUN="%*%", lapply(X=apply(T1, 3, as.data.frame), FUN=as.matrix, nrow=3, ncol=3), as.data.frame(aperm(rw)))
+# Y2 <- mapply(FUN="%*%", lapply(X=apply(T2, 3, as.data.frame), FUN=as.matrix, nrow=3, ncol=3), as.data.frame(Y1))
+# Y3 <- mapply(FUN="%*%", lapply(X=apply(T3, 3, as.data.frame), FUN=as.matrix, nrow=3, ncol=3), as.data.frame(Y2))
+# WG <- aperm(matrix (c(-CVNS_GP, -CVEW_GP, CVSPD_GP), DL, 3))
+# Y4 <- Y3 + WG
+# WDG <- atan2 (Y4[2,], Y4[1,]) / Cradeg
+# WSG <- sqrt (Y4[1,]**2 + Y4[2,]**2)
+# WIG <- Y4[3,]
+# WDG[!is.na(WDG) & (WDG < 0.)] <- WDG[!is.na(WDG) & (WDG < 0.)] + 360.
+# }) 
+# here is the loop equivalent:
+for (i in 1:DL) {
+  Y1 <- TT1[,,i] %*% matrix (rw2[i,], 3, 1)
+  Y2 <- TT2[,,i] %*% Y1
+  Y3 <- TT3[,,i] %*% Y2
+  WG <- matrix (c(-VNSC[i], -VEWC[i], GGVSPDB[i]), 
+                3, 1)
+  Y4 <- Y3 + WG
+  WDX[i] <- atan2 (Y4[2], Y4[1]) / Cradeg
+  if ((!is.na(WDX[i])) & (WDX[i] < 0.)) {
+    WDX[i] <- WDX[i] + 360.
+  }
+  WSX[i] <- sqrt (Y4[1]**2 + Y4[2]**2)
+  WIX[i] <- Y4[3]
+  GUSTW[i] <- Y3[3]
+}
+VSPDX <- GGVSPDB
+GVSPDX <- GVSPD_A
+GUSTA <- TASX * AOA * Cradeg
+GUSTB <- TASX * PITCH * Cradeg
+
+<<Add-to-the-netCDF-file,echo=FALSE,include=FALSE, eval=FIRST>>=
+# add new variables to the netCDF file:
+
+netCDFfile <- open.ncdf (fnew, write=TRUE)
+
+if ("sps25" %in% names(netCDFfile$dim)) {
+  DLL <- length(TASX)/25
+  dim(WIX) <- c(25, DLL)
+  dim(WSX) <- c(25, DLL)
+  dim(WDX) <- c(25, DLL)
+  dim(GUSTW) <- c(25, DLL)
+  dim(GUSTA) <- c(25, DLL)
+  dim(GUSTB) <- c(25, DLL)
+  dim(VSPDX) <- c(25, DLL)
+  dim(GVSPDX) <- c(25, DLL)
+
+  varWIX <- var.def.ncdf ("WIX", "m/s", 
+            c(netCDFfile$dim["sps25"], 
+              netCDFfile$dim["Time"]), -32767.,
+            "Vertical wind based on measurements from the radome, revised")
+  varWDX <- var.def.ncdf ("WDX", "deg.", 
+            c(netCDFfile$dim["sps25"],
+              netCDFfile$dim["Time"]), -32767.,
+            "Wind direction based on measurements from the radome, revised")
+  varWSX <- var.def.ncdf ("WSX", "m/s", 
+          c(netCDFfile$dim["sps25"],
+            netCDFfile$dim["Time"]), -32767.,
+          "Wind speed based on measurements from the radome, revised")
+  varGUSTW <- var.def.ncdf ("GUSTW", "m/s", 
+                            c(netCDFfile$dim["sps25"],
+                              netCDFfile$dim["Time"]),
+                          -32767., "Gust component, vertical wind")
+  varGUSTA <- var.def.ncdf ("GUSTA", "m/s", 
+                            c(netCDFfile$dim["sps25"],
+                              netCDFfile$dim["Time"]),
+                          -32767., "Gust component A, vertical wind")
+  varGUSTB <- var.def.ncdf ("GUSTB", "m/s", 
+                            c(netCDFfile$dim["sps25"],
+                              netCDFfile$dim["Time"]),
+                          -32767., "Gust component B, vertical wind")
+  varVSPDX <- var.def.ncdf ("VSPDX", "m/s", 
+                            c(netCDFfile$dim["sps25"],
+                              netCDFfile$dim["Time"]),
+                          -32767., "Aircraft vertical speed. filtered")
+  varGVSPDX <- var.def.ncdf ("GVSPDX", "m/s", 
+                            c(netCDFfile$dim["sps25"], 
+                               netCDFfile$dim["Time"]), 
+                           -32767., "Avionics vertical speed. filtered") 
+} else {
+  varWIX <- var.def.ncdf ("WIX", "m/s", 
+            netCDFfile$dim["Time"], -32767.,
+            "Vertical wind based on measurements from the radome, revised")
+  varWDX <- var.def.ncdf ("WDX", "deg.", 
+            netCDFfile$dim["Time"], -32767.,
+            "Wind direction based on measurements from the radome, revised")
+  varWSX <- var.def.ncdf ("WSX", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "Wind speed based on measurements from the radome, revised") 
+    varGUSTW <- var.def.ncdf ("GUSTW", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "Gust component, vertical wind") 
+    varGUSTA <- var.def.ncdf ("GUSTA", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "Gust component A, vertical wind") 
+    varGUSTB <- var.def.ncdf ("GUSTB", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "Gust component B, vertical wind")  
+    varVSPDX <- var.def.ncdf ("VSPDX", "m/s", 
+          netCDFfile$dim["Time"], -32767.,
+          "Aircraft vertical speed, GPS")
+   varGVSPDX <- var.def.ncdf ("GVSPDX", "m/s", 
+           netCDFfile$dim["Time"], -32767., 
+           "Avionics vertical speed, GPS") 
+}
+# Later may want to add code here to modify values of TASX to give new results. 
+# Not used here, though, so not needed yet.
+newfile <- var.add.ncdf (netCDFfile, varWIX)
+newfile <- var.add.ncdf (newfile, varWDX)
+newfile <- var.add.ncdf (newfile, varWSX)
+newfile <- var.add.ncdf (newfile, varGUSTW)
+newfile <- var.add.ncdf (newfile, varGUSTA)
+newfile <- var.add.ncdf (newfile, varGUSTB)
+newfile <- var.add.ncdf (newfile, varVSPDX)
+newfile <- var.add.ncdf (newfile, varGVSPDX) 
+put.var.ncdf (newfile, "WIX", WIX)
+put.var.ncdf (newfile, "WDX", WDX)
+put.var.ncdf (newfile, "WSX", WSX)
+put.var.ncdf (newfile, "GUSTW", GUSTW)
+put.var.ncdf (newfile, "GUSTA", GUSTA)
+put.var.ncdf (newfile, "GUSTB", GUSTB)
+put.var.ncdf (newfile, "VSPDX", VSPDX)
+put.var.ncdf (newfile, "GVSPDX", GVSPDX)
+
+Z <- close.ncdf (newfile)
+
+detach(Data)
+
+@
+
+
+\subsection*{Time shifts}
+
+The presence of VSPD and VSPD\_IRS2, which should be redundant measurements
+but for which one has been shifted in time, can be used to illustrate
+the effect of a time shift on the phase between the two signals. A
+time lag of 60 ms should produce a phase shift of $\Phi=0.06\times360\, f$
+where $f$ is the frequency. 
+
+However, the phase measurement would become unreliable if there were
+insufficient signal, reflected as coherence between the two measurements.
+That is a problem for coherence between VSPD and VSPD\_IRS2, which
+drops near 5 Hz, perhaps because there is some noise feature there
+(cf.~Fig.~\ref{fig:Variance-spectrum-VSPD}) that is not present
+in VSPD\_IRS2 and looks suspicious. 
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=0.6\textwidth]{CONTRASTspecVSPD}
+\par\end{centering}
+
+\protect\caption{Variance spectrum for VSPD, CONTRAST flight 14 7:23--7:28 UTC. The
+blue line is averaged in 100 logarithmic bins; the red line is before
+averaging.\label{fig:Variance-spectrum-VSPD}}
+
+
+\end{figure}
+At lower frequencies, however, the phase relationship looks about
+as expected for a 60~ms time shift, with a shift of about 22$^{\circ}$
+at 1 Hz as expected. This is shown in Fig.~\ref{fig:vspd-vspdirs2-phase}.
+It isn't clear what the source is for the departure from expected
+behavior at frequencies higher than about 1 Hz, but this is likely
+associated with whatever is the source of the unexpected spike at
+about 5~Hz. For other variables, the time delay $\tau$ can be determined
+from the phase shift at 1~Hz, $\Phi_{1}$: $\tau=\Phi_{1}/360$.
+
+<<vspd-vspdirs2-phase, fig.lp="fig:", fig.width=5, fig.height=4, fig.cap="Expected phase shift for a delay of 60 ms (blue line) and the measured phase spectrum for CONTRAST flight 14, 7:23--7:28 UTC. The measured points are taken from a special print statement inserted into the otto.c spectral-analysis routine for this purpose; the corresponding plot is saved as PhaseVSPD.png.", fig.align="center", echo=FALSE>>=
+f <- seq(-3.,1.,0.005)
+f <- 10.**f
+phase = (0.06*360*f) %% 360
+phase[phase > 180] <- phase[phase > 180] - 360
+plot(f, phase, type='l', col='blue', xlim=c(0.01,100), ylim=c(-180,180),xlab="frequency [Hz]", ylab="phase, deg.", log='x', lwd=2)
+d <- c(0.048828,0.402178, 0.073242,-0.328620, 0.109863, 0.755393, 0.146484, 2.376981, 0.170898, 4.065508, 0.219727, -2.233137,
+       0.280762, -11.785786, 0.341797, -9.341875, 0.427246, -9.884485, 0.549316, -11.887918, 0.695801, -16.955812,
+       0.866699, -17.697704, 1.098633, -21.092699, 1.391602, -25.889627, 1.745605, -32.190063, 2.197266, -33.212234,
+       2.758789, -36.005905, 3.466797, -32.487923, 4.370117, -36.155418, 5.505371, -113.839149, 6.933594, -99.352371,
+       8.728027, 1.955717, 10.986328,0.429211, 12.377930,0.171183)
+dim(d) <- c(2,24)
+points(d[1,], -d[2,], pch=16, col='red')
+lines(d[1,], -d[2,], col='red')
+
+@
+
+Other variables:
+
+GVSPD\_A: It is hard to determine the phase from this variable as
+in the ``hrt'' files because it is present at 1 Hz, but the phase
+reaches about 90$^{\circ}$ at around 0.25~Hz, indicating a delay
+of about a full second. This is clearer if GVSPD\_A is interpolated
+to 25 Hz, then smoothed with Savitzgy-Golay polynomials (4th order,
+25 point); in that case the phase relationship is as shown in Fig.~\ref{fig:GVSPDXphase}.
+
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=0.65\textwidth]{GVSPDX}
+\par\end{centering}
+
+\protect\caption{Phase spectrum for GVSPDX (interpolated/filtered version of GVSPD\_A)
+vs VSPD\_IRS2 (chosen because no delay was imposed during processing),
+as a function of frequency. The variation with frequency matches well
+the spectrum expected for a delay of 1~s.\label{fig:GVSPDXphase}}
+
+
+\end{figure}
+
+
+GGVSPDB: As for GGVSPD\_A, lack of coherence between these 1-Hz measurements
+and the 25-Hz VSPD\_IRS2 measurements makes it hard to interpret the
+phase spectrum. In this case, 5-Hz measurements are available, and
+it would be better to obtain those for this study. In the meantime,
+the interpolated-smoothed spectrum VSPDX, obtained from GGVSPDB in
+a manner analogous to that for obtaining GVSPDX from GVSPD\_A, was
+used. The phase spectrum is shown in Fig.~XXX. In this case, there
+is little shift evident; the phase difference at 1~Hz looks like
+a phase shift possibly imposed by a Butterworth filter, as is known
+to be present for the IRS measurements, so there doesn't appear to
+be any indicated phase shift needed for GGVSPDB. Introducing various
+shifts caused this phase spectrum to change about as would be expected
+if there is no phase difference in the unshifted values; i.e., introducing
+a 1~s delay produced a phase spectrum similar to that epected for
+such a delay. This suggests that no shift is needed between GGVSPDB
+and VSPD\_IRS2. This, however, should be re-evaluated with higher-rate
+measurements.
+
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=0.6\textwidth]{VSPDX}
+\par\end{centering}
+
+\protect\caption{Phase spectrum for VSPDX (filtered-interpolated version of 1-Hz GGVSPDB),
+as a function of frequency.\label{fig:Phase-spectrum-VSPDX}}
+
+
+\end{figure}
+
+
+
+\subsection*{Contributions to the vertical wind}
+
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=0.65\textwidth]{CompositeSpectra}
+\par\end{centering}
+
+\protect\caption{Variance spectra for various candidate variables contributing to the
+measurement of vertical wind.\label{fig:CompositeSpectra}}
+
+
+\end{figure}
+Figure \ref{fig:CompositeSpectra} shows variance spectra for some
+variables involved in the calculation of vertical wind. The red line
+is the resulting vertical wind, obtained by combining contributions
+from the relaative wind (black line) and the aircraft motion (dark
+green line). The plot makes it clear that, in a case like this where
+turbulence is strong, the relative wind is the dominant factor for
+frequencies above about 0.8 Hz. It does not matter much what is selected
+to measure the vertical motion of the aircraft, at these high frequencies.
+In contrast, below about 0.1~Hz, both the gust component and the
+aircraft-motion component are important, and their effects increasingly
+cancel at low frequency. For accuracy at long wavelengths, it will
+be important to have a good representation of aircraft motion. It
+is surprising that the three vertical-motion variables shown here,
+GGVSPDB, GVSPD\_A, and VSPD, vary as much as they do at long wavelengths.
+However, these spectra are suspect at the long-wavelength end because
+the MEM spectral-analysis method is being used and it tries to estimate
+spectra even at longer wavelengths than are usually possible. For
+this 5-min segment, the flight distance is about 65\,km, so the spectra
+are not determined with confidence beyond a few km wavelength.
+
+
+\section*{\emph{Recommendations}}
+
+{[}still working on this...{]}
+
+\vskip0.5truein \centerline{\textcolor{blue}{---- END ----}}
+
+%\attach{attachment}
+
+%\attachm{first\\second}
+
+%\cc{first attachment\\second\\3rd att}
+\end{document}

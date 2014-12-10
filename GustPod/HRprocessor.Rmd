@@ -1,0 +1,80 @@
+<<Plotted-Results-1, fig.cap=capn3, out.width="300pt", fig.align="center", echo=F,include=F>>=
+  # optionally, read the data back in. This is so that the later chunks can be run without need for reprocessing, which takes 20 min or so.
+  Flight <- "rf05"        # this was the flight with cal maneuvers
+fnew = sprintf("/Data/DEEPWAVE/DW%shr_GP.nc", Flight)
+fnew = sprintf("/Data/DEEPWAVE/DW%shr_save.nc", Flight)
+VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
+              "ADIFR", "AKRD", "SSLIP", "PITCH", 
+              "ROLL", "THDG", "BDIFR", "EWX",
+              "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
+              "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
+              "CVNS_GP", "CVEW_GP", "VSPD", "CVSPD_GP",
+              "ATX", "WIG", "WDG", "WSG")
+VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
+              "AKRD", "SSLIP", "PITCH", "ROLL", "THDG",
+              "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
+              "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
+              "CVNS_GP", "CVEW_GP", "VSPD", "CVSPD_GP",
+              "ATX", "WIG", "WDG", "WSG")
+Data <- getNetCDF (fnew, VarNames) 
+Valid <- ((Data$TASX > 130.) & (abs (Data$ROLL) < 10.) &
+            (abs(Data$VSPD) < 3))
+Data <- Data[Valid,]     # create a new dataframe with only valid data
+attach(Data)          
+plot (WIC, WIG, ylab="WIG (gust pod vertical wind, m/s)",
+      xlim=c(-5.,5.), ylim=c(-5.,5.),
+      xlab="WIC, standard vertical wind [m/s]", pch=16, 
+      cex=0.7, col='blue')
+lines (c(-5.,5.), c(-5.,5.), lty=2, lwd=2, col='orange')
+print (mean (WIG-WIC, na.rm=TRUE))
+print (sd (WIG-WIC, na.rm=TRUE))
+# text (1.,-3.5, "mean WIG-WIC: -0.21 m/s\nst dev 0.25 m/s")
+capn4 <- "Angle of attack determined from gust-pod measurements, plotted vs. corresponding measurements AKRD from the standard wind sensing system"
+@
+  
+  <<Plotted-Results-2, fig.cap=capn4, out.width="300pt", fig.align="center", echo=F>>=
+  B2 <- QC_GP/PS_GP
+AQR_GP <- ADIFR_GP/QC_GP # basic pressure ratio for AOA
+RR2_GP <- QC_GP/PS_GP    # q/p ratio from the gust pod
+BQR_GP <- BDIFR_GP / QC_GP
+Mach <- MachNumber(PSXC,QCXC)
+# B2 and AQR_GP are based only on the gust-pod measurements
+BxM <- B2*Mach
+#embed and fossilize cf3+GP, cfs_GP, cf4 for future use:
+#cf3_GP <- c(-2.166904, 5.205568, -7.205783, 4.913143)
+cf3_GP <- c( -2.125395, 5.592043, -4.383710, 3.926719 )
+cfs_GP <- c(-3.498321, 11.443376)
+cf4 <- c(-0.07790608, -1.15714339,  2.66908967, -1.35880409, -0.00466856,  0.53110059)
+B3 <- cf4[1]+cf4[2]*B2+cf4[3]*BxM+cf4[4]*B2**2+cf4[5]*AQR_GP+cf4[6]*Mach
+Vg <- TrueAirspeed (MachNumber (PS_GP, PS_GP*B3), ATX)
+A2_GP <- cf3_GP[1]+cf3_GP[2]*AQR_GP+cf3_GP[3]*RR2_GP+cf3_GP[4]*Mach
+plot (AKRD, A2_GP, pch=16, cex=0.7, xlab="AKRD [deg.]", 
+      xlim=c(1.,5.), ylim=c(-2.,2.),
+      ylab="AOA from GP [deg.]")
+lines (c(0.0, 5.6), c(0.0-3.65, 5.6-3.66), lty=2, lwd=2, 
+       col='orange')
+capn5 <- "Comparison of horizontal wind measurements WDG and WSG from the gust pod (red lines) and from the standard wind measurements WDC and WSC (thicker blue lines)."
+@
+  
+  <<Plotted-Results-3, fig.cap=capn5, out.width="300pt", fig.align="center",echo=F,include=F>>=
+  op <- par (mfrow=c(2,1), mar=c(4,4,0,2)+0.1)
+plotWAC (Time, WDC, ylab="Wind Direction [deg.]")
+points (Time, WDG, type='l', col='red')
+legend ("bottomright", legend=c("WDC", "WDG"), lty=1, col=c('blue', 'red'), cex=0.6)
+plotWAC (Time, WSC, ylab="Wind Speed [m/s]")
+points (Time, WSG, type='l', col='red')
+legend ("bottomright", legend=c("WSC", "WSG"), lty=1, col=c('blue', 'red'), cex=0.6)
+capn6 <- "Comparison of vertical wind measurements from the gust pod (red line) and from the standard wind measurement (WIC, blue line)."
+@
+  
+  
+  <<Plotted-Results-4, fig.cap=capn6, out.width="300pt", fig.align="center",echo=F>>=
+  op <- par (mfrow=c(1,1), mar=c(4,4,5,2)+0.1)
+plotWAC (Time, WIC, ylab="Vertical Wind [m/s]")
+points (Time, WIG, type='l', col='red')
+legend ("bottomright", legend=c("WIC", "WIG"), lty=1, col=c('blue', 'red'))
+# sd (Data$WSC-WSG, na.rm=TRUE)
+# sd (Data$WDC-WDG, na.rm=TRUE)
+@

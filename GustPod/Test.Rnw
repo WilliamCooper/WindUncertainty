@@ -1,0 +1,18 @@
+
+\documentclass[12pt,english]{report}
+\usepackage{mathptmx}
+\begin{document}
+First line
+2nd 
+etc
+
+<<first,fig.cap="Figure 1", out.width='200pt'>>=
+
+#options(replace.assign=TRUE, width='0.30\\textwidth',fig.path=file.path(getwd(),'figure/minimal-'),fig.align='center')
+x <- 1:10
+plot(x)
+
+@
+
+did that work?
+\end{document}

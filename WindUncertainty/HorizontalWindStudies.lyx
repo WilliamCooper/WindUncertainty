@@ -1,0 +1,6229 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+
+\end_preamble
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format pdf2
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\bullet 1 0 30 -1
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<getData, echo=FALSE, include=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+require(Ranadu) 
+\end_layout
+
+\begin_layout Plain Layout
+
+library(knitr) 
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggplot2) 
+\end_layout
+
+\begin_layout Plain Layout
+
+require(grid) 
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggthemes) 
+\end_layout
+
+\begin_layout Plain Layout
+
+require(vioplot) 
+\end_layout
+
+\begin_layout Plain Layout
+
+require(plyr) 
+\end_layout
+
+\begin_layout Plain Layout
+
+require(signal)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(stats) 
+\end_layout
+
+\begin_layout Plain Layout
+
+# set global chunk options 
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(fig.path='figure/WU-', fig.width=5., fig.height=4.,fig.align='center',
+ fig.show='hold', echo=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+options(replace.assign=TRUE,width=49, digits=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+Flight <- "rf15HR"        # this was the flight with cal maneuvers
+\end_layout
+
+\begin_layout Plain Layout
+
+Directory = "/home/Data/"
+\end_layout
+
+\begin_layout Plain Layout
+
+fname = sprintf("%sDEEPWAVE/DW%s_GPx.nc", Directory, Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "ADIFR", "AKRD", "SSLIP", "PITCH", "PSF", "QCF",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "ROLL", "THDG", "BDIFR", "EWX", "GGVSPDB", "GGSPDB",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "CVNS_GP", "GGVEWB", "GGVNSB", "CVEW_GP", "VSPD", "CVSPD_GP",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "ATX", "VNSC", "VEWC", "WDX", "WDG", "WSX", "WSG", "WIX",
+ "WIG")
+\end_layout
+
+\begin_layout Plain Layout
+
+# D <- getNetCDF (fname, VarNames, F=15)      # this handles high-rate data
+ also
+\end_layout
+
+\begin_layout Plain Layout
+
+# save(D, file="~/RStudio/DEEPWAVE/CircleData.Rdata.gz", compress="gzip")
+\end_layout
+
+\begin_layout Plain Layout
+
+load(file="~/RStudio/DEEPWAVE/CircleData.Rdata.gz") # loads D as previously
+ saved
+\end_layout
+
+\begin_layout Plain Layout
+
+cfs <- c(0.016, 21.9915)
+\end_layout
+
+\begin_layout Plain Layout
+
+#cfs[1] <- cfs[1]+0.07
+\end_layout
+
+\begin_layout Plain Layout
+
+D["SS"] <- cfs[1] + cfs[2]*D$BDIFR/D$QCF
+\end_layout
+
+\begin_layout Plain Layout
+
+startL <- 33946
+\end_layout
+
+\begin_layout Plain Layout
+
+endL <- 34600
+\end_layout
+
+\begin_layout Plain Layout
+
+startR <- 34725
+\end_layout
+
+\begin_layout Plain Layout
+
+endR <- 35340
+\end_layout
+
+\begin_layout Plain Layout
+
+startC <- 33830
+\end_layout
+
+\begin_layout Plain Layout
+
+endC <- 35450
+\end_layout
+
+\begin_layout Plain Layout
+
+Dsave <- D
+\end_layout
+
+\begin_layout Plain Layout
+
+r <- setRange(D$Time, startC, endC)
+\end_layout
+
+\begin_layout Plain Layout
+
+r1 <- setRange(D$Time, startL, endL)
+\end_layout
+
+\begin_layout Plain Layout
+
+r2 <- setRange(D$Time, startR, endR)
+\end_layout
+
+\begin_layout Plain Layout
+
+meanr1 <- mean(D$ROLL[r1], na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+meanr2 <- mean(D$ROLL[r2], na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+sdr1 <- sd(D$ROLL[r1], na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+sdr2 <- sd(D$ROLL[r2], na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+meanv1 <- mean(D$TASX[r1], na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+meanv2 <- mean(D$TASX[r2], na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+sdv1 <- sd(D$TASX[r1], na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+sdv2 <- sd(D$TASX[r2], na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+meanv <- mean(D$TASX[c(r1,r2)])
+\end_layout
+
+\begin_layout Plain Layout
+
+sdv <- sd(D$TASX[c(r1,r2)])
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- D[r,]
+\end_layout
+
+\begin_layout Plain Layout
+
+t1 <- setRange(D$Time, startL, endL)
+\end_layout
+
+\begin_layout Plain Layout
+
+t2 <- setRange(D$Time, startR, endR)
+\end_layout
+
+\begin_layout Plain Layout
+
+Cradeg = pi/180.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Circle1.png
+	lyxscale 30
+	width 49text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename Circle1Drift.png
+	lyxscale 30
+	width 49text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Example of circle flight pattern, DEEPWAVE flight 15, 3:38:30--3:54:30 UTC.
+ Left side: normal flight track; right side, flight track plotted in a reference
+ frame drifting with the horizontal wind.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:CircleFlightPatterns"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Studies of the Horizontal Wind
+\end_layout
+
+\begin_layout Subsection
+Analysis of circle maneuvers
+\end_layout
+
+\begin_layout Subsubsection
+Data Used
+\end_layout
+
+\begin_layout Standard
+During the DEEPWAVE project, some circle patterns were flown to help characteriz
+e and check the wind measurements.
+ An example that will be used here was on flight 15, 3:38:30--3:54:30 UTC,
+ as shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:CircleFlightPatterns"
+
+\end_inset
+
+.
+ This and other circle maneuvers are discussed in this sub-section.
+\end_layout
+
+\begin_layout Subsubsection
+Constraints arising from the assumption that the wind is steady
+\end_layout
+
+\begin_layout SummaryBlock
+If the wind remains steady around the turns, analyses of the measurements
+ can lead to these results:
+\end_layout
+
+\begin_layout Enumerate
+Wind can be determined from the GPS-measured ground speeds and the heading,
+ with no other reference to the normal wind measurements.
+\end_layout
+
+\begin_layout Enumerate
+Determining a possible bias in the true-airspeed measurement TASX: If present,
+ the measured windspeed will change from upwind to downwind direction.
+\end_layout
+
+\begin_layout Enumerate
+Determining biases in heading and sideslip: If present, the measured windspeed
+ will change from crosswind-right to crosswind-left positions.
+\end_layout
+
+\begin_layout Enumerate
+An offset in sideslip can be separated from an offset in heading by checking
+ for the expected sign reversal in sideslip between left-turn and right-turn
+ circles.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Departures from constant wind can be used to determine possible time shifts,
+ especially by comparing results from left-turn and right-turn circles.
+\end_layout
+
+\begin_layout Standard
+Each of these will be explored in this section.
+ To get accurate circle patterns, it is important that the wind be relatively
+ steady and non-turbulent and that the roll angle be maintained constant.
+ For this flight segment, the left-turn circles had a roll angle of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(meanr1,2)}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\pm$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(sdr1,2)}
+\end_layout
+
+\end_inset
+
+ and the right-turn circles had roll angle 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(meanr2,2)}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\pm$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(sdr2,2)}
+\end_layout
+
+\end_inset
+
+, while the mean true airspeed for these circles was 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(meanv,1)}$
+\backslash
+pm$
+\backslash
+Sexpr{round(sdv,1)}
+\end_layout
+
+\end_inset
+
+.
+ Most of the standard deviation in true airspeed arose from the normal fluctuati
+ons created by the flight management system, as discussed in Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Variance-spectra-for-W-components"
+
+\end_inset
+
+ (cf.
+\begin_inset space ~
+\end_inset
+
+Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:AltOscillationFMS"
+
+\end_inset
+
+).
+ The steadiness of these measurements indicate that this maneuver was flown
+ with good precision and symmetrically, so it will therefore be a good approxima
+tion to assume that these patterns are circular.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<plotGSRMS, echo=FALSE, include=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# define a chisquare error function:
+\end_layout
+
+\begin_layout Plain Layout
+
+csq <- function (x, D) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  hdg <- (D$THDG+D$SS*cos(D$ROLL*pi/180)+x[4]) * pi / 180.
+\end_layout
+
+\begin_layout Plain Layout
+
+  dvx <- D$GGVEWB - (x[2] + x[1]*sin(hdg))
+\end_layout
+
+\begin_layout Plain Layout
+
+  dvy <- D$GGVNSB - (x[3] + x[1]*cos(hdg))
+\end_layout
+
+\begin_layout Plain Layout
+
+  chisq <- sum (dvx**2 + dvy**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+# try shifting GGVxxB forward n samples
+\end_layout
+
+\begin_layout Plain Layout
+
+rms <- vector("numeric", 29)
+\end_layout
+
+\begin_layout Plain Layout
+
+GGVEWB <- D$GGVEWB
+\end_layout
+
+\begin_layout Plain Layout
+
+GGVNSB <- D$GGVNSB
+\end_layout
+
+\begin_layout Plain Layout
+
+NL <- length(D$GGVEWB)
+\end_layout
+
+\begin_layout Plain Layout
+
+rmsmin <- 1000
+\end_layout
+
+\begin_layout Plain Layout
+
+for (n in 9:29) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  D$GGVNSB <- c(D$GGVNSB[(1+n):NL],rep(D$GGVNSB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+  D$GGVEWB <- c(D$GGVEWB[(1+n):NL],rep(D$GGVEWB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+  wx <- 12.3
+\end_layout
+
+\begin_layout Plain Layout
+
+  wy <- 13.2
+\end_layout
+
+\begin_layout Plain Layout
+
+  V <- 154.
+\end_layout
+
+\begin_layout Plain Layout
+
+  hdg <- D$THDG * Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+  A <- nlm (csq, c(V, wx, wy, -0.1), D, hessian=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D$GGVEWB <- GGVEWB
+\end_layout
+
+\begin_layout Plain Layout
+
+  D$GGVNSB <- GGVNSB
+\end_layout
+
+\begin_layout Plain Layout
+
+  #print(A$estimate)
+\end_layout
+
+\begin_layout Plain Layout
+
+  V <- A$estimate[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wx <- A$estimate[2]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wy <- A$estimate[3]
+\end_layout
+
+\begin_layout Plain Layout
+
+  dh <- A$estimate[4]
+\end_layout
+
+\begin_layout Plain Layout
+
+ #print(sprintf(" wind estimate: %.1f / %.1f", atan2(wy,wx)*180/pi+180, sqrt(wx**2
++wy**2)))
+\end_layout
+
+\begin_layout Plain Layout
+
+  vx <- V * cos(hdg+dh*Cradeg) + wx
+\end_layout
+
+\begin_layout Plain Layout
+
+  vy <- V * sin(hdg+dh*Cradeg) + wy
+\end_layout
+
+\begin_layout Plain Layout
+
+  rms[n] <- (A$minimum/length(D$THDG))**0.5
+\end_layout
+
+\begin_layout Plain Layout
+
+  if (rms[n] < rmsmin) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    rmsmin <- rms[n]
+\end_layout
+
+\begin_layout Plain Layout
+
+    bestFit <- A$estimate
+\end_layout
+
+\begin_layout Plain Layout
+
+    nbest <- n
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  #print(sprintf("RMS error for shift of %d samples: %5.2f m/s", n, rms[n]))
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# impose best-fit shift nbest units forward in time
+\end_layout
+
+\begin_layout Plain Layout
+
+D$GGVNSB <- c(D$GGVNSB[(1+nbest):NL],rep(D$GGVNSB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+D$GGVEWB <- c(D$GGVEWB[(1+nbest):NL],rep(D$GGVEWB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+# best-fit wind:
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWD <- (atan2(bestFit[2], bestFit[3]) / Cradeg + 180.) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWS <- sqrt(bestFit[2]**2 + bestFit[3]**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+mwd <- mean(D$WDC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mws <- mean(D$WSC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mtas <- mean(D$TASX, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+D["AA"] <- (D$THDG-mwd) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<getRMS, echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+hdg <- (D$THDG+bestFit[4])*Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+vx <- bestFit[1] * cos(hdg) + bestFit[2]   
+\end_layout
+
+\begin_layout Plain Layout
+
+vy <- bestFit[1] * sin(hdg) + bestFit[3]
+\end_layout
+
+\begin_layout Plain Layout
+
+gs <- sqrt(D$GGVEWB**2+D$GGVNSB**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+vs <- sqrt(vx**2+vy**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+rmsgs <- (sum((gs-vs)**2)/length(gs))**0.5
+\end_layout
+
+\begin_layout Plain Layout
+
+# restore original values
+\end_layout
+
+\begin_layout Plain Layout
+
+D$GGVNSB <- GGVNSB
+\end_layout
+
+\begin_layout Plain Layout
+
+D$GGVEWB <- GGVEWB
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Finding the wind from GPS
+\end_layout
+
+\begin_layout Standard
+If it is assumed that 
+\begin_inset Formula $\bar{u_{x}}$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{u_{y}}$
+\end_inset
+
+, TAS, and 
+\begin_inset Formula $\delta\psi$
+\end_inset
+
+ (the two components of the horizontal wind, the true airspeed, and an assumed
+ error in heading) are constant, then the expected ground-speed components
+ will be:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+v_{x} & =\bar{u_{x}}+TAS\,\sin(\psi+\delta\psi)\label{eq:circle-gs-components}\\
+v_{y} & =\begin{gathered}\bar{u_{y}}+TAS\,\cos(\psi+\delta\psi)\end{gathered}
+\nonumber 
+\end{align}
+
+\end_inset
+
+where 
+\begin_inset Formula $\psi$
+\end_inset
+
+ is the heading.
+ The error between these expressions for the ground speed and the measured
+ ground-speed components 
+\begin_inset Formula $g_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $g_{y}$
+\end_inset
+
+ then can be minimized to find the four constant parameters in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:circle-gs-components"
+
+\end_inset
+
+) using this expression as a measure of the error:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\chi^{2}=\sum((g_{x}-v_{x})^{2}+(g_{y}-v_{y})^{2})\label{eq:gs-chisq}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The resulting best-fit values, with wind converted to wind direction 
+\begin_inset Formula $\bar{v_{d}}$
+\end_inset
+
+ and wind speed 
+\begin_inset Formula $\bar{v_{s}}$
+\end_inset
+
+, are shown in Table
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:GSmin"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<PlotGSvsWSc, fig.lp="fig:", fig.cap="The ground-speed components measured
+ by GPS (blue line, EW; green line, NS) and the corresponding results from
+ the fit (red dashed lines) for the period of the circle maneuver.", fig.width=5,
+ fig.height=4, hold=FALSE,echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- plotWAC(D$Time, D$GGVEWB, ylab="GS Component, m/s", lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- lineWAC(D$Time, D$GGVNSB, col='green', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- lineWAC(D$Time, vx, col='red',lwd=2,lty=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- lineWAC(D$Time, vy, col='red',lwd=2,lty=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+subtitle <- sprintf("best fit: red dashed lines")
+\end_layout
+
+\begin_layout Plain Layout
+
+title(main="G-EW [blue]; G-NS [green]", cex.main=0.75, sub=subtitle)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<GSRMSRL, echo=FALSE, include=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# define a chisquare error function:
+\end_layout
+
+\begin_layout Plain Layout
+
+csq <- function (x, D) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  hdg <- (D$THDG+D$SS*cos(D$ROLL*pi/180)+x[4]) * pi / 180.
+\end_layout
+
+\begin_layout Plain Layout
+
+  dvx <- D$GGVEWB - (x[2] + x[1]*sin(hdg))
+\end_layout
+
+\begin_layout Plain Layout
+
+  dvy <- D$GGVNSB - (x[3] + x[1]*cos(hdg))
+\end_layout
+
+\begin_layout Plain Layout
+
+  chisq <- sum (dvx**2 + dvy**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+DS <- D
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- D[t1,]
+\end_layout
+
+\begin_layout Plain Layout
+
+NL <- length(D$GGVEWB)
+\end_layout
+
+\begin_layout Plain Layout
+
+rmsminL <- 1000
+\end_layout
+
+\begin_layout Plain Layout
+
+n <- 0
+\end_layout
+
+\begin_layout Plain Layout
+
+# for (n in 9:29) {
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVNSB <- c(D$GGVNSB[(1+n):NL],rep(D$GGVNSB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVEWB <- c(D$GGVEWB[(1+n):NL],rep(D$GGVEWB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+  wx <- 12.3
+\end_layout
+
+\begin_layout Plain Layout
+
+  wy <- 13.2
+\end_layout
+
+\begin_layout Plain Layout
+
+  V <- 154.
+\end_layout
+
+\begin_layout Plain Layout
+
+  hdg <- D$THDG * Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+  AL <- nlm (csq, c(V, wx, wy, -0.1), D, hessian=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+  #print(A$estimate)
+\end_layout
+
+\begin_layout Plain Layout
+
+  VL <- AL$estimate[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wxL <- AL$estimate[2]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wyL <- AL$estimate[3]
+\end_layout
+
+\begin_layout Plain Layout
+
+  dhL <- AL$estimate[4]
+\end_layout
+
+\begin_layout Plain Layout
+
+ #print(sprintf(" wind estimate: %.1f / %.1f", atan2(wyL,wxL)*180/pi+180,
+ sqrt(wxL**2+wyL**2)))
+\end_layout
+
+\begin_layout Plain Layout
+
+  vxL <- VL * cos(hdg+dhL*Cradeg) + wxL
+\end_layout
+
+\begin_layout Plain Layout
+
+  vyL <- VL * sin(hdg+dhL*Cradeg) + wyL
+\end_layout
+
+\begin_layout Plain Layout
+
+  rmsL <- (AL$minimum/length(D$THDG))**0.5
+\end_layout
+
+\begin_layout Plain Layout
+
+  if (rmsL < rmsminL) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    rmsminL <- rmsL
+\end_layout
+
+\begin_layout Plain Layout
+
+    bestFitL <- AL$estimate
+\end_layout
+
+\begin_layout Plain Layout
+
+    nbest <- n
+\end_layout
+
+\begin_layout Plain Layout
+
+#   }
+\end_layout
+
+\begin_layout Plain Layout
+
+  #print(sprintf("RMS error for shift of %d samples: %5.2f m/s", n, rms))
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# impose best-fit shift nbest units forward in time
+\end_layout
+
+\begin_layout Plain Layout
+
+# D$GGVNSB <- c(D$GGVNSB[(1+nbest):NL],rep(D$GGVNSB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+# D$GGVEWB <- c(D$GGVEWB[(1+nbest):NL],rep(D$GGVEWB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+# best-fit wind:
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWDL <- (atan2(bestFitL[2], bestFitL[3]) / Cradeg + 180.) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWSL <- sqrt(bestFitL[2]**2 + bestFitL[3]**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+mwdL <- mean(D$WDC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mwsL <- mean(D$WSC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mtasL <- mean(D$TASX, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- DS		# restore original, then repeat for right turns
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- D[t2,]
+\end_layout
+
+\begin_layout Plain Layout
+
+NL <- length(D$GGVEWB)
+\end_layout
+
+\begin_layout Plain Layout
+
+rmsminR <- 1000
+\end_layout
+
+\begin_layout Plain Layout
+
+n <- 0
+\end_layout
+
+\begin_layout Plain Layout
+
+# for (n in 9:29) {
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVNSB <- c(D$GGVNSB[(1+n):NL],rep(D$GGVNSB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVEWB <- c(D$GGVEWB[(1+n):NL],rep(D$GGVEWB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+  wx <- 12.3
+\end_layout
+
+\begin_layout Plain Layout
+
+  wy <- 13.2
+\end_layout
+
+\begin_layout Plain Layout
+
+  V <- 154.
+\end_layout
+
+\begin_layout Plain Layout
+
+  hdg <- D$THDG * Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+  AR <- nlm (csq, c(V, wx, wy, -0.1), D, hessian=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+  #print(A$estimate)
+\end_layout
+
+\begin_layout Plain Layout
+
+  VR <- AR$estimate[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wxR <- AR$estimate[2]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wyR <- AR$estimate[3]
+\end_layout
+
+\begin_layout Plain Layout
+
+  dhR <- AR$estimate[4]
+\end_layout
+
+\begin_layout Plain Layout
+
+ #print(sprintf(" wind estimate: %.1f / %.1f", atan2(wyR,wxR)*180/pi+180,
+ sqrt(wxR**2+wyR**2)))
+\end_layout
+
+\begin_layout Plain Layout
+
+  vxR <- VR * cos(hdg+dhR*Cradeg) + wxR
+\end_layout
+
+\begin_layout Plain Layout
+
+  vyR <- VR * sin(hdg+dhR*Cradeg) + wyR
+\end_layout
+
+\begin_layout Plain Layout
+
+  rmsR <- (AR$minimum/length(D$THDG))**0.5
+\end_layout
+
+\begin_layout Plain Layout
+
+  if (rmsR < rmsmin) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    rmsminR <- rmsR
+\end_layout
+
+\begin_layout Plain Layout
+
+    bestFitR <- AR$estimate
+\end_layout
+
+\begin_layout Plain Layout
+
+    nbest <- n
+\end_layout
+
+\begin_layout Plain Layout
+
+#   }
+\end_layout
+
+\begin_layout Plain Layout
+
+  #print(sprintf("RMS error for shift of %d samples: %5.2f m/s", n, rmsR))
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# impose best-fit shift nbest units forward in time
+\end_layout
+
+\begin_layout Plain Layout
+
+# D$GGVNSB <- c(D$GGVNSB[(1+nbest):NL],rep(D$GGVNSB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+# D$GGVEWB <- c(D$GGVEWB[(1+nbest):NL],rep(D$GGVEWB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+# best-fit wind:
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWDR <- (atan2(bestFitR[2], bestFitR[3]) / Cradeg + 180.) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWSR <- sqrt(bestFitR[2]**2 + bestFitR[3]**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+mwdR <- mean(D$WDC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mwsR <- mean(D$WSC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mtasR <- mean(D$TASX, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- DS		# restore original
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Columns
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<gs-only-analysis,  echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+D["WS"] <- D$WSX
+\end_layout
+
+\begin_layout Plain Layout
+
+D["Ang"] <- (D$THDG+(D$SS+0.07)*cos(D$ROLL*pi/180)-mwd) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+D["TurnDirection"] <- as.integer(ifelse((D$ROLL > 0),1,2))
+\end_layout
+
+\begin_layout Plain Layout
+
+DF <- D[c(t1,t2),]
+\end_layout
+
+\begin_layout Plain Layout
+
+fmx1 <- lm(GGSPDB[DF$TurnDirection == 2] ~ sin(AA[DF$TurnDirection == 2]*pi/180)
++cos(AA[DF$TurnDirection == 2]*pi/180), data=DF)
+\end_layout
+
+\begin_layout Plain Layout
+
+cfx1 <- coefficients(fmx1)
+\end_layout
+
+\begin_layout Plain Layout
+
+fmx2 <- lm(GGSPDB[DF$TurnDirection == 1] ~ sin(AA[DF$TurnDirection == 1]*pi/180)
++cos(AA[DF$TurnDirection == 1]*pi/180), data=DF)
+\end_layout
+
+\begin_layout Plain Layout
+
+cfx2 <- coefficients(fmx2)
+\end_layout
+
+\begin_layout Plain Layout
+
+gsdiff1 <- max(D$GGSPDB[t1]) - min(D$GGSPDB[t1])
+\end_layout
+
+\begin_layout Plain Layout
+
+gsdiff2 <- max(D$GGSPDB[t2]) - min(D$GGSPDB[t2])
+\end_layout
+
+\begin_layout Plain Layout
+
+Z1 <- cfx1[1]+cfx1[2]*sin(DF$AA*pi/180.)+cfx1[3]*cos(DF$AA*pi/180.)
+\end_layout
+
+\begin_layout Plain Layout
+
+Z2 <- cfx2[1]+cfx2[2]*sin(DF$AA*pi/180.)+cfx2[3]*cos(DF$AA*pi/180.)
+\end_layout
+
+\begin_layout Plain Layout
+
+gsfdiff1 <- max(Z1) - min(Z1)
+\end_layout
+
+\begin_layout Plain Layout
+
+gsfdiff2 <- max(Z2) - min(Z2)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Repeating this analysis for the left-turn circles and right-turn circles
+ separately reveals a difference in the deduced wind that is about 1
+\begin_inset space ~
+\end_inset
+
+m/s, as also listed in Table
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:GSmin"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="6">
+<features rotate="0" booktabs="true" tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\bar{v_{d}}\,[^{\circ}]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\bar{v_{s}}$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+[m/s]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+TAS
+\begin_inset space ~
+\end_inset
+
+[m/s]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\delta\psi\,[^{\circ}]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+residual error [m/s]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+all turns
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(bestWD,1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(bestWS,1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(bestFit[1],1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(bestFit[4],1)}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(rmsmin,1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mean of measurements
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(mwd,1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(mws,1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(mtas,1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+left turns
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(bestWDL,1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(bestWSL,1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(bestFitL[1],1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(bestFitL[4],1)}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(rmsminL,1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+right turns
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(bestWDR,1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(bestWSR,1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(bestFitR[1],1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(bestFitL[4],1)}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(rmsminR,1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The results obtained by minimizing the error measure (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:gs-chisq"
+
+\end_inset
+
+) for the full circle maneuver.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:GSmin"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A plausible case can be made for this difference being real.
+ Figure 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:gs-only-plot}
+\end_layout
+
+\end_inset
+
+ shows the GPS-derived measurements of ground speed.
+ The amplitude of the variation around the circle is larger for the left-turn
+ circles vs.
+\begin_inset space ~
+\end_inset
+
+the right-turn circles.
+ The difference between maximum and minimum ground speeds is 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(gsdiff1,1)}
+\end_layout
+
+\end_inset
+
+ m/s for left-turn circles but 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(gsdiff2,1)}
+\end_layout
+
+\end_inset
+
+ m/s for right-turn circles, indicating a difference in wind speed of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round((gsdiff1-gsdiff2)/2,1)}
+\end_layout
+
+\end_inset
+
+ m/s between the two turn directions.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+If circles are fitted to the variations, the result is a difference of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round((gsfdiff1-gsfdiff2)/2,1)} m/s.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ This difference is determined from the GPS-derived ground-speed measurements
+ only, and doesn't involve any other aspect of the wind-measuring systems
+ on the aircraft.
+ Even heading or sideslip can be in significant error without affecting
+ this result because the analysis is based only on the maximum vs.
+\begin_inset space ~
+\end_inset
+
+minimum values of the ground speed.
+ It is expected from instrument specifications that the measurement of ground
+ speed is much less uncertain that this, so the suggested conclusion is
+ that the difference in wind is real.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<gs-only-plot, fig.lp="fig:", fig.cap="Ground speed (GGSPDB) vs the angle
+ of flight relative to the mean wind direction, for the circle pattern shown
+ in Fig.
+\backslash
+
+\backslash
+ 
+\backslash
+
+\backslash
+ref{fig:CircleFlightPatterns}.
+ The dashed orange line represents a fit to a sinusoidal pattern for the
+ right-turn segment only.", fig.width=5, fig.height=4,echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+clr = c("fit", "left", "right")
+\end_layout
+
+\begin_layout Plain Layout
+
+col = c("darkorange", "blue", "darkgreen")
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- ggplot(data=DF, aes(x=AA, y=GGSPDB))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point(data=DF[DF$TurnDirection == 2,],size=2, aes(colour=clr[2],sh
+ape=clr[2]))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point(data=DF[DF$TurnDirection == 1,],size=2, aes(colour=clr[3],sh
+ape=clr[3]))
+\end_layout
+
+\begin_layout Plain Layout
+
+#g <- g + geom_line(aes(y=cfx1[1]+cfx1[2]*sin(DF$AA*pi/180.)+cfx1[3]*cos(DF$AA*pi
+/180.),  colour=clr[1]), lwd=1, lty=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_line(aes(y=cfx2[1]+cfx2[2]*sin(DF$AA*pi/180.)+cfx2[3]*cos(DF$AA*pi/
+180.),  colour=clr[1]), lwd=1, lty=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_colour_manual("", labels = clr, values = col)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_shape_manual ("", guide=FALSE, labels = clr, values = rep(20,3))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + xlab("Heading - Wind Dir.") + ylab("Ground Speed [m/s]")+theme_WAC()
+     
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + theme(legend.position=c(0.75,0.94))
+\end_layout
+
+\begin_layout Plain Layout
+
+g
+\end_layout
+
+\begin_layout Plain Layout
+
+# plot(AA[t1], D$GGSPDB[t1], pch=19, col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+# points(AA[t2], D$GGSPDB[t2], pch=19, col='darkgreen')
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<plotGSRMS2, echo=FALSE, include=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# define a chisquare error function:
+\end_layout
+
+\begin_layout Plain Layout
+
+csq3 <- function (x, D) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  hdg <- (D$THDG+D$SS*cos(D$ROLL*pi/180)+x[4]) * pi / 180.
+\end_layout
+
+\begin_layout Plain Layout
+
+  dvx <- D$GGVEWB - (x[2] + (D$TASX+x[1])*sin(hdg))
+\end_layout
+
+\begin_layout Plain Layout
+
+  dvy <- D$GGVNSB - (x[3] + (D$TASX+x[1])*cos(hdg))
+\end_layout
+
+\begin_layout Plain Layout
+
+  chisq <- sum (dvx**2 + dvy**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+# # try shifting GGVxxB forward n samples
+\end_layout
+
+\begin_layout Plain Layout
+
+# rms <- vector("numeric", 29)
+\end_layout
+
+\begin_layout Plain Layout
+
+GGVEWB <- D$GGVEWB
+\end_layout
+
+\begin_layout Plain Layout
+
+GGVNSB <- D$GGVNSB
+\end_layout
+
+\begin_layout Plain Layout
+
+NL <- length(D$GGVEWB)
+\end_layout
+
+\begin_layout Plain Layout
+
+rmsmin <- 1000
+\end_layout
+
+\begin_layout Plain Layout
+
+n = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+# for (n in 9:29) {
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVNSB <- c(D$GGVNSB[(1+n):NL],rep(D$GGVNSB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVEWB <- c(D$GGVEWB[(1+n):NL],rep(D$GGVEWB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+  wx <- 12.3
+\end_layout
+
+\begin_layout Plain Layout
+
+  wy <- 13.2
+\end_layout
+
+\begin_layout Plain Layout
+
+  dV <- 1.
+\end_layout
+
+\begin_layout Plain Layout
+
+  hdg <- D$THDG * Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+  A <- nlm (csq, c(dV, wx, wy, -0.1), D, hessian=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVEWB <- GGVEWB
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVNSB <- GGVNSB
+\end_layout
+
+\begin_layout Plain Layout
+
+    #print(A$estimate)
+\end_layout
+
+\begin_layout Plain Layout
+
+  dV <- A$estimate[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wx <- A$estimate[2]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wy <- A$estimate[3]
+\end_layout
+
+\begin_layout Plain Layout
+
+  dh <- A$estimate[4]
+\end_layout
+
+\begin_layout Plain Layout
+
+   #print(sprintf(" wind estimate: %.1f / %.1f", atan2(wy,wx)*180/pi+180,
+ sqrt(wx**2+wy**2)))
+\end_layout
+
+\begin_layout Plain Layout
+
+  vx <- (D$TASX+dV) * cos(hdg+dh*Cradeg) + wx
+\end_layout
+
+\begin_layout Plain Layout
+
+  vy <- (D$TASX+dV) * sin(hdg+dh*Cradeg) + wy
+\end_layout
+
+\begin_layout Plain Layout
+
+  rms <- (A$minimum/length(D$THDG))**0.5
+\end_layout
+
+\begin_layout Plain Layout
+
+  if (rms < rmsmin) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    rmsmin <- rms
+\end_layout
+
+\begin_layout Plain Layout
+
+    bestFit <- A$estimate
+\end_layout
+
+\begin_layout Plain Layout
+
+    nbest <- n
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+    #print(sprintf("RMS error for shift of %d samples: %5.2f m/s", n, rms[n]))
+\end_layout
+
+\begin_layout Plain Layout
+
+# }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# impose best-fit shift nbest units forward in time
+\end_layout
+
+\begin_layout Plain Layout
+
+# D$GGVNSB <- c(D$GGVNSB[(1+nbest):NL],rep(D$GGVNSB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+# D$GGVEWB <- c(D$GGVEWB[(1+nbest):NL],rep(D$GGVEWB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+# best-fit wind:
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWD <- (atan2(bestFit[2], bestFit[3]) / Cradeg + 180.) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWS <- sqrt(bestFit[2]**2 + bestFit[3]**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+mwd <- mean(D$WDC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mws <- mean(D$WSC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mtas <- mean(D$TASX, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# now repeat this for left turns separately
+\end_layout
+
+\begin_layout Plain Layout
+
+DS <- D		# save this
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- D[t1,]	# left turn data only
+\end_layout
+
+\begin_layout Plain Layout
+
+NL <- length(D$GGVEWB)
+\end_layout
+
+\begin_layout Plain Layout
+
+rmsminL <- 1000
+\end_layout
+
+\begin_layout Plain Layout
+
+n = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+# for (n in 9:29) {
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVNSB <- c(D$GGVNSB[(1+n):NL],rep(D$GGVNSB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVEWB <- c(D$GGVEWB[(1+n):NL],rep(D$GGVEWB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+  wx <- 12.3
+\end_layout
+
+\begin_layout Plain Layout
+
+  wy <- 13.2
+\end_layout
+
+\begin_layout Plain Layout
+
+  dV <- 1.
+\end_layout
+
+\begin_layout Plain Layout
+
+  hdg <- D$THDG * Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+  A <- nlm (csq, c(dV, wx, wy, -0.1), D, hessian=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVEWB <- GGVEWB
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVNSB <- GGVNSB
+\end_layout
+
+\begin_layout Plain Layout
+
+    #print(A$estimate)
+\end_layout
+
+\begin_layout Plain Layout
+
+  dVL <- A$estimate[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wxL <- A$estimate[2]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wyL <- A$estimate[3]
+\end_layout
+
+\begin_layout Plain Layout
+
+  dhL <- A$estimate[4]
+\end_layout
+
+\begin_layout Plain Layout
+
+   #print(sprintf(" wind estimate: %.1f / %.1f", atan2(wy,wx)*180/pi+180,
+ sqrt(wx**2+wy**2)))
+\end_layout
+
+\begin_layout Plain Layout
+
+  vxL <- (D$TASX+dV) * cos(hdg+dh*Cradeg) + wx
+\end_layout
+
+\begin_layout Plain Layout
+
+  vyL <- (D$TASX+dV) * sin(hdg+dh*Cradeg) + wy
+\end_layout
+
+\begin_layout Plain Layout
+
+  rmsL <- (A$minimum/length(D$THDG))**0.5
+\end_layout
+
+\begin_layout Plain Layout
+
+  if (rmsL < rmsminL) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    rmsminL <- rmsL
+\end_layout
+
+\begin_layout Plain Layout
+
+    bestFitL <- A$estimate
+\end_layout
+
+\begin_layout Plain Layout
+
+    nbest <- n
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+    #print(sprintf("RMS error for shift of %d samples: %5.2f m/s", n, rms[n]))
+\end_layout
+
+\begin_layout Plain Layout
+
+# }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# impose best-fit shift nbest units forward in time
+\end_layout
+
+\begin_layout Plain Layout
+
+# D$GGVNSB <- c(D$GGVNSB[(1+nbest):NL],rep(D$GGVNSB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+# D$GGVEWB <- c(D$GGVEWB[(1+nbest):NL],rep(D$GGVEWB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+# best-fit wind:
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWDL <- (atan2(bestFitL[2], bestFitL[3]) / Cradeg + 180.) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWSL <- sqrt(bestFitL[2]**2 + bestFitL[3]**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+mwdL <- mean(D$WDC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mwsL <- mean(D$WSC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mtasL <- mean(D$TASX, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# now right turns only
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- DS		# restore this
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- D[t2,]
+\end_layout
+
+\begin_layout Plain Layout
+
+NL <- length(D$GGVEWB)
+\end_layout
+
+\begin_layout Plain Layout
+
+rmsminR <- 1000
+\end_layout
+
+\begin_layout Plain Layout
+
+n = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+# for (n in 9:29) {
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVNSB <- c(D$GGVNSB[(1+n):NL],rep(D$GGVNSB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVEWB <- c(D$GGVEWB[(1+n):NL],rep(D$GGVEWB[NL],n))
+\end_layout
+
+\begin_layout Plain Layout
+
+  wx <- 12.3
+\end_layout
+
+\begin_layout Plain Layout
+
+  wy <- 13.2
+\end_layout
+
+\begin_layout Plain Layout
+
+  dV <- 1.
+\end_layout
+
+\begin_layout Plain Layout
+
+  hdg <- D$THDG * Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+  A <- nlm (csq, c(dV, wx, wy, -0.1), D, hessian=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVEWB <- GGVEWB
+\end_layout
+
+\begin_layout Plain Layout
+
+#   D$GGVNSB <- GGVNSB
+\end_layout
+
+\begin_layout Plain Layout
+
+    #print(A$estimate)
+\end_layout
+
+\begin_layout Plain Layout
+
+  dVR <- A$estimate[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wxR <- A$estimate[2]
+\end_layout
+
+\begin_layout Plain Layout
+
+  wyR <- A$estimate[3]
+\end_layout
+
+\begin_layout Plain Layout
+
+  dhR <- A$estimate[4]
+\end_layout
+
+\begin_layout Plain Layout
+
+   #print(sprintf(" wind estimate: %.1f / %.1f", atan2(wy,wx)*180/pi+180,
+ sqrt(wx**2+wy**2)))
+\end_layout
+
+\begin_layout Plain Layout
+
+  vxR <- (D$TASX+dV) * cos(hdg+dh*Cradeg) + wx
+\end_layout
+
+\begin_layout Plain Layout
+
+  vyR <- (D$TASX+dV) * sin(hdg+dh*Cradeg) + wy
+\end_layout
+
+\begin_layout Plain Layout
+
+  rmsR <- (A$minimum/length(D$THDG))**0.5
+\end_layout
+
+\begin_layout Plain Layout
+
+  if (rmsR < rmsminR) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    rmsminR <- rmsR
+\end_layout
+
+\begin_layout Plain Layout
+
+    bestFitR <- A$estimate
+\end_layout
+
+\begin_layout Plain Layout
+
+    nbest <- n
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+    #print(sprintf("RMS error for shift of %d samples: %5.2f m/s", n, rms[n]))
+\end_layout
+
+\begin_layout Plain Layout
+
+# }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# impose best-fit shift nbest units forward in time
+\end_layout
+
+\begin_layout Plain Layout
+
+# D$GGVNSB <- c(D$GGVNSB[(1+nbest):NL],rep(D$GGVNSB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+# D$GGVEWB <- c(D$GGVEWB[(1+nbest):NL],rep(D$GGVEWB[NL],nbest))
+\end_layout
+
+\begin_layout Plain Layout
+
+# best-fit wind:
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWDR <- (atan2(bestFitR[2], bestFitR[3]) / Cradeg + 180.) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+bestWSR <- sqrt(bestFitR[2]**2 + bestFitR[3]**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+mwdR <- mean(D$WDC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mwsR <- mean(D$WSC, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+mtasR <- mean(D$TASX, na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+D <- DS
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<getRMS2, echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+hdg <- (D$THDG+bestFit[4])*Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+vx <- bestFit[1] * cos(hdg) + bestFit[2]   
+\end_layout
+
+\begin_layout Plain Layout
+
+vy <- bestFit[1] * sin(hdg) + bestFit[3]
+\end_layout
+
+\begin_layout Plain Layout
+
+gs <- sqrt(D$GGVEWB**2+D$GGVNSB**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+vs <- sqrt(vx**2+vy**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+rmsgs <- (sum((gs-vs)**2)/length(gs))**0.5
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+The preceding fit used a constant true airspeed, but it is also possible
+ to fit in the same way for an assumed error in true airspeed, by using
+ 
+\begin_inset Formula $V=V_{m}+\delta V$
+\end_inset
+
+ where 
+\begin_inset Formula $V_{m}$
+\end_inset
+
+ is the measured value and 
+\begin_inset Formula $\delta V$
+\end_inset
+
+ is an assumed error in that measurement.
+ There is some small variation in measured true airspeed during the maneuver,
+ perhaps created by the normal oscillation that results from the flight
+ management system and is discussed elsewhere in this report, so this approach
+ may be preferable.
+ However, the resulting best-fit values were the same as those shown in
+ Table
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:GSmin"
+
+\end_inset
+
+, to the level of significance listed in that table.
+\end_layout
+
+\begin_layout Paragraph
+Offsets in TAS and heading
+\end_layout
+
+\begin_layout Standard
+An alternate way of determining the offsets in airspeed and heading, which
+ illustrates the value of the circle maneuver for developing these constraints,
+ is to plot the dependence of measured wind speed 
+\begin_inset Formula $v_{s}$
+\end_inset
+
+ on the heading.
+ The expected variation is for 
+\begin_inset Formula $v_{s}$
+\end_inset
+
+ to change by 
+\begin_inset Formula $2\delta V$
+\end_inset
+
+ from upwind to downwind flight and by 
+\begin_inset Formula $2V\delta\psi$
+\end_inset
+
+ from crosswind-right to crosswind-left flight direction (i.e., 90
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ right of downwind vs.
+\begin_inset space ~
+\end_inset
+
+90
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ left).
+ The net effect is to produce a variation in 
+\begin_inset Formula $v_{s}$
+\end_inset
+
+ given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+v_{s}=\bar{v_{s}}+\delta V\cos\theta+V\delta\psi\sin\theta\label{eq:SinCosDep}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\theta$
+\end_inset
+
+ is the difference between the heading and the wind direction.
+ Figure 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:sine-cosine-plot}
+\end_layout
+
+\end_inset
+
+ illustrates the expected dependence that would result from errors of 
+\begin_inset Formula $\delta V$
+\end_inset
+
+ = 1
+\begin_inset space ~
+\end_inset
+
+m/s and 
+\begin_inset Formula $\delta\psi=0.3^{\mbox{\circ}}$
+\end_inset
+
+.
+ The plot is constructed so that 
+\begin_inset Formula $0^{\circ}$
+\end_inset
+
+ corresponds to downwind flight and the difference between values at 0 and
+ 180
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+correspont to 
+\begin_inset Formula $2\delta V$
+\end_inset
+
+, while the difference from 
+\begin_inset Formula $90$
+\end_inset
+
+ to 270
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ represents 
+\begin_inset Formula $2V\delta\psi$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<sine-cosine-plot, fig.lp="fig:", fig.cap="Predicted dependence of measured
+ wind speed on direction of flight relative to the wind direction, for assumed
+ errors of $
+\backslash
+
+\backslash
+delta V=1$ m/s and $
+\backslash
+
+\backslash
+delta
+\backslash
+
+\backslash
+psi=0.3^{
+\backslash
+
+\backslash
+circ}$.", fig.width=5.0, fig.height=4,echo=FALSE, hold=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+A1 <- 1.
+\end_layout
+
+\begin_layout Plain Layout
+
+A2 <- mtas*0.3*pi/180.
+\end_layout
+
+\begin_layout Plain Layout
+
+Ang <- (1:1440)/4.
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(Ang, A2*sin(Ang*pi/180.)+A1*cos(Ang*pi/180.) + bestWS, type='l', col='darkora
+nge', lwd=4, xlab="heading minus WD", ylab="Measured WS [m/s]", xlim=c(0.,400.))
+\end_layout
+
+\begin_layout Plain Layout
+
+title("Simulation")
+\end_layout
+
+\begin_layout Plain Layout
+
+text(90.,bestWS, labels=expression(paste(2,V,delta,psi)),cex=0.75)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(180.,180.), c(bestWS+0.2, bestWS+1), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(180.,180.), c(bestWS-0.2, bestWS-1), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+arrows(90.,bestWS+0.2,90.,bestWS+A2,length=0.2, col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+arrows(90.,bestWS-0.2,90.,bestWS-A2,length=0.2, col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+text(180.,bestWS, labels=expression(paste(2,delta,V)), cex=0.75)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(180.,180.), c(bestWS+0.2, bestWS+A1), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(180.,180.), c(bestWS-0.2, bestWS-A1), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+arrows(180.,bestWS+0.2,180.,bestWS+A1,length=0.2, col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+arrows(180.,bestWS-0.2,180.,bestWS-A1,length=0.2, col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+lines(c(0.,360.),c(bestWS+A1,bestWS+A1), col='blue',lty=2,lwd=0.7)
+\end_layout
+
+\begin_layout Plain Layout
+
+lines(c(0.,360.),c(bestWS-A1,bestWS-A1), col='blue',lty=2,lwd=0.7)
+\end_layout
+
+\begin_layout Plain Layout
+
+lines(c(0.,360.),c(bestWS+A2,bestWS+A2), col='darkgreen',lty=2,lwd=0.7)
+\end_layout
+
+\begin_layout Plain Layout
+
+lines(c(0.,360.),c(bestWS-A2,bestWS-A2), col='darkgreen',lty=2,lwd=0.7)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is possible to determine 
+\begin_inset Formula $\delta V$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta\psi$
+\end_inset
+
+ by fitting (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:SinCosDep"
+
+\end_inset
+
+) to observations.
+ The measurements will be shown separately for the left-turn circles and
+ the right-turn circles because a significant difference appears that will
+ be discussed later.
+ Figures
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:left-turn-circles}
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:right-turn-circles}
+\end_layout
+
+\end_inset
+
+ show the measurements, and the results of the fits are shown in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:SinCosCoefficients"
+
+\end_inset
+
+.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The values for wind speed are slightly higher than those listed in Table
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:GSmin"
+
+\end_inset
+
+, but the fit is slightly different and preferable in Table
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:SinCosCoefficients"
+
+\end_inset
+
+ because measured variations in 
+\begin_inset Formula $V$
+\end_inset
+
+ are included and a correction term is included for heading in the latter
+ table.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<left-turn-circles, fig.lp="fig:", fig.cap="Measured wind speed from the
+ left-turn circles in the circle pattern shown in Fig.
+\backslash
+
+\backslash
+ 
+\backslash
+
+\backslash
+ref{fig:CircleFlightPatterns}, as a function of the difference between the
+ heading and the mean wind direction.",fig.width=5.0, fig.height=4.0, echo=FALSE,
+ hold=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+WS <- D$WSX
+\end_layout
+
+\begin_layout Plain Layout
+
+Ang <- (D$THDG+D$SS*cos(D$ROLL*pi/180)-mwd) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+# left turns:
+\end_layout
+
+\begin_layout Plain Layout
+
+rs <- setRange(D$Time, startL, endL)
+\end_layout
+
+\begin_layout Plain Layout
+
+DF <- D[rs,]
+\end_layout
+
+\begin_layout Plain Layout
+
+DF["Ang"] <- Ang[rs]
+\end_layout
+
+\begin_layout Plain Layout
+
+DF["WS"] <- WS[rs]
+\end_layout
+
+\begin_layout Plain Layout
+
+fm1 <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+\end_layout
+
+\begin_layout Plain Layout
+
+cf1 <- coefficients(fm1)
+\end_layout
+
+\begin_layout Plain Layout
+
+clr = c("fit", "measurements", "fit")
+\end_layout
+
+\begin_layout Plain Layout
+
+col = c("darkorange", "blue", "darkorange")
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point(colour=col[2], size=2, aes(shape="measurements")) 
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_line(aes(y=cf1[1]+cf1[2]*sin(DF$Ang*pi/180.)+cf1[3]*cos(DF$Ang*pi/1
+80.),  colour=clr[1]), lwd=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_colour_manual("", labels = clr, values = col)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_shape_manual ("", labels="measurements", values=19)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()
+     
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + theme(legend.position=c(0.7,0.94))
+\end_layout
+
+\begin_layout Plain Layout
+
+g
+\end_layout
+
+\begin_layout Plain Layout
+
+#plot (Ang[rs], WS[rs], pch=19, col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(180,180), c(0.,50.), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(0,0), c(0.,50.), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(90,90), c(0.,50.), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(270,270), c(0.,50.), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(360,360), c(0.,50.), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(Ang[rs], cf1[1]+cf1[2]*sin(Ang[rs]*pi/180.)+cf1[3]*cos(Ang[rs]*pi/180.),
+ col='darkorange', lwd=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<right-turn-circles, fig.lp="fig:", fig.cap="As for Fig.
+\backslash
+
+\backslash
+ 
+\backslash
+
+\backslash
+ref{fig:left-turn-circles} but for the right-hand circles.", fig.width=5.0,
+ fig.height=4.0, echo=FALSE, hold=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+WS <- D$WSX
+\end_layout
+
+\begin_layout Plain Layout
+
+Ang <- (D$THDG+D$SS*cos(D$ROLL*pi/180)-mwd) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+# right turns
+\end_layout
+
+\begin_layout Plain Layout
+
+rs <- setRange(D$Time, startR, endR)
+\end_layout
+
+\begin_layout Plain Layout
+
+DF <- D[rs,]
+\end_layout
+
+\begin_layout Plain Layout
+
+DF["Ang"] <- Ang[rs]
+\end_layout
+
+\begin_layout Plain Layout
+
+DF["WS"] <- WS[rs]
+\end_layout
+
+\begin_layout Plain Layout
+
+fm2 <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+\end_layout
+
+\begin_layout Plain Layout
+
+cf2 <- coefficients(fm2)
+\end_layout
+
+\begin_layout Plain Layout
+
+clr = c("fit", "measurements", "fit")
+\end_layout
+
+\begin_layout Plain Layout
+
+col = c("darkorange", "darkgreen", "darkorange")
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point(colour=col[2], size=2, aes(shape="measurements")) 
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_line(aes(y=cf2[1]+cf2[2]*sin(DF$Ang*pi/180.)+cf2[3]*cos(DF$Ang*pi/1
+80.),  colour=clr[1]), lwd=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_colour_manual("", labels = clr, values = col)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_shape_manual ("", labels="measurements", values=19)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()
+     
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + theme(legend.position=c(0.25,0.94))
+\end_layout
+
+\begin_layout Plain Layout
+
+g
+\end_layout
+
+\begin_layout Plain Layout
+
+#plot (Ang[rs], WS[rs], pch=19, col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(180,180), c(0.,50.), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(0,0), c(0.,50.), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(90,90), c(0.,50.), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(270,270), c(0.,50.), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(c(360,360), c(0.,50.), col='red', lwd=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines(Ang[rs], cf2[1]+cf2[2]*sin(Ang[rs]*pi/180.)+cf2[3]*cos(Ang[rs]*pi/180.),
+ col='darkorange', lwd=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="5">
+<features rotate="0" booktabs="true" tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mean wind [m/s]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\delta V$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+[m/s]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\delta\psi\,[^{\circ}]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+residual error [m/s]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+left-turn circles
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf1[1],1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf1[3],1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf1[2]/(mtas*pi/180.),2), nsmall=2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(summary(fm1)$sigma,2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+right-turn circles
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf2[1],1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf2[3],1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf2[2]/(mtas*pi/180.),2), nsmall=2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(summary(fm2)$sigma,2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fit results for the left-turn and right-turn circles as fitted by (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:SinCosDep"
+
+\end_inset
+
+).
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:SinCosCoefficients"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Column
+A difference of about 
+\begin_inset Formula $0.8^{\circ}$
+\end_inset
+
+ in heading offset translates to a change in wind speed of about 2 m/s.
+ The left turns and right turns are clearly different.
+ This is partly attributable to time shifts in the measured components of
+ the wind, as discussed below.
+ First, another problem related to sideslip will be discussed.
+\end_layout
+
+\begin_layout Paragraph
+Offset in Sideslip
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Offset-in-Sideslip"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the preceding, the error 
+\begin_inset Formula $\delta\psi$
+\end_inset
+
+ was discussed as an error in heading, but the error could also be one in
+ sideslip.
+ These errors are difficult to separate and normal reverse-heading maneuvers
+ do not provide a separation.
+ Furthermore, heading errors likely change during a flight because error
+ terms undergo a Schuler oscillation and are also affected by horizontal
+ accelerations such as occur persistently in turns like those in the circle
+ maneuver.
+ The error term determined as in the above tables is 
+\begin_inset Formula $\delta\psi^{\prime}$
+\end_inset
+
+ given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\delta\psi^{\prime}=\delta\psi+\cos\phi\delta\beta\label{eq:dpsiprime}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is the roll angle and 
+\begin_inset Formula $\delta\beta$
+\end_inset
+
+ is the offset in sideslip.
+ The sideslip calibration was determined in Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:calibration-SS"
+
+\end_inset
+
+ from yaw maneuvers, but those maneuvers also cannot separate an offset
+ in heading from an offset in sideslip so the first coefficient in the calibrati
+on, representing the zero offset, is not constrained well by these maneuvers.
+ Because the dependence in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:dpsiprime"
+
+\end_inset
+
+) is on the cosine of the roll which is an even function, left and right
+ turns are affected in the same way and cannot distinguish the two terms
+ in the equation.
+\end_layout
+
+\begin_layout Standard
+Two approaches could be taken.
+ Because the roll angle changes when circles are flown at different altitudes,
+ results from different-altitude circles could be used to distinguish a
+ sideslip offset from a heading offset.
+ Perhaps a more straightforward test, though, is to compare the sideslip
+ measurement in left vs right turns.
+ In these two cases, some sideslip is introduced as the aircraft configuration
+ remains slightly nose-up during the turn, and that sideslip should reverse
+ sign by symmetry.
+ The lift required to maintain altitude would be the same if the roll angles
+ were opposite, and they nearly are for these maneuvers (0.45
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ larger for right turns), and the angle of attack is also close to the same,
+ so the expected sign reversal in sideslip can be used to determine the
+ offset in sideslip.
+ The measurements of sideslip
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The sensitivity coefficients as determined in Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:calibration-SS"
+
+\end_inset
+
+ have been used to construct this figure.
+\end_layout
+
+\end_inset
+
+ are shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:plotSS}
+\end_layout
+
+\end_inset
+
+, where it is evident that an offset of about 0.07
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+needs to be added to the sideslip measurements to produce the expected symmetry.
+ This indicates that the sideslip sensitivity coefficients should be {
+\begin_inset Formula $e_{o},\, e_{1}$
+\end_inset
+
+} = {0.086, 21.99}.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<plotSS, fig.lp="fig:", fig.cap = "Measurement of sideslip during the circle
+ maneuver from DEEPWAVE flight 15, with left-turn circles from 3:40:00 --
+ 3:45:00 UTC, followed by a straight segment and then right-turn circles
+ 3:47:30 -- 3:53:30 UTC.", fig.width=4, fig.height=4, echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Capn <- "Sideslip measured turning the circle maneuvers, first turning left
+ (3:40:00 -- 3:45:00) and then turning right (3:47:30 -- 3:53:30).
+ Mean values for these segments are indicated by dashed orange lines."
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- plotWAC(D$Time, D$SS, ylab="Sideslip")
+\end_layout
+
+\begin_layout Plain Layout
+
+lines(c(D$Time[1], D$Time[length(D$Time)]), c(-0.07,-0.07), col='red', lty=2,
+ lwd=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+yr <- mean(D$SS[setRange(D$Time,34000,34500)])
+\end_layout
+
+\begin_layout Plain Layout
+
+lines(c(D$Time[getIndex(D$Time,34000)], D$Time[getIndex(D$Time, 34500)]),
+ c(yr,yr), col='darkorange', lty=2, lwd=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+yr <- mean(D$SS[setRange(D$Time, 34730,35330)])
+\end_layout
+
+\begin_layout Plain Layout
+
+lines(c(D$Time[getIndex(D$Time,34730)], D$Time[getIndex(D$Time, 35330)]),
+ c(yr,yr), col='darkorange', lty=2, lwd=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+#title(main=' ', sub="add 0.07 deg.
+ to SSLIP to correct for offset", cex.sub=0.7)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Columns
+With this shift applied, the dependence of the left-turn and right-turn
+ circles is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:combined-circles}
+\end_layout
+
+\end_inset
+
+.
+ The substantial difference between measurements in the two directions is
+ evident.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<combined-circles, fig.lp="fig:", fig.cap="Wind speed as a function of heading
+ relative to the wind direction.", fig.width=4.0, fig.height=3.0, echo=FALSE,
+ hold=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# combined left and right turns
+\end_layout
+
+\begin_layout Plain Layout
+
+rs <- c(setRange(D$Time,33946,34600),setRange(D$Time, 34725, 35340))
+\end_layout
+
+\begin_layout Plain Layout
+
+DF <- D[rs,]
+\end_layout
+
+\begin_layout Plain Layout
+
+fmc <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+\end_layout
+
+\begin_layout Plain Layout
+
+cfc <- coefficients(fmc)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+clr = c("fit", "left", "right")
+\end_layout
+
+\begin_layout Plain Layout
+
+col = c("darkorange", "blue", "darkgreen")
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point(data=DF[DF$TurnDirection == 2,],size=2, aes(colour=clr[2],sh
+ape=clr[2]))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point(data=DF[DF$TurnDirection == 1,],size=2, aes(colour=clr[3],sh
+ape=clr[3]))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_line(aes(y=cfc[1]+cfc[2]*sin(DF$Ang*pi/180.)+cfc[3]*cos(DF$Ang*pi/1
+80.),  colour=clr[1]), lwd=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_colour_manual("", labels = clr, values = col)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_shape_manual ("", guide=FALSE, labels = clr, values = rep(20,3))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()
+     
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + theme(legend.position=c(0.75,0.94))
+\end_layout
+
+\begin_layout Plain Layout
+
+g
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# get value for equation below:
+\end_layout
+
+\begin_layout Plain Layout
+
+rmeanL <- mean(DF$ROLL[DF$TurnDirection == 2])
+\end_layout
+
+\begin_layout Plain Layout
+
+rmeanR <- mean(DF$ROLL[DF$TurnDirection == 1])
+\end_layout
+
+\begin_layout Plain Layout
+
+tasmL <- mean(DF$TASX[DF$TurnDirection == 2])
+\end_layout
+
+\begin_layout Plain Layout
+
+tasmR <- mean(DF$TASX[DF$TurnDirection == 1])
+\end_layout
+
+\begin_layout Plain Layout
+
+print (c(rmeanL, rmeanR))
+\end_layout
+
+\begin_layout Plain Layout
+
+print(sprintf(" left turns: mean TAS = %.2f, ROLL = %.2f, right turns %.2f
+ %.2f", tasmL, rmeanL, tasmR, rmeanR))
+\end_layout
+
+\begin_layout Plain Layout
+
+dv <- -0.5*mean(DF$TASX)*(rmeanL*pi/180)*(rmeanR+rmeanL)*pi/180
+\end_layout
+
+\begin_layout Plain Layout
+
+print (sprintf(" predicted TAS difference is %.2f", dv))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Columns
+The best-fit coefficients are as shown in the following table, where the
+ values for left-turn-only and right-turn-only measurements are repeated:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="5">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mean wind [m/s]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\delta V$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+[m/s]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\delta\psi\,[^{\circ}]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+residual error [m/s]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+left-turn circles
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cf1[1],1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf1[3],1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf1[2]/(mtas*pi/180.),2), nsmall=2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(summary(fm1)$sigma,2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+right-turn circles
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cf2[1],1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf2[3],1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf2[2]/(mtas*pi/180.),2), nsmall=2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(summary(fm2)$sigma,2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+combined
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cfc[1],1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cfc[3],1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cfc[2]/(mtas*pi/180.)-0.07,2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(summary(fmc)$sigma,2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Enumerate
+Offset in TAS: Add 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf1[3],1),nsmall=1)}
+\end_layout
+
+\end_inset
+
+ m/s
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Offset in sideslip: Add 0.07
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Offset in heading: Add 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf1[2]/(mtas*pi/180.)-0.07,2), nsmall=2)}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Right circles:
+\end_layout
+
+\begin_layout Enumerate
+Offset in TAS: Add 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf2[3],1),nsmall=1)}
+\end_layout
+
+\end_inset
+
+ m/s
+\end_layout
+
+\begin_layout Enumerate
+Offset in sideslip: Add 0.07
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Offset in heading: Add 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf2[2]/(mtas*pi/180.)-0.07,2), nsmall=2)}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Combined::
+\end_layout
+
+\begin_layout Enumerate
+Offset in TAS: Add 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cfc[3],1),nsmall=1)}
+\end_layout
+
+\end_inset
+
+ m/s
+\end_layout
+
+\begin_layout Enumerate
+Offset in sideslip: Add 0.07
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Offset in heading: Add 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cfc[2]/(mtas*pi/180.)-0.07,2), nsmall=2)}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The airspeed correction as applied differently to the two turn directions
+ leads to one aspect of consistency in the measurements: The mean TAS, originall
+y higher in the left turns but after correction higher in the right turns,
+ conforms to the expected difference required by the higher absolute value
+ of the roll angle in right vs left turns.
+ If the lift 
+\begin_inset Formula $L$
+\end_inset
+
+ is proportional to 
+\begin_inset Formula $V^{2}$
+\end_inset
+
+ as expected, and 
+\begin_inset Formula $L\propto V^{2}\cos\phi$
+\end_inset
+
+ remains constant, the (from the total derivative of this expression)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{2}{V}\delta V=-\frac{\sin\phi}{\cos\phi}\delta\phi
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\delta V=-\frac{V\tan\phi}{2}\delta\phi\simeq+0.11
+\]
+
+\end_inset
+
+(i.e., an increase in roll of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(rmeanR+rmeanL,1)}$^{
+\backslash
+circ}$
+\end_layout
+
+\end_inset
+
+, as is the case for the right turns, leads to an expected increase in 
+\begin_inset Formula $V$
+\end_inset
+
+ of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(dv,2)} 
+\end_layout
+
+\end_inset
+
+ while the corrected values for V for the left and right turns, respectively,
+ are 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(tasmL+cf1[3],2)}
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(tasmR+cf2[3],2)}
+\end_layout
+
+\end_inset
+
+.
+ The difference between the uncorrected measurements, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(tasmR-tasmL,2)}
+\end_layout
+
+\end_inset
+
+, has the opposite sign, while after correction the difference conforms
+ to expectations for an increased roll angle.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<time-shift-check, echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+n <- 6
+\end_layout
+
+\begin_layout Plain Layout
+
+NL <- length(DF$GGVEWB)
+\end_layout
+
+\begin_layout Plain Layout
+
+ni <- getIndex(DF$Time, endL)
+\end_layout
+
+\begin_layout Plain Layout
+
+VNSD <- c(DF$GGVNSB[(1+n):NL],rep(DF$GGVNSB[NL],n))-DF$GGVNSB
+\end_layout
+
+\begin_layout Plain Layout
+
+VEWD <- c(DF$GGVEWB[(1+n):NL],rep(DF$GGVEWB[NL],n))-DF$GGVEWB
+\end_layout
+
+\begin_layout Plain Layout
+
+VNSD[(ni-5):ni] <- VNSD[ni-6]    # need to fill at gap
+\end_layout
+
+\begin_layout Plain Layout
+
+VEWD[(ni-5):ni] <- VEWD[ni-6]
+\end_layout
+
+\begin_layout Plain Layout
+
+WNS <- DF$WSX*cos(DF$WDX*Cradeg)
+\end_layout
+
+\begin_layout Plain Layout
+
+WEW <- DF$WSX*sin(DF$WDX*Cradeg)
+\end_layout
+
+\begin_layout Plain Layout
+
+DF$WS <- sqrt((WNS-VNSD)**2+(WEW-VEWD)**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+DF$WS[DF$TurnDirection == 1] <- DF$WS[DF$TurnDirection == 1] - cf2[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+DF$WS[DF$TurnDirection == 2] <- DF$WS[DF$TurnDirection == 2] - cf1[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+fms <- lm (WS~sin(Ang*pi/180.)+cos(Ang*pi/180.), data=DF)
+\end_layout
+
+\begin_layout Plain Layout
+
+cfs <- coefficients(fms)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+One correction that could lead to more consistency in the measurements is
+ to impose a time shift in the measured ground-speed components from the
+ GPS.
+ The delayed measurements will be offset in different directions as the
+ direction of the turns changes.
+ For this reason, a time shift was introduced in the GPS-measured ground-speed
+ components and the wind components were recalculated.
+ The minimum-residual-error solution was for a shift of 240
+\begin_inset space ~
+\end_inset
+
+ms; i.e., the measurements GGVNSB and GGVEWB were applied 240 ms ahead of
+ where they were originally recorded in the data files.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+No offset was introduced in that original processing for these components.
+ For THDG, the heading variable, an offset was introduced of 80
+\begin_inset space ~
+\end_inset
+
+ms to account for the expected transmission time of the measurement from
+ the IRU to the data system, so the best-fit lag between heading and ground
+ speed is 160 ms.
+ If the lag in THDG is changed, the lag in GGVEWB and GGVNSB should be changed
+ also.
+\end_layout
+
+\end_inset
+
+ In addition, the mean wind speed for left turns and separately for right
+ turns was subtracted from the measured wind speed to compensate for the
+ real difference in wind speed determined above, so the results could be
+ combined in one plot.
+ The sdandard residual error from the fit to the shifted measurements after
+ this adjustment was reduced to 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(summary(fms)$sigma,1)}
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+m/s, which seems reasonable because (as shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:plot-time-shift}
+\end_layout
+
+\end_inset
+
+), the residuals could arise from real fluctuations in wind or in the precision
+ of the circular flight track.
+ The best-fit results were 
+\begin_inset Formula $\delta V=$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cfs[3],1), nsmall=1)}
+\end_layout
+
+\end_inset
+
+ m/s and 
+\begin_inset Formula $\delta\psi=$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cfs[2]/(mtas*pi/180.)-0.07,2)}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+<<plot-time-shift, fig.ls="fig:", fig.cap="The measured wind speed after shifting
+ the GPS measurements of ground speed 240 ms forward in time and subtracting
+ the mean wind speed separately for left and right turns, for the circle
+ maneuver of DEEPWAVE flight 15, 3:38:30--3:54:30.",fig.width=5., fig.height=4.,echo=
+FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+clr = c("fit", "left", "right")
+\end_layout
+
+\begin_layout Plain Layout
+
+col = c("darkorange", "blue", "darkgreen")
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- ggplot(data=DF, aes(x=Ang, y=WS))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point(data=DF[DF$TurnDirection == 2,],size=2, aes(colour=clr[2],sh
+ape=clr[2]))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point(data=DF[DF$TurnDirection == 1,],size=2, aes(colour=clr[3],sh
+ape=clr[3]))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_line(aes(y=cfs[1]+cfs[2]*sin(DF$Ang*pi/180.)+cfs[3]*cos(DF$Ang*pi/1
+80.),  colour=clr[1]), lwd=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_colour_manual("", labels = clr, values = col)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_shape_manual ("", guide=FALSE, labels = clr, values = rep(20,3))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + xlab("Heading - Wind Dir.") + ylab("Wind Speed [m/s]")+theme_WAC()
+     
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + theme(legend.position=c(0.75,0.94))
+\end_layout
+
+\begin_layout Plain Layout
+
+g
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Columns
+
+\end_layout
+
+\begin_layout Standard
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Summary
+\end_layout
+
+\begin_layout SummaryBlock
+The best results obtained from analysis of the circle maneuvers are:
+\end_layout
+
+\begin_layout Standard
+Combined::
+\end_layout
+
+\begin_layout Enumerate
+Offset in TAS: Add 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cfs[3],1),nsmall=1)}
+\end_layout
+
+\end_inset
+
+ m/s
+\end_layout
+
+\begin_layout Enumerate
+Offset in sideslip: Add 0.07
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Offset in heading: Add 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cfs[2]/(mtas*pi/180.)-0.07,2), nsmall=2)}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Delay in GGVSPB, etc: Move forward 6 25-Hz samples or 240 ms (160 ms in
+ relation to THDG).
+\end_layout
+
+\begin_layout BeginFrame
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+This presentation was generated using RStudio via the program CirclePresentation
+140915.Rnw, available on tikal.eol.ucar.edu.
+ Running this on tikal via the web interface to RStudio generates the pdf-format
+ presentation file while running R to generate the fits and plots discussed
+ in that presentation, so the program can be adapted to additional circle
+ maneuvers by changing the data and time references.
+ The data used are those from in-the-field processing and are also stored
+ on EOL workspace in the file /h/eol/cooperw/RStudio/DEEPWAVE/CircleData.Rdata.gz.
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vskip0.3cm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+The presentation is available at 
+\begin_inset CommandInset href
+LatexCommand href
+name "this link"
+target "https://drive.google.com/file/d/0B1kIUH45ca5AM0JZUXFLcmRrVWs/edit?usp=sharing"
+
+\end_inset
+
+: https://drive.google.com/file/d/0B1kIUH45ca5AM0JZUXFLcmRrVWs
+\begin_inset Newline newline
+\end_inset
+
+/edit?usp=sharing
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Subsection
+The complementary filter applied to horizontal components
+\end_layout
+
+\begin_layout Standard
+Wind measurements combine a measurement of relative wind with a measurement
+ of aircraft motion to determine the air motion relative to the ground.
+ The aircraft motion has long been measured by an IRS, and recently also
+ by a GPS.
+ These have complementary strengths: The IRS provides very good information
+ on short-term motion but drifts with a characteristic period of more than
+ an hour, while the GPS provides good absolute accuracy but sometimes is
+ unable to receive the GPS signals and (except in differential-GPS mode)
+ can have short-term errors that make short segments of the track look jagged.
+ To take advantage of the strengths of each, a complementary-filter calculation
+ was developed and implemented in the 1980s, but it was never documented
+ publicly.
+ This section is partly an attempt to remedy that and partly a suggestion
+ to make some minor changes to how it is implemented.
+ This discussion is complementary to the information in ProcessingAlgorithms.pdf,
+ section 3.4, and contains additional detail as well as notes regarding implement
+ation of changes.
+\end_layout
+
+\begin_layout Standard
+To accomplish this combining of measurements, a low-pass filter, 
+\begin_inset Formula $F_{L}(\{\mathrm{GVNS,GVEW\}})$
+\end_inset
+
+, is applied to the GPS measurements of groundspeed, {GVNS,GVEW}, which
+ are assumed to be valid for frequencies at or lower than the cutoff frequency
+ 
+\begin_inset Formula $f_{c}$
+\end_inset
+
+ of the filter.
+ Then the complementary high-pass filter, denoted (
+\begin_inset Formula $1-F_{L}$
+\end_inset
+
+)(
+\begin_inset Formula $\{\mathrm{VNS,VEW\}}$
+\end_inset
+
+), is applied to the IRS measurements of groundspeed, {VNS,VEW}, which are
+ assumed valid for frequencies at or higher than 
+\begin_inset Formula $f_{c}$
+\end_inset
+
+.
+ Ideally, the transition frequency would be selected where the GPS errors
+ (increasing with frequency) are equal to the IRS errors (decreasing with
+ frequency).
+ The filter used is a three-pole Butterworth lowpass filter, coded following
+ the algorithm described in Bosic, S.
+\begin_inset space ~
+\end_inset
+
+M., 1980: 
+\emph on
+Digital and Kalman filtering : An Introduction to Discrete-Time Filtering
+ and Optimum Linear Estimation, 
+\emph default
+p.
+ 49.
+ The digital filter used is recursive, not centered, to permit calculation
+ during a single pass through the data.
+ If the cutoff frequency lies where both the GPS and INS measurements are
+ valid and are almost the same, then the detailed characteristics of the
+ filter in the transition region (e.g., phase shift) do not matter because
+ the complementary filters have cancelling effects when applied to the same
+ signal.
+ The transition frequency 
+\begin_inset Formula $f_{c}$
+\end_inset
+
+ was chosen to be (1/600) Hz (but this value can be overridden via the 
+\begin_inset Quotes eld
+\end_inset
+
+defaults
+\begin_inset Quotes erd
+\end_inset
+
+ file).
+ The Butterworth filter was chosen because it provides flat response away
+ from the transition.
+ The resulting variables for aircraft motion, {VNSC,VEWC}, are then each
+ the sum of two filtered signals, calculated as described in the following
+ box:
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Box Boxed
+position "c"
+hor_pos "c"
+has_inner_box 0
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width ""
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "95text%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+VEW = IRS-measured east component of the aircraft ground speed
+\begin_inset Newline newline
+\end_inset
+
+ VNS = IRS-measured north component of the aircraft ground speed
+\begin_inset Newline newline
+\end_inset
+
+ GVEW = GPS-measured east component of the aircraft ground speed
+\begin_inset Newline newline
+\end_inset
+
+ GVNS = GPS-measured north component of the aircraft ground speed
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Formula $F_{L}()$
+\end_inset
+
+ = three-pole Butterworth lowpass recursive digital filter
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "100line%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\{\mathrm{VNSC}\}=\{\mathrm{VNS}\}+F_{L}(\mathrm{\{GVNS\}-\{\mathrm{VNS\}})}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\{\mathrm{VEWC}\}=\{\mathrm{VEW\}+}F_{L}(\mathrm{\{GVEW\}-\{\mathrm{VEW}\})}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is straightforward and effective when both sets of measurements (IRS
+ and GPS) are available.
+ The approach in use becomes more complicated when the GPS signals are lost,
+ as sometimes happens in sharp turns.
+ Then some means is needed to avoid sudden discontinuities in velocity (and
+ hence windspeed), which would introduce spurious effects into variance
+ spectra and other properties dependent on a continuously valid measurement
+ of wind.
+ To extrapolate measurements through periods when the GPS measurements are
+ not available, a fit is determined to the difference between the best-estimate
+ variables {VNSC,VEWC} and the IRS variables {VNS,VEW} for the period before
+ GPS reception was lost, and that fit is used to extrapolate through periods
+ when GPS reception is not available.
+ The procedure is described in section 3.4 of ProcessingAlgorithms.pdf.
+\end_layout
+
+\begin_layout Standard
+The following provides more documentation of the fit procedure used to determine
+ the Schuler oscillation.
+ The errors are assumed to result primarily from this oscillation, so the
+ three-term fit is of the form 
+\begin_inset Formula $\Delta=c_{1}+c_{2}\sin(\Omega_{Sch}t)+c_{3}\cos(\Omega_{Sch}t)$
+\end_inset
+
+ , where 
+\begin_inset Formula $\Omega_{Sch}$
+\end_inset
+
+ is the angular frequency of the Schuler oscillation (taken to be 
+\begin_inset Formula $2\pi/(5067\, s))$
+\end_inset
+
+ and 
+\begin_inset Formula $t$
+\end_inset
+
+ is the time since the start of the flight.
+ A separate fit is used for each component of the velocity and each component
+ of the position (discussed below under LATC and LONC).
+ The fit matrix used to determine these coefficients is updated each time
+ step but the accumulated fit factors decay exponentially with about 30-min
+ decay constant, so the terms used to determine the fit are exponentially
+ weighted over the period of valid data with a time constant that decays
+ exponentially into the past with a characteristic time of 30 min.
+ This is long enough to determine a significant portion of the Schuler oscillati
+on but short enough to emphasize recent measurements of the correction.
+ The procedures for accumulating the matrices for the fit are as follows:
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Box Boxed
+position "c"
+hor_pos "c"
+has_inner_box 0
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width ""
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Define 
+\begin_inset Formula $u_{G}$
+\end_inset
+
+ as the aircraft eastward velocity measured by the GPS and 
+\begin_inset Formula $u_{I}$
+\end_inset
+
+ the corresponding velocity measured by the IRS, so that the difference
+ is
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\delta u=u_{G}-u_{I}
+\]
+
+\end_inset
+
+If 
+\begin_inset Formula $\Omega_{S}$
+\end_inset
+
+ is the Schuler oscillation period, with 
+\begin_inset Formula $\Omega_{S}=2\pi t/T_{s}$
+\end_inset
+
+ where 
+\begin_inset Formula $T_{s}=5040$
+\end_inset
+
+ s, 
+\begin_inset Formula $\tau_{u}$
+\end_inset
+
+ is the time constant for the update (1800 s), 
+\begin_inset Formula $t$
+\end_inset
+
+ is the time from the start of the flight, and the measurement matrix is
+ 
+\begin_inset Formula $A_{ij}$
+\end_inset
+
+, then updated terms of the measurement matrix each sample period (
+\begin_inset Formula $A_{i,j}^{\prime}$
+\end_inset
+
+) are (for 
+\begin_inset Formula $\delta u$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+A_{0,1}^{\prime}=A_{0.1}(1-\frac{1}{\tau_{u}})+\delta u
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+A_{1,1}^{\prime}=A_{1,1}(1-\frac{1}{\tau_{u}})+\delta u\,\sin(\Omega_{S}t)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+A_{2,1}^{\prime}=A_{2,1}(1-\frac{1}{\tau_{u}})+\delta u\,\cos(\Omega_{S}t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+The matrix components 
+\begin_inset Formula $A_{j,0}$
+\end_inset
+
+ apply to the northward velocity component and so are represented by the
+ same equations with 
+\begin_inset Formula $\delta u$
+\end_inset
+
+ replaced by 
+\begin_inset Formula $\delta v$
+\end_inset
+
+.
+ Similar matrices are calculated for latitude 
+\begin_inset Formula $\theta$
+\end_inset
+
+ and longitude 
+\begin_inset Formula $\phi$
+\end_inset
+
+, based on the differences 
+\begin_inset Formula $\delta\theta$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta\phi$
+\end_inset
+
+ between GPS and IRS measurements.
+ The information matrix 
+\begin_inset Formula $H_{ij}$
+\end_inset
+
+ is calculated via
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+H_{i,j}=H_{i,j}(1-\frac{1}{\tau_{u}})+V_{i,j}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+where 
+\begin_inset Formula $V_{0,0}=1$
+\end_inset
+
+, 
+\begin_inset Formula $V_{0,1}=V_{1,0}=\sin(\Omega_{S}t)$
+\end_inset
+
+, 
+\begin_inset Formula $V_{0,2}=V_{2,0}=\cos(\Omega_{S}t)$
+\end_inset
+
+, 
+\begin_inset Formula $V_{1,1}=\sin^{2}(\Omega_{S}t)$
+\end_inset
+
+, 
+\begin_inset Formula $V_{1,2}=V_{2,1}=\sin(\Omega_{S}t)\cos(\Omega_{S}t)$
+\end_inset
+
+, and 
+\begin_inset Formula $V_{2,2}=\cos^{2}(\Omega_{S}t)$
+\end_inset
+
+.
+ When the fit is needed, the matrix 
+\begin_inset Formula $H_{i,j}$
+\end_inset
+
+ is inverted and the result multiplied by the measurement matrix 
+\begin_inset Formula $A_{i,j}$
+\end_inset
+
+ to get the fit coefficients 
+\begin_inset Formula $C_{ij}$
+\end_inset
+
+ to use for predicting the results for 
+\begin_inset Formula $\delta u$
+\end_inset
+
+, 
+\begin_inset Formula $\delta v$
+\end_inset
+
+, 
+\begin_inset Formula $\delta\theta$
+\end_inset
+
+, and 
+\begin_inset Formula $\delta\phi$
+\end_inset
+
+ via equations like 
+\begin_inset Formula $\delta u=C_{0,1}+C_{1,1}\sin(\Omega_{S}t)+C_{2,1}\cos(\Omega t)$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

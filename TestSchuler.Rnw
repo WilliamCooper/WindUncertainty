@@ -1,0 +1,309 @@
+%% LyX 2.1.0 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,english]{report}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=3.54cm,bmargin=2.54cm,lmargin=2.54cm,rmargin=2.54cm,headheight=1cm,headsep=2cm,footskip=0.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{verbatim}
+\usepackage{graphicx}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\topicofnote} \global\topicofnote={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Note re: \the\topicofnote \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+  \setlength{\leftmargin}{\labelwidth}
+  \addtolength{\leftmargin}{\labelsep}
+  \renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+                        \ifcase\month\or January\or February\or March\or April\or May\or
+                        June\or July\or August\or September\or October\or November\or
+                        December\fi
+                        \space\number\year}
+\newcommand{\ASPmemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Advanced Study Program}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.3truein \leftline{\hskip \longindent \datetoday} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+                         \item [Attachments:] {#1}
+                           \end{lyxlist}}
+                         \newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+                                             \item [cc:] {#1}
+                                               \end{lyxlist}}
+                                             \newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+                                                                     \item [Attachment:] {#1}
+                                                                       \end{lyxlist}}
+                                                                     %usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+                                                                     
+                                                                     \makeatother
+                                                                     
+                                                                     \usepackage{babel}
+                                                                     \begin{document}
+                                                                     \begin{comment}
+                                                                     set topicofnote to topic of note
+                                                                     \end{comment}
+                                                                     
+                                                                     
+                                                                     \topicofnote={Investigate first-order Schuler tuning of heading}
+                                                                     
+                                                                     \begin{comment}
+                                                                     Note goes here:
+                                                                       \end{comment}
+                                                                     
+                                                                     
+                                                                     %
+                                                                     
+                                                                     
+                                                                     \section*{Introduction}
+                                                                     
+                                                                     The observed errors in ground-speed components VEW and VNS from the
+                                                                     Honeywell IRU suggest that those errors might be attributable mostly
+                                                                     to a Schuler oscillation. If so, the errors in VEW and VNS may arise
+                                                                     mostly from a heading error that varies with the Schuler period, and
+                                                                     in that case it may be possible to develop a correction to the measured
+                                                                     heading based on the errors in ground-speed components. That is the
+                                                                     conjecture explored in this memo. A further correction to pitch might
+                                                                     be possible if similar Schuler oscillation in the measured horizontal
+                                                                     components of acceleration is present, because an error in pitch,
+                                                                     oscillating with the Schuler period and so appearing in both pitch
+                                                                     and roll, will cause gravity to be sensed erroneously in those horizontal
+                                                                     components of acceleration. That is also investigated below. The goal
+                                                                     is to see if simple Schuler tuning based on these ideas can reduce
+                                                                     the uncertainty in the measurements of wind.
+                                                                     
+                                                                     
+                                                                     \section*{Correction to the Heading}
+                                                                     
+                                                                     
+                                                                     \subsection*{The Schuler oscillation}
+                                                                     
+                                                                     The reason for considering this correction was that the wind measurements
+                                                                     from the Honeywell IRU show a clear Schuler oscillation in comparison
+                                                                     to the GPS measurements in this project. The latter are being obtained
+                                                                     with OMNISTAR active and are of very high quality, so the observed
+                                                                     difference is an indication of error in the IRU measurements. An example
+                                                                     is shown in Fig.~\ref{fig:SchulerOscillationFigure}. 
+                                                                     \begin{figure}
+                                                                     \noindent \begin{centering}
+                                                                     \includegraphics[width=10cm]{rf21/DWrf21Plot10}
+                                                                     \par\end{centering}
+                                                                     
+                                                                     \protect\caption{\label{fig:SchulerOscillationFigure}Plot of VEW (green dashed line)
+                                                                                      and GGVEW (blue solid line) {[}top figure{]} and VNS (green dashed
+                                                                                                                                            line) with GGVNS (solid blue line) {[}bottom figure{]} from DEEPWAVE
+flight RF21. The differences (GGVEW-VEW){*}50 {[}top{]} and (GGVNS-VNS){*}50
+{[}bottom{]} are also plotted as red lines.}
+
+
+\end{figure}
+The oscillating error has a period of about 84 min as expected for
+a Schuler oscillation. There are two possible sources of error in
+the IRU measurement of velocity, either an accumulated error from
+the integration or a heading error that assigns the velocities from
+integration of acceleration incorrectly to the two Earth-referenced
+axes. The latter would be expected to oscillate as shown and not accumulate
+with time, while the former (if arising from a bias or calibration
+                             error) would accumulate with time. These figures indicate that the
+primary source of the error is an error in heading.
+
+If that is true, it would appear useful to try to determine a correction
+to the heading on the basis of the observed error in the wind components. 
+
+
+\subsection*{Estimating the needed correction to the heading}
+
+Suppose that the measured heading $\psi$is the sum of the true value
+$\psi_{t}$ and an error term $\delta\psi$. Then the NS component
+of the aircraft motion $v$ will be measured to be $(u^{2}+v^{2})^{1/2}\cos(\psi_{t}+\delta\psi^{\prime})$.
+If the platform integration of acceleration is correct, the first
+factor $V=(u^{2}+v^{2})=(u_{m}^{2}+v_{m}^{2})$ remains constant even
+if the measured components ($u_{m},\, v_{m}$) are resolved incorrectly
+to the NS and EW axes because of heading error. The observed value
+$v^{*}$ will then be:
+  
+  \begin{equation}
+v^{*}=V(\cos(\psi_{t}+\delta\psi)=V(\cos\psi_{t}\cos\delta\psi-\sin\psi_{t}\sin\delta\psi)\simeq V(\cos\psi_{t}-\delta\psi\sin\psi_{t})\label{eq:NSerror}
+        \end{equation}
+        
+        
+        or, with $v_{t}=V\cos\psi_{t}$ and $u_{t}=V\sin\psi_{t}$,\\
+        \begin{equation}
+        \delta\psi=\frac{v_{t}-v^{*}}{u_{t}}\label{eq:headingError1}
+        \end{equation}
+        
+        
+        If the GPS measurements \{$u_{G},\, v_{G}$\} are used to estimate
+        \{$u_{t},\, v_{t}$\}, (\ref{eq:headingError1}) gives a direct measurement
+        of the heading error:\\
+        \begin{equation}
+        \delta\psi^{(1)}=\frac{v_{G}-v^{*}}{u_{G}}\label{eq:headingError2}
+        \end{equation}
+        
+        
+        The observed value $u^{*}$ for the EW component of the aircraft motion
+        provides another estimate:
+          
+          \begin{equation}
+        \delta\psi^{(2)}=\frac{u^{*}-u_{G}}{v_{G}}\label{eq:headingError3}
+        \end{equation}
+        
+        
+        To test if this can account for the errors in Fig.~\ref{fig:SchulerOscillationFigure},
+        (\ref{eq:headingError2}) and (\ref{eq:headingError3}) can be reformulated
+        in terms of predictions of the errors in \{$u^{*},\, v^{*}$\} as
+        functions of the heading error, assumed to have the form $\delta\psi=A\cos(\Omega_{Sch}t+\Phi)$
+          where $\Omega_{Sch}=2\pi/5087s$ is the angular rotation rate of the
+        Schuler oscillation, $t$ is time, and $A$ and $\Phi$ determine
+        the amplitude and phase of that oscillation:
+          
+          \begin{equation}
+        u^{*}-u_{G}=v_{G}A\cos(\Omega_{Sch}t+\Phi)\label{eq:Uerror}
+        \end{equation}
+        \begin{equation}
+        v^{*}-v_{G}=u_{G}A\cos(\Omega_{Sch}t+\Phi)\label{eq:Verror}
+        \end{equation}
+        
+        
+        
+        \subsection*{Test that the ground-speed errors arise primarily from Schuler oscillation}
+        
+        To test if these error equations can represent measurements such as
+        those shown in Fig.~\ref{fig:SchulerOscillationFigure}, coefficients
+        $A$ and $\Phi$ were adjusted
+        
+      
+        
+
+
+<<Initialization>>=
+require(Ranadu)
+
+Flight <- "rf21"
+#' @title plotWAC
+#' @description Convenience routine for plots
+#' @details Sets some plot defaults and calls plot and axis
+#' @aliases plotWAC
+#' @author William Cooper
+#' @export plotWAC
+#' @param x Usually, Time from a data.frame; a vector of abscissa values. Default: Data$Time
+#' @param y A vector of ordinate values for points to plot. 
+#' @param col Color to pass to plot (default: blue)
+#' @param xlab Label for the abscissa, to pass to plot (default: "TIME [UTC]")
+#' @param ylab Label for the ordinate, to pass to plot (default: "")
+#' @param lwd Line width to pass to plot (default: 2)
+#' @param type Line type to pass to plot (default: "l")
+#' @param ... Additional arguments to pass to plot(), but don't include col, xlab, ylab, lwd, type, xaxt or yaxt
+#' @examples 
+#' \dontrun{plotWAC (Time, TASX, ylab="TAS")}
+#' \dontrun{plotWAC (Time, PSXC, lty=2)}
+plotWAC <- function (x, y, col="blue", xlab="TIME [UTC]", 
+                     ylab="", lwd=2, type='l', ...) {
+  plot(x, y, xaxt='n', yaxt='n', xlab=xlab, ylab=ylab, lwd=lwd, 
+       type=type, col=col, xaxs="r", yaxs="r", ...)
+  if (!is.expression(xlab)) {
+    if (xlab == "TIME [UTC]") {
+      axis.POSIXct(1,x, format='%H:%M', tck=0.02)
+      axis.POSIXct(3,x, labels=NA, tck=0.02)
+    } else {
+      axis(1,tck=0.02)
+      axis(3,labels=NA,tck=0.02)
+    }
+  } else {
+    axis(1,tck=0.02)
+    axis(3,labels=NA,tck=0.02)
+  }
+  axis(2,tck=0.02)
+  axis(4,labels=NA,tck=0.02)
+  return ()
+}
+
+
+fname = sprintf("/Data/DEEPWAVE/DEEPWAVE%s.nc", Flight)
+VarNames <- standardVariables()
+VarNames <- c(VarNames, "ATHR1", "ATHR2", "ATRL", "AT_A", "AT_A2")
+VarNames <- c(VarNames, "EW_DPL", "DP_DPL", "PALTF", "EW_DPR",
+              "DP_DPR", "EW_VXL", "DP_VXL", "CAVP_CR2", 
+              "MIRRTMP_CR2", "DP_CR2")
+VarNames <- c(VarNames, "PSFC", "PS_A", "PS_GP", "QCFC", 
+              "QCRC", "QC_A", "QC_GP")
+VarNames <- c(VarNames, "GGQUAL", "GGVEW", "GGVNS", "VEW", 
+              "VNS", "AKRD", "SSLIP")
+VarNames <- c(VarNames, "CONCU_RWO", "CONCU100_RWO", "CONCU100_RWO", 
+              "CONCU500_RWO", "CNTS")
+VarNames <- c(VarNames, "CLAT_LAMS", "CLON_LAMS", "CPITCH_LAMS",
+              "CROLL_LAMS", "CTHDG_LAMS", "CVEW_LAMS", "CVNS_LAMS",
+              "CVSPD_LAMS", "PITCH", "ROLL", "THDG")
+Data <- getNetCDF (fname, VarNames)
+attach(Data)
+@
+
+<<PlotSchulerOsc>>=
+
+# Schuler -----------------------------------------------------------------
+
+
+op <- par (mfrow=c(2,1), mar=c(4,4,0,2)+0.1)
+plotWAC (Time, GGVEW, ylab="VEW")
+points (Time, VEW, type='l', col='green', lty=2, lwd=2)
+points (Time, (GGVEW-VEW)*50, type='l', col='red')
+lines (c(Time[1], Time[length(Time)]), c(50.,50.), type='l', lty=2)
+lines (c(Time[1], Time[length(Time)]), c(-50.,-50.), type='l', lty=2)
+
+plotWAC (Time, GGVNS, ylab="VNS")
+points (Time, VNS, type='l', col='green', lty=2, lwd=2)
+points (Time, (GGVNS-VNS)*50, type='l', col='red')
+lines (c(Time[1], Time[length(Time)]), c(50.,50.), type='l', lty=2)
+lines (c(Time[1], Time[length(Time)]), c(-50.,-50.), type='l', lty=2)
+
+@
+
+<<PlotErrors,fig.cap="Errors, ground-speed (top) and heading (bottom), NS (blue) and EW (green)">>=
+op <- par (mfrow=c(2,1), mar=c(4,4,0,2)+0.1)
+plotWAC (Time, VNS-GGVNS, ylab="ground-speed component", ylim=c(-2.5,2.5))
+points  (Time, VEW-GGVEW, type='l', col='green',lwd=2)
+lines (c(Time[1], Time[length(Time)]), c(0.,0.), type='l', lty=2, 
+       lwd=2,col='darkorange')
+
+plotWAC (Time, 3.*THDG/360, ylim=c(-3.,3.))
+Cradeg = pi / 180.
+HError1 <- ((GGVNS-VNS)/GGVEW)/Cradeg
+HError2 <- ((VEW-GGVEW)/GGVNS)/Cradeg
+# TEST: swap sign (this is clearly wrong)
+# HError2 <- -1. * HError2
+SF = 2.
+points (Time, SF*HError1, type='l', col='red',lwd=2, lty=1,ylab="Heading error, deg.")
+points (Time, SF*HError2, type='l', col='darkgreen',lwd=2, lty=1)
+lines (c(Time[1], Time[length(Time)]), c(0.,0.), type='l', lty=2, 
+       lwd=2,col='darkorange')
+
+detach (Data)
+
+@
+\vfill\eject
+
+\section*{Tentative Conclusion}
+ 
+ This does not produce a consistent estimate for the heading error from the two components. Accumulated effects of accelerometer errors might be responsible, especially from the many turns. Perhaps should return to this and try a more extensive Kalman-filter approach.
+ 
+  %\attach{attachment}
+        
+        %\attachm{first\\second}
+        
+        %\cc{first attachment\\second\\3rd att}
+        \end{document}
