@@ -1,0 +1,77 @@
+%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+% \documentclass{article}
+% \usepackage{mathptmx}
+% \usepackage[T1]{fontenc}
+% \usepackage[latin9]{inputenc}
+% \usepackage{geometry}
+% \geometry{verbose}
+% \setcounter{secnumdepth}{2}
+% \setcounter{tocdepth}{2}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% 
+% \makeatletter
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% \usetheme{WAC}
+% \setbeamertemplate{headline}{}
+% \setbeamertemplate{footline}[default]{}
+% \setbeamertemplate{navigation symbols}{}
+% %\setbeamercovered{transparent}
+% %\setbeamercovered{opaque}
+% \setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+% 
+% \AtBeginDocument{
+%   \def\labelitemii{\(\rightarrow\)}
+% }
+% 
+% \makeatother
+% 
+% \begin{document}
+
+\section{Introduction}
+
+This report documents how measurements of wind are made from the NSF/NCAR
+Gulfstream V research aircraft (hereafter, GV) and provides a characterization
+of the uncertainty associated with those measurements. The characterization
+applies to the system as it existed in 2014, in particular as it operated
+in the DEEPWAVE research project flown from New Zealand in June-July
+2014. Key aspects influencing the uncertainty in the measurements
+as characterized here are the presence of ``OmniSTAR'' GPS measurements,
+providing measurements of the velocity of the aircraft relative to
+the earth, a calibration of airspeed provided by the Laser Air Motion
+Sensor (Cooper et al., 2014), and a newly developed all-weather wind
+sensor or ``gust pod'' employing a Rosemount 858 probe mounted under
+the wing of the GV. These complemented the standard wind-sensing system
+comprised of a Honeywell XXX inertial reference unit, normal GPS measurements,
+and a gust-sensing system based on pressure ports in the nose radome.
+The results obtained here do not necessarily apply to measurements
+from earlier projects when not all these components were available.
+
+Section \ref{sec:Components} describes the components of the wind-measuring
+system in more detail, and Section \ref{sec:Calibrations} summarizes
+how the measurements have been calibrated, tested, and intercompared.
+Some related studies affecting the measurements are then presented
+in the next sections. This information all provides the basis for
+Section\ref{sec:Uncertainty-components}, where the contributions
+to uncertainty from various sources are tabulabed and where there
+is a discussion of the basis for each estimate contributing to uncertainty
+in the measured wind. This report then concludes with a summary characterizing
+the overall uncertainty and the separate systematic and random components
+included in that uncertainty.
+
+The reference program for this document can be found on NCAR/EOL computer
+space in the directory /h/eol/cooperw/RStudio/DEEPWAVE/GustPod and
+is named WindUncertainty.Rnw. That program runs the analysis program
+R within ''RStudio'' and also, via ''knitr,'' generates this text
+document from LaTeX statements embedded in that file. The data used
+reside on associated file space and are archived in the directory
+/h/eol/cooperw/STudio/DEEPWAVE as R data files, with names ending
+in ''Rdata.gz.'' It is thus possible to reproduce this document
+from archived data and to repeat the included analyses with new data
+as needed. This document thus is ''reproducible research'' as that
+term is used by the author of knitr. References for knitr and the
+analysis packages in R are included in the Acknowledgements. 
+
+
+% \end{document}

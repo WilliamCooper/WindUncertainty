@@ -29,6 +29,7 @@
 \use_default_options false
 \begin_modules
 knitr
+hanging
 \end_modules
 \maintain_unincluded_children true
 \language english
@@ -133,9 +134,9 @@ Al Cooper, Dick Friesen (and, eventually, many others)
 \begin_layout Date
 
 \color red
-DRAFT/OUTLINE
+DRAFT
 \color inherit
- 10/20/2014
+ 1/20/2015
 \end_layout
 
 \begin_layout Standard
@@ -148,6 +149,72 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+To make into an Rnw script:
+\end_layout
+
+\begin_layout Plain Layout
+1.
+ Export all these lyx files to .Rnw files
+\end_layout
+
+\begin_layout Plain Layout
+2.
+ Comment the latex header, down to and including 
+\backslash
+begin{document}; also 
+\backslash
+end{document} at the end
+\end_layout
+
+\begin_layout Plain Layout
+3.
+ Comment the include statements below thisnote
+\end_layout
+
+\begin_layout Plain Layout
+4.
+ Insert this as an R chunk in their place:
+\end_layout
+
+\begin_layout Plain Layout
+<<A, child='Introduction.Rnw'>>=
+\end_layout
+
+\begin_layout Plain Layout
+<<B, child='ComponentsOfWindSensingSystem.Rnw'>>=
+\end_layout
+
+\begin_layout Plain Layout
+<<C, child='SchulerSection.Rnw'>>=
+\end_layout
+
+\begin_layout Plain Layout
+<<D, child='SensitivityCoefficients.Rnw'>>=
+\end_layout
+
+\begin_layout Plain Layout
+<<E, child='VerticalWindStudies.Rnw'>>=
+\end_layout
+
+\begin_layout Plain Layout
+<<F, child='HorizontalWindStudies.Rnw'>>=
+\end_layout
+
+\begin_layout Plain Layout
+<<G, child='ElementsOfUncertaintyAndSummary.Rnw'>>=
+\end_layout
+
+\begin_layout Plain Layout
+@
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset include
 LatexCommand include
 filename "./Introduction.lyx"
@@ -161,6 +228,16 @@ filename "./Introduction.lyx"
 \begin_inset CommandInset include
 LatexCommand include
 filename "./ComponentsOfWindSensingSystem.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "SchulerSection.lyx"
 
 \end_inset
 

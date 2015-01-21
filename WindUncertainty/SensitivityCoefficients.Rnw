@@ -1,0 +1,1218 @@
+%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+% \documentclass{article}
+% \usepackage{mathptmx}
+% \usepackage[T1]{fontenc}
+% \usepackage[latin9]{inputenc}
+% \usepackage{geometry}
+% \geometry{verbose}
+% \setcounter{secnumdepth}{2}
+% \setcounter{tocdepth}{2}
+% \usepackage{prettyref}
+% \usepackage{ifthen}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage[unicode=true]
+%  {hyperref}
+% \usepackage{breakurl}
+% 
+% \makeatletter
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+% \newenvironment{lyxcode}
+% {\par\begin{list}{}{
+% \setlength{\rightmargin}{\leftmargin}
+% \setlength{\listparindent}{0pt}% needed for AMS classes
+% \raggedright
+% \setlength{\itemsep}{0pt}
+% \setlength{\parsep}{0pt}
+% \normalfont\ttfamily}%
+%  \item[]}
+% {\end{list}}
+%  \newlength{\lyxhang}
+%  \IfFileExists{hanging.sty}{
+%    \usepackage{hanging}
+%    \newenvironment{hangparagraphs}
+%      {%
+%        \ifthenelse{\lengthtest{\parindent > 0pt}}%
+%          {\setlength{\lyxhang}{\parindent}}%
+%          {\setlength{\lyxhang}{2em}}%
+%        \par\begin{hangparas}{\lyxhang}{1}%
+%      }
+%      {\end{hangparas}}
+%  }{%else
+%    \newenvironment{hangparagraphs}
+%      {%
+%        \ifthenelse{\lengthtest{\parindent > 0pt}}%
+%          {\setlength{\lyxhang}{\parindent}}%
+%          {\setlength{\lyxhang}{2em}}%
+%        \begin{hangparas}%
+%      }
+%      {\end{hangparas}}
+%    \newcommand{\hangpara}{\hangindent \lyxhang \hangafter 1 \noindent}
+%    \newenvironment{hangparas}{\setlength{\parindent}{\z@}
+%    \everypar={\hangpara}}{\par}
+%  }
+% 
+% \AtBeginDocument{
+%   \def\labelitemii{\(\rightarrow\)}
+% }
+% 
+% \makeatother
+% 
+% \begin{document}
+
+\section{Sensitivity coefficients\label{sec:Calibrations}}
+
+This section reviews the determination of ''sensitivity coefficients''
+that provide parameterized measurements of the angles of the relative
+wind (angle of attack and sideslip angle) in terms of measured quantities
+like pressure differences between ports on the radome. These sensitivity
+coefficients are essential for measurement of the relative wind, as
+described in Sect.~\prettyref{sub:The-Relative-Wind}, Eq. (\ref{eq:relative wind}).
+DEEPWAVE Flight RF15 on 3 July 2014 was devoted to calibration maneuvers,
+and measurements from that flight, combined with similar calibration
+maneuvers flown on RF11 at 40,000 ft, are used to determine sensitivity
+coefficients for angle of attack (AKRD and AK\_GP) and for sideslip
+(SSRD and SS\_GP). A larger data set, described below, is also used
+to study the representativeness and uncertainty of the resulting sensitivity
+coefficients. This section also discusses some aspects of the relative
+timing of the measurements. 
+
+% For reference: The data files used were those produced in the field% during the DEEPWAVE project using nimbus code on the ground station% at that time. Files used were those from RF15, RF11, RF14, and RF16.% These data files have been transferred to EOL storage as /scr/rafdata/DEEPWAVE/DEEPWAVErfxx.nc% where xx is the flight number. For backup purposes, there is also% a zip file of these data files saved as DWCal.zip.
+
+<<Initialization,echo=FALSE,include=FALSE>>=
+require(Ranadu)
+library(knitr)
+library(zoo)
+# set global chunk options
+opts_chunk$set(fig.path='figure/WU-', fig.lp="fig:", fig.align='center', fig.show='hold', echo=FALSE, include=FALSE, fig.width=5, fig.height=5, size='footnotesize')
+options(replace.assign=TRUE,width=49, digits=4)
+SummarizeFit <- function(ft) {
+  print (summary(ft)$call)
+  print ("Coefficients:")
+  print (summary(ft)$coefficients)
+  print (sprintf ("Residual standard error: %.3f, dof=%d", summary(ft)$sigma, summary(ft)$df[2]))
+  print (sprintf ("R-squared %.3f", summary(ft)$r.squared))
+}
+
+@
+
+
+\subsection{Angle of Attack\label{sub:Calibration-AOA}}
+
+
+\subsubsection{Equations underlying the calibration}
+
+The first-order expression for the vertical wind $w$ is
+
+\begin{equation}
+w=V\sin(\alpha-\phi)+w_{p}\label{eq:VWind}
+\end{equation}
+
+
+where $V$ is the true airspeed, $\alpha$ the angle of attack, $\phi$
+the pitch, and $w_{p}$ the vertical motion or rate-of-climb of the
+aircraft. The solution for the angle-of-attack is
+
+\begin{equation}
+\alpha=\phi+\arcsin\frac{w-w_{p}}{V}\label{eq:SolvedForAOA}
+\end{equation}
+
+
+If it is reasonable to assume for some period of flight that $w$
+is zero, or that it averages to zero, then
+
+\begin{equation}
+\alpha^{*}=\phi-\arcsin\frac{w_{p}}{V}\label{eq:alphaWithwZero}
+\end{equation}
+
+
+can be used as a reference angle-of-attack to which to fit a parameterized
+formula. This fit reference depends on measurements of pitch, rate-of-climb,
+and true airspeed. Even in the presence of waves, fitting functions
+of the radome measurements and other flight characteristics to this
+reference should average any real effects of vertical wind as long
+as the vertical wind over the flight segments used averages to zero.
+
+The danger in this approach is that a particular data set may not
+have negligible average mean wind. For example, if a flight spent
+more time in the updraft regions in the ascending portion upwind of
+the island and less in the downdraft region downwind of the island,
+the mean measurement of vertical wind may not be negligible. The functions
+used for representation of angle of attack always include an offset
+term along with functions of measurements, so it may be appropriate
+to adjust that offset if there is evidence that the mean vertical
+wind should not be zero. Other steps can be taken to check that offset
+coefficient, as discussed in subsequent sections. One compromise,
+followed below, is to determine any coefficients other than the offset
+term from comprehensive data sets but then revised the constant coefficient
+in the fit on the basis of special periods expected to average to
+zero vertical wind, like flight over the ocean well away from weather
+disturbances or special calibration flights in conditions with apparently
+level air motions. 
+
+In the case of the radome, the relevant variables are $\phi$=PITCH,
+$w_{p}=$GGVSPDB, and $V=$TASX. The radome measures the pressure
+difference (ADIFR) between top and bottom ports on the radome, and
+this pressure is usually normalized by some measure of dynamic pressure
+like QCF or QCXC or QCRC. The former is preferable because the use
+of corrected QCXC requires the application of static-defect corrections
+that themselves depend on $\alpha$, leading to circularity in the
+calculation, and QCR and QCRC are sometimes affected by icing or freezing
+of accumulated water even when ADIFR continues to function.
+
+For the gust pod, the relevant variables are $\phi$=CPITCH\_GP, $w_{p}$=CVSPD\_GP,
+and $V$=TASX. The gust-pod measurements differ from those measured
+relative to the fuselage; for example, the pitch of the gust pod is
+several degrees different from that of the fuselage because of the
+way in which the gust-pod IRU is installed. However, the true airspeed
+$V$ in (\ref{eq:alphaWithwZero}) is measured better by the fuselage
+system, so TASX will be used for $V$. The equation with the appropriate
+variables is then: 
+\begin{equation}
+\alpha^{*}=\mathrm{CPITCH\_GP}-\arcsin\frac{\mathrm{CVSPD\_GP}}{\mathrm{TASX}}\label{eq:AOAeq}
+\end{equation}
+
+
+''Calibration'' of the angle-of-attack (i.e., determining the sensitivity
+coefficients) then requires determining a function $f(\{x_{i}\})$
+of measured quantities that matches $\alpha^{*}$ determined from
+(\ref{eq:AOAeq}). Possible terms $\{x_{i}\}$ in that function may
+include ADIFR and related measurements of pressure and dynamic pressure
+as well as Mach number, and powers and products of these terms. For
+the Rosemount 858 sensor used with the gust pod, it is expected from
+theory that one element of $\{x_{i}\}$ will be ADIFR\_GP/QC\_GP.
+Wind tunnel and theoretical studies predict how the pressure will
+vary on a hemispheric surface with changing angles, but those don't
+necessarily apply to the mounting location on the GV because there
+is considerable flow distortion at the under-wing location of the
+pod and that affects the pressure response to changes in flow angles.
+Therefore, the best approach is to use the above approach for that
+sensor also and determine a functional response that matches the calibration
+data.
+
+
+\subsubsection{Application to the radome\label{sub:radome-sensitivity}}
+
+The best method for calibrating angle-of-attack is through the use
+of speed runs. In this maneuver, the aircraft is slowed to a speed
+near the lower range of its operating range, then accelerated to near
+the upper limit, and then slowed again to normal cruise. If this is
+done while flying a level track, the angle of attack will vary through
+its normal range and the pitch will vary similarly. If there is no
+vertical wind or if a fluctuating vertical wind averages to zero,
+(\ref{eq:alphaWithwZero}) then can be used to provide a reference
+angle $\alpha^{*}$ that serves as reference for the parameterized
+fit. There were three speed runs during RF15, at the times 3:21--3:29,
+4:15--4:23, and 5:01--5:11 UTC. On RF11, there was a similar speed
+run flown from 10:30--10:40. For the purpose of this first determination
+of sensitivity coefficients for angle-of-attack, only those periods
+were used. In addition, because some of the measurements at minimum
+speed deviated from the otherwise simple fits, only measurements with
+true airspeed in excess of 130 m/s were used; this eliminated some
+of the slowest parts of the speed runs, but that is a flight speed
+not used in normal operation.
+
+In the code being used (cf.\ WindUncertainty.Rnw), the line 
+\begin{lyxcode}
+AOAREF~<-~PITCH~-~asin(GGVSPDB/TASX)~/~Cradeg
+\end{lyxcode}
+represents Eq.~(\ref{eq:alphaWithwZero}).
+
+The sensitivity to the pressure difference between vertically separated
+ports is the most important part of the calibration of angle of attack.
+Secondary terms are sometimes needed to adjust the value to maintain
+a correct zero. Therefore, the fit was done in two stages. First,
+the four speed runs alone were used to determine the sensitivity to
+the pressure ratio, and then a larger dataset was used to incorporate
+a wider range of flight conditions to check that the fit determined
+from the speed runs remained representative of the larger data set..
+The first fit was to the following simplified equation:
+
+\begin{equation}
+\alpha^{*}=c_{0}^{*}+c_{1}^{*}\frac{\Delta p_{\alpha}}{q}\label{eq:AOAsens1term}
+\end{equation}
+A fit to the data is shown in Fig.~\ref{fig:AOA-fit-and-plot} and
+tabulated in the following summary of the fit, which was produced
+by the ``R'' call at the top of the listing. AOAREFC is $\alpha^{*}$
+with correction to pitch as in Section \ref{sec:Schuler}and AQR=$\Delta p_{\alpha}/q$
+.
+
+<<getData-AOA, include=TRUE>>=
+
+ReloadData = FALSE	# otherwise, retrieve from previously saved data
+Project <- "DEEPWAVE"
+if (ReloadData) {
+  Flight <- "rf15"        # this was the flight with cal maneuvers
+  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+  VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
+              "ADIFR", "AKRD", "SSLIP", "PITCH", 
+              "ROLL", "THDG", "BDIFR", "EWX", "GGALT",
+              "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
+              "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
+              "CVNS_GP", "CVEW_GP", "VSPD", "CVSPD_GP",
+              "ATX", "GGVSPDB", "QCF", "PSF")
+  D <- getNetCDF (fname, VarNames)      # this handles high-rate data also
+  PC <- CorrectPitch(D)
+  Valid <- (D$TASX > 130)
+  Valid[abs(D$ROLL) > 5] <- FALSE
+  #hist(PC[Valid], xlim=c(-0.02,0.02))
+  D["PITCHC"] <- D$PITCH - PC
+  Flight <- "rf11"        # this had  cal maneuvers at 40K ft
+  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+  D2 <- getNetCDF (fname, VarNames)
+  D2["PITCHC"] <- D2$PITCH - CorrectPitch (D2)
+  r4 <- setRange (D2$Time, 103000,104000)
+  D2 <- D2[r4,]
+  Flight <- "rf16"        # 43000-ft leg
+  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+  D3 <- getNetCDF (fname, VarNames)
+  D3["PITCHC"] <- D3$PITCH - CorrectPitch (D3)
+  r5 <- setRange (D3$Time, 94000,110000)
+  D3 <- D3[r5,]
+  Flight <- "rf14"        # 45000-ft leg
+  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+  D4 <- getNetCDF (fname, VarNames)
+  D4["PITCHC"] <- D4$PITCH - CorrectPitch (D4)
+  r6 <- setRange (D4$Time, 113000,122000)
+  D4 <- D4[r6,]
+  flight = "rf11"
+  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+  D5 <- getNetCDF (fname, VarNames)
+  D5["PITCHC"] <- D5$PITCH - CorrectPitch (D5)
+  r7 <- setRange (D5$Time, 70000, 100000)
+  D5 <- D5[r7,]
+}
+capnF1 <- "The angle-of-attack determined from the fit to pressure measurements from the radome, as a function of the reference angle provided by Equation (\\ref{eq:AOAsens1term}), for the combination of data from all four speed runs as listed in the text."
+
+@
+
+<<AOA-fit-and-plot, fig.cap=capnF1, include=TRUE>>=
+
+if (ReloadData) {
+  r1 <- setRange (D$Time, 32100,32900)
+  r2 <- setRange (D$Time, 41500,42300)
+  r3 <- setRange (D$Time, 50100,51100)
+  # need to add high-altitude segment also to constrain fit:
+  # rf11 103000--104000 is a speed run at 40,000 ft.
+  # useful also to include some data from max altitude:
+  r <- c(r1,r2,r3)
+  DD <- merge(D2, D4, all=TRUE)
+  DD <- merge(DD, D[r,], all=TRUE)
+  DD <- merge (DD, D3, all=TRUE)
+  Data <- merge (DD, D5, all=TRUE)
+  Data2 <- merge (D2, D[r,], all=TRUE)
+  Valid <- (Data2$TASX > 130.)
+  Data2 <- Data2[Valid,]
+  save (Data,Data2,D,D2, file="~/RStudio/DEEPWAVE/CalData.Rdata")
+} else {
+  load (file="~/RStudio/DEEPWAVE/CalData.Rdata")
+}
+Cradeg <- pi / 180.
+Data2["Mach"] <- MachNumber (Data2$PSF, Data2$QCF)  # uses uncorrected q, p
+## use corrected value of PITCHC
+Data2["AOAREFC"] <- Data2$PITCHC - asin(Data2$GGVSPDB/Data2$TASX) / Cradeg
+Data2["AOAREF"]  <- Data2$PITCH  - asin(Data2$GGVSPDB/Data2$TASX) / Cradeg
+Data2["AQR"] <- Data2$ADIFR/Data2$QCF # basic pressure ratio for AO
+fmy <- lm(AOAREFC~AQR, data=Data2)
+#print(summary(fmy))
+SummarizeFit (fmy)
+fmyp <- lm (AOAREF~AQR, data=Data2)
+#print(summary(fmyp))
+cfr <- coefficients (fmy)
+A1 <- cfr[1]+cfr[2]*Data2$AQR
+Data2["A1"] <- A1
+std.coef <- c(4.605, 18.44, 6.75)
+clr <- c("measurements", "fit", "std")
+col <- c ('darkorange', 'darkgreen')
+g <- ggplot (data=Data2, aes(x=AOAREFC))
+g <- g + geom_point (aes(y=A1), colour='blue', pch=19) 
+g <- g + xlab (expression(paste("Reference AOA [",degree,"]")))
+g <- g + ylab (expression(paste("AOA from best-fit equation [",degree,"]")))
+g <- g + geom_smooth (aes(y=A1, colour=clr[2]), method='lm', lwd=2, linetype=2)
+g <- g + scale_colour_manual ("", breaks = clr, values = col)
+g <- g + theme_WAC()
+print (g)
+#plot (Data2$AOAREFC, A1, pch=16, cex=0.8, col='blue', xlab="Ref. AOA", ylab="fit AOA")
+#lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='darkorange')
+capnF1b <- "The angle of attack determined from the simple fit to the pressure ratio from the radome, compared to the standard variable AKRD used for preliminary processing. The 
+points plotted in red are those measured at altitudes between 8 and 9 km GPS altitude; all others are plotted as blue symbols."
+capnF2 <- "The angle-of-attack determined from the expanded fit, as a function of the reference angle provided by Equation (\\ref{eq:AOAsens1term})."
+capnF1b <- "The angle of attack determined from the simple fit to the pressure ratio from the radome, as a function of the angle-of-attack predicted for zero vertical wind from the formula in the text (blue shapes), and the corresponding distribution that would result from using the standard calibration (green shapes). The shapes show the distributions for measurements in centered bins at (1/3)-deg increments in the predicted angle-of-attack. The dashed orange line is the best fit to the speed-run measurements."
+
+@
+
+
+
+
+
+This fit gave coefficients $c_{0}^{*}$ and $c_{1}^{*}$ equal to
+\Sexpr{format(round(summary(fmy)$coef[1],3), nsmall=3)} and \Sexpr{round(summary(fmy)$coef[2],3)}.
+The fit accounted for \Sexpr{round(100*summary(fmy)$r.squared, 1)}\%
+of the variance and had a residual standard error of \Sexpr{round(summary(fmy)$sigma, 2)}$^{\circ}$,
+so it represented the speed runs well. In Fig.~\ref{fig:AOA-fit-and-plot},
+the thin grey line under the thick orange dashed line represents the
+uncertainty in the fit result and shows that the uncertainty in representing
+these data with this set of coefficients is negligible. The more significant
+uncertainty, however, comes from the assumption that the vertical
+wind is zero for these periods of the speed runs. Therefore, additional
+studies will be used below for further evaluation of the uncertainty
+introduced by this assumption.
+
+This calibration would be affected by a time difference between the
+IRU measurement of pitch and the data-system sampling of the pressures
+involved, especially that from the radome. The IRU outputs measurements
+with a time delay that can be variable and unknown but is expected
+to be <0.1~s, and normal processing uses an adjustment of 60~ms
+to compensate for this delay. To guard against this delay affecting
+the calibration, a series of fits like that leading to the above formula
+and coefficients were performed after shifting the measurement of
+pitch by various time intervals, both forward and backward. For shifts
+within about 0.5\,s, the results did not change significantly, although
+the fit with adjustment of pitch \emph{backward} by about 0.5\,s
+had the smallest standard error . Equivalently, a similar standard
+error was obtained if the measurement of the pressure ratio from the
+radome ($\delta p_{\alpha}$) were moved forward in time by a similar
+amount. Neither of these shifts seems likely at this magnitude, and
+the change in standard error was only about 0.002$^{\circ}$, so we
+interpret this as indicating insensitivity of the calibration to small
+shifts in time. That is likely a result of the calibration data being
+from speed runs where the flight speed is gradually increased and
+then decreased, so any effect of a lag partially cancels in such data
+segments.
+
+The calibration would also be affected by pitch errors such as are
+discussed in Sect.~\ref{sec:Schuler}. Therefore the correction procedure
+discussed in that section was applied to these data before finding
+the preceding fit. In comparison to the fit without this correction,
+the standard error was changed only negligibly and the two fit coefficients
+changed by -0.007 and -0.004, respectively, so this correction also
+had only minor effect on the fit, with changes comparable to or smaller
+than the standard errors in these coefficients. This insensitivity
+perhaps arises because the period of the calibration spanned a few
+hours and so included enough time for the Schuler oscillation of pitch
+to average over the dataset used for calibration.
+
+<<adjust-timing, include=TRUE, eval=FALSE>>=
+
+## try adjusting timing of pitch measurement:
+MakeHR <- function (X) {
+  DL <- length(X)
+  Padj <- vector ("numeric", 25*DL)
+  for (k in 2:(DL-1)) {
+    if ((is.na(X[k])) | (X[k] == -32767) | is.na(X[k-1]) | is.na(X[k+1])) {
+      for (j in 1:25) {
+        Padj[(k-1)*25+j] <- -32767
+      }
+    } else {
+      for (j in 0:12) {
+        Padj[(k-1)*25+j+1] <- X[k-1]+0.04*(j+13)*(X[k]-X[k-1])
+      }
+      for (j in 13:24) {
+        Padj[(k-1)*25+j+1] <- X[k]+0.04*(j-12)*(X[k+1]-X[k])
+      }
+    }
+  }
+  # just replicate the start and end measurements
+  k <- 1
+  if (is.na(X[k]) | is.na(X[k+1])) {
+    for (j in 1:25) {
+      Padj[j] <- -32767.
+    }
+  } else {
+    for (j in 0:12) {
+      Padj[(k-1)*25+j+1] <- X[k]
+    }
+    for (j in 13:24) {
+      Padj[(k-1)*25+j+1] <- X[k]+0.04*(j-12)*(X[k+1]-X[k])
+    }
+  }
+  k <- DL
+  if (is.na(X[k]) | is.na(X[k-1])) {
+    for (j in 1:25) {
+      Padj[j] <- -32767.
+    }
+  } else {
+    for (j in 0:12) {
+      Padj[(k-1)*25+j+1] <- X[k-1]+0.04*(j+13)*(X[k]-X[k-1])
+    }
+    for (j in 13:24) {
+      Padj[(k-1)*25+j+1] <- X[k]
+    }
+  }
+  #T <- filter(butter(3,2./25.),T)
+  Padj <- signal::filter(signal::sgolay(4,75),Padj)
+  return (Padj)
+}
+
+<<cycle-thru-times, include=TRUE, eval=FALSE>>=
+
+DPITCH <- c(D$PITCH[1], D$PITCH[1:(length(D$PITCH)-1)]) 
+D2PITCH <- c(D2$PITCH[1], D2$PITCH[1:(length(D2$PITCH)-1)]) 
+#DPITCH <- c(D$PITCH[2:length(D$PITCH)], D$PITCH[length(D$PITCH)])
+#D2PITCH <- c(D2$PITCH[2:length(D2$PITCH)], D2$PITCH[length(D2$PITCH)])
+Padj1 <- MakeHR (DPITCH)
+Padj2 <- MakeHR (D2PITCH)
+Padj <- c(Padj2, Padj1)
+rf <- c(r4,(r+length(D2$Time)))
+DL <- length(D$TASX) + length(D2$TASX)
+for (j in 1:25) {
+  ix <- seq(j, 25*DL, by=25)
+  Pt <- Padj[ix]
+  Pt <- Pt[rf]
+  Pt <- Pt[Valid]
+  Aref <- Pt - (Data2$GGVSPDB/Data2$TASX)*180/pi
+  ft <- lm(Aref ~ Data2$AQR)
+  print(sprintf("j=%d, stderr=%f", j, summary(ft)$sigma))
+  if (j == 24) {
+    cft <- coefficients(ft)
+    plot (Aref, cft[1]+cft[2]*Data2$AQR, pch=20, col='blue')
+  }
+}
+@
+
+
+Previous studies of the radome where low-altitude flight segments
+were included indicated that an additional term was needed in the
+calibration to adjust the zero for vertical wind for flight in the
+boundary layer over the ocean. The standard calibration determined
+in that way is that given in the RAF document on \href{https://drive.google.com/open?id=0B1kIUH45ca5Ab2Z6cld1M1cydjA&authuser=0}{Processing Algorithms}:
+
+\begin{equation}
+\alpha=c_{0}^{\prime}+\frac{\Delta p_{\alpha}}{q}(c_{1}^{\prime}+c_{2}^{\prime}M)\label{eq:AOAstandard}
+\end{equation}
+with coefficients \{$c^{\prime}$\} = \{4.604, 18.67, 6.49\}. The
+last term provides some adjustment dependent on Mach number and corrects
+an offset often seen in vertical wind at low airspeed.
+
+
+
+Figure~\ref{fig:plot-comparison-to-standard} shows the angle of
+attack determined from this fit vs.\ that from the standard formula.
+The plotted shapes show the distribution in values for centered intervals
+in the predicted angle-of-attack of (1/3) degree, where the blue shapes
+and orange line are the results from the fit to the speed-run measurements
+and the green shapes are the distributions that would result from
+using the standard calibration. The standard calibration is close
+close to that determined from the speed runs, but the RMS difference
+between predicted values and fit values increases from 0.12$^{\circ}$
+for the speed-run fit to 0.15$^{\circ}$ for the standard fit. The
+difference is most evident for measurements at large angle-of-attack,
+where the standard coefficients produce increasingly higher values
+as the angle-of-attack increases.
+
+<<plot-comparison-to-standard, fig.cap=capnF1b, warning=FALSE, include=TRUE>>=
+# plot (AKRD, A1, pch=16, cex=0.8, col='blue', xlab="Standard", ylab="fit AOA")
+# r <- ((GGALT > 8000.) & (GGALT < 9000))
+# points (AKRD[r], A1[r],
+#         pch=16,cex=0.8, col='red')
+# lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='darkorange')
+cfs <- c(4.604, 18.67, 6.49)
+AQRM <- Data2$AQR * Data2$Mach
+Astd <- cfs[1]+cfs[2]*Data2$AQR+cfs[3]*AQRM
+Data2["Astd"] <- Astd
+clr <- c("speed-run fit", "standard")
+col <- c("lightblue", "darkgreen")
+#g <- qplot(D$AOAREF,D$A,geom="violin", group = plyr::round_any(D$AOAREF,0.5, round),  fill=clr[1])
+g <- ggplot(data=Data2, aes(x=AOAREF,y=A1))
+g <- g + scale_fill_manual(name="distributions:", labels=clr, values = col)
+g <- g + geom_violin(aes(group = plyr::round_any(AOAREF, 0.33333, round), fill=clr[1]), alpha=1/2)
+#g <- g + geom_violin(aes(y=A2,group = plyr::round_any(AOAREF, 0.5, round), fill=clr[2]), alpha=1/2)
+g <- g + geom_violin(aes(y=Astd,group = plyr::round_any(AOAREF, 0.33333, round), fill=clr[2]), alpha=1/2)
+#g <- g + geom_text (aes(label="best-fit residual error: 0.09 deg", x=3,y=1), size=8)
+xsz = 2.6
+ysz = 0.30
+# g <- g + geom_rect(aes(xmin=3.5-xsz/2.,xmax=3.5+xsz/2.,ymin=0.6-ysz/2.,ymax=0.6+ysz/2.), fill="lightyellow", colour="blue")
+# g <- g + annotate("text", label="speed-run-fit residual: 0.12 deg.", x=3.5,y=0.6,size=6, colour="red")
+g <- g + xlab (expression(paste("Predicted AOA [", degree, "]")))
+g <- g + ylab (expression(paste("AOA from fit [",degree,"]"))) + ylim(0.,6.)
+g <- g + geom_line(aes(y=AOAREF), colour="darkorange", lwd=2, linetype=2)
+g <- g + theme_WAC ()
+g
+
+@
+
+% For% comparison, the next figure (Fig.\ 2) shows the angle of attack determined% from this fit vs.\ that from the standard processing being used for% preliminary field processing and onboard display during DEEPWAVE.% There is a clear discrepancy, which arises from flight at between% 8,000 and 9,000 m. This also causes a significant offset in WIC at% these altitudes. This is simply an error in the calibration in use,% which traces back to much earlier projects and does not match the% algorithm documents or other recommendations for this calibration.% It will be important to use the new calibration for processing to% eliminate the offset arising from this old calibration.% % \begin{figure}% {\centering \includegraphics{figure/GP-AOA-vs-old-AOA}% % }% % \protect\caption[The angle of attack determined from the simple fit to the pressure% ratio from the radome, compared to the standard variable AKRD used% for preliminary processing]{The angle of attack determined from the simple fit to the pressure% ratio from the radome, compared to the standard variable AKRD used% for preliminary processing. The points plotted in red are those measured% at altitudes between 8 and 9 km GPS altitude; all others are plotted% as blue symbols.\label{fig:AOA-vs-old-AOA}}% \end{figure}
+
+Because the standard fit in use for the GV include an additional terms
+representing dependence on Mach number, the benefit of using such
+a fit for DEEPWAVE is worth considering. The primary reason for that
+fit has been that otherwise the measurements of vertical wind at low
+level tend to be biased, but most of the useful flight data from DEEPWAVE
+was at intermediate or high levels so this may not be a concern for
+this project. 
+
+<<fit-to-standard-eq, include=TRUE>>=
+fm3term <- lm(AOAREF~AQR+AQRM, data=Data2)
+# print (summary(fm3term))
+SummarizeFit (fm3term)
+
+@
+
+Fitting (\ref{eq:AOAstandard}) to the speed-run data gave a standard
+error that is reduced by <0.006$^{\circ}$, so for those measurements
+this small improvement does not seem to justify adding another term
+to the fit. This will be revisited later in this section with an expanded
+data set.
+
+<<fit-to-corrected-pitch, include=FALSE>>=
+Data2["AOAREFC"] <- Data2$PITCHC - asin(Data2$GGVSPDB/Data2$TASX) / Cradeg
+fmyc <- lm(AOAREFC~AQR, data=Data2)
+# print(summary(fmyc))
+SummarizeFit (fmyc)
+cfrc <- coefficients (fmyc)
+Data2["A1C"] <- cfrc[1]+cfrc[2]*Data2$AQR
+@
+
+The next step was to expand the data set to include flights from a
+range of altitudes including up to FL450, and to see if it is necessary
+to refine the fit to include additional terms like that in Eq.~\ref{eq:AOAstandard}
+to constrain the zero of the angle-of-attack while preserving the
+measured sensitivity as in (\ref{eq:AOAsens1term}). The expanded
+dataset included RF14, with a FL450 leg from 11:30 to 12:20 UTC; RF16,
+with a FL430 leg from 9:30 to 11:00 UTC; and an expanded section from
+RF11 (in addition to the speed runs) from 7:00 to 10:00 UTC, to include
+a long leg at FL400.
+
+Various fit equations were explored involving terms including the
+Mach number, the air density, the measured pressures, and various
+products and powers of these terms including terms multiplied by the
+basic pressure ratio already included in (\ref{eq:AOAsens1term}).
+None of these produced enough improvement over the single-term fit
+to warrant their inclusion; the best improvement in the residual standard
+error was about 2\%.%
+\footnote{Additional terms that did improve the fit significantly were those
+correlated with the terms in Eq.~\ref{eq:alphaWithwZero}, esp.~pitch,
+but including such terms is not consistent with finding a fit that
+would represent the angle-of-attack in conditions with non-zero vertical
+wind. For example, including \textquotedbl{}PITCH\textquotedbl{} as
+a term in the fit resulted in a coefficient for this term of about
+0.4, and such a large correlation between resulting measurements of
+angle-of-attack and pitch would bias the response to a true vertical
+wind. As an extreme example, inclusion of a term based on the right
+side of Eq.~\ref{eq:alphaWithwZero} leads to a perfect fit, but
+use of such a fit would ensure that all measurements of vertical wind
+would be zero. For this reason, pitch and vertical aircraft motion
+were excluded from the candidate terms in the fit.%
+}
+
+<<switch-to-larger-dataset, include=TRUE>>=
+
+# now expand to larger dataset
+Valid <- (Data$TASX > 130.) & (abs(Data$ROLL) < 5.)
+Data <- Data[Valid,]
+Data["Mach"] <- MachNumber (Data$PSF, Data$QCF)  # uses uncorrected q, p
+Data["AOAREFC"] <- Data$PITCHC - asin(Data$GGVSPDB/Data$TASX) / Cradeg
+Data["AOAREF"] <- Data$PITCH - asin(Data$GGVSPDB/Data$TASX) / Cradeg
+Data["AQR"] <- Data$ADIFR/Data$QCF # basic pressure ratio for AOA
+Data$RR2 <- Data$QCF/Data$PSF    # q/p ratio
+Data$AQRM <- Data$AQR * Data$Mach
+Data$AQRM2 <- Data$AQR * Data$Mach**2
+Data$AQRM3 <- Data$AQR * Data$Mach**3
+Data$DENS <- Data$PSF / (Data$ATX+273.15)
+fmall <- lm (AOAREFC~AQR+AQRM+AQRM2+AQRM3+RR2+Mach+DENS, data=Data)
+fmnorm <- lm (AOAREFC~AQR+AQRM, data=Data)
+fm <- lm (AOAREFC~AQR, data=Data)
+fmu <- lm (AOAREF~AQR, data=Data)
+fmconst <- lm (AOAREFC-cfr[2]*AQR ~ 1, data=Data)
+# summary(fmall)
+# summary(fmnorm)
+# summary(fm)
+# summary (fmu)
+# summary(fmconst)
+#plot (AOAREFC, AKRD, pch=16, cex=0.7, col='blue')
+#fm <- lm (AOAREFC~AQR+RR2+PS_GP+QC_GP+Mach)
+#fm <- lm (AOAREFC~AQR+RR2+Mach)
+cf3 <- coefficients (fm)
+cf31 <- cf3[1]
+cf32 <- cf3[2]
+sd3 <- summary(fm)$sigma
+#print(c("Fit coefficients are: ",cf3))
+#print(summary(fm))
+#A3 <- cf3[1] + cf3[2]*Data$AQR + cf3[2]*Data$AQRM + cf3[3]*Data$AQRM2 
+#      + cf3[4]*Data$AQRM3 + cf3[5]*Data$Mach
+Data$A3 <- cf3[1]+cf3[2]*Data$AQR
+Data$A1 <- cfr[1]+cfr[2]*Data$AQR
+cfs <- c(4.604, 18.67, 6.49)
+Data$A3std <- cfs[1]+cfs[2]*Data$AQR+cfs[3]*Data$AQRM
+@
+
+The results from the two-coefficient fit to the larger data set, using\\
+\begin{equation}
+\alpha=c_{0}+c_{1}\frac{\Delta p_{\alpha}}{q}\,\,\,,\label{eq:AOArecommended}
+\end{equation}
+led to best-fit coefficients \{$c_{0},\, c_{1}$\} = \{\Sexpr{round(cf31,3)},
+\Sexpr{round(cf32,3)}\} and a standard error of \Sexpr{round(summary(fm)$sigma,2)}
+for 17,715 measurements. The small increase in standard error in comparison
+to the speed-run measurements is expected because this expanded data
+set includes regions more likely to have non-zero vertical wind, which
+contributes to this error. Expanding this fit to include a third coefficient
+as in (\ref{eq:AOAstandard}) resulted in negligible improvement (0.0001$^{\circ}$)
+in the standard error, and introduction of a set of eight possible
+dependencies while exploring for better fits only led to reduction
+in the the standard error by 0.003$^{\circ}$, so more complicated
+equations than (\ref{eq:AOArecommended}) do not appear to be needed.%
+\footnote{This simpler representation applies to the normal research flight
+levels of the DEEPWAVE project, levels above about 10,000 ft. Because
+expanded representations were needed in other projects to represent
+low-level flight data, and low levels are not included in this expended
+data set, it may be necessary to revisit this calibration with more
+terms if lower-level flight segments are to be analyzed.%
+} Another fit considered with this expanded data set was to set the
+slope parameter to the value obtained from the speed-run data, \Sexpr{round(cfr[2], 3)},
+and then fit using the expanded data set to determine a value of the
+offset coefficient that minimized the mean vertical wind. That gave
+a value for the first coefficient of \Sexpr{round(summary(fmconst)$coefficients[1], 3)}
+and a standard error negligibly different from that for the two-coefficient
+fit, so that is another indication that the speed-run dataset and
+the expanded dataset give consistent results. 
+
+The recommended calibration for DEEPWAVE, determined with correction
+of the pitch errors as discussed in Sect.~\ref{sec:Schuler}, is
+(\ref{eq:AOArecommended}) with these values for the coefficients:
+\{$c_{0},\, c_{1}$\} = \{\Sexpr{round(cf31,3)}, \Sexpr{round(cf32,3)}\}.
+
+
+Evaluation of all the points in the larger dataset using three fits,
+for the larger dataset, for the speed runs alone, and using the \textquotedbl{}standard\textquotedbl{}
+fit discussed above, gave only very small differences in the results:
+the angle-of-attack evaluated from the larger-dataset coefficients
+resulted in values 0.029$\pm$0.007$^{\circ}$ larger than those from
+the speed-run coefficients and 0.025$\pm$0.045$^{\circ}$ larger
+than those from the standard coefficients, so using any of these formulas
+would give about the same results.
+
+<<second-violin-plot, include=TRUE, warning=FALSE, fig.cap="Distributions in the angle-of-attack determined from the two-coefficient fit to the expanded dataset, plotted with the distributions that would result from use of the equation based on the speed-runs only. The pink color denotes regions covered by both distributions.">>=
+
+## DF <- data.frame(Time)
+## DF["AOAREF"] <- AOAREF
+## DF["A3"] <- A3
+## DF["A3std"] <- A3std
+## DF["A1"] <- A1
+clr <- c("larger-dataset fit", "speed-run fit")
+col <- c("red", "lightblue")
+#g <- qplot(D$AOAREF,D$A,geom="violin", group = plyr::round_any(D$AOAREF,0.5, round),  fill=clr[1])
+g <- ggplot(data=Data, aes(x=AOAREFC,y=A3))
+g <- g + scale_fill_manual(name="distribution", labels=clr, values = col)
+g <- g + geom_violin(aes(group = plyr::round_any(AOAREFC, 0.33333, round), fill=clr[1]), alpha=1/2)
+#g <- g + geom_violin(aes(y=A2,group = plyr::round_any(AOAREFC, 0.5, round), fill=clr[2]), alpha=1/2)
+g <- g + geom_violin(aes(y=A1,group = plyr::round_any(AOAREFC, 0.33333, round), fill=clr[2]), alpha=1/2)
+#g <- g + geom_text (aes(label="best-fit residual error: 0.09 deg", x=3,y=1), size=8)
+xsz = 2.8
+ysz = 0.30
+g <- g + geom_rect(aes(xmin=3.5-xsz/2.,xmax=3.5+xsz/2.,ymin=0.6-ysz/2.,ymax=0.6+ysz/2.), fill="lightyellow", colour="blue")
+g <- g + annotate("text", label="larger-data-set residual: 0.13 deg.", x=3.5,y=0.6,size=6, colour="red")
+g <- g + xlab (expression(paste("Reference AOA [", degree, "]")))
+g <- g + ylab (expression(paste("AOA from fit [",degree,"]"))) + ylim(0.,6.)
+g <- g + geom_line(aes(y=AOAREF), colour="darkorange", lwd=2, linetype=2)
+g <- g + theme_WAC ()
+g
+#plot (AOAREF, A2, xlab="Predicted AOA [deg.]", 
+#         ylab="Fit AOA [deg.]", type='p', pch=16, cex=0.7, col='blue')
+#points (AOAREF, A2std, pch=16, cex=0.7,col='red')
+#lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='orange')
+#title("Radome")
+capnF1c <- "Comparison of angle of attack determined from (6) to the reference data for the four speed runs."
+@
+
+In Fig.~\ref{fig:second-violin-plot} the values of angle-of-attack
+obtained using the fit to data from the expanded dataset are compared
+to those obtained using the fit to the speed-run dataset. For all
+the points in the larger dataset, the respective differences in the
+average angle-of-attack between the speed-run fit and the expanded-data-set
+fit and between the speed-run fit and the standard fit (\ref{eq:AOAstandard})
+were 0.029$\pm$0.007$^{\circ}$ and 0.025$\pm$0.045$^{\circ}$.
+This indicates that any of these formulas would give about the same
+results and that one measure of uncertainty in the results from applying
+these fits is that the various fits differ by about 0.03$^{\circ}$
+in resulting angle-of-attack. 
+
+
+
+ % The best fit to the expanded dataset, keeping $c_1^{*}$ fixed as given in (\ref{eq:AOAsens1term}), was% the following equation:% % \begin{equation}% \alpha=c_{0}+\frac{\Delta p_{\alpha}}{q}(c_{1}^{*}+c_{1}M+c_{2}M^{2}+c_{3}M^{3})+c_{4}M\label{eq:BestFitAOAradome}% \end{equation}% with coefficients \{$c_{i}$\}=\{4.1079717, 82.6157340, -135.8737038,% 77.4028078, 0.5531502\} and $c_1^*$ =21.872829. The results are shown in the following figure, and a summary of the fit is listed also. The residual error in angle of attack was 0.11$^\circ$ for the 17,168 points used in the fit, and all terms in (\ref{eq:BestFitAOAradome}) tested as having high significance. (The variables listed as AQRMx are $\frac{\Delta p_{\alpha}}{q}M^x$ where $M$ is the Mach number.)
+
+The standard errors in the coefficients for the larger dataset are
+respectively \Sexpr{round(summary(fm)$coefficients[1,2],4)} and \Sexpr{round(summary(fm)$coefficients[2,2],3)},
+so the coefficients are tightly constrained by the fit. Surprisingly,
+the correlation between error terms was very high and positive, increasing
+the combined effects of these errors in any calculation of angle-of-attack.
+The larger dataset provided results consistent with those from the
+speed runs alone but contained 17,721 measurements vs.~only 2,019
+for the speed-run dataset, so the larger set provides an opportunity
+to examine the consistency of results from subsets of the measurements.
+For this purpose, randomly selected but exclusive subsets of the data
+were selected repeatedly and the fit coefficients were determined
+from each of these subsets. In one example, the dataset was divided
+randomly into 100 subsets and the fit coefficients calculated for
+each of those subsets, and then this process was repeated 50 times.
+The resulting standard deviations in the fit coefficients were 0.070
+and 0.88. Repeating this for different subset sizes $N$ indicated
+that the standard deviations in the coefficients scaled in a manner
+consistent with $\sqrt{N}$ behavior, suggesting that the results
+are not biased by isolated outlier measurements such as would occur
+from regions with true vertical wind. The subsetting also revealed
+that the individual coefficients were highly correlated, with correlation
+coefficient 0.99. The effect of this is the two error terms add almost
+linearly, not in quadrature, in their effect on the final uncertainty
+in angle of attack.
+
+The effect of these errors on the resulting angle of attack, for this
+dataset, was evaluated by applying randomly generated Gaussian fluctuations
+to the coefficients and calculating the net effect on the parameterized
+representation. The resulting standard error in angle-of-attack was
+0.001$^{\circ}$. However, because the speed-run values and standard
+values gave deviations relative to this calibration of about 0.03$^{\circ}$,
+that may be a better estimate of the uncertainty in angle of attack
+from possible bias, with the smaller standard error representing the
+random component of that uncertainty. The net effect on vertical wind
+produced by 0.03$^{\circ}$ uncertainty in the sensitivity coefficients
+for angle-of-attack is therefore estimated to be about 0.1~m/s from
+uncertainty in the calibration.
+
+<<fig-cap-3a>>=
+capnFaoaG <- "For the gust pod, the angle-of-attack determined from the fit as a function of the reference angle provided by (\\ref{eq:AOAeq}), for the combined four speed runs. Compare to Fig.~\\ref{fig:AOA-fit-and-plot}, the corresponding plot for the radome."
+@
+
+
+\subsubsection{Application to the gust pod}
+
+A similar approach was taken for the gust pod, but with variables
+translated to apply to the gust-pod instead of the radome: $\Delta P_{\alpha}=$ADIFR\_GP,
+$q=$QC\_GP, $p=$PS\_GP, and the Mach number $M$ was that determined
+from the uncorrected measurements $p$ and $q$ from the gust pod.
+Apparently because of the under-wing location in disturbed airflow,
+a fit involving more terms was needed to represent the reference measurements
+from Eq.~\ref{eq:AOAeq}. After exploration of various possible terms,
+the fit selected to represent the gust-pod was the following:
+
+\begin{equation}
+\alpha=b_{0}+\frac{\Delta p_{\alpha}}{q}(b_{1}+b_{2}M)+b_{3}\frac{q}{p}\label{eq:AOAGfunction}
+\end{equation}
+
+
+<<AOA-gust-pod,fig.cap=capnFaoaG,fig.align="center", echo=FALSE, include=TRUE>>=
+Data2$AOAREF_GP <- Data2$CPITCH_GP - asin(Data2$CVSPD_GP/Data2$TASX) / Cradeg
+Data2$AQR_GP <- Data2$ADIFR_GP/Data2$QC_GP # basic pressure ratio for AOA
+Data2$RR2_GP <- Data2$QC_GP/Data2$PS_GP # q/p ratio from the gust pod
+#fm <- lm (AOAREF~AQR+RR2+PS_GP+QC_GP+Mach)
+#fm_GP <- lm (AOAREF_GP~AQR_GP+RR2_GP+Mach)
+Data2$MachG <- MachNumber (Data2$PS_GP, Data2$QC_GP)
+Data2$AQRM_GP <- Data2$AQR_GP * Data2$MachG
+fm_GP <- lm (AOAREF_GP~AQR_GP+AQRM_GP +RR2_GP, data=Data2)
+cf3_GP <- coefficients (fm_GP)
+#print(c("Fit coefficients are: ",cf3_GP))
+# print(summary(fm_GP))
+SummarizeFit (fm_GP)
+Data2$A2_GP <- cf3_GP[1] + cf3_GP[2]*Data2$AQR_GP + cf3_GP[3]*Data2$AQRM_GP + cf3_GP[4]*Data2$RR2_GP
+# plot (Data2$AOAREF_GP, Data2$A2_GP, xlab="Predicted AOA [deg.]", 
+# ylab="Fit AOA [deg.]", type='p', pch=16, cex=0.7, col='blue')
+# lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='orange')
+# title ("Gust Pod")
+clr <- c("measurements", "fit")
+col <- c ('darkorange', 'darkgreen')
+g <- ggplot (data=Data2, aes(x=AOAREF_GP))
+g <- g + geom_point (aes(y=A2_GP), colour='blue', pch=19) 
+g <- g + xlab (expression(paste("Reference AOA [",degree,"]")))
+g <- g + ylab (expression(paste("AOA from best-fit equation [",degree,"]")))
+g <- g + geom_smooth (aes(y=A2_GP, colour=clr[2]), method='lm', lwd=2, linetype=2)
+g <- g + scale_colour_manual ("", breaks = clr, values = col)
+g <- g + theme_WAC()
+print (g)
+capnF3 <- "The sideslip attack determined from the fit, as a function of the reference angle provided by Equation (9), for the combination of data from all three yaw maneuvers listed in the text."
+
+@
+
+
+
+The results of this formula are compared to the reference data in
+Fig.~\ref{fig:AOA-gust-pod}. The best-fit coefficients were \{$b_{i}$\}
+= \{\Sexpr{round(cf3_GP[1],3)}, \Sexpr{format(round(cf3_GP[2],3),nsmall=3)},
+\Sexpr{round(cf3_GP[3],3)}, \Sexpr{format(round(cf3_GP[4],3),nsmall=3)}\}
+and the square of the correlation was \Sexpr{format(round(summary(fm_GP)$r.squared,3),nsmall=2)}
+with residual scatter (residual standard error) of \Sexpr{format(round(summary(fm_GP)$sigma,3),nsmall=2)}.
+The fit was thus even better than that obtained for the radome for
+these same speed runs.
+
+
+
+
+\subsection{Sideslip Angle\label{sub:calibration-SS}}
+
+
+\subsubsection{Equations underlying the calibration}
+
+Calibration of the sideslip angle is more difficult, both because
+the equations are more complicated and because the maneuver is very
+hard to fly. Ideally, the sideslip maneuver should only change yaw
+angle and heading without change in roll, altitude, or angle-of-attack,
+but that is impossible to fly. It is practical, however, to minimize
+roll and change in altitude, and that was how these maneuvers were
+flown. The three sets of yaw maneuvers were at these times: 3:32:00--3:35:30,
+4:31:00--4:33:30, and 5:26:40--5:29:30 UTC. Because the yaw maneuvers
+on rf11 (10:25:00 to 10:30:00) were flown in the old way, they were
+not combined with these new measurements, but it does not appear that
+the sideslip calibration has any significant dependence on altitude.
+In the case of yaw maneuvers, the calibration is based on the expectation
+that the horizontal wind remains constant. The first-order equations
+for the east and north components of the wind, $u$ and $v$, are:
+
+\begin{eqnarray}
+u & = & -U_{a}\sin(\Psi+\beta)+u_{p}\nonumber \\
+v & = & -U_{a}\cos(\Psi+\beta)+v_{p}\label{eq:horizWindeqs}
+\end{eqnarray}
+where $U_{a}$ is the true airspeed, $\Psi$ the heading, $\beta$
+the sideslip angle, and $u_{p}$ and $v_{p}$ are the eastward and
+northward ground-speed components of the aircraft. These two equations
+lead to the following reference formula for $\beta$:
+
+\begin{equation}
+\beta^{*}=-\Psi+\arctan\left(\frac{u_{p}-u}{v_{p}-v}\right)\label{eq:beta-equation}
+\end{equation}
+where the second term represents a correction for the change in direction
+of motion of the aircraft, which is difficult to avoid in the yaw
+maneuver. The measurements thus provide $\beta^{*}$, an estimate
+of the sideslip during the yaw maneuvers.
+
+There is, however, a circular component in (\ref{eq:beta-equation})
+because it involves the wind components and those require $\beta$
+for their measurement when sideslip changes. To reduce the feedback
+from this term, the horizontal wind components $u$ and $v$ were
+low-pass-filtered with periods ranging from 5--60 s and the filtered
+values were used in (\ref{eq:beta-equation}). Filtering made small
+differences in the fit coefficients but increased the residual error
+significantly, but 60-s filtering was still selected because that
+is a period long in comparison to the yaw maneuvers so it should reduce
+possible bias in the fit coefficients from use of the older sensitivity
+coefficients and any associated fluctuations in the wind measurements
+during maneuvers.
+
+
+\subsubsection{Application to the radome-based and gust-pod systems}
+
+For both systems, a relatively simple fit was sufficient, in the following
+form:
+
+\begin{equation}
+\beta=e_{0}+e_{1}\frac{\Delta p_{\beta}}{q}\label{eq:betaFunctionForm}
+\end{equation}
+where $\Delta p_{\beta}$ is the pressure difference between horizontally
+separated pressure ports and $q$ the dynamic pressure. For the radome,
+$q=$QCF and $\Delta p_{\beta}=$BDIFR; for the gust-pod, $q=$QC\_GP
+and $\Delta p_{\beta}=$BDIFR\_GP. The resulting fit for the radome
+is listed below:
+
+<<sideslip-fits, include=TRUE, fig.cap="The sideslip attack determined from the fit, as a function of the reference angle provided by Equation (\\ref{eq:beta-equation}), for the combination of data from all three yaw maneuvers listed in the text. The gray area underlying the dashed orange line denotes the standard-uncertainty range for the fit.", fig.height=4.5>>=
+# first get filtered wind-component values:
+# u <- -1. * D$WSC * sin (D$WDC*Cradeg)
+# v <- -1. * D$WSC * cos (D$WDC*Cradeg)
+# u <- ButterworthFilter (u, tau=30)
+# v <- ButterworthFilter (v, tau=30)
+
+r1 <- setRange (D$Time, 33130,33600)
+r2 <- setRange (D$Time, 43000,43400)
+r3 <- setRange (D$Time, 52540,53030)
+DD <- D[r1,]
+u1 <- mean (-1.*DD$WSC * sin (DD$WDC * Cradeg))
+v1 <- mean (-1.*DD$WSC * cos (DD$WDC * Cradeg))
+DD <- D[r2,]
+u2 <- mean (-1.*DD$WSC * sin (DD$WDC * Cradeg))
+v2 <- mean (-1.*DD$WSC * cos (DD$WDC * Cradeg))
+DD <- D[r3,]
+u3 <- mean (-1.*DD$WSC * sin (DD$WDC * Cradeg))
+v3 <- mean (-1.*DD$WSC * cos (DD$WDC * Cradeg))
+r1 <- setRange (D$Time, 33230,33500)
+r2 <- setRange (D$Time, 43100,43300)
+r3 <- setRange (D$Time, 52640,52930)
+r <- c(r1,r2,r3)
+# u <- u[r]
+# v <- v[r]
+#r <- r1
+Data <- D[r,]
+Valid <- (Data$TASX > 130.)
+DataV <- Data[Valid,]
+Hmean <- mean(DataV$THDG)
+u <- -1. * DataV$WSC * sin (DataV$WDC*Cradeg)
+v <- -1. * DataV$WSC * cos (DataV$WDC*Cradeg)
+# u[1:length(r1)] <- u1
+# u[(length(r1)+1):length(c(r1,r2))] <- u2
+# u[(length(c(r1,r2))+1):length(r)] <- u3
+# v[1:length(r1)] <- v1
+# v[(length(r1)+1):length(c(r1,r2))] <- v2
+# v[(length(c(r1,r2))+1):length(r)] <- v3
+# tauslip = 10.
+# u[1:length(r1)] <- ButterworthFilter(u[1:length(r1), tau=tauslip)
+# u[(length(r1)+1):length(c(r1,r2))] <- ButterworthFilter(u[(length(r1)+1):length(c(r1,r2))], tau=tauslip)
+# u[(length(c(r1,r2))+1):length(r)] <- ButterworthFilter(u[(length(c(r1,r2))+1):length(r)], tau=tauslip)
+# v[1:length(r1)] <- ButterworthFilter(v[1:length(r1), tau=tauslip)
+# v[(length(r1)+1):length(c(r1,r2))] <- ButterworthFilter(v[(length(r1)+1):length(c(r1,r2))], tau=tauslip)
+# v[(length(c(r1,r2))+1):length(r)] <- ButterworthFilter(v[(length(c(r1,r2))+1):length(r)], tau=tauslip)
+
+DataV$SSREF <- -DataV$THDG + atan2((DataV$VEW-u), (DataV$VNS-v))/ Cradeg
+DataV$SSREF[DataV$SSREF < -180.] <- DataV$SSREF[DataV$SSREF < -180.] + 360.
+#plot (DataV$SSREF, DataV$SSLIP, pch=16, cex=0.6,col='blue')
+DataV$BQR <- DataV$BDIFR / DataV$QCXC
+sfm <- lm(SSREF~BQR, data=DataV)
+cfs <- coefficients(sfm)
+#print(c("Fit coefficients are: ",cfs))
+# print(summary(sfm))
+SummarizeFit (sfm)
+DataV$S2 <- cfs[1] + cfs[2] * DataV$BQR
+# plot (DataV$SSREF, DataV$S2, pch=16, cex=0.6, col='blue',
+#       xlab="SS Reference", ylab="SSLIP from fit")
+# lines(c(-2.,2.), c(-2.,2.), col='orange', lty=2, lwd=3)
+# title ("Radome")
+clr <- c("measurements", "fit")
+col <- c ('darkorange', 'darkgreen')
+g <- ggplot (data=DataV, aes(x=SSREF))
+g <- g + geom_point (aes(y=S2), colour='blue', pch=19) 
+g <- g + xlab (expression(paste("reference sideslip [",degree,"]")))
+g <- g + ylab (expression(paste("sideslip from best-fit equation [",degree,"]")))
+g <- g + geom_smooth (aes(y=S2, colour=clr[2]), method='lm', lwd=2, linetype=2)
+g <- g + scale_colour_manual ("", breaks = clr, values = col)
+g <- g + theme_WAC()
+print (g)
+capnF4 <- "As in the preceding figure but for the gust-pod system."
+
+@
+
+The best-fit coefficients were \{e\} = \{\Sexpr{format (round(cfs[1], 3), nsmall=3)},
+\Sexpr{round (cfs[2], 3)}\}, the squared correlation was \Sexpr{round (summary(sfm)$r.squared, 2)}
+and the residual standard error was \Sexpr{round (summary(sfm)$sigma, 3)},
+as listed above. The plotted measurements and this fit are shown in
+Fig.~\ref{fig:sideslip-fits}. The near-zero first coefficient is
+a forced result from using calculated wind components in (\ref{eq:beta-equation}).
+The sideslip offset that is represented by this term will be determined
+later by other means; cf. Section \prettyref{par:Offset-in-Sideslip}.)
+
+
+
+
+The standard calibration in use for the GV has coefficient $e_{1}$=21.155,
+slightly smaller than the value determined from this calibration.
+
+
+% \begin{figure}% {\centering \includegraphics[width=300pt]{figure/GP-sideslip}% % }% % \protect\caption[The sideslip attack determined from the fit, as a function of the% reference angle provided by Equation (9), for the combination of data% from all three yaw maneuvers listed in the text]{The sideslip attack determined from the fit, as a function of the% reference angle provided by Equation (9), for the combination of data% from all three yaw maneuvers listed in the text.\label{fig:sideslip}}% \end{figure}
+
+For the gust-pod, the same approach was followed, giving a fit with
+characteristics as listed below:
+
+<<sideslip-gust-pod,fig.cap=capnF4, include=TRUE>>=
+DataV$SSREF_GP <- -DataV$CTHDG_GP + atan2((DataV$CVEW_GP-u), (DataV$CVNS_GP-v))/ Cradeg
+DataV$SSREF_GP[DataV$SSREF_GP < -180.] <- DataV$SSREF_GP[DataV$SSREF_GP < -180.] + 360.
+#plot (SSREF_GP, SSLIP, pch=16, cex=0.6,col='blue')
+DataV$BQR_GP <- DataV$BDIFR_GP / DataV$QC_GP
+DataV$Mach <- MachNumber (DataV$PS_GP, DataV$QC_GP)
+#sfm_GP <- lm(SSREF_GP~BQR_GP, data=DataV)
+DataV$RR2_GP <- DataV$QC_GP / DataV$PS_GP
+sfm_GP <- lm(SSREF_GP~BQR_GP, data=DataV)
+SummarizeFit(sfm_GP)
+cfs_GP <- coefficients(sfm_GP)
+S2_GP <- cfs_GP[1] + cfs_GP[2] * DataV$BQR_GP #+ cfs_GP[3] * DataV$RR2_GP + cfs_GP[4] * DataV$Mach
+# plot (SSREF_GP, S2_GP, pch=16, cex=0.6, col='blue',
+# xlab="SS Reference", ylab="SSLIP from fit")
+# lines(c(-2.,2.), c(-2.,2.), col='orange', lty=2, lwd=3)
+# title ("Gust Pod")
+clr <- c("measurements", "fit")
+col <- c ('darkorange', 'darkgreen')
+g <- ggplot (data=DataV, aes(x=SSREF_GP))
+g <- g + geom_point (aes(y=S2_GP), colour='blue', pch=19) 
+g <- g + xlab (expression(paste("reference sideslip [",degree,"]")))
+g <- g + ylab (expression(paste("sideslip from best-fit equation [",degree,"]")))
+g <- g + geom_smooth (aes(y=S2_GP, colour=clr[2]), method='lm', lwd=2, linetype=2)
+g <- g + scale_colour_manual ("", breaks = clr, values = col)
+g <- g + theme_WAC()
+print (g)
+
+@
+
+The squared correlation of this fit was \Sexpr{round (summary(sfm_GP)$r.squared, 2)}
+and the residual standard error was \Sexpr{round (summary(sfm_GP)$sigma, 3)}$^{\circ}$.
+The best-fit coefficients were \{\Sexpr{format (round(cfs_GP[1], 3), nsmall=3)},
+\Sexpr{round (cfs_GP[2], 3)}\}. The difference in first coefficient
+vs the radome is a result of the offset in heading between the aircraft
+longitudinal axis and the gust pod. The detailed report for the fit
+is listed above, and the result of applying these sensitivity coefficients
+to the measurements from the gust pod is shown in Fig.~\ref{fig:sideslip-gust-pod}.
+
+
+
+On additional study is needed to determine the sensitivity coefficients
+for sideslip. An offset in sideslip, arising from an erroneous first
+coefficient $e_{0}$ in the calibration, would produce an offset in
+the lateral component of the measured wind, and that erroneous lateral
+component would enter the calibration equation to again give a first
+coefficient near zero. An offset therefore must be determined in another
+way. Two candidates for finding the offset are reverse-heading maneuvers,
+during which the horizontal wind component lateral to the aircraft
+should remain constant but change sign, or circle maneuvers, during
+which an offset in sideslip will appear as a sinusoidally varying
+perturbation to the wind. Later in this report, a set of circles,
+flown with constant roll, will be used in Section \ref{sub:Analysis-of-circle}
+to obtain a better estimate of the sideslip offset. .\vfill\eject
+
+
+\subsection{True Airspeed from the Gust Pod}
+
+% \subsection*{The Components of the Relative Wind}% % The gust pod is a new wind-sensing system so it is useful to document how the measurements are handled. The probe itself has five pressure-sensing holes located on a hemispheric cap pointed into the wind. The pressure difference between the two ports located upward and downward from centerline, measured as ADIFR\_GP, is used in the calculation of angle-of-attack. The similar pressure difference between the two ports located toward starboard and toward port of centerline, measured as BDIFR\_GP, are used in the calculation of sideslip. In addition, the probe has static ports located on the side of the cylinder carrying the hemispheric cap, and the difference between the pressure at the forward port and that at the static ports is measured as the dynamic pressure QC\_GP. The static pressure is also measured, as PS\_GP.% % In addition, there is an inertial reference unit mounted with the gust pod to measure its attitude angles (roll, pitch, heading) and to measure the three components of motion of the aircraft relative to the Earth. This unit receives GPS information and uses it to update its measurements via a Kalman filter.
+
+The measurements ADIFR\_GP and BDIFR\_GP, normalized by QC\_GP, are
+used with the calibrations in the preceding section to find the angle-of-attack
+and sideslip. In addition, to find the relative wind, a measurement
+of true airspeed (TAS) is needed. In an effort to allow the gust-pod
+system to operate independently of the standard radome-based system,
+it is desirable to determine the true airspeed directly from the gust-pod
+measurements. However, the standard system has been calibrated to
+low uncertainty by reference to the Laser Air Motion Sensor, so for
+the purpose of calibration that true airspeed (TASX) will be used
+as a reference. Once the gust-pod measurement of true airspeed is
+calibrated, the gust-pod system still measures wind without future
+reference to the standard system, but the calibration process links
+the two systems to have a common reference for TAS.
+
+Therefore, the next step needed to use the gust pod wind-sensing system
+is to determine a functional relationship between gust-pod measurements
+and the true airspeed. The approach taken is to fit the basic pressure
+ratio $q/p$ as measured by the 858 probe to match the corresponding
+pressure ratio provided by the conventional measurements of dynamic
+and static pressure. The relationship represents the true ratio of
+dynamic to static pressure, so using that ratio the normal calculation
+of true airspeed can be used to determine the TAS measured by the
+gust pod. For this purpose, all the measurements from the calibration
+flight (RF15) were used qualified only by requiring TASX>130 m/s.
+
+<<TAS-from-the-gust-pod-1,fig.cap="Standard measurements QCPC/PSXC plotted vs QCPC-GP/PS-GP as measured by the gust pod",out.width="300pt", fig.align="center",echo=FALSE, include=TRUE>>=
+
+# for this purpose, use all measurements from the cal flight that had TASX>130:
+Data <- D
+Valid <- (Data$TASX > 130.)
+DataV <- Data[Valid,]
+DataV$B1 <- DataV$QCXC/DataV$PSXC
+DataV$B2 <- DataV$QC_GP/DataV$PS_GP
+DataV$AQR_GP <- DataV$ADIFR_GP/DataV$QC_GP # basic pressure ratio for AOA
+DataV$RR2_GP <- DataV$QC_GP/DataV$PS_GP    # q/p ratio from the gust pod
+DataV$Mach <- MachNumber(DataV$PSXC,DataV$QCXC)
+DataV$MachG <- MachNumber (DataV$PS_GP, DataV$QC_GP)
+# B2 and AQR are based only on the gust-pod measurements
+#fm4 <- lm(B1~B2+I(B2^2)+AQR_GP)
+DataV$BxM <- DataV$B2*DataV$MachG
+fm4 <- lm(B1~B2+BxM+I(B2^2)+AQR_GP+MachG, data=DataV)
+cf4 <- coefficients (fm4)
+#print (c("fit coefficients for TAS:", cf4))
+
+@
+
+The measurements entering the resulting fit are as follows: $q$=QCXC
+is the reference dynamic pressure, $p=$PSXC is the reference ambient
+pressure, $q_{g}=$QC\_GP is the gust-pod dynamic pressure, $p_{g}$=PS\_GP
+is the gust-pod static pressure, $M$ is the Mach number determined
+from the reference measurements, $M_{g}$ the Mach number determined
+from the gust-pod static and dynamic pressure, and $\Delta P_{\alpha,g}$=ADIFR\_GP
+is the pressure difference between top and bottom pressure ports on
+the gust-pod sensor. The following equation was found to provide a
+useful representation of the reference ratio $q/p$ in terms of quantities
+measured only by the gust-probe system:
+
+\begin{equation}
+\frac{q}{p}=b_{0}+b_{1}\frac{q_{g}}{p_{g}}+b_{2}M_{G}\frac{q_{g}}{p_{g}}+b{}_{3}\left(\frac{q_{g}}{p_{g}}\right)^{2}+b_{3}\frac{\Delta p_{\alpha,g}}{q_{g}}+b_{5}M_{G}\label{eq:TASfit}
+\end{equation}
+This complexity in the equation was needed to obtain a good fit (with
+residual error translating to a typical error in true airspeed of
+about 0.5\,m/s for typical DEEPWAVE research legs), and all terms
+were indicated to be significant in the fit. The fit details are listed
+below:
+
+<<tas-fit-listing, include=TRUE>>=
+SummarizeFit(fm4)
+#B3 <- cf4[1]+cf4[2]*B2+cf4[3]*B2**2+cf4[4]*AQR_GP
+DataV$B3 <- cf4[1] + cf4[2]*DataV$B2 + cf4[3]*DataV$BxM + cf4[4]*DataV$B2**2 + cf4[5]*DataV$AQR_GP + cf4[6]*DataV$MachG
+# B3 is the deduced pressure ratio to use when calculating TAS
+capn2 <-"True airspeed obtained from the gust pod, plotted against corresponding measurements from the conventional measurement system (TASX)" 
+
+@
+\begin{lyxcode}
+
+
+<<plot-qp-fit, include=TRUE, fig.cap="The estimate of $q/p$ obtained from the right side of (\\ref{eq:TASfit}), determined entirely from measurements provided by the gust pod, plotted against the standard measurement obtained from QCXC/PSXC. The coefficients are listed in the text.", fig.height=4.5>>=
+plot (DataV$B1, DataV$B3, xlab="Standard q/p [QCXC/PSXC]", ylab="gust-probe estimate G*", xlim=c(0.1,0.6), ylim=c(0.1,0.6), pch=16, cex=0.7, col='blue')
+lines (c(0., 1.), c(0.,1.), lwd=3, lty=2, col='orange')
+# Vg will be the TAS based only on the gust pod 
+DataV$Vg <- TrueAirspeed (MachNumber (DataV$PS_GP, DataV$PS_GP*DataV$B3, DataV$EWX), DataV$ATX)
+taserr <- sd(DataV$TASX-DataV$Vg, na.rm=TRUE) 
+
+@
+\end{lyxcode}
+The resulting fit is shown in Fig.~\ref{fig:plot-qp-fit}. With this
+result for $G^{*}\sim q/p$, the true airspeed can then be obtained
+using the usual formula, with $G^{*}$ used in place of $q/p$:
+
+\begin{equation}
+V=\sqrt{2\left(\frac{(c_{p}-R_{a}}{R_{a}}\right)\left(1+G^{*}\right)^{\frac{R_{a}}{c_{p}}-1}\left(\frac{c_{p}}{c_{v}}R_{a}T\right)}\label{eq:TASformula}
+\end{equation}
+where $c_{p}$, $c_{v}$, and $R_{d}$ are the specific heat of air
+at constant pressure, the specific heat of air at constant volume,
+and the gas constant for air and $p$ is the static pressure, $q$
+the dynamic pressure, and $T$ the absolute temperature. 
+
+The resulting true airspeed is compared to the conventional measurement
+in Fig.~\ref{fig:TAS-from-the-gust-pod-2}. The fit provides a reasonable
+representation of TASX, with a standard error of about \Sexpr{round(taserr,1)}\,m/s.
+However, this is larger than the estimated uncertainty in TASX (about
+0.3\,m/s), so wind calculations will be better if based on the conventional
+measurement of TASX unless it is desirable to calculate an estimate
+of true airspeed based entirely on the gust pod and independent of
+the standard measurement, or in case there is a problem with the standard
+measurement. 
+
+<<TAS-from-the-gust-pod-2,fig.cap=capn2, include=TRUE, fig.height=4.5, fig.width=4.5, fig.show='keep'>>= 
+plot(DataV$TASX, DataV$Vg, xlab="TASX [m/s]", ylab="TAS, gust pod [m/s]", xlim=c(150.,250.), ylim=c(150.,250.),pch=16, cex=0.7, col='blue') 
+lines (c(100.,300.), c(100.,300.), lty=2, col='orange') 
+#sd((DataV$TASX-DataV$Vg)[abs(DataV$VSPD) < 2], na.rm=TRUE)
+
+@
+
+In particular, for the DEEPWAVE flights where the standard vertical
+wind measurement was compromised by an obstruction in the pressure-sensor
+lines of the radome, the best vertical wind will be that calculated
+using (\ref{eq:AOAGfunction}) for the angle of attack but conventional
+TASX for the true airspeed, because the pressure ports used to determine
+TASX are not obstructed.
+
+\vfill\eject
+
+
+
+
+\subsection{Summary of sensitivity coefficients}
+
+
+\subsubsection{Angle of Attack}
+
+Radome: Eq.~(\ref{eq:AOArecommended}), coefficients $c_{0,1}$ =\{\Sexpr{round(cfr[1],3)},
+\Sexpr{round(cfr[2],3)}\}.\\
+Gust pod: Eq.~(\ref{eq:AOAGfunction}), coefficients\{$b_{i=0,3}$\}
+= \{\Sexpr{round(cf3_GP[1],3)}, \Sexpr{format(round(cf3_GP[2],3),nsmall=3)},
+\Sexpr{round(cf3_GP[3],3)}, \Sexpr{round(cf3_GP[4],3)}\}.
+
+
+\subsubsection{Sideslip Angle}
+\begin{hangparagraphs}
+Radome and gust pod: Eq.~(\ref{eq:betaFunctionForm}), coefficients
+\{$e_{0}$, $e_{1}$\} = \\
+\qquad{} \{\Sexpr{format(round(cfs[1],3),nsmall=3)}, \Sexpr{round(cfs[2],3)}\}
+for the radome,\\
+\qquad{} \{\Sexpr{round(cfs_GP[1],3)}, \Sexpr{round(cfs_GP[2],3)}\}
+for the gust pod.
+\end{hangparagraphs}
+
+
+\subsubsection{True Airspeed, Gust Pod}
+\begin{hangparagraphs}
+Equation (\ref{eq:TASformula}), with (\ref{eq:TASfit}) and coefficients
+\{$b_{i=0,5}$\} = \\
+\qquad{} \{\Sexpr{cf4[1]}, \Sexpr{cf4[2]},\inputencoding{latin1}{
+}\inputencoding{latin9}\Sexpr{cf4[3]}, \Sexpr{cf4[4]}, \Sexpr{cf4[5]},
+\Sexpr{cf4[6]}\}.\end{hangparagraphs}
+
+
+% \end{document}

@@ -1,35 +1,38 @@
-%% LyX 2.1.1 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
-\documentclass{article}
-\usepackage{mathptmx}
-\usepackage[T1]{fontenc}
-\usepackage[latin9]{inputenc}
-\usepackage{geometry}
-\geometry{verbose}
-\setcounter{secnumdepth}{2}
-\setcounter{tocdepth}{2}
-\setlength{\parskip}{\medskipamount}
-\setlength{\parindent}{0pt}
-\usepackage{float}
-\usepackage{booktabs}
-\usepackage{calc}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{graphicx}
+% \documentclass{article}
+% \usepackage{mathptmx}
+% \usepackage[T1]{fontenc}
+% \usepackage[latin9]{inputenc}
+% \usepackage{geometry}
+% \geometry{verbose}
+% \setcounter{secnumdepth}{2}
+% \setcounter{tocdepth}{2}
+% \setlength{\parskip}{\medskipamount}
+% \setlength{\parindent}{0pt}
+% \usepackage{float}
+% \usepackage{booktabs}
+% \usepackage{calc}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage{graphicx}
+% 
+% \makeatletter
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+% %% Because html converters don't know tabularnewline
+% \providecommand{\tabularnewline}{\\}
+% 
+% \AtBeginDocument{
+%   \def\labelitemii{\(\rightarrow\)}
+% }
+% 
+% \makeatother
+% 
+% \begin{document}
 
-\makeatletter
+\section{Studies of the Horizontal Wind}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
-%% Because html converters don't know tabularnewline
-\providecommand{\tabularnewline}{\\}
-
-\AtBeginDocument{
-  \def\labelitemii{\(\rightarrow\)}
-}
-
-\makeatother
-
-\begin{document}
 <<getData, echo=FALSE, include=FALSE>>=
 require(Ranadu) 
 library(knitr) 
@@ -41,7 +44,7 @@ require(plyr)
 require(signal)
 require(stats) 
 # set global chunk options 
-opts_chunk$set(fig.path='figure/WU-', fig.align='center', fig.show='hold')
+opts_chunk$set(fig.path='figure/WU-', fig.width=5., fig.height=4.,fig.align='center', fig.show='hold', echo=FALSE)
 options(replace.assign=TRUE,width=49, digits=4)
 Flight <- "rf15HR"        # this was the flight with cal maneuvers
 Directory = "/home/Data/"
@@ -64,8 +67,10 @@ startL <- 33946
 endL <- 34600
 startR <- 34725
 endR <- 35340
+startC <- 33830
+endC <- 35450
 Dsave <- D
-r <- setRange(D$Time, 33830,35450)
+r <- setRange(D$Time, startC, endC)
 r1 <- setRange(D$Time, startL, endL)
 r2 <- setRange(D$Time, startR, endR)
 meanr1 <- mean(D$ROLL[r1], na.rm=TRUE)
@@ -97,11 +102,7 @@ in a reference frame drifting with the horizontal wind.\label{fig:CircleFlightPa
 \end{figure}
 
 
-
-\section{Studies of the Horizontal Wind}
-
-
-\subsection{Analysis of circle maneuvers}
+\subsection{Analysis of circle maneuvers\label{sub:Analysis-of-circle}}
 
 
 \subsubsection{Data Used}
@@ -124,11 +125,11 @@ If present, the measured windspeed will change from upwind to downwind
 direction.
 \item Determining biases in heading and sideslip: If present, the measured
 windspeed will change from crosswind-right to crosswind-left positions.
-\item An offset in sideslip can be separated from an offsetin heading by
+\item An offset in sideslip can be separated from an offset in heading by
 checking for the expected sign reversal in sideslip between left-turn
 and right-turn circles. 
 \item Departures from constant wind can be used to determine possible time
-shifts, especially be comparing results from left-turn and right-turn
+shifts, especially by comparing results from left-turn and right-turn
 circles.
 \end{enumerate}
 Each of these will be explored in this section. To get accurate circle
@@ -744,7 +745,7 @@ in the measured components of the wind, as discussed below. First,
 another problem related to sideslip will be discussed.
 
 
-\paragraph{Offset in Sideslip}
+\paragraph{Offset in Sideslip\label{par:Offset-in-Sideslip}}
 
 In the preceding, the error $\delta\psi$ was discussed as an error
 in heading, but the error could also be one in sideslip. These errors
@@ -925,7 +926,7 @@ the circular flight track. The best-fit results were $\delta V=$\Sexpr{format(ro
 m/s and $\delta\psi=$\Sexpr{round(cfs[2]/(mtas*pi/180.)-0.07,2)}$^{\circ}$. 
 
 
-<<plot-time-shift, fig.ls="fig:", fig.cap="The measured wind speed after shifting the GPS measurements of ground speed 240 ms forward in time and subtracting the mean wind speed separately for left and right turns, for the circle maneuver of DEEPWAVE flight 15, 3:38:30--3:54:30, for times when the magnitude of the roll angle was greater than $26.5^{\\circ}$.",fig.width=5., fig.height=4.,echo=FALSE>>=
+<<plot-time-shift, fig.ls="fig:", fig.cap="The measured wind speed after shifting the GPS measurements of ground speed 240 ms forward in time and subtracting the mean wind speed separately for left and right turns, for the circle maneuver of DEEPWAVE flight 15, 3:38:30--3:54:30.",fig.width=5., fig.height=4.,echo=FALSE>>=
 clr = c("fit", "left", "right")
 col = c("darkorange", "blue", "darkgreen")
 g <- ggplot(data=DF, aes(x=Ang, y=WS))
@@ -954,7 +955,8 @@ Combined::
 \item Offset in TAS: Add \Sexpr{format(round(cfs[3],1),nsmall=1)} m/s
 \item Offset in sideslip: Add 0.07$^{\circ}$.
 \item Offset in heading: Add \Sexpr{format(round(cfs[2]/(mtas*pi/180.)-0.07,2), nsmall=2)}$^{\circ}$
-\item Delay in GGVSPB, etc: Move forward 6 25-Hz samples or 240 ms.
+\item Delay in GGVSPB, etc: Move forward 6 25-Hz samples or 240 ms (160
+ms in relation to THDG).
 \end{enumerate}
 
 
@@ -1103,4 +1105,4 @@ matrix $A_{i,j}$ to get the fit coefficients $C_{ij}$ to use for
 predicting the results for $\delta u$, $\delta v$, $\delta\theta$,
 and $\delta\phi$ via equations like $\delta u=C_{0,1}+C_{1,1}\sin(\Omega_{S}t)+C_{2,1}\cos(\Omega t)$.%
 \end{minipage}}
-\end{document}
+% \end{document}

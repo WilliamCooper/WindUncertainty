@@ -4,17 +4,12 @@
 \begin_header
 \textclass article
 \begin_preamble
-\usetheme{WAC}
-\setbeamertemplate{headline}{}
-\setbeamertemplate{footline}[default]{}
-\setbeamertemplate{navigation symbols}{}
-%\setbeamercovered{transparent}
-%\setbeamercovered{opaque}
-\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+
 \end_preamble
 \use_default_options false
 \begin_modules
 knitr
+hanging
 \end_modules
 \maintain_unincluded_children false
 \language english
@@ -81,2249 +76,6 @@ knitr
 \end_header
 
 \begin_body
-
-\begin_layout Section
-Correcting the pitch by detecting the Schuler oscillation
-\end_layout
-
-\begin_layout Subsection
-The basis for the correction
-\end_layout
-
-\begin_layout Standard
-Before discussing additional aspects of the measurement system like determinatio
-n of sensitivity coefficients for the radome, it is necessary to explain
- and document a correction that will be used in that determination and in
- subsequent studies.
- The normal primary weakness in measurement of vertical wind is the measurement
- of pitch, which is provided only by inertial reference systems and therefore
- has the uncertainty and fluctuations associated with those systems.
- An inertial system aligns during initialization to detect the local vertical
- direction and then calculates the new vertical direction as the aircraft
- moves (changing the local vertical direction) and accelerates (which can
- cause gyros to precess).
- Any mis-alignment present at initialization persists but also can oscillate
- and can cause errors in roll and pitch to mix as the aircraft changes flight
- direction.
- The standard error associated with this measurement is 0.05
-\begin_inset Formula $^{\circ}$
-\end_inset
-
- for flight duration of a few hours, and the error often increases during
- the flight as heading errors and accelerometer biases affect the results.
-\end_layout
-
-\begin_layout Standard
-Following the work of Schuler (
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Schuler1923"
-
-\end_inset
-
-), coupling among some of these error sources leads to limits on the growth
- of errors and simultaneous oscillations in some of the measurement errors.
- In particular, an error in pitch leads to an error in horizontal acceleration,
- and integration of that error in horizontal acceleration leads to a position
- error that compensates for the original error in pitch.
- However, when the error in pitch is reduced to zero, errors in position
- and velocity have been accumulated and those lead to growth of the error
- in pitch in the direction opposite to the original error.
- The result is a Schuler oscillation having a period of 
-\begin_inset Formula $T_{Sch}=(R_{e}/g)^{0.5}/(2\pi)\approx5064\thinspace s$
-\end_inset
-
- or 84.4
-\begin_inset space \thinspace{}
-\end_inset
-
-min, where 
-\begin_inset Formula $R_{e}$
-\end_inset
-
- is the radius of the Earth and 
-\begin_inset Formula $g$
-\end_inset
-
- the acceleration of gravity.
- The existence of this coupling allows estimation of the pitch error if
- the error in horizontal acceleration is known.
- That is the case in DEEPWAVE because high-quality measurements of velocity
- are available from GPS and those measurements can be compared to the uncorrecte
-d measurements from the inertial systems to measure the error in velocity
- and, from its derivative, the error in acceleration.
- The specified uncertainty for the IRU, 0.05
-\begin_inset Formula $^{\circ}$
-\end_inset
-
-, contributes an uncertainty in measured vertical wind of about 0.2 m/s,
- and it is shown later that this is the dominant contribution to uncertainty
- in that measurement, so improving on this can lead to significant reduction
- in the uncertainty associated with measurement of vertical wind.
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<reinitialization,echo=FALSE,include=FALSE>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
-require(ggplot2)
-\end_layout
-
-\begin_layout Plain Layout
-
-require(grid)
-\end_layout
-
-\begin_layout Plain Layout
-
-library(knitr)
-\end_layout
-
-\begin_layout Plain Layout
-
-require(ggthemes)
-\end_layout
-
-\begin_layout Plain Layout
-
-opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
-\end_layout
-
-\begin_layout Plain Layout
-
-opts_chunk$set(fig.width=6, fig.height=5, fig.loc="center", digits=4)
-\end_layout
-
-\begin_layout Plain Layout
-
-thisFileName <- "XXX"
-\end_layout
-
-\begin_layout Plain Layout
-
-Directory <- DataDirectory ()
-\end_layout
-
-\begin_layout Plain Layout
-
-Flight <- "ff02" 				# XXX change this
-\end_layout
-
-\begin_layout Plain Layout
-
-Project = "DEEPWAVE"			 # XXX change this
-\end_layout
-
-\begin_layout Plain Layout
-
-fname = sprintf("%s%s/%s%s.nc", Directory,Project,Project,Flight)
-\end_layout
-
-\begin_layout Plain Layout
-
-VarNames <- c("BLATA", "BLONGA", "BNORMA", "VNS", "VEW", "VSPD", "GGVNS",
- "GGVEW", 
-\end_layout
-
-\begin_layout Plain Layout
-
-              "GGVSPDB", "LAT", "LON", "ALT", "THDG", "PITCH", "ROLL") 
-\end_layout
-
-\begin_layout Plain Layout
-
-Data <- getNetCDF (fname, standardVariables(VarNames))		
-\end_layout
-
-\begin_layout Plain Layout
-
-SaveRData <- sprintf("%s.Rdata.gz", thisFileName)
-\end_layout
-
-\begin_layout Plain Layout
-
-Cradeg <- pi / 180
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Simple illustration of the origin of the Schuler oscillation
-\end_layout
-
-\begin_layout Standard
-Although the following is standard material, it is presented here to make
- the discussion of the Schuler oscillation self-contained and for tutorial
- purposes.
- Those familiar with the Schuler oscillation should skip this section.
-\end_layout
-
-\begin_layout Standard
-Consider first the case of steady flight to the north.
- If, at some starting point at rest, there is a pitch error 
-\begin_inset Formula $\delta\theta$
-\end_inset
-
-, that will cause gravity to be resolved into a NS component, as shown in
- this diagram where a pitch error of 
-\begin_inset Formula $\delta\theta$
-\end_inset
-
- produces an erroneous northward acceleration of 
-\begin_inset Formula $g\thinspace\sin(\delta\theta)\simeq g\delta\theta$
-\end_inset
-
-:
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<plot-illustrating-pitch-coupling, fig.width=4.5, fig.height=5, include=TRUE>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-plot(sin(0:360*pi/180), cos(0:360*pi/180), type='l', xlim=c(-0.2,1.5),ylim=c(-0.2,1.
-5), xlab=' ', ylab=' ')
-\end_layout
-
-\begin_layout Plain Layout
-
-points (0., 0., pch=16)
-\end_layout
-
-\begin_layout Plain Layout
-
-A <- 45
-\end_layout
-
-\begin_layout Plain Layout
-
-x1 <- sin(A*pi/180); y1 <- cos(A*pi/180)
-\end_layout
-
-\begin_layout Plain Layout
-
-lines (c(0, 1.4*x1), c(0, 1.4*y1), col='red')
-\end_layout
-
-\begin_layout Plain Layout
-
-lines (c(x1/2, 3*x1/2), c(3*y1/2, y1/2), col='blue')
-\end_layout
-
-\begin_layout Plain Layout
-
-delta=10
-\end_layout
-
-\begin_layout Plain Layout
-
-x2 <- sin((A+delta)*pi/180); y2 <- cos((A+delta)*pi/180)
-\end_layout
-
-\begin_layout Plain Layout
-
-lines (c(x1-x2/2, x1+x2/2), c(y1-y2/2, y1+y2/2), col='darkorange', lty=2,
- lwd=2)
-\end_layout
-
-\begin_layout Plain Layout
-
-lines (c(x1-y2/2, x1+y2/2), c(y1+x2/2, y1-x2/2), col='darkorange', lty=2,
- lwd=2) 
-\end_layout
-
-\begin_layout Plain Layout
-
-arrows (x1, y1, x1/2, y1/2, length=0.05, col='darkgreen', lwd=2)
-\end_layout
-
-\begin_layout Plain Layout
-
-arrows (x1-x2/2, y1-y2/2, x1/2, y1/2, length=0.05, col='darkgreen')
-\end_layout
-
-\begin_layout Plain Layout
-
-arrows (y1+0.4*x2, x1+0.4*y2, 1.4*x1, 1.4*y1, length=0.03, col='darkgreen', code=3)
-\end_layout
-
-\begin_layout Plain Layout
-
-text (0.75*x1+0.05, 0.5*y1+0.05, 'g', col='darkgreen')
-\end_layout
-
-\begin_layout Plain Layout
-
-text (0.05, 0.30, expression(paste("g",delta,theta)), col='darkgreen', cex=0.8)
-\end_layout
-
-\begin_layout Plain Layout
-
-text ((1.3*x1+1.3*y1+1.3*0.4*x2)/2, (1.3*y1+1.3*x1+1.3*0.4*y2)/2, expression(paste(delta
-,theta)), col='darkgreen', cex=0.75)
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The result is that this erroneous acceleration produces a false northward
- velocity and, integrated, a northward error in position.
- However, the error then causes the integrated position to become too far
- north, where the calculated direction toward the center of the earth becomes
- biased in the opposite direction, and at some point the calculated offset
- from being too far north equals the pitch bias, as shown in the next figure:
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<plot-change-gravity-w-motion, include=TRUE, fig.width=4.5, fig.height=5>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-plot(sin(0:360*pi/180), cos(0:360*pi/180), type='l', xlim=c(-1.5,1.5),ylim=c(-1.5,1.
-5), xlab=' ', ylab=' ')
-\end_layout
-
-\begin_layout Plain Layout
-
-A <- 50
-\end_layout
-
-\begin_layout Plain Layout
-
-x1a <- sin(A*pi/180); y1a <- cos(A*pi/180)
-\end_layout
-
-\begin_layout Plain Layout
-
-lines (c(0, 1.4*x1a), c(0, 1.4*y1a), col='red')
-\end_layout
-
-\begin_layout Plain Layout
-
-lines (c(x1a-sin((90-A)*pi/180), x1a+sin((90-A)*pi/180)), c(y1a+cos((90-A)*pi/18
-0), y1a-cos((90-A)*pi/180)), col='blue')
-\end_layout
-
-\begin_layout Plain Layout
-
-#arrows (x1a, y1a, x1a/2, y1a/2, length=0.05, col='darkgreen')
-\end_layout
-
-\begin_layout Plain Layout
-
-A <- 60
-\end_layout
-
-\begin_layout Plain Layout
-
-x1 <- sin(A*pi/180); y1 <- cos(A*pi/180)
-\end_layout
-
-\begin_layout Plain Layout
-
-lines (c(0, 1.4*x1), c(0, 1.4*y1), col='darkorange', lty=2)
-\end_layout
-
-\begin_layout Plain Layout
-
-lines (c(x1-sin((90-A)*pi/180), x1+sin((90-A)*pi/180)), c(y1+cos((90-A)*pi/180),
- y1-cos((90-A)*pi/180)), col='darkorange', lty=2)
-\end_layout
-
-\begin_layout Plain Layout
-
-delta=10
-\end_layout
-
-\begin_layout Plain Layout
-
-x2 <- sin((A+delta)*pi/180); y2 <- cos((A+delta)*pi/180)
-\end_layout
-
-\begin_layout Plain Layout
-
-#lines (c(x1+x2/2, x1-x2/2), c(y1-y2/2, y1+y2/2), col='darkorange', lty=2)
-\end_layout
-
-\begin_layout Plain Layout
-
-#lines (c(x1+y2/2, x1-y2/2), c(y1+x2/2, y1-x2/2), col='darkorange', lty=2)
- 
-\end_layout
-
-\begin_layout Plain Layout
-
-#arrows (x1-x1a/2, y1-y1a/2, x1/2, y1/2, length=0.05, col='darkgreen', code=1,
- lty=1)
-\end_layout
-
-\begin_layout Plain Layout
-
-#arrows (x1+0.4*y2, y1+0.4*x2, 1.4*x1, 1.4*y1, length=0.03, col='darkgreen',
- code=3)
-\end_layout
-
-\begin_layout Plain Layout
-
-#text (0.75*x1-0.15, 0.75*y1+0.15, 'g', col='darkgreen')
-\end_layout
-
-\begin_layout Plain Layout
-
-#text (0.0, 0.35, expression(paste("g",delta,lambda)), col='darkgreen', cex=0.6)
-\end_layout
-
-\begin_layout Plain Layout
-
-#arrows (x1, y1, x1-x1a/2, y1-y1a/2, length=0.05, col='darkgreen', lty=2)
-\end_layout
-
-\begin_layout Plain Layout
-
-text (1.4*(x1a+x1)/2,1.4*(y1a+y1)/2, expression(paste(delta,lambda)), col='darkgre
-en', cex=0.75)
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-However, at the point where the error in latitude cancels the error in pitch,
- there is an accumulated error in velocity, so the integrated solution for
- position overshoots the equilibrium position by an amount such that the
- error in pitch becomes the negative of the original error, at which point
- the integrated velocity is zero but the new error in pitch now causes a
- reversal of the position error.
- The result is that the errors in pitch, velocity and position all oscillate
- with a period equal to the Schuler period, 
-\begin_inset Formula $T_{s}\simeq5064$
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-s, determined from 
-\begin_inset Formula $T=(R_{e}/g)^{0.5}/(2\pi)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Here are the equations predicting how this oscillation will occur:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-v_{n}=\frac{dx_{n}}{dt}=R_{e}\frac{d\lambda}{dt}\label{eq:vn}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-\frac{d^{2}x_{n}}{dt^{2}}=a_{n}\label{eq:an}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-where 
-\begin_inset Formula $x_{n}$
-\end_inset
-
- is the north coordinate of the position and 
-\begin_inset Formula $a_{n}$
-\end_inset
-
- is the northward acceleration.
- However, if 
-\begin_inset Formula $a_{n}=a_{n}^{*}+\delta a_{n}$
-\end_inset
-
- where 
-\begin_inset Formula $a_{n}^{*}$
-\end_inset
-
- is the true northward acceleration of the aircraft and 
-\begin_inset Formula $\delta a_{n}$
-\end_inset
-
- is the erroneous acceleration that results from pitch and displacement
- errors, then
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-\delta a_{n}=g(\delta\lambda-\delta\theta)\label{eq:delta-an}
-\end{equation}
-
-\end_inset
-
-with 
-\begin_inset Formula $\lambda$
-\end_inset
-
- the latitude, 
-\begin_inset Formula $\delta\lambda=\delta x_{n}/R_{e}$
-\end_inset
-
- the error in latitude, and 
-\begin_inset Formula $\delta\theta$
-\end_inset
-
- the error in pitch.
- Then
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Formula 
-\begin{equation}
-\frac{d(\delta v_{n})}{dt}=-g\delta\theta\label{eq:delta-vn-dot}
-\end{equation}
-
-\end_inset
-
-
-\begin_inset Formula 
-\begin{equation}
-\frac{d(\delta\theta)}{dt}=\frac{\delta v_{n}}{R_{e}}=-\frac{1}{g}\frac{d^{2}(\delta v_{n})}{dt^{2}}\label{eq:delta-theta-dot}
-\end{equation}
-
-\end_inset
-
-which has the solution:
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Formula 
-\begin{equation}
-\delta v_{n}=V_{n}\cos(\omega t+\zeta_{n})\label{eq:delta-vn-solution}
-\end{equation}
-
-\end_inset
-
-where 
-\begin_inset Formula $\omega=\sqrt{g/R_{e}}\simeq0.00124$
-\end_inset
-
- is the Schuler angular velocity.
- The error in the north component of the velocity therefore oscillates with
- the Schuler period and a phase 
-\begin_inset Formula $\zeta_{n}$
-\end_inset
-
-.
- Integrating in time gives
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Formula 
-\begin{equation}
-\delta x_{n}=\int\delta v_{n}dt=\frac{V_{n}}{\omega}\sin(\omega t+\zeta_{n})\label{eq:delta-xn-solution}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\family sans
-\color black
-The key to developing a correction to the pitch angle is that both 
-\begin_inset Formula $\delta x_{n}$
-\end_inset
-
- and 
-\begin_inset Formula $\delta v_{n}$
-\end_inset
-
- are observable because reference measurements are available from GPS.
- For example,
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{eqnarray}
-\delta x_{n} & = & R_{e}(\mathrm{LAT-GGLAT)}\nonumber \\
-\delta v_{n} & = & \mathrm{VNS-GGVNS}\label{eq:observed-errors}
-\end{eqnarray}
-
-\end_inset
-
-These observations can determine 
-\begin_inset Formula $A_{n}$
-\end_inset
-
- and 
-\begin_inset Formula $\zeta_{n}$
-\end_inset
-
- in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:delta-vn-solution"
-
-\end_inset
-
-).
- From these, the error in pitch can be found from (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:delta-vn-dot"
-
-\end_inset
-
-):
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Formula 
-\begin{equation}
-\delta\theta=-\frac{1}{g}\frac{d(V_{n}\cos(\omega t+\zeta_{n})}{dt}=\frac{V_{n}\omega}{g}\sin(\omega t+\zeta_{n})\label{eq:solution-delta-theta}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Analogous equations lead to a similar coupling between the roll angle and
- the east component of the ground velocity:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-\delta\phi=\frac{V_{e}\omega}{g}\sin(\omega t+\zeta_{e})\label{eq:solution-delta-phi}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-where 
-\begin_inset Formula $\phi$
-\end_inset
-
- is the roll angle and 
-\begin_inset Formula $V_{e}$
-\end_inset
-
- and 
-\begin_inset Formula $\zeta_{e}$
-\end_inset
-
- are determined from fits to the observed error 
-\begin_inset Formula $\delta v_{e}=\mathrm{VEW-GGVEW}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Thus the observed errors in the components of the aircraft groundspeed can
- be used to find corrections to be applied to the measurements of pitch
- and roll.
- 
-\end_layout
-
-\begin_layout Subsection
-An example illustrating the presence of the Schuler oscillation
-\end_layout
-
-\begin_layout Standard
-An example from the second ferry flight of DEEPWAVE is shown in Fig.
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{fig:v-errors-straight-leg}
-\end_layout
-
-\end_inset
-
-.
- The heading for most of this flight is close to southbound and steady,
- so to a reasonable approximation the errors in pitch and heading will be
- given by the respective derivatives in the error terms 
-\begin_inset Formula $\delta v_{n}$
-\end_inset
-
- and 
-\begin_inset Formula $\delta v_{e}$
-\end_inset
-
-.
- 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-The amplitude of the Schuler oscillation is about 0.5 to 0.75 m/s, which would
- indicate that the pitch error is about (0.5--0.75)(0.00124)/9.8
-\begin_inset Formula $\simeq0.005^{\circ}$
-\end_inset
-
-.
- For this flight, the error in pitch is very small compared to the expected
- uncertainty in angle-of-attack (0.1
-\begin_inset Formula $^{\circ}$
-\end_inset
-
-).
- A Schuler oscillation in the north component of the aircraft ground-speed
- of 1 m/s indicates that, in the l-frame, the pitch error is <0.01
-\begin_inset Formula $^{\circ}$
-\end_inset
-
-.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<v-errors-straight-leg, fig.lp="fig:",fig.cap="Errors in the NS and EW components
- of groundspeed as determined by comparison to GPS, for DEEPWAVE flight
- ff02, a ferry flight starting on 1 June 2014 and traveling from Hawaii
- to Pago-Pago.", include=TRUE>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-D <- Data[Data$TASX > 130., ]
-\end_layout
-
-\begin_layout Plain Layout
-
-Z <- plotWAC (D$Time, D$GGVEW-D$VEW, ylab="Ve error", ylim=c(-2.5,3.))
-\end_layout
-
-\begin_layout Plain Layout
-
-Z <- lineWAC (D$Time, D$GGVNS-D$VNS, ylab="Vn error", col='darkgreen')
-\end_layout
-
-\begin_layout Plain Layout
-
-legend ('topright', legend=c('VEW-GGVEW', 'VNS-GGVNS'), lwd=2, col=c('blue',
- 'darkgreen'), text.col=c('blue', 'darkgreen'))
-\end_layout
-
-\begin_layout Plain Layout
-
-#Z <- lineWAC (D$Time, D$THDG/360, col='darkorange')
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The errors can be determined directly from the time-derivatives of the error
- terms in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:delta-vn-dot"
-
-\end_inset
-
-) and the analogous equation for roll, restated as:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{eqnarray}
-\delta\theta & = & -\frac{1}{g}\frac{d(\delta v_{n})}{dt}\label{eq:delta-theta}\\
-\delta\phi & = & -\frac{1}{g}\frac{d(\delta v_{e})}{dt}\label{eq:delta-phi}
-\end{eqnarray}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Therefore, rather than fitting variations like that shown in Fig.
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{fig:v-errors-straight-leg}
-\end_layout
-
-\end_inset
-
- to sine or cosine functions, it is possible to obtain an estimate of the
- time derivatives of the velocity-error terms over some shorter interval
- and then use that derivative in (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:delta-theta"
-
-\end_inset
-
-) or (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:delta-phi"
-
-\end_inset
-
-) to find the errors in pitch and roll.
- It is important to note, though, that this gives errors in the local reference
- frame with axes eastward, northward, and upward, here called the l-frame,
- and these errors will then need to be transformed to the aircraft reference
- frame to get errors in the measured quantities.
- The choice made here is to estimate the derivatives using Savitzky-Golay
- polynomials, as shown in Fig.
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{fig:Savitzky-Golay-estimates}
-\end_layout
-
-\end_inset
-
- .
- Savitzky-Golay polynomials were chosen because they are computationally
- efficient, don't introduce a time shift, and can provide derivatives directly.
- A rather long averaging period of 1009 s, or about 1/5 of a Schuler oscillation
-, was used to reduce noise in the result, and interpolation filled some
- gaps in the measurements.
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<sg-poly-smoothing, include=TRUE, fig.lp="fig:", fig.cap="Deduced error in
- pitch and roll angles for DEEPWAVE ferry flight ff02.">>=
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-# deal with missing values:
-\end_layout
-
-\begin_layout Plain Layout
-
-D <- D[!is.na (D$Time), ]
-\end_layout
-
-\begin_layout Plain Layout
-
-#interpolate if necessary:
-\end_layout
-
-\begin_layout Plain Layout
-
-VNS <- zoo::na.approx (as.vector(D$VNS), maxgap=100, na.rm = FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
-VEW <- zoo::na.approx (as.vector(D$VEW), maxgap=100, na.rm = FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
-GGVNS <- zoo::na.approx (as.vector(D$GGVNS), maxgap=100, na.rm = FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
-GGVEW <- zoo::na.approx (as.vector(D$GGVEW), maxgap=100, na.rm = FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
-# 1013 points (must be odd) to span about 1/5 Schuler osc.
- -- about 16.8 min
-\end_layout
-
-\begin_layout Plain Layout
-
-vndot <- signal::sgolayfilt (VNS-GGVNS, 3, 1013, m=1)  # m=1 for first deriv.
-\end_layout
-
-\begin_layout Plain Layout
-
-vedot <- signal::sgolayfilt (VEW-GGVEW, 3, 1013, m=1)
-\end_layout
-
-\begin_layout Plain Layout
-
-deltaPitch <- -vndot/Ranadu::Gravity (D$LAT, D$GGALT)
-\end_layout
-
-\begin_layout Plain Layout
-
-deltaRoll <- -vedot/Ranadu::Gravity (D$LAT, D$GGALT)
-\end_layout
-
-\begin_layout Plain Layout
-
-Z <- plotWAC(D$Time, deltaRoll/Cradeg, ylab='Error in Angle [deg]', col='darkgre
-en')
-\end_layout
-
-\begin_layout Plain Layout
-
-Z <- lineWAC (D$Time, deltaPitch/Cradeg, col='blue')
-\end_layout
-
-\begin_layout Plain Layout
-
-legend('top', legend=c("Pitch error", "Roll Error"), lwd=2, col=c("blue",
- "darkgreen"), text.col=c("blue", "darkgreen"), cex=0.8)
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The result is that the pitch error is limited to about 0.01
-\begin_inset Formula $^{\circ}$
-\end_inset
-
- in magnitude for most of this flight, except for the final descent, and
- the roll error is limited to less than about 0.015
-\begin_inset Formula $^{\circ}$
-\end_inset
-
-for the same period.
- This is evidence for low uncertainty in the pitch measurement for this
- flight, well below the specification of 0.05
-\begin_inset Formula $^{\circ}$
-\end_inset
-
-.
- Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:Application-to-research"
-
-\end_inset
-
- contains further discussion of the errors from the research flights, where
- the estimated errors can be larger.
- 
-\end_layout
-
-\begin_layout Subsection
-Transformation of attitude angles
-\end_layout
-
-\begin_layout Standard
-In a reference frame called the 
-\begin_inset Formula $l$
-\end_inset
-
--frame or ENU frame, where the coordinate axes are local-east, local-north,
- and upward, the preceding section showed that the pitch and roll errors
- are related, vis (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:delta-theta"
-
-\end_inset
-
-) and (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:delta-phi"
-
-\end_inset
-
-), to the time-derivatives of the errors in horizontal velocity.
- Pitch and roll as used in these equations will be the respective errors
- in platform alignment
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-The inertial system used is a strap-down system, so there is no actual motion
- of the 
-\begin_inset Quotes eld
-\end_inset
-
-platform
-\begin_inset Quotes erd
-\end_inset
-
-.
- Instead, from measured rotations and accelerations, the system calculates
- the expected orientation if there were a true stabilized platform.
- The errors referenced here are those relative to that calculated platform
- orientation.
-\end_layout
-
-\end_inset
-
- in the north-south and east-west directions, so these angles must be transforme
-d to account for the orientation of the aircraft when it is not flying straight-
-and-level to the north.
- Coordinates in the body or 
-\begin_inset Formula $b$
-\end_inset
-
--frame of the aircraft are obtained from those in the ENU or 
-\begin_inset Formula $l$
-\end_inset
-
--frame by applying three rotations to account for the heading, pitch, and
- roll of the 
-\begin_inset Formula $b$
-\end_inset
-
--frame.
- This transformation leads to pitch errors in the body frame of the aircraft
- (where measured pitch and roll are measured and where the pitch measurement
- affects the calculated vertical wind) that are mixtures of pitch and roll
- errors in the 
-\begin_inset Formula $l$
-\end_inset
-
--frame, with the mixture dependent primarily on the heading.
- A positive pitch error for northbound level flight will be a negative pitch
- error for southbound level flight, and for eastbound flight an 
-\begin_inset Formula $l$
-\end_inset
-
--frame roll error becomes a 
-\begin_inset Formula $b$
-\end_inset
-
--frame pitch error while an 
-\begin_inset Formula $l$
-\end_inset
-
--frame pitch error become a negative 
-\begin_inset Formula $b$
-\end_inset
-
--frame roll error.
- 
-\end_layout
-
-\begin_layout Standard
-Consider a unit vector representing the orientation errors in pitch and
- roll in the 
-\begin_inset Formula $l$
-\end_inset
-
--frame, with components {
-\begin_inset Formula $\sin\delta\phi,\,\sin\delta\theta,\,\sqrt{1-\sin^{2}\delta\phi-\sin^{2}\delta\theta}$
-\end_inset
-
-} or, because the errors are always small, approximately {
-\begin_inset Formula $\delta\phi,\,\delta\theta,\,1$
-\end_inset
-
-}.
- The three-angle transformation of this vector from the 
-\begin_inset Formula $l$
-\end_inset
-
--frame to the 
-\begin_inset Formula $b$
-\end_inset
-
--frame is then represented by the following matrices, with {
-\begin_inset Formula $\phi,\,\theta,\,\psi$
-\end_inset
-
-} representing {roll, pitch, heading}:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-R_{l}^{b}=\begin{bmatrix}\cos\psi\cos\phi+\sin\psi\sin\phi\sin\theta & -\sin\psi\cos\phi+\cos\psi\sin\phi\sin\theta & -\cos\theta\sin\phi\\
-\sin\psi\cos\theta & \cos\psi\cos\theta & \sin\theta\\
-\cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi & -\sin\psi\sin\phi-\cos\psi\sin\theta\sin\phi & \cos\theta\cos\phi
-\end{bmatrix}\label{eq:transform-l-to-b}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{eqnarray}
-\mathbf{b^{(b)}=}R_{l}^{b}\mathbf{b^{(l)}} & \approx & \left[\begin{array}{ccc}
-\cos\psi & -\sin\psi & 0\\
-\sin\psi & \cos\psi & 0\\
-0 & 0 & 1
-\end{array}\right]\begin{bmatrix}\delta\phi\\
-\delta\theta\\
-1
-\end{bmatrix}=\begin{bmatrix}\cos\psi\delta\phi-\sin\psi\delta\theta\\
-\sin\psi\delta\phi+\cos\psi\delta\theta\\
-1
-\end{bmatrix}\label{eq:b-vector-in-b-frame}
-\end{eqnarray}
-
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset Formula 
-\[
-\mathbf{b^{(b)}=}R_{l}^{b}\mathbf{b^{(l)}}=R_{l}^{b}\begin{bmatrix}\sin\delta\phi\\
-\sin\delta\theta\\
-\sqrt{1-\sin^{2}\delta\phi-\sin^{2}\delta\theta}
-\end{bmatrix}\approx\left[\begin{array}{ccc}
-\cos\psi & -\sin\psi & 0\\
-\sin\psi & \cos\psi & 0\\
-0 & 0 & 1
-\end{array}\right]\begin{bmatrix}\delta\phi\\
-\delta\theta\\
-1
-\end{bmatrix}=\begin{bmatrix}\cos\psi\delta\phi-\sin\psi\delta\theta\\
-\sin\psi\delta\phi+\cos\psi\delta\theta\\
-1
-\end{bmatrix}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-which leads to 
-\begin_inset Formula $\delta\theta^{(b)}$
-\end_inset
-
- and 
-\begin_inset Formula $\delta\phi^{(b)}$
-\end_inset
-
-, the pitch and roll errors in the 
-\begin_inset Formula $b$
-\end_inset
-
--frame:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{eqnarray}
-\delta\theta^{(b)} & \simeq & \sin\psi\delta\phi+\cos\psi\delta\theta\label{eq:final-answer}\\
-\delta\phi^{(b)} & \approx & \cos\psi\delta\phi-\sin\psi\delta\theta\nonumber 
-\end{eqnarray}
-
-\end_inset
-
-In turns, the roll angle is no longer negligible, so in general the full
- transformation should be used and the pitch error should be found from
- the results of (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:b-vector-in-b-frame"
-
-\end_inset
-
-).
- Because the pitch and roll angles are applied by this full transformation,
- the resulting errors are obtained by subtracting the measured pitch and
- roll from the transformed result; e.g., 
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Formula 
-\begin{equation}
-\delta\theta^{(b)}=\arctan\frac{b_{2}^{(b)}}{b_{3}^{(b)}}-\theta\label{eq:pitch-error-wo-approx}
-\end{equation}
-
-\end_inset
-
-This pitch error should then be subtracted from the measured pitch to obtain
- a corrected value of the pitch for use in the calculation of vertical wind.
-\end_layout
-
-\begin_layout Subsection
-Application to research flights
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Application-to-research"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The research flights have frequent changes in heading, with mixing of the
- roll and pitch errors but also accelerations that affect those errors and
- introduction of new errors from heading errors.
- The corrections to pitch therefore appear much less systematic than was
- the case for the ferry flight.
- An example, DEEPWAVE flight 1, is presented here.
- Figure 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{fig:processing-1}
-\end_layout
-
-\end_inset
-
- shows the measured errors in ground-speed components, and Fig.
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{fig:processing-2}
-\end_layout
-
-\end_inset
-
- shows the deduced pitch and roll errors.
- There are instances where the pitch error abruptly reverses sign; those
- are cases where the flight direction changes by about 180 deg.
- During turns, the full transformation leads to a result significantly different
- from the small-angle-approximation result, as shown by the orange line
- in Fig.
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{fig:processing-2}
-\end_layout
-
-\end_inset
-
-, but when not turning the full-transformation results replicate the small-angle
--approximation results (blue line), as indicated by the orange dashed line
- overlapping the blue line.
- The proposed solution is to use the full transformation for processing
- a corrected pitch variable, to be named 
-\begin_inset Quotes eld
-\end_inset
-
-PITCHC
-\begin_inset Quotes erd
-\end_inset
-
-, to be used for calculation of the vertical wind.
- In straight-and-level flight, the needed corrections are about 
-\begin_inset Formula $\pm$
-\end_inset
-
-0.03
-\begin_inset Formula $^{\circ}$
-\end_inset
-
- at some times, and this error can lead (for true airspeed of 220 m/s) to
- an error in vertical wind of about 
-\begin_inset Formula $\pm0.1$
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-m/s.
- Correction for this error thus should lead to a significant reduction in
- the uncertainty associated with the measured vertical wind.
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<Xform-l-from-b>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-XformLB <- function (bvector, .roll, .pitch, .heading, .reverse=FALSE) {
-\end_layout
-
-\begin_layout Plain Layout
-
-  Cradeg <- pi/180
-\end_layout
-
-\begin_layout Plain Layout
-
-  sr <- sin(.roll*Cradeg); cr <- cos(.roll*Cradeg)
-\end_layout
-
-\begin_layout Plain Layout
-
-  sp <- sin(.pitch*Cradeg); cp <- cos(.pitch*Cradeg)
-\end_layout
-
-\begin_layout Plain Layout
-
-  sh <- sin(.heading*Cradeg); ch <- cos(.heading*Cradeg)
-\end_layout
-
-\begin_layout Plain Layout
-
-  M <- c (ch*cr+sh*sr*sp, -sh*cr+ch*sr*sp, -cp*sr, sh*cp, ch*cp, sp, 
-\end_layout
-
-\begin_layout Plain Layout
-
-          ch*sr-sh*sp*cr, -sh*sr-ch*sp*sr, cp*cr)
-\end_layout
-
-\begin_layout Plain Layout
-
-  dim (M) <- c(3,3)
-\end_layout
-
-\begin_layout Plain Layout
-
-  if (.reverse) {M <- t(M)}
-\end_layout
-
-\begin_layout Plain Layout
-
-  return (M %*% bvector)
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<processing-1, fig.height=3.5, fig.cap="Measured errors in ground-speed components
- for DEEPWAVE flight 1.
- VEW and VNS are the east and north components of the ground speed measured
- by the inertial system, and GGVEW and GGVNS are the corresponding components
- measured independently by the GPS system.", include=TRUE>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-Flight <- "rf01"
-\end_layout
-
-\begin_layout Plain Layout
-
-fname <- sprintf ("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-\end_layout
-
-\begin_layout Plain Layout
-
-VarNames <- c("VNS", "VEW","GGVNS", "GGVEW", "GGALT", "LATC", "LONC", "THDG",
- "PITCH", "ROLL")
-\end_layout
-
-\begin_layout Plain Layout
-
-Data <- getNetCDF (fname, standardVariables(VarNames))
-\end_layout
-
-\begin_layout Plain Layout
-
-D <- Data[Data$TASX > 130., ]
-\end_layout
-
-\begin_layout Plain Layout
-
-Z <- plotWAC (D$Time, D$GGVEW-D$VEW, ylab="Ve error [m/s]", ylim=c(-5, 5.))
-\end_layout
-
-\begin_layout Plain Layout
-
-Z <- lineWAC (D$Time, D$GGVNS-D$VNS, col='darkgreen', lwd=1)
-\end_layout
-
-\begin_layout Plain Layout
-
-legend ('topleft', legend=c('VEW-GGVEW', 'VNS-GGVNS'), lwd=c(2,1), col=c('blue',
- 'darkgreen'), text.col=c('blue', 'darkgreen'))
-\end_layout
-
-\begin_layout Plain Layout
-
-figcapP2="Errors in pitch and roll determined from the measured errors in
- ground-speed components, after transformation to the reference frame that
- is the body frame of the aircraft.
- The orange line labeled 'Full Xfm' uses (
-\backslash
-
-\backslash
-ref{eq:b-vector-in-b-frame}) and (
-\backslash
-
-\backslash
-ref{eq:pitch-error-wo-approx}), while the blue line uses the approximate
- result (
-\backslash
-
-\backslash
-ref{eq:final-answer}).
- The limits $
-\backslash
-
-\backslash
-pm$0.03 correspond to roll angle of $
-\backslash
-
-\backslash
-pm 30^{
-\backslash
-
-\backslash
-circ}$ after division by 1000, so the regions with vertical black lines
- are ones with significant roll."
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-<<processing-2, fig.height=5.5, fig.cap=figcapP2, include=TRUE>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-# deal with missing values:
-\end_layout
-
-\begin_layout Plain Layout
-
-D <- D[!is.na (D$Time), ]
-\end_layout
-
-\begin_layout Plain Layout
-
-#interpolate if necessary:
-\end_layout
-
-\begin_layout Plain Layout
-
-VNS <- zoo::na.approx (as.vector(D$VNS), maxgap=100, na.rm = FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
-VEW <- zoo::na.approx (as.vector(D$VEW), maxgap=100, na.rm = FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
-GGVNS <- zoo::na.approx (as.vector(D$GGVNS), maxgap=100, na.rm = FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
-GGVEW <- zoo::na.approx (as.vector(D$GGVEW), maxgap=100, na.rm = FALSE)
-\end_layout
-
-\begin_layout Plain Layout
-
-# 1013 points (must be odd) to span about 1/5 Schuler osc.
- -- about 16.8 min
-\end_layout
-
-\begin_layout Plain Layout
-
-vndot <- signal::sgolayfilt (VNS-GGVNS, 3, 1013, m=1)  # m=1 for first deriv.
-\end_layout
-
-\begin_layout Plain Layout
-
-vedot <- signal::sgolayfilt (VEW-GGVEW, 3, 1013, m=1)
-\end_layout
-
-\begin_layout Plain Layout
-
-deltaPitchL <- -vndot/Ranadu::Gravity (D$LAT, D$GGALT)
-\end_layout
-
-\begin_layout Plain Layout
-
-deltaRollL <- -vedot/Ranadu::Gravity (D$LAT, D$GGALT)
-\end_layout
-
-\begin_layout Plain Layout
-
-HDG <- D$THDG*Cradeg
-\end_layout
-
-\begin_layout Plain Layout
-
-deltaPitch <- (sin(HDG)*deltaRollL + cos(HDG)*deltaPitchL)/Cradeg
-\end_layout
-
-\begin_layout Plain Layout
-
-deltaRoll <- (cos(HDG)*deltaRollL - sin(HDG)*deltaPitchL)/Cradeg
-\end_layout
-
-\begin_layout Plain Layout
-
-## replace with the full transformation matrix:
-\end_layout
-
-\begin_layout Plain Layout
-
-deltaPitch2 <- vector ("numeric", length(deltaPitch))
-\end_layout
-
-\begin_layout Plain Layout
-
-deltaRoll2  <- vector ("numeric", length(deltaRoll))
-\end_layout
-
-\begin_layout Plain Layout
-
-for (i in 1:length(D$THDG)) {
-\end_layout
-
-\begin_layout Plain Layout
-
-  bl <- c(sin(deltaRollL[i]), sin(deltaPitchL[i]), 
-\end_layout
-
-\begin_layout Plain Layout
-
-          sqrt(1.-sin(deltaRollL[i])^2 - sin(deltaPitchL[i])^2))
-\end_layout
-
-\begin_layout Plain Layout
-
-  bb <- as.vector(XformLB (bl, D$ROLL[i], D$PITCH[i], D$THDG[i], .reverse=TRUE))
-\end_layout
-
-\begin_layout Plain Layout
-
-  deltaPitch2[i] <- atan(bb[2]/bb[3]) / Cradeg - D$PITCH[i]
-\end_layout
-
-\begin_layout Plain Layout
-
-  deltaRoll2[i]  <- atan(bb[1]/bb[3]) / Cradeg - D$ROLL[i]
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-Z <- plotWAC (D$Time, deltaPitch, ylab='Error in Angle [deg]', lwd=2.5)
-\end_layout
-
-\begin_layout Plain Layout
-
-Z <- lineWAC (D$Time, deltaRoll, col='darkgreen', lty=2)
-\end_layout
-
-\begin_layout Plain Layout
-
-Z <- lineWAC (D$Time, deltaPitch2, col='darkorange', lty=2, lwd=1.5)
-\end_layout
-
-\begin_layout Plain Layout
-
-Z <- lineWAC (D$Time, D$ROLL/1000, col='black', lwd=1)
-\end_layout
-
-\begin_layout Plain Layout
-
-legend('topleft', legend=c("Pitch error", "Full Xfm", "Roll Error", "Roll/1000")
-, lwd=c(2.5,2,1.5,1), lty=c(1,2,2,1), col=c("blue", "darkorange", "darkgreen",
- "black"), text.col=c("blue", "darkorange", "darkgreen", "black"), cex=0.8,
- bg='lightyellow')
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Tests of the validity of the deduced correction to pitch
-\end_layout
-
-\begin_layout Standard
-Some possible tests that lead to some confidence that the correction to
- pitch is valid are these:
-\end_layout
-
-\begin_layout Enumerate
-If the oscillating error in pitch indeed makes a significant contribution
- to the error in vertical wind, it would be expected that incorporation
- of this correction, especially in regions of relatively quiescent air,
- would reduce the variance in the measured vertical wind.
-\end_layout
-
-\begin_layout Enumerate
-On course reversal, such as often occurred during DEEPWAVE flights, any
- pitch error should reverse sign and produce a corresponding offset in the
- vertical wind.
- Because after course reversal the aircraft often flew at the same altitude
- through the same region measured previously, it would be expected that,
- after correction, the two legs would have vertical wind closer to the same
- value for each direction of flight.
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-The following is a tabulation of 13 instances where the flight track reversed
- course.
- In each case, flight periods of about 5 min (sometimes adjusted in times
- of strong wind to give similar-length segments flown upwind and downwind)
- are listed before and after the turn, but excluding the turn, to represent
- approximately overlapping flight segments where it would be expected that
- the vertical wind would be the same but where the pitch error, if caused
- by gyro misalignment, would reverse sign.
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-hskip2in
-\end_layout
-
-\end_inset
-
-
-\begin_inset Tabular
-<lyxtabular version="3" rows="14" columns="3">
-<features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Flight
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Times before turn
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Times after turn
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-81000--81600
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-82400--83000
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-122500--123000
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-123800--124300
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-10
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-75400--75800
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-80530--81000
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-10
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-100400--100800
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-101600--102100
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-10
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-104500--105000
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-105700--110200
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-14
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-101300--101800
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-102400--102900
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-14
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-113700--114200
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-114830--115330
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-16
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-94000--94500
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-95400--95900
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-19
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-83930--84430
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-85130--85630
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-21
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-85100--85600
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-90230--90730
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-21
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-95630--100130
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-100830--101300
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-21
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-102900--103400
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-104700--105230
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-21
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-114600--115100
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-120400--121000
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-The vertical wind measured on individual flights, or for the full project,
- might be expected to average closer to zero after correction.
- This should particularly be the case for over-water flight away from the
- islands of New Zealand.
-\end_layout
 
 \begin_layout Section
 Sensitivity coefficients
@@ -2473,377 +225,59 @@ library(knitr)
 
 \begin_layout Plain Layout
 
+library(zoo)
+\end_layout
+
+\begin_layout Plain Layout
+
 # set global chunk options
 \end_layout
 
 \begin_layout Plain Layout
 
 opts_chunk$set(fig.path='figure/WU-', fig.lp="fig:", fig.align='center', fig.show='h
-old', echo=FALSE, include=FALSE)
+old', echo=FALSE, include=FALSE, fig.width=5, fig.height=5, size='footnotesize')
 \end_layout
 
 \begin_layout Plain Layout
 
-options(replace.assign=TRUE,width=49)
+options(replace.assign=TRUE,width=49, digits=4)
 \end_layout
 
 \begin_layout Plain Layout
 
+SummarizeFit <- function(ft) {
 \end_layout
 
 \begin_layout Plain Layout
 
-@
+  print (summary(ft)$call)
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<getData>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-Project <- DEEPWAVE
-\end_layout
-
-\begin_layout Plain Layout
-
-Flight <- "rf15"        # this was the flight with cal maneuvers
-\end_layout
-
-\begin_layout Plain Layout
-
-fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-\end_layout
-
-\begin_layout Plain Layout
-
-VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
-\end_layout
-
-\begin_layout Plain Layout
-
-              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
-\end_layout
-
-\begin_layout Plain Layout
-
-              "ADIFR", "AKRD", "SSLIP", "PITCH", 
-\end_layout
-
-\begin_layout Plain Layout
-
-              "ROLL", "THDG", "BDIFR", "EWX", "GGALT",
-\end_layout
-
-\begin_layout Plain Layout
-
-              "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
-\end_layout
-
-\begin_layout Plain Layout
-
-              "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
-\end_layout
-
-\begin_layout Plain Layout
-
-              "CVNS_GP", "CVEW_GP", "VSPD", "CVSPD_GP",
-\end_layout
-
-\begin_layout Plain Layout
-
-              "ATX", "GGVSPDB", "QCF", "PSF")
-\end_layout
-
-\begin_layout Plain Layout
-
-D <- getNetCDF (fname, VarNames)      # this handles high-rate data also
-\end_layout
-
-\begin_layout Plain Layout
-
-Flight <- "rf11"        # this had  cal maneuvers at 40K ft
-\end_layout
-
-\begin_layout Plain Layout
-
-fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-\end_layout
-
-\begin_layout Plain Layout
-
-D2 <- getNetCDF (fname, VarNames)
-\end_layout
-
-\begin_layout Plain Layout
-
-r4 <- setRange (D2$Time, 103000,104000)
-\end_layout
-
-\begin_layout Plain Layout
-
-D2 <- D2[r4,]
-\end_layout
-
-\begin_layout Plain Layout
-
-Flight <- "rf16"        # 43000-ft leg
-\end_layout
-
-\begin_layout Plain Layout
-
-fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-\end_layout
-
-\begin_layout Plain Layout
-
-D3 <- getNetCDF (fname, VarNames)
-\end_layout
-
-\begin_layout Plain Layout
-
-r5 <- setRange (D3$Time, 94000,110000)
-\end_layout
-
-\begin_layout Plain Layout
-
-D3 <- D3[r5,]
-\end_layout
-
-\begin_layout Plain Layout
-
-Flight <- "rf14"        # 45000-ft leg
-\end_layout
-
-\begin_layout Plain Layout
-
-fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-\end_layout
-
-\begin_layout Plain Layout
-
-D4 <- getNetCDF (fname, VarNames)
-\end_layout
-
-\begin_layout Plain Layout
-
-r6 <- setRange (D4$Time, 113000,122000)
-\end_layout
-
-\begin_layout Plain Layout
-
-D4 <- D4[r6,]
-\end_layout
-
-\begin_layout Plain Layout
-
-flight = "rf11"
-\end_layout
-
-\begin_layout Plain Layout
-
-fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-\end_layout
-
-\begin_layout Plain Layout
-
-D5 <- getNetCDF (fname, VarNames)
-\end_layout
-
-\begin_layout Plain Layout
-
-r7 <- setRange (D5$Time, 70000, 100000)
-\end_layout
-
-\begin_layout Plain Layout
-
-D5 <- D5[r7,]
-\end_layout
-
-\begin_layout Plain Layout
-
-capnF1 <- "The angle-of-attack determined from the fit, as a function of
- the reference angle provided by Equation (3), for the combination of data
- from all four speed runs as listed in the text."
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-@
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-<<AOA-fit-and-plot, fig.cap=capnF1>>=
-\end_layout
-
-\begin_layout Plain Layout
-
-r1 <- setRange (D$Time, 32100,32900)
-\end_layout
-
-\begin_layout Plain Layout
-
-r2 <- setRange (D$Time, 41500,42300)
-\end_layout
-
-\begin_layout Plain Layout
-
-r3 <- setRange (D$Time, 50100,51100)
-\end_layout
-
-\begin_layout Plain Layout
-
-# need to add high-altitude segment also to constrain fit:
-\end_layout
-
-\begin_layout Plain Layout
-
-# rf11 103000--104000 is a speed run at 40,000 ft.
-\end_layout
-
-\begin_layout Plain Layout
-
-# useful also to include some data from max altitude:
-\end_layout
-
-\begin_layout Plain Layout
-
-r <- c(r1,r2,r3)
-\end_layout
-
-\begin_layout Plain Layout
-
-DD <- merge(D2, D4, all=TTUE)
-\end_layout
-
-\begin_layout Plain Layout
-
-DD <- merge(DD, D[r,], all=TRUE)
-\end_layout
-
-\begin_layout Plain Layout
-
-DD <- merge (DD, D3, all=TRUE)
-\end_layout
-
-\begin_layout Plain Layout
-
-Data <- merge (DD, D5, all=TRUE)
-\end_layout
-
-\begin_layout Plain Layout
-
-Data2 <- merge (D2, D[r,], all=TRUE)
-\end_layout
-
-\begin_layout Plain Layout
-
-Valid <- (Data2$TASX > 130.)
-\end_layout
-
-\begin_layout Plain Layout
-
-Data2 <- Data2[Valid,]
-\end_layout
-
-\begin_layout Plain Layout
-
-Cradeg <- pi / 180.
-\end_layout
-
-\begin_layout Plain Layout
-
-Data2["Mach"] <- MachNumber (Data2$PSF, Data$QCF)  # uses uncorrected q,
- p
-\end_layout
-
-\begin_layout Plain Layout
-
-Data2["AOAREF"] <- Data2$PITCH - asin(Data2$GGVSPDB/Data2$TASX) / Cradeg
-\end_layout
-
-\begin_layout Plain Layout
-
-Data2["AQR"] <- Data2$ADIFR/Data2$QCF # basic pressure ratio for AOA
-\end_layout
-
-\begin_layout Plain Layout
-
-fmy <- lm(AOAREF~AQR, data=Data2)
-\end_layout
-
-\begin_layout Plain Layout
-
-summary(fmy)
-\end_layout
-
-\begin_layout Plain Layout
-
-cfr <- coefficients (fmy)
-\end_layout
-
-\begin_layout Plain Layout
-
-A1 <- cfr[1]+cfr[2]*Data2$AQR
-\end_layout
-
 \begin_layout Plain Layout
 
-plot (Data2$AOAREF, A1, pch=16, cex=0.8, col='blue', xlab="Ref.
- AOA", ylab="fit AOA")
+  print ("Coefficients:")
 \end_layout
 
 \begin_layout Plain Layout
 
-lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='darkorange')
+  print (summary(ft)$coefficients)
 \end_layout
 
 \begin_layout Plain Layout
 
-capnF1b <- "The angle of attack determined from the simple fit to the pressure
- ratio from the radome, compared to the standard variable AKRD used for
- preliminary processing.
- The 
+  print (sprintf ("Residual standard error: %.3f, dof=%d", summary(ft)$sigma,
+ summary(ft)$df[2]))
 \end_layout
 
 \begin_layout Plain Layout
 
-points plotted in red are those measured at altitudes between 8 and 9 km
- GPS altitude; all others are plotted as blue symbols."
+  print (sprintf ("R-squared %.3f", summary(ft)$r.squared))
 \end_layout
 
 \begin_layout Plain Layout
 
-capnF2 <- "The angle-of-attack determined from the expanded fit, as a function
- of the reference angle provided by Equation (3)."
+}
 \end_layout
 
 \begin_layout Plain Layout
@@ -3208,18 +642,583 @@ R
 \end_inset
 
  call at the top of the listing.
- (AOAREF is 
+ AOAREFC is 
 \begin_inset Formula $\alpha^{*}$
 \end_inset
 
- and AQR=
+ with correction to pitch as in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Schuler"
+
+\end_inset
+
+and AQR=
 \begin_inset Formula $\Delta p_{\alpha}/q$
 \end_inset
 
-.)
+ .
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<getData-AOA, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ReloadData = FALSE	# otherwise, retrieve from previously saved data
+\end_layout
+
+\begin_layout Plain Layout
+
+Project <- "DEEPWAVE"
+\end_layout
+
+\begin_layout Plain Layout
+
+if (ReloadData) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  Flight <- "rf15"        # this was the flight with cal maneuvers
+\end_layout
+
+\begin_layout Plain Layout
+
+  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+  VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "ADIFR", "AKRD", "SSLIP", "PITCH", 
+\end_layout
+
+\begin_layout Plain Layout
+
+              "ROLL", "THDG", "BDIFR", "EWX", "GGALT",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "CVNS_GP", "CVEW_GP", "VSPD", "CVSPD_GP",
+\end_layout
+
+\begin_layout Plain Layout
+
+              "ATX", "GGVSPDB", "QCF", "PSF")
+\end_layout
+
+\begin_layout Plain Layout
+
+  D <- getNetCDF (fname, VarNames)      # this handles high-rate data also
+\end_layout
+
+\begin_layout Plain Layout
+
+  PC <- CorrectPitch(D)
+\end_layout
+
+\begin_layout Plain Layout
+
+  Valid <- (D$TASX > 130)
+\end_layout
+
+\begin_layout Plain Layout
+
+  Valid[abs(D$ROLL) > 5] <- FALSE
+\end_layout
+
+\begin_layout Plain Layout
+
+  #hist(PC[Valid], xlim=c(-0.02,0.02))
+\end_layout
+
+\begin_layout Plain Layout
+
+  D["PITCHC"] <- D$PITCH - PC
+\end_layout
+
+\begin_layout Plain Layout
+
+  Flight <- "rf11"        # this had  cal maneuvers at 40K ft
+\end_layout
+
+\begin_layout Plain Layout
+
+  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D2 <- getNetCDF (fname, VarNames)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D2["PITCHC"] <- D2$PITCH - CorrectPitch (D2)
+\end_layout
+
+\begin_layout Plain Layout
+
+  r4 <- setRange (D2$Time, 103000,104000)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D2 <- D2[r4,]
+\end_layout
+
+\begin_layout Plain Layout
+
+  Flight <- "rf16"        # 43000-ft leg
+\end_layout
+
+\begin_layout Plain Layout
+
+  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D3 <- getNetCDF (fname, VarNames)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D3["PITCHC"] <- D3$PITCH - CorrectPitch (D3)
+\end_layout
+
+\begin_layout Plain Layout
+
+  r5 <- setRange (D3$Time, 94000,110000)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D3 <- D3[r5,]
+\end_layout
+
+\begin_layout Plain Layout
+
+  Flight <- "rf14"        # 45000-ft leg
+\end_layout
+
+\begin_layout Plain Layout
+
+  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D4 <- getNetCDF (fname, VarNames)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D4["PITCHC"] <- D4$PITCH - CorrectPitch (D4)
+\end_layout
+
+\begin_layout Plain Layout
+
+  r6 <- setRange (D4$Time, 113000,122000)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D4 <- D4[r6,]
+\end_layout
+
+\begin_layout Plain Layout
+
+  flight = "rf11"
+\end_layout
+
+\begin_layout Plain Layout
+
+  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D5 <- getNetCDF (fname, VarNames)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D5["PITCHC"] <- D5$PITCH - CorrectPitch (D5)
+\end_layout
+
+\begin_layout Plain Layout
+
+  r7 <- setRange (D5$Time, 70000, 100000)
+\end_layout
+
+\begin_layout Plain Layout
+
+  D5 <- D5[r7,]
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+capnF1 <- "The angle-of-attack determined from the fit to pressure measurements
+ from the radome, as a function of the reference angle provided by Equation
+ (
+\backslash
+
+\backslash
+ref{eq:AOAsens1term}), for the combination of data from all four speed runs
+ as listed in the text."
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<AOA-fit-and-plot, fig.cap=capnF1, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+if (ReloadData) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  r1 <- setRange (D$Time, 32100,32900)
+\end_layout
+
+\begin_layout Plain Layout
+
+  r2 <- setRange (D$Time, 41500,42300)
+\end_layout
+
+\begin_layout Plain Layout
+
+  r3 <- setRange (D$Time, 50100,51100)
+\end_layout
+
+\begin_layout Plain Layout
+
+  # need to add high-altitude segment also to constrain fit:
+\end_layout
+
+\begin_layout Plain Layout
+
+  # rf11 103000--104000 is a speed run at 40,000 ft.
+\end_layout
+
+\begin_layout Plain Layout
+
+  # useful also to include some data from max altitude:
+\end_layout
+
+\begin_layout Plain Layout
+
+  r <- c(r1,r2,r3)
+\end_layout
+
+\begin_layout Plain Layout
+
+  DD <- merge(D2, D4, all=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+  DD <- merge(DD, D[r,], all=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+  DD <- merge (DD, D3, all=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+  Data <- merge (DD, D5, all=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+  Data2 <- merge (D2, D[r,], all=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+  Valid <- (Data2$TASX > 130.)
+\end_layout
+
+\begin_layout Plain Layout
+
+  Data2 <- Data2[Valid,]
+\end_layout
+
+\begin_layout Plain Layout
+
+  save (Data,Data2,D,D2, file="~/RStudio/DEEPWAVE/CalData.Rdata")
+\end_layout
+
+\begin_layout Plain Layout
+
+} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+  load (file="~/RStudio/DEEPWAVE/CalData.Rdata")
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+Cradeg <- pi / 180.
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2["Mach"] <- MachNumber (Data2$PSF, Data2$QCF)  # uses uncorrected q,
+ p
+\end_layout
+
+\begin_layout Plain Layout
+
+## use corrected value of PITCHC
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2["AOAREFC"] <- Data2$PITCHC - asin(Data2$GGVSPDB/Data2$TASX) / Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2["AOAREF"]  <- Data2$PITCH  - asin(Data2$GGVSPDB/Data2$TASX) / Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2["AQR"] <- Data2$ADIFR/Data2$QCF # basic pressure ratio for AO
+\end_layout
+
+\begin_layout Plain Layout
+
+fmy <- lm(AOAREFC~AQR, data=Data2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#print(summary(fmy))
+\end_layout
+
+\begin_layout Plain Layout
+
+SummarizeFit (fmy)
+\end_layout
+
+\begin_layout Plain Layout
+
+fmyp <- lm (AOAREF~AQR, data=Data2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#print(summary(fmyp))
+\end_layout
+
+\begin_layout Plain Layout
+
+cfr <- coefficients (fmy)
+\end_layout
+
+\begin_layout Plain Layout
+
+A1 <- cfr[1]+cfr[2]*Data2$AQR
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2["A1"] <- A1
+\end_layout
+
+\begin_layout Plain Layout
+
+std.coef <- c(4.605, 18.44, 6.75)
+\end_layout
+
+\begin_layout Plain Layout
+
+clr <- c("measurements", "fit", "std")
+\end_layout
+
+\begin_layout Plain Layout
+
+col <- c ('darkorange', 'darkgreen')
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- ggplot (data=Data2, aes(x=AOAREFC))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point (aes(y=A1), colour='blue', pch=19) 
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + xlab (expression(paste("Reference AOA [",degree,"]")))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + ylab (expression(paste("AOA from best-fit equation [",degree,"]")))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_smooth (aes(y=A1, colour=clr[2]), method='lm', lwd=2, linetype=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_colour_manual ("", breaks = clr, values = col)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + theme_WAC()
+\end_layout
+
+\begin_layout Plain Layout
+
+print (g)
+\end_layout
+
+\begin_layout Plain Layout
+
+#plot (Data2$AOAREFC, A1, pch=16, cex=0.8, col='blue', xlab="Ref.
+ AOA", ylab="fit AOA")
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='darkorange')
+\end_layout
+
+\begin_layout Plain Layout
+
+capnF1b <- "The angle of attack determined from the simple fit to the pressure
+ ratio from the radome, compared to the standard variable AKRD used for
+ preliminary processing.
+ The 
+\end_layout
+
+\begin_layout Plain Layout
+
+points plotted in red are those measured at altitudes between 8 and 9 km
+ GPS altitude; all others are plotted as blue symbols."
+\end_layout
+
+\begin_layout Plain Layout
+
+capnF2 <- "The angle-of-attack determined from the expanded fit, as a function
+ of the reference angle provided by Equation (
+\backslash
+
+\backslash
+ref{eq:AOAsens1term})."
+\end_layout
+
+\begin_layout Plain Layout
+
+capnF1b <- "The angle of attack determined from the simple fit to the pressure
+ ratio from the radome, as a function of the angle-of-attack predicted for
+ zero vertical wind from the formula in the text (blue shapes), and the
+ corresponding distribution that would result from using the standard calibratio
+n (green shapes).
+ The shapes show the distributions for measurements in centered bins at
+ (1/3)-deg increments in the predicted angle-of-attack.
+ The dashed orange line is the best fit to the speed-run measurements."
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset ERT
 status open
 
@@ -3388,7 +1387,16 @@ capnF2 <- "The angle-of-attack determined from the expanded fit, as a function
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset ERT
 status open
 
@@ -3445,117 +1453,9 @@ begin{kframe}
 
 \begin_layout Verbatim
 
-## 
 \end_layout
 
-\begin_layout Verbatim
-
-## Call:
-\end_layout
-
-\begin_layout Verbatim
-
-## lm(formula = AOAREF ~ AQR)
-\end_layout
-
-\begin_layout Verbatim
-
-## 
-\end_layout
-
-\begin_layout Verbatim
-
-## Residuals:
-\end_layout
-
-\begin_layout Verbatim
-
-##     Min      1Q  Median      3Q     Max 
-\end_layout
-
-\begin_layout Verbatim
-
-## -0.5069 -0.0659  0.0190  0.0737  0.4155 
-\end_layout
-
-\begin_layout Verbatim
-
-## 
-\end_layout
-
-\begin_layout Verbatim
-
-## Coefficients:
-\end_layout
-
-\begin_layout Verbatim
-
-##             Estimate Std.
- Error t value Pr(>|t|)
-\end_layout
-
-\begin_layout Verbatim
-
-## (Intercept)  4.39694    0.00526     837   <2e-16
-\end_layout
-
-\begin_layout Verbatim
-
-## AQR         21.00102    0.06439     326   <2e-16
-\end_layout
-
-\begin_layout Verbatim
-
-##                
-\end_layout
-
-\begin_layout Verbatim
-
-## (Intercept) ***
-\end_layout
-
-\begin_layout Verbatim
-
-## AQR         ***
-\end_layout
-
-\begin_layout Verbatim
-
-## ---
-\end_layout
-
-\begin_layout Verbatim
-
-## Signif.
- codes:  
-\end_layout
-
-\begin_layout Verbatim
-
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-\end_layout
-
-\begin_layout Verbatim
-
-## 
-\end_layout
-
-\begin_layout Verbatim
-
-## Residual standard error: 0.121 on 2017 degrees of freedom
-\end_layout
-
-\begin_layout Verbatim
-
-## Multiple R-squared:  0.981,	Adjusted R-squared:  0.981 
-\end_layout
-
-\begin_layout Verbatim
-
-## F-statistic: 1.06e+05 on 1 and 2017 DF,  p-value: <2e-16
-\end_layout
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -3659,7 +1559,7 @@ name "fig:AOA-fit-and-plot"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -3668,6 +1568,11 @@ status collapsed
 
 \backslash
 end{knitrout}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -3684,9 +1589,60 @@ This fit gave coefficients
 \begin_inset Formula $c_{1}^{*}$
 \end_inset
 
- equal to 4.3969 and 21.001.
- The fit accounted for 98% of the variance and had a residual standard error
- of 0.12
+ equal to 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(summary(fmy)$coef[1],3), nsmall=3)}
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(summary(fmy)$coef[2],3)}
+\end_layout
+
+\end_inset
+
+.
+ The fit accounted for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(100*summary(fmy)$r.squared, 1)}
+\end_layout
+
+\end_inset
+
+% of the variance and had a residual standard error of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(summary(fmy)$sigma, 2)}
+\end_layout
+
+\end_inset
+
+
 \begin_inset Formula $^{\circ}$
 \end_inset
 
@@ -3712,11 +1668,490 @@ ty in the fit result and shows that the uncertainty in representing these
 \end_layout
 
 \begin_layout Standard
+This calibration would be affected by a time difference between the IRU
+ measurement of pitch and the data-system sampling of the pressures involved,
+ especially that from the radome.
+ The IRU outputs measurements with a time delay that can be variable and
+ unknown but is expected to be <0.1
+\begin_inset space ~
+\end_inset
+
+s, and normal processing uses an adjustment of 60
+\begin_inset space ~
+\end_inset
+
+ms to compensate for this delay.
+ To guard against this delay affecting the calibration, a series of fits
+ like that leading to the above formula and coefficients were performed
+ after shifting the measurement of pitch by various time intervals, both
+ forward and backward.
+ For shifts within about 0.5
+\begin_inset space \thinspace{}
+\end_inset
+
+s, the results did not change significantly, although the fit with adjustment
+ of pitch 
+\emph on
+backward
+\emph default
+ by about 0.5
+\begin_inset space \thinspace{}
+\end_inset
+
+s had the smallest standard error .
+ Equivalently, a similar standard error was obtained if the measurement
+ of the pressure ratio from the radome (
+\begin_inset Formula $\delta p_{\alpha}$
+\end_inset
+
+) were moved forward in time by a similar amount.
+ Neither of these shifts seems likely at this magnitude, and the change
+ in standard error was only about 0.002
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, so we interpret this as indicating insensitivity of the calibration to
+ small shifts in time.
+ That is likely a result of the calibration data being from speed runs where
+ the flight speed is gradually increased and then decreased, so any effect
+ of a lag partially cancels in such data segments.
+\end_layout
+
+\begin_layout Standard
+The calibration would also be affected by pitch errors such as are discussed
+ in Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Schuler"
+
+\end_inset
+
+.
+ Therefore the correction procedure discussed in that section was applied
+ to these data before finding the preceding fit.
+ In comparison to the fit without this correction, the standard error was
+ changed only negligibly and the two fit coefficients changed by -0.007 and
+ -0.004, respectively, so this correction also had only minor effect on the
+ fit, with changes comparable to or smaller than the standard errors in
+ these coefficients.
+ This insensitivity perhaps arises because the period of the calibration
+ spanned a few hours and so included enough time for the Schuler oscillation
+ of pitch to average over the dataset used for calibration.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<adjust-timing, include=TRUE, eval=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+## try adjusting timing of pitch measurement:
+\end_layout
+
+\begin_layout Plain Layout
+
+MakeHR <- function (X) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  DL <- length(X)
+\end_layout
+
+\begin_layout Plain Layout
+
+  Padj <- vector ("numeric", 25*DL)
+\end_layout
+
+\begin_layout Plain Layout
+
+  for (k in 2:(DL-1)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    if ((is.na(X[k])) | (X[k] == -32767) | is.na(X[k-1]) | is.na(X[k+1])) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      for (j in 1:25) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        Padj[(k-1)*25+j] <- -32767
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+    } else {
+\end_layout
+
+\begin_layout Plain Layout
+
+      for (j in 0:12) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        Padj[(k-1)*25+j+1] <- X[k-1]+0.04*(j+13)*(X[k]-X[k-1])
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+      for (j in 13:24) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        Padj[(k-1)*25+j+1] <- X[k]+0.04*(j-12)*(X[k+1]-X[k])
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  # just replicate the start and end measurements
+\end_layout
+
+\begin_layout Plain Layout
+
+  k <- 1
+\end_layout
+
+\begin_layout Plain Layout
+
+  if (is.na(X[k]) | is.na(X[k+1])) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (j in 1:25) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      Padj[j] <- -32767.
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+  } else {
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (j in 0:12) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      Padj[(k-1)*25+j+1] <- X[k]
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (j in 13:24) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      Padj[(k-1)*25+j+1] <- X[k]+0.04*(j-12)*(X[k+1]-X[k])
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  k <- DL
+\end_layout
+
+\begin_layout Plain Layout
+
+  if (is.na(X[k]) | is.na(X[k-1])) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (j in 1:25) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      Padj[j] <- -32767.
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+  } else {
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (j in 0:12) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      Padj[(k-1)*25+j+1] <- X[k-1]+0.04*(j+13)*(X[k]-X[k-1])
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (j in 13:24) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      Padj[(k-1)*25+j+1] <- X[k]
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  #T <- filter(butter(3,2./25.),T)
+\end_layout
+
+\begin_layout Plain Layout
+
+  Padj <- signal::filter(signal::sgolay(4,75),Padj)
+\end_layout
+
+\begin_layout Plain Layout
+
+  return (Padj)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+<<cycle-thru-times, include=TRUE, eval=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+DPITCH <- c(D$PITCH[1], D$PITCH[1:(length(D$PITCH)-1)]) 
+\end_layout
+
+\begin_layout Plain Layout
+
+D2PITCH <- c(D2$PITCH[1], D2$PITCH[1:(length(D2$PITCH)-1)]) 
+\end_layout
+
+\begin_layout Plain Layout
+
+#DPITCH <- c(D$PITCH[2:length(D$PITCH)], D$PITCH[length(D$PITCH)])
+\end_layout
+
+\begin_layout Plain Layout
+
+#D2PITCH <- c(D2$PITCH[2:length(D2$PITCH)], D2$PITCH[length(D2$PITCH)])
+\end_layout
+
+\begin_layout Plain Layout
+
+Padj1 <- MakeHR (DPITCH)
+\end_layout
+
+\begin_layout Plain Layout
+
+Padj2 <- MakeHR (D2PITCH)
+\end_layout
+
+\begin_layout Plain Layout
+
+Padj <- c(Padj2, Padj1)
+\end_layout
+
+\begin_layout Plain Layout
+
+rf <- c(r4,(r+length(D2$Time)))
+\end_layout
+
+\begin_layout Plain Layout
+
+DL <- length(D$TASX) + length(D2$TASX)
+\end_layout
+
+\begin_layout Plain Layout
+
+for (j in 1:25) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  ix <- seq(j, 25*DL, by=25)
+\end_layout
+
+\begin_layout Plain Layout
+
+  Pt <- Padj[ix]
+\end_layout
+
+\begin_layout Plain Layout
+
+  Pt <- Pt[rf]
+\end_layout
+
+\begin_layout Plain Layout
+
+  Pt <- Pt[Valid]
+\end_layout
+
+\begin_layout Plain Layout
+
+  Aref <- Pt - (Data2$GGVSPDB/Data2$TASX)*180/pi
+\end_layout
+
+\begin_layout Plain Layout
+
+  ft <- lm(Aref ~ Data2$AQR)
+\end_layout
+
+\begin_layout Plain Layout
+
+  print(sprintf("j=%d, stderr=%f", j, summary(ft)$sigma))
+\end_layout
+
+\begin_layout Plain Layout
+
+  if (j == 24) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    cft <- coefficients(ft)
+\end_layout
+
+\begin_layout Plain Layout
+
+    plot (Aref, cft[1]+cft[2]*Data2$AQR, pch=20, col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Previous studies of the radome where low-altitude flight segments were included
  indicated that an additional term was needed in the calibration to adjust
  the zero for vertical wind for flight in the boundary layer over the ocean.
  The standard calibration determined in that way is that given in the RAF
- document on Processing Algorithms:
+ document on 
+\begin_inset CommandInset href
+LatexCommand href
+name "Processing Algorithms"
+target "https://drive.google.com/open?id=0B1kIUH45ca5Ab2Z6cld1M1cydjA&authuser=0"
+
+\end_inset
+
+:
 \end_layout
 
 \begin_layout Standard
@@ -3732,11 +2167,15 @@ with coefficients {
 \end_inset
 
 } = {4.604, 18.67, 6.49}.
- The last term provided some adjustment dependent on Mach number and help
- avoid an offset in vertical wind at low airspeed.
+ The last term provides some adjustment dependent on Mach number and corrects
+ an offset often seen in vertical wind at low airspeed.
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -3872,7 +2311,7 @@ name "fig:AOA-vs-Standard"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -3888,15 +2327,26 @@ end{knitrout}
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 Figure
 \begin_inset space ~
 \end_inset
 
 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:AOA-vs-Standard"
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:plot-comparison-to-standard}
+\end_layout
 
 \end_inset
 
@@ -3910,7 +2360,7 @@ that from the standard formula.
  and orange line are the results from the fit to the speed-run measurements
  and the green shapes are the distributions that would result from using
  the standard calibration.
- The standard calibration is quite close to that determined from the speed
+ The standard calibration is close close to that determined from the speed
  runs, but the RMS difference between predicted values and fit values increases
  from 0.12
 \begin_inset Formula $^{\circ}$
@@ -3924,6 +2374,172 @@ that from the standard formula.
  The difference is most evident for measurements at large angle-of-attack,
  where the standard coefficients produce increasingly higher values as the
  angle-of-attack increases.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<plot-comparison-to-standard, fig.cap=capnF1b, warning=FALSE, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+# plot (AKRD, A1, pch=16, cex=0.8, col='blue', xlab="Standard", ylab="fit
+ AOA")
+\end_layout
+
+\begin_layout Plain Layout
+
+# r <- ((GGALT > 8000.) & (GGALT < 9000))
+\end_layout
+
+\begin_layout Plain Layout
+
+# points (AKRD[r], A1[r],
+\end_layout
+
+\begin_layout Plain Layout
+
+#         pch=16,cex=0.8, col='red')
+\end_layout
+
+\begin_layout Plain Layout
+
+# lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='darkorange')
+\end_layout
+
+\begin_layout Plain Layout
+
+cfs <- c(4.604, 18.67, 6.49)
+\end_layout
+
+\begin_layout Plain Layout
+
+AQRM <- Data2$AQR * Data2$Mach
+\end_layout
+
+\begin_layout Plain Layout
+
+Astd <- cfs[1]+cfs[2]*Data2$AQR+cfs[3]*AQRM
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2["Astd"] <- Astd
+\end_layout
+
+\begin_layout Plain Layout
+
+clr <- c("speed-run fit", "standard")
+\end_layout
+
+\begin_layout Plain Layout
+
+col <- c("lightblue", "darkgreen")
+\end_layout
+
+\begin_layout Plain Layout
+
+#g <- qplot(D$AOAREF,D$A,geom="violin", group = plyr::round_any(D$AOAREF,0.5,
+ round),  fill=clr[1])
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- ggplot(data=Data2, aes(x=AOAREF,y=A1))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_fill_manual(name="distributions:", labels=clr, values = col)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_violin(aes(group = plyr::round_any(AOAREF, 0.33333, round),
+ fill=clr[1]), alpha=1/2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#g <- g + geom_violin(aes(y=A2,group = plyr::round_any(AOAREF, 0.5, round),
+ fill=clr[2]), alpha=1/2)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_violin(aes(y=Astd,group = plyr::round_any(AOAREF, 0.33333,
+ round), fill=clr[2]), alpha=1/2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#g <- g + geom_text (aes(label="best-fit residual error: 0.09 deg", x=3,y=1),
+ size=8)
+\end_layout
+
+\begin_layout Plain Layout
+
+xsz = 2.6
+\end_layout
+
+\begin_layout Plain Layout
+
+ysz = 0.30
+\end_layout
+
+\begin_layout Plain Layout
+
+# g <- g + geom_rect(aes(xmin=3.5-xsz/2.,xmax=3.5+xsz/2.,ymin=0.6-ysz/2.,ymax=0.6+ysz/2.
+), fill="lightyellow", colour="blue")
+\end_layout
+
+\begin_layout Plain Layout
+
+# g <- g + annotate("text", label="speed-run-fit residual: 0.12 deg.", x=3.5,y=0.6,s
+ize=6, colour="red")
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + xlab (expression(paste("Predicted AOA [", degree, "]")))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + ylab (expression(paste("AOA from fit [",degree,"]"))) + ylim(0.,6.)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_line(aes(y=AOAREF), colour="darkorange", lwd=2, linetype=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + theme_WAC ()
+\end_layout
+
+\begin_layout Plain Layout
+
+g
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3987,7 +2603,7 @@ status collapsed
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -4227,6 +2843,121 @@ end{figure}
 \end_layout
 
 \begin_layout Standard
+Because the standard fit in use for the GV include an additional terms represent
+ing dependence on Mach number, the benefit of using such a fit for DEEPWAVE
+ is worth considering.
+ The primary reason for that fit has been that otherwise the measurements
+ of vertical wind at low level tend to be biased, but most of the useful
+ flight data from DEEPWAVE was at intermediate or high levels so this may
+ not be a concern for this project.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<fit-to-standard-eq, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+fm3term <- lm(AOAREF~AQR+AQRM, data=Data2)
+\end_layout
+
+\begin_layout Plain Layout
+
+# print (summary(fm3term))
+\end_layout
+
+\begin_layout Plain Layout
+
+SummarizeFit (fm3term)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Fitting (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOAstandard"
+
+\end_inset
+
+) to the speed-run data gave a standard error that is reduced by <0.006
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, so for those measurements this small improvement does not seem to justify
+ adding another term to the fit.
+ This will be revisited later in this section with an expanded data set.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<fit-to-corrected-pitch, include=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2["AOAREFC"] <- Data2$PITCHC - asin(Data2$GGVSPDB/Data2$TASX) / Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+fmyc <- lm(AOAREFC~AQR, data=Data2)
+\end_layout
+
+\begin_layout Plain Layout
+
+# print(summary(fmyc))
+\end_layout
+
+\begin_layout Plain Layout
+
+SummarizeFit (fmyc)
+\end_layout
+
+\begin_layout Plain Layout
+
+cfrc <- coefficients (fmyc)
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2["A1C"] <- cfrc[1]+cfrc[2]*Data2$AQR
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The next step was to expand the data set to include flights from a range
  of altitudes including up to FL450, and to see if it is necessary to refine
  the fit to include additional terms like that in Eq.
@@ -4270,8 +3001,12 @@ reference "eq:AOAsens1term"
  None of these produced enough improvement over the single-term fit to warrant
  their inclusion; the best improvement in the residual standard error was
  about 2%.
- The additional terms that did improve the fit significantly were those
- correlated with the terms in Eq.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Additional terms that did improve the fit significantly were those correlated
+ with the terms in Eq.
 \begin_inset space ~
 \end_inset
 
@@ -4287,7 +3022,8 @@ reference "eq:alphaWithwZero"
 \end_inset
 
 pitch, but including such terms is not consistent with finding a fit that
- would represent the angle-of-attack in conditions with vertical wind.
+ would represent the angle-of-attack in conditions with non-zero vertical
+ wind.
  For example, including "PITCH" as a term in the fit resulted in a coefficient
  for this term of about 0.4, and such a large correlation between resulting
  measurements of angle-of-attack and pitch would bias the response to a
@@ -4309,6 +3045,219 @@ s of vertical wind would be zero.
  the candidate terms in the fit.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<switch-to-larger-dataset, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# now expand to larger dataset
+\end_layout
+
+\begin_layout Plain Layout
+
+Valid <- (Data$TASX > 130.) & (abs(Data$ROLL) < 5.)
+\end_layout
+
+\begin_layout Plain Layout
+
+Data <- Data[Valid,]
+\end_layout
+
+\begin_layout Plain Layout
+
+Data["Mach"] <- MachNumber (Data$PSF, Data$QCF)  # uses uncorrected q, p
+\end_layout
+
+\begin_layout Plain Layout
+
+Data["AOAREFC"] <- Data$PITCHC - asin(Data$GGVSPDB/Data$TASX) / Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+Data["AOAREF"] <- Data$PITCH - asin(Data$GGVSPDB/Data$TASX) / Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+Data["AQR"] <- Data$ADIFR/Data$QCF # basic pressure ratio for AOA
+\end_layout
+
+\begin_layout Plain Layout
+
+Data$RR2 <- Data$QCF/Data$PSF    # q/p ratio
+\end_layout
+
+\begin_layout Plain Layout
+
+Data$AQRM <- Data$AQR * Data$Mach
+\end_layout
+
+\begin_layout Plain Layout
+
+Data$AQRM2 <- Data$AQR * Data$Mach**2
+\end_layout
+
+\begin_layout Plain Layout
+
+Data$AQRM3 <- Data$AQR * Data$Mach**3
+\end_layout
+
+\begin_layout Plain Layout
+
+Data$DENS <- Data$PSF / (Data$ATX+273.15)
+\end_layout
+
+\begin_layout Plain Layout
+
+fmall <- lm (AOAREFC~AQR+AQRM+AQRM2+AQRM3+RR2+Mach+DENS, data=Data)
+\end_layout
+
+\begin_layout Plain Layout
+
+fmnorm <- lm (AOAREFC~AQR+AQRM, data=Data)
+\end_layout
+
+\begin_layout Plain Layout
+
+fm <- lm (AOAREFC~AQR, data=Data)
+\end_layout
+
+\begin_layout Plain Layout
+
+fmu <- lm (AOAREF~AQR, data=Data)
+\end_layout
+
+\begin_layout Plain Layout
+
+fmconst <- lm (AOAREFC-cfr[2]*AQR ~ 1, data=Data)
+\end_layout
+
+\begin_layout Plain Layout
+
+# summary(fmall)
+\end_layout
+
+\begin_layout Plain Layout
+
+# summary(fmnorm)
+\end_layout
+
+\begin_layout Plain Layout
+
+# summary(fm)
+\end_layout
+
+\begin_layout Plain Layout
+
+# summary (fmu)
+\end_layout
+
+\begin_layout Plain Layout
+
+# summary(fmconst)
+\end_layout
+
+\begin_layout Plain Layout
+
+#plot (AOAREFC, AKRD, pch=16, cex=0.7, col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+#fm <- lm (AOAREFC~AQR+RR2+PS_GP+QC_GP+Mach)
+\end_layout
+
+\begin_layout Plain Layout
+
+#fm <- lm (AOAREFC~AQR+RR2+Mach)
+\end_layout
+
+\begin_layout Plain Layout
+
+cf3 <- coefficients (fm)
+\end_layout
+
+\begin_layout Plain Layout
+
+cf31 <- cf3[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+cf32 <- cf3[2]
+\end_layout
+
+\begin_layout Plain Layout
+
+sd3 <- summary(fm)$sigma
+\end_layout
+
+\begin_layout Plain Layout
+
+#print(c("Fit coefficients are: ",cf3))
+\end_layout
+
+\begin_layout Plain Layout
+
+#print(summary(fm))
+\end_layout
+
+\begin_layout Plain Layout
+
+#A3 <- cf3[1] + cf3[2]*Data$AQR + cf3[2]*Data$AQRM + cf3[3]*Data$AQRM2 
+\end_layout
+
+\begin_layout Plain Layout
+
+#      + cf3[4]*Data$AQRM3 + cf3[5]*Data$Mach
+\end_layout
+
+\begin_layout Plain Layout
+
+Data$A3 <- cf3[1]+cf3[2]*Data$AQR
+\end_layout
+
+\begin_layout Plain Layout
+
+Data$A1 <- cfr[1]+cfr[2]*Data$AQR
+\end_layout
+
+\begin_layout Plain Layout
+
+cfs <- c(4.604, 18.67, 6.49)
+\end_layout
+
+\begin_layout Plain Layout
+
+Data$A3std <- cfs[1]+cfs[2]*Data$AQR+cfs[3]*Data$AQRM
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 The results from the two-coefficient fit to the larger data set, using
 \begin_inset Newline newline
@@ -4322,242 +3271,198 @@ The results from the two-coefficient fit to the larger data set, using
 
 \end_inset
 
-are shown below:
-\end_layout
+led to best-fit coefficients {
+\begin_inset Formula $c_{0},\, c_{1}$
+\end_inset
 
-\begin_layout Standard
+} = {
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
 
 \backslash
-begin{knitrout}
+Sexpr{round(cf31,3)}
 \end_layout
 
 \end_inset
 
- 
+, 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
 
 \backslash
-definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}
+Sexpr{round(cf32,3)}
 \end_layout
 
 \end_inset
 
-
+} and a standard error of 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
 
 \backslash
-color{fgcolor}
+Sexpr{round(summary(fm)$sigma,2)}
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{kframe}
-\end_layout
+ for 17,715 measurements.
+ The small increase in standard error in comparison to the speed-run measurement
+s is expected because this expanded data set includes regions more likely
+ to have non-zero vertical wind, which contributes to this error.
+ Expanding this fit to include a third coefficient as in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOAstandard"
 
 \end_inset
 
- 
-\end_layout
-
-\begin_layout Verbatim
-
-## 
-\end_layout
-
-\begin_layout Verbatim
-
-## Call:
-\end_layout
-
-\begin_layout Verbatim
-
-## lm(formula = AOAREF ~ AQR)
-\end_layout
-
-\begin_layout Verbatim
-
-## 
-\end_layout
-
-\begin_layout Verbatim
-
-## Residuals:
-\end_layout
-
-\begin_layout Verbatim
-
-##     Min      1Q  Median      3Q     Max 
-\end_layout
-
-\begin_layout Verbatim
-
-## -1.8077 -0.0669  0.0021  0.0703  1.3148 
-\end_layout
-
-\begin_layout Verbatim
-
-## 
-\end_layout
-
-\begin_layout Verbatim
-
-## Coefficients:
-\end_layout
-
-\begin_layout Verbatim
-
-##             Estimate Std.
- Error t value Pr(>|t|)
-\end_layout
-
-\begin_layout Verbatim
-
-## (Intercept)  4.45543    0.00453     984   <2e-16
-\end_layout
-
-\begin_layout Verbatim
-
-## AQR         21.40075    0.05922     361   <2e-16
-\end_layout
-
-\begin_layout Verbatim
-
-##                
-\end_layout
-
-\begin_layout Verbatim
-
-## (Intercept) ***
-\end_layout
-
-\begin_layout Verbatim
-
-## AQR         ***
-\end_layout
-
-\begin_layout Verbatim
-
-## ---
-\end_layout
-
-\begin_layout Verbatim
-
-## Signif.
- codes:  
-\end_layout
-
-\begin_layout Verbatim
-
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-\end_layout
-
-\begin_layout Verbatim
-
-## 
-\end_layout
-
-\begin_layout Verbatim
-
-## Residual standard error: 0.134 on 17719 degrees of freedom
-\end_layout
-
-\begin_layout Verbatim
-
-## Multiple R-squared:  0.881,	Adjusted R-squared:  0.881 
-\end_layout
-
-\begin_layout Verbatim
-
-## F-statistic: 1.31e+05 on 1 and 17719 DF,  p-value: <2e-16
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{kframe}
-\end_layout
-
-\end_inset
-
- 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{knitrout}
-\end_layout
-
-\end_inset
-
- Evaluation of all the points in the larger dataset using three fits, for
- the larger dataset, for the speed runs alone, and using the "standard"
- fit discussed above, gave only very small differences in the results: the
- angle-of-attack evaluated from the larger-dataset coefficients resulted
- in values 0.029
-\begin_inset Formula $\pm$
-\end_inset
-
-0.007
+) resulted in negligible improvement (0.0001
 \begin_inset Formula $^{\circ}$
 \end_inset
 
- larger than those from the speed-run coefficients and 0.025
-\begin_inset Formula $\pm$
-\end_inset
-
-0.045
+) in the standard error, and introduction of a set of eight possible dependencie
+s while exploring for better fits only led to reduction in the the standard
+ error by 0.003
 \begin_inset Formula $^{\circ}$
 \end_inset
 
- larger than those from the standard coefficients, so using any of these
- formulas would give about the same results.
+, so more complicated equations than (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOArecommended"
+
+\end_inset
+
+) do not appear to be needed.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This simpler representation applies to the normal research flight levels
+ of the DEEPWAVE project, levels above about 10,000 ft.
+ Because expanded representations were needed in other projects to represent
+ low-level flight data, and low levels are not included in this expended
+ data set, it may be necessary to revisit this calibration with more terms
+ if lower-level flight segments are to be analyzed.
+\end_layout
+
+\end_inset
+
+ Another fit considered with this expanded data set was to set the slope
+ parameter to the value obtained from the speed-run data, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cfr[2], 3)}
+\end_layout
+
+\end_inset
+
+, and then fit using the expanded data set to determine a value of the offset
+ coefficient that minimized the mean vertical wind.
+ That gave a value for the first coefficient of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(summary(fmconst)$coefficients[1], 3)}
+\end_layout
+
+\end_inset
+
+ and a standard error negligibly different from that for the two-coefficient
+ fit, so that is another indication that the speed-run dataset and the expanded
+ dataset give consistent results.
+ 
 \end_layout
 
 \begin_layout Standard
-The fit coefficients were {4.4554, 21.4007}, a result very close to the result
- from the speed runs alone ({4.3969, 21.001}).
- The two results are compared in Fig.
+The recommended calibration for DEEPWAVE, determined with correction of
+ the pitch errors as discussed in Sect.
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:plot-for-larger-dataset"
+reference "sec:Schuler"
 
 \end_inset
 
+, is (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOArecommended"
+
+\end_inset
+
+) with these values for the coefficients: {
+\begin_inset Formula $c_{0},\, c_{1}$
+\end_inset
+
+} = {
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cf31,3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cf32,3)}
+\end_layout
+
+\end_inset
+
+}.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The improvement in standard error using the corrected measurements was only
+ 0.0006
+\begin_inset Formula $^{\circ}$
+\end_inset
+
 .
- Evaluation of all the points in the larger dataset using three fits, for
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Evaluation of all the points in the larger dataset using three fits, for
  the larger dataset, for the speed runs alone, and using the "standard"
  fit discussed above, gave only very small differences in the results: the
  angle-of-attack evaluated from the larger-dataset coefficients resulted
@@ -4582,6 +3487,246 @@ reference "fig:plot-for-larger-dataset"
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<second-violin-plot, include=TRUE, warning=FALSE, fig.cap="Distributions
+ in the angle-of-attack determined from the two-coefficient fit to the expanded
+ dataset, plotted with the distributions that would result from use of the
+ equation based on the speed-runs only.
+ The pink color denotes regions covered by both distributions.">>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+## DF <- data.frame(Time)
+\end_layout
+
+\begin_layout Plain Layout
+
+## DF["AOAREF"] <- AOAREF
+\end_layout
+
+\begin_layout Plain Layout
+
+## DF["A3"] <- A3
+\end_layout
+
+\begin_layout Plain Layout
+
+## DF["A3std"] <- A3std
+\end_layout
+
+\begin_layout Plain Layout
+
+## DF["A1"] <- A1
+\end_layout
+
+\begin_layout Plain Layout
+
+clr <- c("larger-dataset fit", "speed-run fit")
+\end_layout
+
+\begin_layout Plain Layout
+
+col <- c("red", "lightblue")
+\end_layout
+
+\begin_layout Plain Layout
+
+#g <- qplot(D$AOAREF,D$A,geom="violin", group = plyr::round_any(D$AOAREF,0.5,
+ round),  fill=clr[1])
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- ggplot(data=Data, aes(x=AOAREFC,y=A3))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_fill_manual(name="distribution", labels=clr, values = col)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_violin(aes(group = plyr::round_any(AOAREFC, 0.33333, round),
+ fill=clr[1]), alpha=1/2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#g <- g + geom_violin(aes(y=A2,group = plyr::round_any(AOAREFC, 0.5, round),
+ fill=clr[2]), alpha=1/2)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_violin(aes(y=A1,group = plyr::round_any(AOAREFC, 0.33333, round),
+ fill=clr[2]), alpha=1/2)
+\end_layout
+
+\begin_layout Plain Layout
+
+#g <- g + geom_text (aes(label="best-fit residual error: 0.09 deg", x=3,y=1),
+ size=8)
+\end_layout
+
+\begin_layout Plain Layout
+
+xsz = 2.8
+\end_layout
+
+\begin_layout Plain Layout
+
+ysz = 0.30
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_rect(aes(xmin=3.5-xsz/2.,xmax=3.5+xsz/2.,ymin=0.6-ysz/2.,ymax=0.6+ysz/2.),
+ fill="lightyellow", colour="blue")
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + annotate("text", label="larger-data-set residual: 0.13 deg.", x=3.5,y=0.6,s
+ize=6, colour="red")
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + xlab (expression(paste("Reference AOA [", degree, "]")))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + ylab (expression(paste("AOA from fit [",degree,"]"))) + ylim(0.,6.)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_line(aes(y=AOAREF), colour="darkorange", lwd=2, linetype=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + theme_WAC ()
+\end_layout
+
+\begin_layout Plain Layout
+
+g
+\end_layout
+
+\begin_layout Plain Layout
+
+#plot (AOAREF, A2, xlab="Predicted AOA [deg.]", 
+\end_layout
+
+\begin_layout Plain Layout
+
+#         ylab="Fit AOA [deg.]", type='p', pch=16, cex=0.7, col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+#points (AOAREF, A2std, pch=16, cex=0.7,col='red')
+\end_layout
+
+\begin_layout Plain Layout
+
+#lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='orange')
+\end_layout
+
+\begin_layout Plain Layout
+
+#title("Radome")
+\end_layout
+
+\begin_layout Plain Layout
+
+capnF1c <- "Comparison of angle of attack determined from (6) to the reference
+ data for the four speed runs."
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:second-violin-plot}
+\end_layout
+
+\end_inset
+
+ the values of angle-of-attack obtained using the fit to data from the expanded
+ dataset are compared to those obtained using the fit to the speed-run dataset.
+ For all the points in the larger dataset, the respective differences in
+ the average angle-of-attack between the speed-run fit and the expanded-data-set
+ fit and between the speed-run fit and the standard fit (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:AOAstandard"
+
+\end_inset
+
+) were 0.029
+\begin_inset Formula $\pm$
+\end_inset
+
+0.007
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ and 0.025
+\begin_inset Formula $\pm$
+\end_inset
+
+0.045
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+ This indicates that any of these formulas would give about the same results
+ and that one measure of uncertainty in the results from applying these
+ fits is that the various fits differ by about 0.03
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ in resulting angle-of-attack.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -4708,7 +3853,7 @@ name "fig:plot-for-larger-dataset"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -4724,7 +3869,16 @@ end{knitrout}
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -4742,7 +3896,7 @@ reference "fig:AOA-plot"
  the standard coefficients.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -4872,7 +4026,7 @@ name "fig:AOA-plot"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -4881,6 +4035,11 @@ status collapsed
 
 \backslash
 end{knitrout}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -4940,18 +4099,33 @@ alpha}}{q}M^x$ where $M$ is the Mach number.)
 
 \begin_layout Standard
 The standard errors in the coefficients for the larger dataset are respectively
- 0.0045 and 0.0592, 
+ 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
-%0.0045 and 0.0592, 
+
+\backslash
+Sexpr{round(summary(fm)$coefficients[1,2],4)}
 \end_layout
 
 \end_inset
 
-so the coefficients are tightly constrained by the fit.
+ and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(summary(fm)$coefficients[2,2],3)}
+\end_layout
+
+\end_inset
+
+, so the coefficients are tightly constrained by the fit.
  Surprisingly, the correlation between error terms was very high and positive,
  increasing the combined effects of these errors in any calculation of angle-of-
 attack.
@@ -4968,15 +4142,8 @@ only 2,019 for the speed-run dataset, so the larger set provides an opportunity
  In one example, the dataset was divided randomly into 100 subsets and the
  fit coefficients calculated for each of those subsets, and then this process
  was repeated 50 times.
- The result was mean coefficients of 4.4611
-\begin_inset Formula $\pm$
-\end_inset
-
-0.0699 and 21.4740
-\begin_inset Formula $\pm$
-\end_inset
-
-0.8834.
+ The resulting standard deviations in the fit coefficients were 0.070 and
+ 0.88.
  Repeating this for different subset sizes 
 \begin_inset Formula $N$
 \end_inset
@@ -4991,7 +4158,7 @@ only 2,019 for the speed-run dataset, so the larger set provides an opportunity
  The subsetting also revealed that the individual coefficients were highly
  correlated, with correlation coefficient 0.99.
  The effect of this is the two error terms add almost linearly, not in quadratur
-e.
+e, in their effect on the final uncertainty in angle of attack.
 \end_layout
 
 \begin_layout Standard
@@ -5011,12 +4178,50 @@ The effect of these errors on the resulting angle of attack, for this dataset,
 , that may be a better estimate of the uncertainty in angle of attack from
  possible bias, with the smaller standard error representing the random
  component of that uncertainty.
- The net effect on vertical wind produced by this uncertainty in the sensitivity
- coefficients for angle-of-attack is therefore estimated to be about 0.1
+ The net effect on vertical wind produced by 0.03
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ uncertainty in the sensitivity coefficients for angle-of-attack is therefore
+ estimated to be about 0.1
 \begin_inset space ~
 \end_inset
 
-m/s.
+m/s from uncertainty in the calibration.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<fig-cap-3a>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+capnFaoaG <- "For the gust pod, the angle-of-attack determined from the
+ fit as a function of the reference angle provided by (
+\backslash
+
+\backslash
+ref{eq:AOAeq}), for the combined four speed runs.
+ Compare to Fig.~
+\backslash
+
+\backslash
+ref{fig:AOA-fit-and-plot}, the corresponding plot for the radome."
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -5037,12 +4242,19 @@ QC_GP,
 \begin_inset Formula $p=$
 \end_inset
 
-PS_GP, but 
+PS_GP, and the Mach number 
 \begin_inset Formula $M$
 \end_inset
 
- remained as determined from the pitot tube and static ports of the main
- aircraft data system.
+ was that determined from the uncorrected measurements 
+\begin_inset Formula $p$
+\end_inset
+
+ and 
+\begin_inset Formula $q$
+\end_inset
+
+ from the gust pod.
  Apparently because of the under-wing location in disturbed airflow, a fit
  involving more terms was needed to represent the reference measurements
  from Eq.
@@ -5070,6 +4282,180 @@ reference "eq:AOAeq"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<AOA-gust-pod,fig.cap=capnFaoaG,fig.align="center", echo=FALSE, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2$AOAREF_GP <- Data2$CPITCH_GP - asin(Data2$CVSPD_GP/Data2$TASX) / Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2$AQR_GP <- Data2$ADIFR_GP/Data2$QC_GP # basic pressure ratio for AOA
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2$RR2_GP <- Data2$QC_GP/Data2$PS_GP # q/p ratio from the gust pod
+\end_layout
+
+\begin_layout Plain Layout
+
+#fm <- lm (AOAREF~AQR+RR2+PS_GP+QC_GP+Mach)
+\end_layout
+
+\begin_layout Plain Layout
+
+#fm_GP <- lm (AOAREF_GP~AQR_GP+RR2_GP+Mach)
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2$MachG <- MachNumber (Data2$PS_GP, Data2$QC_GP)
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2$AQRM_GP <- Data2$AQR_GP * Data2$MachG
+\end_layout
+
+\begin_layout Plain Layout
+
+fm_GP <- lm (AOAREF_GP~AQR_GP+AQRM_GP +RR2_GP, data=Data2)
+\end_layout
+
+\begin_layout Plain Layout
+
+cf3_GP <- coefficients (fm_GP)
+\end_layout
+
+\begin_layout Plain Layout
+
+#print(c("Fit coefficients are: ",cf3_GP))
+\end_layout
+
+\begin_layout Plain Layout
+
+# print(summary(fm_GP))
+\end_layout
+
+\begin_layout Plain Layout
+
+SummarizeFit (fm_GP)
+\end_layout
+
+\begin_layout Plain Layout
+
+Data2$A2_GP <- cf3_GP[1] + cf3_GP[2]*Data2$AQR_GP + cf3_GP[3]*Data2$AQRM_GP
+ + cf3_GP[4]*Data2$RR2_GP
+\end_layout
+
+\begin_layout Plain Layout
+
+# plot (Data2$AOAREF_GP, Data2$A2_GP, xlab="Predicted AOA [deg.]", 
+\end_layout
+
+\begin_layout Plain Layout
+
+# ylab="Fit AOA [deg.]", type='p', pch=16, cex=0.7, col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+# lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='orange')
+\end_layout
+
+\begin_layout Plain Layout
+
+# title ("Gust Pod")
+\end_layout
+
+\begin_layout Plain Layout
+
+clr <- c("measurements", "fit")
+\end_layout
+
+\begin_layout Plain Layout
+
+col <- c ('darkorange', 'darkgreen')
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- ggplot (data=Data2, aes(x=AOAREF_GP))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point (aes(y=A2_GP), colour='blue', pch=19) 
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + xlab (expression(paste("Reference AOA [",degree,"]")))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + ylab (expression(paste("AOA from best-fit equation [",degree,"]")))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_smooth (aes(y=A2_GP, colour=clr[2]), method='lm', lwd=2, linetype=
+2)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_colour_manual ("", breaks = clr, values = col)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + theme_WAC()
+\end_layout
+
+\begin_layout Plain Layout
+
+print (g)
+\end_layout
+
+\begin_layout Plain Layout
+
+capnF3 <- "The sideslip attack determined from the fit, as a function of
+ the reference angle provided by Equation (9), for the combination of data
+ from all three yaw maneuvers listed in the text."
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -5256,7 +4642,7 @@ begin{kframe}
 ## F-statistic: 6.25e+04 on 3 and 2015 DF,  p-value: <2e-16
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -5285,6 +4671,11 @@ end{knitrout}
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 The results of this formula are compared to the reference data in Fig.
 \begin_inset space ~
@@ -5297,27 +4688,87 @@ reference "fig:AOA-gust-pod"
 
 \end_inset
 
- below.
+.
  The best-fit coefficients were {
 \begin_inset Formula $b_{i}$
 \end_inset
 
 } = {
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
 
 \backslash
-ensuremath{-0.9168}
+Sexpr{round(cf3_GP[1],3)}
 \end_layout
 
 \end_inset
 
-, 3.918, 3.2505, 1.3531} and the square of the correlation was 0.99 with residual
- scatter (residual standard error) of 0.102
-\begin_inset Formula $^{\circ}$
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf3_GP[2],3),nsmall=3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cf3_GP[3],3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf3_GP[4],3),nsmall=3)}
+\end_layout
+
+\end_inset
+
+} and the square of the correlation was 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(summary(fm_GP)$r.squared,3),nsmall=2)}
+\end_layout
+
+\end_inset
+
+ with residual scatter (residual standard error) of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(summary(fm_GP)$sigma,3),nsmall=2)}
+\end_layout
+
 \end_inset
 
 .
@@ -5326,6 +4777,10 @@ ensuremath{-0.9168}
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -5455,7 +4910,7 @@ name "fig:AOA-gust-pod"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -5464,6 +4919,11 @@ status collapsed
 
 \backslash
 end{knitrout}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -5650,21 +5110,470 @@ QC_GP and
 \end_inset
 
 BDIFR_GP.
- The result for the radome was coefficients {e} = {0.016, 21.9915}, squared
- correlation 0.94 and residual standard error 0.19, as listed below.
+ The resulting fit for the radome is listed below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<sideslip-fits, include=TRUE, fig.cap="The sideslip attack determined from
+ the fit, as a function of the reference angle provided by Equation (
+\backslash
+
+\backslash
+ref{eq:beta-equation}), for the combination of data from all three yaw maneuvers
+ listed in the text.
+ The gray area underlying the dashed orange line denotes the standard-uncertaint
+y range for the fit.", fig.height=4.5>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+# first get filtered wind-component values:
+\end_layout
+
+\begin_layout Plain Layout
+
+# u <- -1.
+ * D$WSC * sin (D$WDC*Cradeg)
+\end_layout
+
+\begin_layout Plain Layout
+
+# v <- -1.
+ * D$WSC * cos (D$WDC*Cradeg)
+\end_layout
+
+\begin_layout Plain Layout
+
+# u <- ButterworthFilter (u, tau=30)
+\end_layout
+
+\begin_layout Plain Layout
+
+# v <- ButterworthFilter (v, tau=30)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+r1 <- setRange (D$Time, 33130,33600)
+\end_layout
+
+\begin_layout Plain Layout
+
+r2 <- setRange (D$Time, 43000,43400)
+\end_layout
+
+\begin_layout Plain Layout
+
+r3 <- setRange (D$Time, 52540,53030)
+\end_layout
+
+\begin_layout Plain Layout
+
+DD <- D[r1,]
+\end_layout
+
+\begin_layout Plain Layout
+
+u1 <- mean (-1.*DD$WSC * sin (DD$WDC * Cradeg))
+\end_layout
+
+\begin_layout Plain Layout
+
+v1 <- mean (-1.*DD$WSC * cos (DD$WDC * Cradeg))
+\end_layout
+
+\begin_layout Plain Layout
+
+DD <- D[r2,]
+\end_layout
+
+\begin_layout Plain Layout
+
+u2 <- mean (-1.*DD$WSC * sin (DD$WDC * Cradeg))
+\end_layout
+
+\begin_layout Plain Layout
+
+v2 <- mean (-1.*DD$WSC * cos (DD$WDC * Cradeg))
+\end_layout
+
+\begin_layout Plain Layout
+
+DD <- D[r3,]
+\end_layout
+
+\begin_layout Plain Layout
+
+u3 <- mean (-1.*DD$WSC * sin (DD$WDC * Cradeg))
+\end_layout
+
+\begin_layout Plain Layout
+
+v3 <- mean (-1.*DD$WSC * cos (DD$WDC * Cradeg))
+\end_layout
+
+\begin_layout Plain Layout
+
+r1 <- setRange (D$Time, 33230,33500)
+\end_layout
+
+\begin_layout Plain Layout
+
+r2 <- setRange (D$Time, 43100,43300)
+\end_layout
+
+\begin_layout Plain Layout
+
+r3 <- setRange (D$Time, 52640,52930)
+\end_layout
+
+\begin_layout Plain Layout
+
+r <- c(r1,r2,r3)
+\end_layout
+
+\begin_layout Plain Layout
+
+# u <- u[r]
+\end_layout
+
+\begin_layout Plain Layout
+
+# v <- v[r]
+\end_layout
+
+\begin_layout Plain Layout
+
+#r <- r1
+\end_layout
+
+\begin_layout Plain Layout
+
+Data <- D[r,]
+\end_layout
+
+\begin_layout Plain Layout
+
+Valid <- (Data$TASX > 130.)
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV <- Data[Valid,]
+\end_layout
+
+\begin_layout Plain Layout
+
+Hmean <- mean(DataV$THDG)
+\end_layout
+
+\begin_layout Plain Layout
+
+u <- -1.
+ * DataV$WSC * sin (DataV$WDC*Cradeg)
+\end_layout
+
+\begin_layout Plain Layout
+
+v <- -1.
+ * DataV$WSC * cos (DataV$WDC*Cradeg)
+\end_layout
+
+\begin_layout Plain Layout
+
+# u[1:length(r1)] <- u1
+\end_layout
+
+\begin_layout Plain Layout
+
+# u[(length(r1)+1):length(c(r1,r2))] <- u2
+\end_layout
+
+\begin_layout Plain Layout
+
+# u[(length(c(r1,r2))+1):length(r)] <- u3
+\end_layout
+
+\begin_layout Plain Layout
+
+# v[1:length(r1)] <- v1
+\end_layout
+
+\begin_layout Plain Layout
+
+# v[(length(r1)+1):length(c(r1,r2))] <- v2
+\end_layout
+
+\begin_layout Plain Layout
+
+# v[(length(c(r1,r2))+1):length(r)] <- v3
+\end_layout
+
+\begin_layout Plain Layout
+
+# tauslip = 10.
+\end_layout
+
+\begin_layout Plain Layout
+
+# u[1:length(r1)] <- ButterworthFilter(u[1:length(r1), tau=tauslip)
+\end_layout
+
+\begin_layout Plain Layout
+
+# u[(length(r1)+1):length(c(r1,r2))] <- ButterworthFilter(u[(length(r1)+1):lengt
+h(c(r1,r2))], tau=tauslip)
+\end_layout
+
+\begin_layout Plain Layout
+
+# u[(length(c(r1,r2))+1):length(r)] <- ButterworthFilter(u[(length(c(r1,r2))+1):
+length(r)], tau=tauslip)
+\end_layout
+
+\begin_layout Plain Layout
+
+# v[1:length(r1)] <- ButterworthFilter(v[1:length(r1), tau=tauslip)
+\end_layout
+
+\begin_layout Plain Layout
+
+# v[(length(r1)+1):length(c(r1,r2))] <- ButterworthFilter(v[(length(r1)+1):lengt
+h(c(r1,r2))], tau=tauslip)
+\end_layout
+
+\begin_layout Plain Layout
+
+# v[(length(c(r1,r2))+1):length(r)] <- ButterworthFilter(v[(length(c(r1,r2))+1):
+length(r)], tau=tauslip)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$SSREF <- -DataV$THDG + atan2((DataV$VEW-u), (DataV$VNS-v))/ Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$SSREF[DataV$SSREF < -180.] <- DataV$SSREF[DataV$SSREF < -180.] + 360.
+\end_layout
+
+\begin_layout Plain Layout
+
+#plot (DataV$SSREF, DataV$SSLIP, pch=16, cex=0.6,col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$BQR <- DataV$BDIFR / DataV$QCXC
+\end_layout
+
+\begin_layout Plain Layout
+
+sfm <- lm(SSREF~BQR, data=DataV)
+\end_layout
+
+\begin_layout Plain Layout
+
+cfs <- coefficients(sfm)
+\end_layout
+
+\begin_layout Plain Layout
+
+#print(c("Fit coefficients are: ",cfs))
+\end_layout
+
+\begin_layout Plain Layout
+
+# print(summary(sfm))
+\end_layout
+
+\begin_layout Plain Layout
+
+SummarizeFit (sfm)
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$S2 <- cfs[1] + cfs[2] * DataV$BQR
+\end_layout
+
+\begin_layout Plain Layout
+
+# plot (DataV$SSREF, DataV$S2, pch=16, cex=0.6, col='blue',
+\end_layout
+
+\begin_layout Plain Layout
+
+#       xlab="SS Reference", ylab="SSLIP from fit")
+\end_layout
+
+\begin_layout Plain Layout
+
+# lines(c(-2.,2.), c(-2.,2.), col='orange', lty=2, lwd=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+# title ("Radome")
+\end_layout
+
+\begin_layout Plain Layout
+
+clr <- c("measurements", "fit")
+\end_layout
+
+\begin_layout Plain Layout
+
+col <- c ('darkorange', 'darkgreen')
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- ggplot (data=DataV, aes(x=SSREF))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point (aes(y=S2), colour='blue', pch=19) 
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + xlab (expression(paste("reference sideslip [",degree,"]")))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + ylab (expression(paste("sideslip from best-fit equation [",degree,"]"))
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_smooth (aes(y=S2, colour=clr[2]), method='lm', lwd=2, linetype=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_colour_manual ("", breaks = clr, values = col)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + theme_WAC()
+\end_layout
+
+\begin_layout Plain Layout
+
+print (g)
+\end_layout
+
+\begin_layout Plain Layout
+
+capnF4 <- "As in the preceding figure but for the gust-pod system."
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The best-fit coefficients were {e} = {
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format (round(cfs[1], 3), nsmall=3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round (cfs[2], 3)}
+\end_layout
+
+\end_inset
+
+}, the squared correlation was 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round (summary(sfm)$r.squared, 2)}
+\end_layout
+
+\end_inset
+
+ and the residual standard error was 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round (summary(sfm)$sigma, 3)}
+\end_layout
+
+\end_inset
+
+, as listed above.
  The plotted measurements and this fit are shown in Fig.
 \begin_inset space ~
 \end_inset
 
 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:sideslip"
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:sideslip-fits}
+\end_layout
 
 \end_inset
 
 .
- (The first coefficient being near zero is a forced result from using calculated
+ The near-zero first coefficient is a forced result from using calculated
  wind components in (
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -5674,18 +5583,23 @@ reference "eq:beta-equation"
 
 ).
  The sideslip offset that is represented by this term will be determined
- later by other means to be 0.09; cf.
- 
+ later by other means; cf.
+ Section 
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "par:Offset-in-Sideslip"
 
 \end_inset
 
-.) The scatter in this plot was much less without filtering or with less
- filtering of the wind components; the residual standard error for that
- case was 0.096, the squared correlation increased to 0.98, and the coefficients
- changed to {
+.) 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The scatter in this plot was much less without filtering or with less filtering
+ of the wind components; the residual standard error for that case was 0.096,
+ the squared correlation increased to 0.98, and the coefficients changed
+ to {
 \begin_inset ERT
 status collapsed
 
@@ -5704,7 +5618,16 @@ ensuremath{-0.0027}
  so for now those results will be adopted for further use.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -5872,7 +5795,7 @@ begin{kframe}
 ## F-statistic: 6.54e+03 on 1 and 441 DF,  p-value: <2e-16
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -5978,7 +5901,7 @@ name "fig:sideslip"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -5994,21 +5917,36 @@ end{knitrout}
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 The standard calibration in use for the GV has coefficient 
 \begin_inset Formula $e_{1}$
 \end_inset
 
 =21.155, slightly smaller than the value determined from this calibration.
- A preliminary re-calibration based on measurements from the Laser Air Motion
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+A preliminary re-calibration based on measurements from the Laser Air Motion
  Sensor suggested that this coefficient should be about 50% higher, but
  airflow-distortion effects compromised those measurements so a better calibrati
 on awaits useful measurements from the 3-beam version of that sensor.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6021,7 +5959,7 @@ begin{figure}
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6036,7 +5974,7 @@ includegraphics[width=300pt]{figure/GP-sideslip}
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6047,7 +5985,7 @@ status collapsed
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6058,7 +5996,7 @@ status collapsed
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6069,7 +6007,7 @@ status collapsed
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6084,7 +6022,7 @@ caption[The sideslip attack determined from the fit, as a function of the
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6095,7 +6033,7 @@ status collapsed
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6107,7 +6045,7 @@ d from the fit, as a function of the
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6118,7 +6056,7 @@ status collapsed
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6131,7 +6069,7 @@ label{fig:sideslip}}
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -6146,38 +6084,240 @@ end{figure}
 \end_layout
 
 \begin_layout Standard
-For the gust-pod, the same approach was followed, giving a fit with squared
- correlation of 0.93 and a residual standard error of 0.19
+For the gust-pod, the same approach was followed, giving a fit with characterist
+ics as listed below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<sideslip-gust-pod,fig.cap=capnF4, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$SSREF_GP <- -DataV$CTHDG_GP + atan2((DataV$CVEW_GP-u), (DataV$CVNS_GP-v))/
+ Cradeg
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$SSREF_GP[DataV$SSREF_GP < -180.] <- DataV$SSREF_GP[DataV$SSREF_GP <
+ -180.] + 360.
+\end_layout
+
+\begin_layout Plain Layout
+
+#plot (SSREF_GP, SSLIP, pch=16, cex=0.6,col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$BQR_GP <- DataV$BDIFR_GP / DataV$QC_GP
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$Mach <- MachNumber (DataV$PS_GP, DataV$QC_GP)
+\end_layout
+
+\begin_layout Plain Layout
+
+#sfm_GP <- lm(SSREF_GP~BQR_GP, data=DataV)
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$RR2_GP <- DataV$QC_GP / DataV$PS_GP
+\end_layout
+
+\begin_layout Plain Layout
+
+sfm_GP <- lm(SSREF_GP~BQR_GP, data=DataV)
+\end_layout
+
+\begin_layout Plain Layout
+
+SummarizeFit(sfm_GP)
+\end_layout
+
+\begin_layout Plain Layout
+
+cfs_GP <- coefficients(sfm_GP)
+\end_layout
+
+\begin_layout Plain Layout
+
+S2_GP <- cfs_GP[1] + cfs_GP[2] * DataV$BQR_GP #+ cfs_GP[3] * DataV$RR2_GP
+ + cfs_GP[4] * DataV$Mach
+\end_layout
+
+\begin_layout Plain Layout
+
+# plot (SSREF_GP, S2_GP, pch=16, cex=0.6, col='blue',
+\end_layout
+
+\begin_layout Plain Layout
+
+# xlab="SS Reference", ylab="SSLIP from fit")
+\end_layout
+
+\begin_layout Plain Layout
+
+# lines(c(-2.,2.), c(-2.,2.), col='orange', lty=2, lwd=3)
+\end_layout
+
+\begin_layout Plain Layout
+
+# title ("Gust Pod")
+\end_layout
+
+\begin_layout Plain Layout
+
+clr <- c("measurements", "fit")
+\end_layout
+
+\begin_layout Plain Layout
+
+col <- c ('darkorange', 'darkgreen')
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- ggplot (data=DataV, aes(x=SSREF_GP))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_point (aes(y=S2_GP), colour='blue', pch=19) 
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + xlab (expression(paste("reference sideslip [",degree,"]")))
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + ylab (expression(paste("sideslip from best-fit equation [",degree,"]"))
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + geom_smooth (aes(y=S2_GP, colour=clr[2]), method='lm', lwd=2, linetype=
+2)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + scale_colour_manual ("", breaks = clr, values = col)
+\end_layout
+
+\begin_layout Plain Layout
+
+g <- g + theme_WAC()
+\end_layout
+
+\begin_layout Plain Layout
+
+print (g)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The squared correlation of this fit was 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round (summary(sfm_GP)$r.squared, 2)}
+\end_layout
+
+\end_inset
+
+ and the residual standard error was 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round (summary(sfm_GP)$sigma, 3)}
+\end_layout
+
+\end_inset
+
+
 \begin_inset Formula $^{\circ}$
 \end_inset
 
 .
  The best-fit coefficients were {
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
 
 \backslash
-ensuremath{-3.6091}
+Sexpr{format (round(cfs_GP[1], 3), nsmall=3)}
 \end_layout
 
 \end_inset
 
-, 12.138}.
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round (cfs_GP[2], 3)}
+\end_layout
+
+\end_inset
+
+}.
  The difference in first coefficient vs the radome is a result of the offset
  in heading between the aircraft longitudinal axis and the gust pod.
- The detailed report for the fit is listed below, and the result of applying
- these sensitivity coefficients to the measurements from the gust pod are
+ The detailed report for the fit is listed above, and the result of applying
+ these sensitivity coefficients to the measurements from the gust pod is
  shown in Fig.
 \begin_inset space ~
 \end_inset
 
 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:sideslip-gust-pod-plot"
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:sideslip-gust-pod}
+\end_layout
 
 \end_inset
 
@@ -6185,6 +6325,10 @@ reference "fig:sideslip-gust-pod-plot"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -6351,7 +6495,7 @@ begin{kframe}
 ## F-statistic: 6.16e+03 on 1 and 441 DF,  p-value: <2e-16
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -6453,7 +6597,7 @@ name "fig:sideslip-gust-pod-plot"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -6462,6 +6606,11 @@ status collapsed
 
 \backslash
 end{knitrout}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -6484,10 +6633,31 @@ On additional study is needed to determine the sensitivity coefficients
  which the horizontal wind component lateral to the aircraft should remain
  constant but change sign, or circle maneuvers, during which an offset in
  sideslip will appear as a sinusoidally varying perturbation to the wind.
- Here a set of circles, flown with constant roll, will be used.
- Such circles produce a pattern that drifts with the wind, and that drift
- as measured by GPS provides an independent reference for the average horizontal
- wind.
+ Later in this report, a set of circles, flown with constant roll, will
+ be used in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Analysis-of-circle"
+
+\end_inset
+
+ to obtain a better estimate of the sideslip offset.
+ .
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\backslash
+eject
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -6571,6 +6741,115 @@ Therefore, the next step needed to use the gust pod wind-sensing system
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<TAS-from-the-gust-pod-1,fig.cap="Standard measurements QCPC/PSXC plotted
+ vs QCPC-GP/PS-GP as measured by the gust pod",out.width="300pt", fig.align="cente
+r",echo=FALSE, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# for this purpose, use all measurements from the cal flight that had TASX>130:
+\end_layout
+
+\begin_layout Plain Layout
+
+Data <- D
+\end_layout
+
+\begin_layout Plain Layout
+
+Valid <- (Data$TASX > 130.)
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV <- Data[Valid,]
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$B1 <- DataV$QCXC/DataV$PSXC
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$B2 <- DataV$QC_GP/DataV$PS_GP
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$AQR_GP <- DataV$ADIFR_GP/DataV$QC_GP # basic pressure ratio for AOA
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$RR2_GP <- DataV$QC_GP/DataV$PS_GP    # q/p ratio from the gust pod
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$Mach <- MachNumber(DataV$PSXC,DataV$QCXC)
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$MachG <- MachNumber (DataV$PS_GP, DataV$QC_GP)
+\end_layout
+
+\begin_layout Plain Layout
+
+# B2 and AQR are based only on the gust-pod measurements
+\end_layout
+
+\begin_layout Plain Layout
+
+#fm4 <- lm(B1~B2+I(B2^2)+AQR_GP)
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$BxM <- DataV$B2*DataV$MachG
+\end_layout
+
+\begin_layout Plain Layout
+
+fm4 <- lm(B1~B2+BxM+I(B2^2)+AQR_GP+MachG, data=DataV)
+\end_layout
+
+\begin_layout Plain Layout
+
+cf4 <- coefficients (fm4)
+\end_layout
+
+\begin_layout Plain Layout
+
+#print (c("fit coefficients for TAS:", cf4))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The measurements entering the resulting fit are as follows: 
 \begin_inset Formula $q$
 \end_inset
@@ -6591,176 +6870,102 @@ QC_GP is the gust-pod dynamic pressure,
 \begin_inset Formula $M$
 \end_inset
 
- is the Mach number, and 
+ is the Mach number determined from the reference measurements, 
+\begin_inset Formula $M_{g}$
+\end_inset
+
+ the Mach number determined from the gust-pod static and dynamic pressure,
+ and 
 \begin_inset Formula $\Delta P_{\alpha,g}$
 \end_inset
 
 =ADIFR_GP is the pressure difference between top and bottom pressure ports
  on the gust-pod sensor.
- The resulting fit is given by the following formula, with coefficients
- {b}={-0.07791, -1.1571, 2.6691, -1.3588, -0.0046686, 0.53110}:
+ The following equation was found to provide a useful representation of
+ the reference ratio 
+\begin_inset Formula $q/p$
+\end_inset
+
+ in terms of quantities measured only by the gust-probe system:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{q}{p}=b_{0}+b_{1}\frac{q_{g}}{p_{g}}+b_{2}M\frac{q_{g}}{p_{g}}+b{}_{3}\left(\frac{q_{g}}{p_{g}}\right)^{2}+b_{3}\frac{\Delta p_{\alpha,g}}{q_{g}}+b_{5}M\label{eq:TASfit}
+\frac{q}{p}=b_{0}+b_{1}\frac{q_{g}}{p_{g}}+b_{2}M_{G}\frac{q_{g}}{p_{g}}+b{}_{3}\left(\frac{q_{g}}{p_{g}}\right)^{2}+b_{3}\frac{\Delta p_{\alpha,g}}{q_{g}}+b_{5}M_{G}\label{eq:TASfit}
 \end{equation}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-This complex fit was required to give a good representation of the measured
- ratio QCXC/PSXC, and a low-uncertainty fit is desirable because the true
- airspeed has very low potential uncertainty.
- All terms tested to be significant, and they were needed to reduce the
- residual error in 
-\begin_inset Formula $q/p$
+This complexity in the equation was needed to obtain a good fit (with residual
+ error translating to a typical error in true airspeed of about 0.5
+\begin_inset space \thinspace{}
 \end_inset
 
- to about 0.0001.
- The details of the fit and a plot comparing the result to the reference
- are shown below: 
-\end_layout
-
-\begin_layout LyX-Code
-## 
-\end_layout
-
-\begin_layout LyX-Code
-## Call:
-\end_layout
-
-\begin_layout LyX-Code
-## lm(formula = B1 ~ B2 + BxM + I(B2^2) + AQR_GP + Mach)
-\end_layout
-
-\begin_layout LyX-Code
-## 
-\end_layout
-
-\begin_layout LyX-Code
-## Residuals:
-\end_layout
-
-\begin_layout LyX-Code
-##       Min        1Q    Median        3Q 
-\end_layout
-
-\begin_layout LyX-Code
-## -3.21e-04 -6.94e-05 -7.40e-06  6.23e-05 
-\end_layout
-
-\begin_layout LyX-Code
-##       Max 
-\end_layout
-
-\begin_layout LyX-Code
-##  8.21e-04 
-\end_layout
-
-\begin_layout LyX-Code
-## 
-\end_layout
-
-\begin_layout LyX-Code
-## Coefficients:
-\end_layout
-
-\begin_layout LyX-Code
-##              Estimate Std.
- Error t value
-\end_layout
-
-\begin_layout LyX-Code
-## (Intercept) -7.79e-02   1.02e-04    -766
-\end_layout
-
-\begin_layout LyX-Code
-## B2          -1.16e+00   1.45e-03    -799
-\end_layout
-
-\begin_layout LyX-Code
-## BxM          2.67e+00   1.94e-03    1378
-\end_layout
-
-\begin_layout LyX-Code
-## I(B2^2)     -1.36e+00   2.14e-03    -635
-\end_layout
-
-\begin_layout LyX-Code
-## AQR_GP      -4.67e-03   3.54e-05    -132
-\end_layout
-
-\begin_layout LyX-Code
-## Mach         5.31e-01   4.51e-04    1178
-\end_layout
-
-\begin_layout LyX-Code
-##             Pr(>|t|)    
-\end_layout
-
-\begin_layout LyX-Code
-## (Intercept)   <2e-16 ***
-\end_layout
-
-\begin_layout LyX-Code
-## B2            <2e-16 ***
-\end_layout
-
-\begin_layout LyX-Code
-## BxM           <2e-16 ***
-\end_layout
-
-\begin_layout LyX-Code
-## I(B2^2)       <2e-16 ***
-\end_layout
-
-\begin_layout LyX-Code
-## AQR_GP        <2e-16 ***
-\end_layout
-
-\begin_layout LyX-Code
-## Mach          <2e-16 ***
-\end_layout
-
-\begin_layout LyX-Code
-## ---
-\end_layout
-
-\begin_layout LyX-Code
-## Signif.
- codes:  
-\end_layout
-
-\begin_layout LyX-Code
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-\end_layout
-
-\begin_layout LyX-Code
-## 
-\end_layout
-
-\begin_layout LyX-Code
-## Residual standard error: 0.000114 on 11105 degrees of freedom
-\end_layout
-
-\begin_layout LyX-Code
-##   (8 observations deleted due to missingness)
-\end_layout
-
-\begin_layout LyX-Code
-## Multiple R-squared:     1, Adjusted R-squared:     1 
-\end_layout
-
-\begin_layout LyX-Code
-## F-statistic: 1.53e+09 on 5 and 11105 DF,  p-value: <2e-16
+m/s for typical DEEPWAVE research legs), and all terms were indicated to
+ be significant in the fit.
+ The fit details are listed below:
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<tas-fit-listing, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+SummarizeFit(fm4)
+\end_layout
+
+\begin_layout Plain Layout
+
+#B3 <- cf4[1]+cf4[2]*B2+cf4[3]*B2**2+cf4[4]*AQR_GP
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$B3 <- cf4[1] + cf4[2]*DataV$B2 + cf4[3]*DataV$BxM + cf4[4]*DataV$B2**2
+ + cf4[5]*DataV$AQR_GP + cf4[6]*DataV$MachG
+\end_layout
+
+\begin_layout Plain Layout
+
+# B3 is the deduced pressure ratio to use when calculating TAS
+\end_layout
+
+\begin_layout Plain Layout
+
+capn2 <-"True airspeed obtained from the gust pod, plotted against corresponding
+ measurements from the conventional measurement system (TASX)" 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Note Note
+status open
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Float figure
 wide false
 sideways false
@@ -6862,15 +7067,62 @@ name "fig:TAS-from-the-gust-pod-1"
 
 \end_layout
 
-\begin_layout Standard
-With this result, the true airspeed can be obtained using the usual formula:
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-V=\sqrt{2\left(\frac{(c_{p}-R_{a}}{R_{a}}\right)\left(1+\frac{q}{p}\right)^{\frac{R_{a}}{c_{p}}-1}\left(\frac{c_{p}}{c_{v}}R_{a}T\right)}\label{eq:TASformula}
-\end{equation}
+\begin_layout LyX-Code
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<plot-qp-fit, include=TRUE, fig.cap="The estimate of $q/p$ obtained from
+ the right side of (
+\backslash
+
+\backslash
+ref{eq:TASfit}), determined entirely from measurements provided by the gust
+ pod, plotted against the standard measurement obtained from QCXC/PSXC.
+ The coefficients are listed in the text.", fig.height=4.5>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+plot (DataV$B1, DataV$B3, xlab="Standard q/p [QCXC/PSXC]", ylab="gust-probe
+ estimate G*", xlim=c(0.1,0.6), ylim=c(0.1,0.6), pch=16, cex=0.7, col='blue')
+\end_layout
+
+\begin_layout Plain Layout
+
+lines (c(0., 1.), c(0.,1.), lwd=3, lty=2, col='orange')
+\end_layout
+
+\begin_layout Plain Layout
+
+# Vg will be the TAS based only on the gust pod 
+\end_layout
+
+\begin_layout Plain Layout
+
+DataV$Vg <- TrueAirspeed (MachNumber (DataV$PS_GP, DataV$PS_GP*DataV$B3,
+ DataV$EWX), DataV$ATX)
+\end_layout
+
+\begin_layout Plain Layout
+
+taserr <- sd(DataV$TASX-DataV$Vg, na.rm=TRUE) 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
 
 \end_inset
 
@@ -6878,6 +7130,47 @@ V=\sqrt{2\left(\frac{(c_{p}-R_{a}}{R_{a}}\right)\left(1+\frac{q}{p}\right)^{\fra
 \end_layout
 
 \begin_layout Standard
+The resulting fit is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:plot-qp-fit}
+\end_layout
+
+\end_inset
+
+.
+ With this result for 
+\begin_inset Formula $G^{*}\sim q/p$
+\end_inset
+
+, the true airspeed can then be obtained using the usual formula, with 
+\begin_inset Formula $G^{*}$
+\end_inset
+
+ used in place of 
+\begin_inset Formula $q/p$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V=\sqrt{2\left(\frac{(c_{p}-R_{a}}{R_{a}}\right)\left(1+G^{*}\right)^{\frac{R_{a}}{c_{p}}-1}\left(\frac{c_{p}}{c_{v}}R_{a}T\right)}\label{eq:TASformula}
+\end{equation}
+
+\end_inset
+
 where 
 \begin_inset Formula $c_{p}$
 \end_inset
@@ -6904,13 +7197,142 @@ where
 \end_inset
 
  the absolute temperature.
- The resulting true airspeed is compared to the conventional measurement
- in the next plot.
- The fit provides a very good representation of TASX, with a standard error
- of less than 0.1 m/s.
+ 
 \end_layout
 
 \begin_layout Standard
+The resulting true airspeed is compared to the conventional measurement
+ in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:TAS-from-the-gust-pod-2}
+\end_layout
+
+\end_inset
+
+.
+ The fit provides a reasonable representation of TASX, with a standard error
+ of about 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(taserr,1)}
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+m/s.
+ However, this is larger than the estimated uncertainty in TASX (about 0.3
+\begin_inset space \thinspace{}
+\end_inset
+
+m/s), so wind calculations will be better if based on the conventional measureme
+nt of TASX unless it is desirable to calculate an estimate of true airspeed
+ based entirely on the gust pod and independent of the standard measurement,
+ or in case there is a problem with the standard measurement.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<TAS-from-the-gust-pod-2,fig.cap=capn2, include=TRUE, fig.height=4.5, fig.width=4.5,
+ fig.show='keep'>>= 
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(DataV$TASX, DataV$Vg, xlab="TASX [m/s]", ylab="TAS, gust pod [m/s]",
+ xlim=c(150.,250.), ylim=c(150.,250.),pch=16, cex=0.7, col='blue') 
+\end_layout
+
+\begin_layout Plain Layout
+
+lines (c(100.,300.), c(100.,300.), lty=2, col='orange') 
+\end_layout
+
+\begin_layout Plain Layout
+
+#sd((DataV$TASX-DataV$Vg)[abs(DataV$VSPD) < 2], na.rm=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In particular, for the DEEPWAVE flights where the standard vertical wind
+ measurement was compromised by an obstruction in the pressure-sensor lines
+ of the radome, the best vertical wind will be that calculated using (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{eq:AOAGfunction})
+\end_layout
+
+\end_inset
+
+ for the angle of attack but conventional TASX for the true airspeed, because
+ the pressure ports used to determine TASX are not obstructed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\backslash
+eject
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset Float figure
 wide false
 sideways false
@@ -7012,7 +7434,7 @@ name "fig:TAS-from-the-gust-pod-2"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset VSpace vfill
 \end_inset
 
@@ -7025,6 +7447,11 @@ status collapsed
 
 \backslash
 eject
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -7048,18 +7475,44 @@ Radome: Eq.
 (
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "eq:AOAsens1term"
+reference "eq:AOArecommended"
 
 \end_inset
 
 ), coefficients 
-\begin_inset Formula $c_{0,1}^{*}$
+\begin_inset Formula $c_{0,1}$
 \end_inset
 
- ={4.4025, 21.873}.
+ ={
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cfr[1],3)}
 \end_layout
 
-\begin_layout Standard
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cfr[2],3)}
+\end_layout
+
+\end_inset
+
+}.
+\begin_inset Newline newline
+\end_inset
+
 Gust pod: Eq.
 \begin_inset space ~
 \end_inset
@@ -7075,14 +7528,66 @@ reference "eq:AOAGfunction"
 \begin_inset Formula $b_{i=0,3}$
 \end_inset
 
-} = {-0.91512, 3.9278, 3.1905, 1.3503}.
+} = {
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cf3_GP[1],3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cf3_GP[2],3),nsmall=3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cf3_GP[3],3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cf3_GP[4],3)}
+\end_layout
+
+\end_inset
+
+}.
 \end_layout
 
 \begin_layout Subsubsection
 Sideslip Angle
 \end_layout
 
-\begin_layout Standard
+\begin_layout Hanging
 Radome and gust pod: Eq.
 \begin_inset space ~
 \end_inset
@@ -7102,18 +7607,82 @@ reference "eq:betaFunctionForm"
 \begin_inset Formula $e_{1}$
 \end_inset
 
-} = {0., 21.335} for the radome,
+} = 
 \begin_inset Newline newline
 \end_inset
 
- {-3.498, 11.443} for the gust pod.
+
+\begin_inset space \qquad{}
+\end_inset
+
+ {
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{format(round(cfs[1],3),nsmall=3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cfs[2],3)}
+\end_layout
+
+\end_inset
+
+} for the radome,
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset space \qquad{}
+\end_inset
+
+ {
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cfs_GP[1],3)}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{round(cfs_GP[2],3)}
+\end_layout
+
+\end_inset
+
+} for the gust pod.
 \end_layout
 
 \begin_layout Subsubsection
 True Airspeed, Gust Pod
 \end_layout
 
-\begin_layout Standard
+\begin_layout Hanging
 Equation (
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7128,15 +7697,100 @@ reference "eq:TASfit"
 
 \end_inset
 
-) and coefficients 
-\begin_inset Newline newline
-\end_inset
-
- {
+) and coefficients {
 \begin_inset Formula $b_{i=0,5}$
 \end_inset
 
-}={-0.07791, -1.1571, 2.6691, -1.3588, -0.0046686, 0.53110}.
+} = 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset space \qquad{}
+\end_inset
+
+ {
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{cf4[1]}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{cf4[2]}
+\end_layout
+
+\end_inset
+
+,
+ 
+\lang english
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{cf4[3]}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{cf4[4]}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{cf4[5]}
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{cf4[6]}
+\end_layout
+
+\end_inset
+
+}.
 \end_layout
 
 \end_body
