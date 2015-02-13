@@ -1,37 +1,18 @@
-%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
-%% Do not edit unless you really know what you are doing.
-% \documentclass{article}
-% \usepackage{mathptmx}
-% \usepackage[T1]{fontenc}
-% \usepackage[latin9]{inputenc}
-% \usepackage{geometry}
-% \geometry{verbose}
-% \setcounter{secnumdepth}{2}
-% \setcounter{tocdepth}{2}
-% \usepackage{color}
-% \usepackage{amsmath}
-% \usepackage{amssymb}
-% 
-% \makeatletter
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
-% %% Because html converters don't know tabularnewline
-% \providecommand{\tabularnewline}{\\}
-% 
-% \AtBeginDocument{
-%   \def\labelitemii{\(\triangleright\)}
-%   \def\labelitemiii{\normalfont\bfseries{--}}
-%   \def\labelitemiv{\(\diamond\)}
-% }
-% 
-% \makeatother
-% 
-% \begin{document}
+%include("chunks/latex-header")
 
-\section{Correcting the measurement of pitch\label{sec:Schuler}}
+<<parent-schuler, echo=FALSE>>=
+set_parent ("WindUncertainty.Rnw")
+
+if (!exists ("ReloadData")) {
+  ReloadData <- FALSE
+  print (" forced ReloadData FALSE because variable doesn't exist")
+}
+@
+
+\section{Schuler correction for pitch\label{sec:Schuler}}
 
 
-\subsection{The basis for the correction}
+\subsection{Basis for the correction}
 
 Before discussing additional aspects of the measurement system like
 determination of sensitivity coefficients for the radome, it is necessary
@@ -87,19 +68,24 @@ opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
 opts_chunk$set(fig.width=6, fig.height=5, fig.loc="center", digits=4)
 thisFileName <- "XXX"
 Directory <- DataDirectory ()
-Flight <- "ff02" 				# XXX change this
-Project = "DEEPWAVE"			 # XXX change this
+Flight <- "ff02" 			
+Project = "DEEPWAVE"			
 fname = sprintf("%s%s/%s%s.nc", Directory,Project,Project,Flight)
 VarNames <- c("BLATA", "BLONGA", "BNORMA", "VNS", "VEW", "VSPD", "GGVNS", "GGVEW", 
               "GGVSPD", "LAT", "LON", "ALT", "THDG", "PITCH", "ROLL") 
-Data <- getNetCDF (fname, standardVariables(VarNames))		
-SaveRData <- sprintf("%s.Rdata.gz", thisFileName)
+if (ReloadData) {
+  Data <- getNetCDF (fname, standardVariables(VarNames))		
+  save (Data, file="~/RStudio/DEEPWAVE/SchulerData1.Rdata")
+} else {
+  load (file="~/RStudio/DEEPWAVE/SchulerData1.Rdata")
+}
+#SaveRData <- sprintf("%s.Rdata.gz", thisFileName)
 Cradeg <- pi / 180
 
 @
 
 
-\subsection{Simple illustration of the origin of the Schuler oscillation}
+\subsection{Simple illustration of Schuler oscillation}
 
 Although the following is standard material, it is presented here
 to make the discussion of the Schuler oscillation self-contained and
@@ -249,7 +235,7 @@ can be used to find corrections to be applied to the measurements
 of pitch and roll. 
 
 
-\subsection{An example illustrating the presence of the Schuler oscillation}
+\subsection{Illustrative example}
 
 An example from the second ferry flight of DEEPWAVE is shown in Fig.~\ref{fig:v-errors-straight-leg}.
 The heading for most of this flight is close to southbound and steady,
@@ -260,11 +246,13 @@ and $\delta v_{e}$.
 <<v-errors-straight-leg, fig.lp="fig:",fig.cap="Errors in the NS and EW components of groundspeed as determined by comparison to GPS, for DEEPWAVE flight ff02, a ferry flight starting on 1 June 2014 and traveling from Hawaii to Pago-Pago.", include=TRUE>>=
 
 D <- Data[Data$TASX > 130., ]
-Z <- plotWAC (D$Time, D$GGVEW-D$VEW, ylab="Ve error", ylim=c(-2.5,3.))
-Z <- lineWAC (D$Time, D$GGVNS-D$VNS, ylab="Vn error", col='darkgreen')
+plotWAC (D$Time, D$GGVEW-D$VEW, ylab="Ve error", ylim=c(-2.5,3.))
+lineWAC (D$Time, D$GGVNS-D$VNS, ylab="Vn error", col='darkgreen')
 legend ('topright', legend=c('VEW-GGVEW', 'VNS-GGVNS'), lwd=2, col=c('blue', 'darkgreen'), text.col=c('blue', 'darkgreen'))
 #Z <- lineWAC (D$Time, D$THDG/360, col='darkorange')
-
+<<calculate-pitch-correction>>=
+read_chunk ("chunks/pitch-correction-function.R")
+<<correct-pitch>>=
 @
 
 The errors can be determined directly from the time-derivatives of
@@ -429,69 +417,25 @@ about $\pm0.1$\,m/s. Correction for this error thus should lead
 to a significant reduction in the uncertainty associated with the
 measured vertical wind.
 
-<<Xform-l-from-b>>=
-XformLB <- function (bvector, .roll, .pitch, .heading, .reverse=FALSE) {
-  Cradeg <- pi/180
-  sr <- sin(.roll*Cradeg); cr <- cos(.roll*Cradeg)
-  sp <- sin(.pitch*Cradeg); cp <- cos(.pitch*Cradeg)
-  sh <- sin(.heading*Cradeg); ch <- cos(.heading*Cradeg)
-  M <- c (ch*cr+sh*sr*sp, -sh*cr+ch*sr*sp, -cp*sr, sh*cp, ch*cp, sp, 
-          ch*sr-sh*sp*cr, -sh*sr-ch*sp*sr, cp*cr)
-  dim (M) <- c(3,3)
-  if (.reverse) {M <- t(M)}
-  return (M %*% bvector)
-}
-
-@
-
 <<processing-1, fig.height=5.5, fig.cap="Measured errors in ground-speed components for DEEPWAVE flight 1. VEW and VNS are the east and north components of the ground speed measured by the inertial system, and GGVEW and GGVNS are the corresponding components measured independently by the GPS system.", include=TRUE>>=
 
 Flight <- "rf01"
 #Flight <- "rf15"
 fname <- sprintf ("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
 VarNames <- c("VNS", "VEW","GGVNS", "GGVEW", "GGALT", "LATC", "LONC", "THDG", "PITCH", "ROLL")
-Data <- getNetCDF (fname, standardVariables(VarNames))
-D <- Data[Data$TASX > 130, ]
-Z <- plotWAC (D$Time, D$GGVEW-D$VEW, ylab="Ve error [m/s]", ylim=c(-5, 5.))
-Z <- lineWAC (D$Time, D$GGVNS-D$VNS, col='darkgreen', lwd=1)
-legend ('topleft', legend=c('VEW-GGVEW', 'VNS-GGVNS'), lwd=c(2,1), col=c('blue', 'darkgreen'), text.col=c('blue', 'darkgreen'))
-figcapP2="Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft. The orange line labeled 'Full Xfm' uses (\\ref{eq:b-vector-in-b-frame}) and (\\ref{eq:pitch-error-wo-approx}), while the blue line uses the approximate result (\\ref{eq:final-answer}). The limits $\\pm$0.03 correspond to roll angle of $\\pm 30^{\\circ}$ after division by 1000, so the regions with vertical black lines are ones with significant roll."
-
-@
-
-<<calculate-pitch-correction>>=
-
-## The correction should be subtracted from PITCH to get PITCHC;
-## it is the error in pitch, so you get the true value by subtraction
-## This calculates corrections for an entire flight in one call.
-## D must be a dataframe containing at least VNS, VEW, GGVNS, GGVEW,
-## LATC, GGALT, THDG, PITCH, ROLL, 
-CorrectPitch <- function (D) {
-  .vns <- zoo::na.approx (as.vector(D$VNS), maxgap=100, na.rm = FALSE)
-  .vew <- zoo::na.approx (as.vector(D$VEW), maxgap=100, na.rm = FALSE)
-  .ggvns <- zoo::na.approx (as.vector(D$GGVNS), maxgap=100, na.rm = FALSE)
-  .ggvew <- zoo::na.approx (as.vector(D$GGVEW), maxgap=100, na.rm = FALSE)
-  # 1013 points (must be odd) to span about 1/5 Schuler osc. -- about 16.8 min
-  vndot <- signal::sgolayfilt (.vns-.ggvns, 3, 1013, m=1)  # m=1 for first deriv.
-  vedot <- signal::sgolayfilt (.vew-.ggvew, 3, 1013, m=1)
-  deltaPitchL <- -vndot/Ranadu::Gravity (D$LATC, D$GGALT)
-  deltaRollL  <- -vedot/Ranadu::Gravity (D$LATC, D$GGALT)
-  LHDG <- length(D$THDG)
-  #  .hdg <- D$THDG*Cradeg
-  #  deltaPitch <- (sin(.hdg)*deltaRollL + cos(.hdg)*deltaPitchL)/Cradeg
-  #  deltaRoll <- (cos(.hdg)*deltaRollL - sin(.hdg)*deltaPitchL)/Cradeg
-  ## replace with the full transformation matrix:
-  deltaPitch2 <- vector ("numeric", LHDG)
-  deltaRoll2  <- vector ("numeric", LHDG)
-  for (i in 1:LHDG) {
-    bl <- c(sin(deltaRollL[i]), sin(deltaPitchL[i]), 
-            sqrt(1.-sin(deltaRollL[i])^2 - sin(deltaPitchL[i])^2))
-    bb <- as.vector(XformLB (bl, D$ROLL[i], D$PITCH[i], D$THDG[i], .reverse=TRUE))
-    deltaPitch2[i] <- atan(bb[2]/bb[3]) / Cradeg - D$PITCH[i]
-    deltaRoll2[i]  <- atan(bb[1]/bb[3]) / Cradeg - D$ROLL[i]
-  }
-  return (deltaPitch2)
+if (ReloadData) {
+  D <- getNetCDF (fname, standardVariables(VarNames))
+  D <- D[D$TASX > 130, ]
+  save (D, file="~/RStudio/DEEPWAVE/SchulerData2.Rdata")
+} else {
+  load (file="~/RStudio/DEEPWAVE/SchulerData2.Rdata")
 }
+D$DifEW <- D$GGVEW - D$VEW
+D$DifNS <- D$GGVNS - D$VNS
+plotWAC (D[, c("Time", "DifEW", "DifNS")], ylab="Ve error [m/s]", ylim=c(-5, 5.),
+                legend.position='topleft')
+
+figcapP2="Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft. The orange line labeled 'Full Xfm' uses (\\ref{eq:b-vector-in-b-frame}) and (\\ref{eq:pitch-error-wo-approx}), while the blue line uses the approximate result (\\ref{eq:final-answer}). The limits $\\pm$0.03 correspond to roll angle of $\\pm 30^{\\circ}$ after division by 1000, so the regions with vertical black lines are ones with significant roll."
 
 @
 
@@ -526,7 +470,7 @@ for (i in 1:length(D$THDG)) {
 Z <- plotWAC (D$Time, deltaPitch, ylab='Error in Angle [deg]', lwd=2.5)
 Z <- lineWAC (D$Time, deltaRoll, col='darkgreen', lty=2)
 Z <- lineWAC (D$Time, deltaPitch2, col='darkorange', lty=2, lwd=1.5)
-Z <- lineWAC (D$Time, D$ROLL/1000, col='black', lwd=1)
+Z <- lineWAC (D$Time, D$ROLL/1000, col='black', lwd=2)
 legend('topleft', legend=c("Pitch error", "Full Xfm", "Roll Error", "Roll/1000"), lwd=c(2.5,2,1.5,1), lty=c(1,2,2,1), col=c("blue", "darkorange", "darkgreen", "black"), text.col=c("blue", "darkorange", "darkgreen", "black"), cex=0.8, bg='lightyellow')
 Valid <- (D$TASX > 130)
 Valid[abs(D$ROLL) > 5] <- FALSE
@@ -538,9 +482,9 @@ sd (CorrectPitch(D)[Valid], na.rm=TRUE)
 @
 
 
-\subsection{Tests of the validity of the deduced correction to pitch}
+\subsection{Tests of the correction}
 
-Some possible tests that lead to some confidence that the correction
+Some possible tests that could lead to some confidence that the correction
 to pitch is valid are these:
 \begin{enumerate}
 \item If the oscillating error in pitch indeed makes a significant contribution
@@ -554,14 +498,16 @@ flew at the same altitude through the same region measured previously,
 it would be expected that, after correction, the two legs would have
 vertical wind closer to the same value for each direction of flight.\\
 \\
-The following is a tabulation of 13 instances where the flight track
-reversed course. In each case, flight periods of about 5 min (sometimes
+The following is a tabulation of 5 instances where the flight track
+reversed course and remained at the same altitude.
+In each case, flight periods of about 5 min (sometimes
 adjusted in times of strong wind to give similar-length segments flown
 upwind and downwind) are listed before and after the turn, but excluding
 the turn, to represent approximately overlapping flight segments where
-it would be expected that the vertical wind would be the same but
-where the pitch error, if caused by gyro misalignment, would reverse
-sign.\\
+it would be expected that the vertical wind would be the same. A 
+the pitch error, if caused by gyro misalignment, would reverse
+sign between these legs, increasing the measured vertical wind on one leg while 
+decreasing it on the other.\\
 \begin{minipage}[t]{1\columnwidth}%
 \hskip1in%
 \begin{tabular}{|c|c|c|}
@@ -571,29 +517,13 @@ sign.\\
 \hline 
 1 & 81000--81600 & 82400--83000\tabularnewline
 \hline 
-2 & 122500--123000 & 123800--124300\tabularnewline
-\hline 
-10 & 75400--75800 & 80530--81000\tabularnewline
-\hline 
-10 & 100400--100800 & 101600--102100\tabularnewline
-\hline 
-10 & 104500--105000 & 105700--110200\tabularnewline
-\hline 
-14 & 101300--101800 & 102400--102900\tabularnewline
-\hline 
-14 & 113700--114200 & 114830--115330\tabularnewline
-\hline 
-16 & 94000--94500 & 95400--95900\tabularnewline
+2 & 122500--123000 & 123700--124300\tabularnewline
 \hline 
 19 & 83930--84430 & 85130--85630\tabularnewline
 \hline 
-21 & 85100--85600 & 90230--90730\tabularnewline
+21 & 85100--85500 & 90300--90730\tabularnewline
 \hline 
-21 & 95630--100130 & 100830--101300\tabularnewline
-\hline 
-21 & 102900--103400 & 104700--105230\tabularnewline
-\hline 
-21 & 114600--115100 & 120400--121000\tabularnewline
+21 & 95630--100130 & 100800--101300\tabularnewline
 \hline 
 \end{tabular}%
 \end{minipage}
@@ -601,5 +531,194 @@ sign.\\
 project, might be expected to average closer to zero after correction.
 This should particularly be the case for over-water flight away from
 the islands of New Zealand.\end{enumerate}
+
+The difference between average vertical wind measurements for each 
+pair of legs was calculated before and after applying the pitch-correction 
+algorithm developed in this section. The average absolute value of the
+difference before correction was smaller than 0.1\,m/s, so the wind 
+measurements were already in very good agreement for these pairs of legs
+and not much improvement could be expected. However, application of the
+pitch-correction algorithm did reduce this average to about half the
+uncorrected value, as shown in Fig.\ \ref{fig:reverse-course-w-comparison},
+so the pitch correction kept the averages quite small and did appear to 
+produce some improvement as expected.
+
+<<reverse-course-w-comparison, fig.cap="Absolute difference in vertical wind for flight segments before and after level course-reversal maneuvers. The top panel shows the uncorrected measurements and the bottom panel shows the result of applying the pitch correction developed in this section.", include=TRUE, fig.height=6>>=
+ReverseW <- function (D, start1, end1, start2, end2) {
+  DD <- D[setRange (D$Time, start1, end1), ]
+  v1 <- mean (DD$WIC, na.rm=TRUE)
+  p1 <- mean (DD$PITCH, na.rm=TRUE)
+  DD <- D[setRange (D$Time, start2, end2), ]
+  v2 <- mean (DD$WIC, na.rm=TRUE)
+  p2 <- mean (DD$PITCH, na.rm=TRUE)
+  return (c(v1-v2, p1-p2))
+}
+
+# RC <- c(1,81000,81600,82400,83000,
+#       2, 122500, 123000, 123700, 124300,
+#       10, 75400, 75800, 80400, 81000,
+#       10, 100400, 100800, 101600, 102100,
+#       10, 104500, 105000, 105700, 110200,
+#       14, 101300, 101800, 102400, 102900,
+#       14, 113700, 114200, 114830, 115330,
+#       16, 94000, 94500, 95400, 95900,
+#       19, 83930, 84430, 85130, 85630,
+#       21, 85100, 85500, 90300, 90730,
+#       21, 95630, 100130, 100800, 101300,
+#       21, 102900, 103400, 104700, 105230,
+#       21, 114600, 115100, 120400, 121000)
+#  many of the above (4,5,6,7,8,12,13) removed because there was altitude change
+RC <- c(1,81000,81600,82400,83000,
+     2, 122500, 123000, 123700, 124300,
+     19, 83930, 84430, 85130, 85630,
+     21, 85100, 85500, 90300, 90730,
+     21, 95630, 100130, 100800, 101300)
+dim(RC) <- c(5,5)
+wid <-vector("numeric", 13)
+pid <-vector("numeric", 13)
+widc <-vector("numeric", 13)
+pidc <-vector("numeric", 13)
+#rr <- c(1:2,9:11)
+rr <- 1:5
+for (j in rr) {
+  if (ReloadData) {
+    fnm <- sprintf ("%s%s/%srf%02d.nc", DataDirectory (), Project, Project, RC[1,j])
+    df <- getNetCDF (fnm, c("VNS", "VEW", "GGVNS", "GGVEW", "WIC", "TASX",
+                         "LATC", "GGALT", "THDG", "PITCH", "ROLL"))
+    PC <- CorrectPitch (df)
+    df$PITCHC <- df$PITCH - PC
+    df$WIX <- df$WIC + df$TASX * PC * pi / 180
+    df <- df[setRange(df$Time, RC[2,j], RC[5,j]), ]
+    save (df, file=sprintf ("~/RStudio/DEEPWAVE/dfx%02d.Rdata", j))
+  } else {
+    load (file=sprintf ("~/RStudio/DEEPWAVE/dfx%02d.Rdata", j))
+  }
+  x <- ReverseW (df, RC[2,j], RC[3,j], RC[4,j], RC[5,j])
+  wid[j] <- x[1]
+  pid[j] <- x[2]
+  df$PITCH <- df$PITCHC 
+  df$WIC <- df$WIX
+  x <- ReverseW (df, RC[2,j], RC[3,j], RC[4,j], RC[5,j])
+  widc[j] <- x[1]
+  pidc[j] <- x[2]
+  # print (sprintf ("set %d %.3f %.3f %.3f %.3f", j, wid[j], pid[j], widc[j], pidc[j]))
+}
+op <- par (mfrow=c(2,1), mar=c(5,5,2,2)+0.1)
+hist (abs(wid[rr]), border='blue', col=rgb(0,0,100,30, maxColorValue=255), 
+      breaks=10, angle=-45, xlim=c(0,.2), 
+      xlab='difference, uncorrected mean vertical wind [m/s]', main=NULL)
+hist (abs(widc[rr]), border='red', col=rgb(100,0,0,30,maxColorValue=255),lwd=3, 
+      breaks=10, xlim=c(0,.2), xlab='difference, corrected mean vertical wind [m/s]', main=NULL)
+print (sprintf ("mean uncorrected %f, corrected %f", mean(abs(wid[rr])), mean(abs(widc[rr]))))
+
+@
+Table\ \ref{tab:vw-by-flight} 
+lists the mean vertical wind with and without pitch 
+correction for each of the DEEPWAVE flights. For each flight, all 
+measurements above 25,000\,ft and with true airspeed above 130\,m/s 
+were included to emphasize normal
+research conditions. Any missing measurements were also excluded 
+from the averages, and measurements from flights 6, 7, and 15 are not
+included because the first two were cases where the conventional
+vertical-wind measuring system malfunctioned and flight 15 was a
+flight devoted to calibration will little upper-level flight and
+frequent turns including circles.
+
+<<mean-vertical-wind-by-flight, include=TRUE>>=
+mvw <- vector ("numeric", 26)
+mvwc <- vector ("numeric", 26)
+for (j in 1:26) {
+    if (j == 6) {next}
+    if (j == 7) {next}
+    if (j == 15) {next}
+    fnm <- sprintf ("%s%s/%srf%02d.nc", DataDirectory (), Project, Project, j)
+    df <- getNetCDF (fnm, c("VNS", "VEW", "GGVNS", "GGVEW", "WIC", "TASX",
+                         "LATC", "GGALT", "THDG", "PITCH", "ROLL"))
+    PC <- CorrectPitch (df)
+    df$PITCHC <- df$PITCH - PC
+    df$WIX <- df$WIC + df$TASX * PC * pi / 180
+    Valid <- df$TASX > 130
+    Valid[df$GGALT/0.3048 < 25000] <- FALSE
+    mvw[j] <- mean (df$WIC[Valid], na.rm=TRUE)
+    mvwc[j] <- mean (df$WIX[Valid], na.rm=TRUE)
+    print (sprintf ("flight %d mean vertical wind %.02f, corrected %.02f", 
+           j, mvw[j], mvwc[j]))
+}
+rv <- c(1:5,8:14,16:26)
+print (sprintf (" mean and std dev all flights, corrected %.02f %.02f and %.02f %.02f", mean (mvw[rv]), sd(mvw[rv]), mean (mvwc[rv]), sd(mvwc[rv])))
+@ 
+
+\begin{center}
+\begin{table}[H]
+\begin{centering}
+\begin{tabular}{|c|c|c|}
+\toprule
+\textbf{flight} & \textbf{mean WIC} & \textbf{mean corrected WIC}\tabularnewline
+\midrule 
+\midrule 
+1 & \Sexpr{round(mvw[1],2)} & \Sexpr{round(mvwc[1],2)}\tabularnewline
+\midrule 
+2 & \Sexpr{round(mvw[2],2)} & \Sexpr{round(mvwc[2],2)}\tabularnewline
+\midrule 
+3 & \Sexpr{round(mvw[3],2)} & \Sexpr{round(mvwc[3],2)}\tabularnewline
+\midrule 
+4 & \Sexpr{round(mvw[4],2)} & \Sexpr{round(mvwc[4],2)}\tabularnewline
+\midrule 
+5 & \Sexpr{round(mvw[5],2)} & \Sexpr{round(mvwc[5],2)}\tabularnewline
+\midrule 
+8 & \Sexpr{round(mvw[8],2)} & \Sexpr{round(mvwc[8],2)}\tabularnewline
+\midrule 
+9 & \Sexpr{round(mvw[9],2)} & \Sexpr{round(mvwc[9],2)}\tabularnewline
+\midrule 
+10 & \Sexpr{round(mvw[10],2)} & \Sexpr{round(mvwc[10],2)}\tabularnewline
+\midrule 
+11 & \Sexpr{round(mvw[11],2)} & \Sexpr{round(mvwc[11],2)}\tabularnewline
+\midrule 
+12 & \Sexpr{round(mvw[12],2)} & \Sexpr{round(mvwc[12],2)}\tabularnewline
+\midrule 
+13 & \Sexpr{round(mvw[13],2)} & \Sexpr{round(mvwc[13],2)}\tabularnewline
+\midrule 
+14 & \Sexpr{round(mvw[14],2)} & \Sexpr{round(mvwc[14],2)}\tabularnewline
+\midrule 
+16 & \Sexpr{round(mvw[16],2)} & \Sexpr{round(mvwc[16],2)}\tabularnewline
+\midrule 
+17 & \Sexpr{round(mvw[17],2)} & \Sexpr{round(mvwc[17],2)}\tabularnewline
+\midrule 
+18 & \Sexpr{round(mvw[18],2)} & \Sexpr{round(mvwc[18],2)}\tabularnewline
+\midrule 
+19 & \Sexpr{round(mvw[19],2)} & \Sexpr{round(mvwc[19],2)}\tabularnewline
+\midrule 
+20 & \Sexpr{round(mvw[20],2)} & \Sexpr{round(mvwc[20],2)}\tabularnewline
+\midrule 
+21 & \Sexpr{round(mvw[21],2)} & \Sexpr{round(mvwc[21],2)}\tabularnewline
+\midrule 
+22 & \Sexpr{round(mvw[22],2)} & \Sexpr{round(mvwc[22],2)}\tabularnewline
+\midrule 
+23 & \Sexpr{round(mvw[23],2)} & \Sexpr{round(mvwc[23],2)}\tabularnewline
+\midrule 
+24 & \Sexpr{round(mvw[24],2)} & \Sexpr{round(mvwc[24],2)}\tabularnewline
+\midrule 
+25 & \Sexpr{round(mvw[25],2)} & \Sexpr{round(mvwc[25],2)}\tabularnewline
+\midrule 
+26 & \Sexpr{round(mvw[26],2)} & \Sexpr{round(mvwc[26],2)}\tabularnewline
+\bottomrule
+\end{tabular}
+\par\end{centering}
+\protect\caption{The average vertical wind for each flight, before and after
+application of the pitch-correction algorithm developed in this section.
+The data restriction applied was that the true airspeed be above 130\,m/s and
+the flight level be above 25,000\,ft (to emphasize normal research measurement
+conditions in the DEEPWAVE project). Flights 6, 7, and 15 are also missing, as
+explained in the text.\label{tab:vw-by-flight}}
+\end{table}
+
+\par\end{center}
+
+
+The mean value of the vertical wind, for all flights combined, was $-0.08$\,m/s
+for the uncorrected measurements and $-0.02$\,m/s for the corrected measurements,
+so both are within expected tolerances but the corrected measurements are 
+closer to zero for the full project. The pitch correction has little effect on
+these mean measurements or the overall standard deviation. 
 
 % \end{document}

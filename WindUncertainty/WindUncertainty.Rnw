@@ -13,6 +13,7 @@
 \setcounter{tocdepth}{2}
 \setlength{\parskip}{\medskipamount}
 \setlength{\parindent}{0pt}
+\setlength{\headheight}{14.5pt}
 \usepackage{color}
 \definecolor{page_backgroundcolor}{rgb}{1, 1, 1}
 \pagecolor{page_backgroundcolor}
@@ -119,9 +120,14 @@
 \date{\textcolor{red}{DRAFT} 1/20/2015}
 
 \maketitle
+\vfill\eject
 \tableofcontents{}
+\vfill\eject
+<<prelude, echo=FALSE, include=FALSE>>=
+ReloadData = FALSE    # if TRUE read data from original files; 
+                      # if FALSE use saved data instead
+@
 
-% \include{Introduction}
 <<A, child='Introduction.Rnw'>>=
 <<B, child='ComponentsOfWindSensingSystem.Rnw'>>=
 <<C, child='SchulerSection.Rnw'>>=
@@ -130,18 +136,6 @@
 <<F, child='HorizontalWindStudies.Rnw'>>=
 <<G, child='ElementsOfUncertaintyAndSummary.Rnw'>>=
 @
-
-% \include{ComponentsOfWindSensingSystem}
-% 
-% \include{SchulerSection}
-% 
-% \include{SensitivityCoefficients}
-% 
-% \include{VerticalWindStudies}
-% 
-% \include{HorizontalWindStudies}
-% 
-% \include{ElementsOfUncertaintyAndSummary}
 
 
 \section*{Acknowledgements}
@@ -161,7 +155,7 @@ this work. See also Xie, Y (2014), ``Dynamic documents with R and
 knitr,'' CRC Press, Chapman and Hall, 190 pp.%
 } \citet{Xie2014a,Xie2014b}. Substantial use also was made of the
 ggplot2 package%
-\footnote{H. Wickham. ggplot2: elegant graphics for data analysis. Springer
+\footnote{H. Wickham. ggplot2: elegant graphics for data analysis. Springer, 
 New York, 2009. %
 } \citet{wickham2009} for R.
 

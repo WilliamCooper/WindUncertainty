@@ -362,7 +362,7 @@ from the GPS measurements should be trusted at these frequencies.
 are available; they were not present in the 25-Hz file I used.{]} 
 \end{enumerate}
 
-\subsection{Timing of measurements contributing to the vertical wind}
+\subsection{Timing of measurements}
 
 It is necessary that the different measurements entering the calculation
 of vertical wind be sampled at the same time. That is particularly
@@ -483,5 +483,7 @@ the variance around 0.3 Hz. VSPD clearly makes no contribution here.
 The contributions from the two pod-mounted IRUs (with Kalman filtering
 to use GPS measurements) show slightly higher variance than GGVSPDB
 at these frequencies. \end{enumerate}
+
+\vfill\eject
 
 % \end{document}

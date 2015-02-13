@@ -32,7 +32,7 @@
 % 
 % \begin{document}
 
-\section{Uncertainty components and overall standard uncertainty\label{sec:Uncertainty-components}}
+\section{Uncertainty components and summary\label{sec:Uncertainty-components}}
 
 
 \subsection{Radome-based system}
