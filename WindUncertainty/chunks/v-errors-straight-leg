@@ -1,0 +1,5 @@
+D <- Data[Data$TASX > 130., ]
+Z <- plotWAC (D$Time, D$GGVEW-D$VEW, ylab="Ve error", ylim=c(-2.5,3.))
+Z <- lineWAC (D$Time, D$GGVNS-D$VNS, ylab="Vn error", col='darkgreen')
+legend ('topright', legend=c('VEW-GGVEW', 'VNS-GGVNS'), lwd=2, col=c('blue', 'darkgreen'), text.col=c('blue', 'darkgreen'))
+#Z <- lineWAC (D$Time, D$THDG/360, col='darkorange')

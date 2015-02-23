@@ -22,7 +22,7 @@ Flight <- "rf15Hc"        # this was the flight with cal maneuvers
 Directory = DataDirectory ()
 Project <- "DEEPWAVE"
 fname = sprintf("%s%s/DW%s.nc", Directory, Project, Flight)
-VarNames <- c("GGALT","LATC", "LONC", "PSXC", "QCXC",
+VarNames <- c("GGALT","LATC", "LONC", "PSXC", "QCXC", "GGVSPD",
               "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
               "ADIFR", "AKRD", "SSLIP", "PITCH", "PSF", "QCF",
               "ROLL", "THDG", "BDIFR", "EWX", "GGSPD",
@@ -42,7 +42,7 @@ if (ReloadData) {
   load(file="~/RStudio/DEEPWAVE/CircleData.Rdata") # loads D as previously saved
 }
 if (!exists ("cfs")) {  ## to make independent compilation of this section possible
-  cfs <- c(-0.035, 21.723)
+  cfs <- c(-0.092, 22.302)
 }
 SSoffset <- 0.
 # check that it is there:
@@ -92,7 +92,7 @@ characterize and check the wind measurements. An example that will
 be used here was on flight 15, 3:38:30--3:54:30 UTC, as shown in Fig.~\ref{fig:CircleFlightPatterns}.
 This and other circle maneuvers are discussed in this sub-section.
 \noindent 
-\begin{figure}
+\begin{figure}[btp]
 \begin{centering}
 \includegraphics[width=0.49\textwidth]{Circle1}\includegraphics[width=0.49\textwidth]{Circle1Drift}
 \par\end{centering}
@@ -238,7 +238,6 @@ for the full circle maneuver. The lines "mean of measurements", "left-turn measu
 \par\end{center}
 
 <<shiftGSRMS>>=
-
 
 x <- getGGshift (Dc, csq)
 # print(x)
@@ -825,6 +824,7 @@ lines(c(Dc$Time[getIndex(Dc$Time,34000)], Dc$Time[getIndex(Dc$Time, 34500)]), c(
 yrR <- mean(DR$SS, na.rm=TRUE)
 lines(c(Dc$Time[getIndex(Dc$Time,34730)], Dc$Time[getIndex(Dc$Time, 35330)]), c(yrR,yrR), col='darkorange', lty=2, lwd=4)
 #title(main=' ', sub="add 0.07 deg. to SSLIP to correct for offset", cex.sub=0.7)
+print (sprintf(" mean for maneuver: %.2f; left turns %.2f and right turns %.2f", yrm, yrL, yrR))
 
 @
 
@@ -834,6 +834,53 @@ to be added to the sideslip if sideslip is to be symmetrical for left-turn and r
 needed are of opposite sign to the errors listed in the tables of this section}%
  to the combination of heading and sideslip was found in Table\ \ref{tab:SinCosCoefficients} to be $-0.03$ and, with a different analysis approach, in Table\ \ref{tab:GSminShift} to be $+0.02^{\circ}$, but it appears that the latter is a more reliable estimate because the distribution of measurements caused the former to be somewhat insensitive to forced changes in the angle. That 
 indicates that the correction to heading (cf.\ (\ref{eq:dpsiprime})), calculated by taking into account the cosine of the roll in that equation, is \Sexpr{round(0.02+cos(27*pi/180)*(yrL+yrR)/2,2)}$^{\circ}$.
+
+When this approach was applied to the C-130, it was found that  for that aircraft the pitch could differ significantly for right vs.\ left turns, so a different approach taking into account the influence of all angles on vertical wind was also used. The transformation equations from \cite{Bulletin23} (see also \cite{NCAR_OpenSky_TECH-NOTE-000-000-000-064}),
+with some small-angle simplifications, lead to this equation for the
+vertical wind:
+
+\begin{equation}
+u_{z}=w_{p}+V(\sin\phi\tan\beta+\cos\phi\tan\alpha-\sin\theta\label{eq:vwind-eq-for-SS}
+\end{equation}
+where $w_{p}$ is the vertical motion of the aircraft, $V$ its true
+airspeed, $\phi$ the roll angle, $\beta$ the sideslip angle, $\alpha$
+the angle of attack, and $\theta$ the pitch angle. If it is assumed
+that the vertical wind is zero, this equation predicts that the sideslip
+angle will be $\beta^{*}$ given by\\
+\begin{equation}
+\beta^{*}\approx\frac{\theta-\alpha\cos\phi-(w_{p}/V)}{\sin\phi}\,\,\,.\label{eq:beta-from-other-measurements} 
+\end{equation}
+This is not valid in straight flight where the roll is near zero, 
+but it provides a valid equation for
+sideslip in the case of steady turns. The key assumption is that the vertical wind is zero;
+a vertical wind of 0.1\,m/s will typically increase the deduced sideslip from this
+equation by about 0.06$^{\circ}$, so it is important that the circle maneuver be flown
+where there is no mean updraft. It is then possible to determine
+the offset in sideslip by comparing this prediction to the measured
+sideslip $\beta_{m}$:\\
+\begin{equation}
+\delta\beta=\beta_{m}-\beta^{*}\,\,.\label{eq:predicted-error-in-sideslip}
+\end{equation}
+
+<<sideslip-error-histogram, fig.cap="Distribution of measurements of sideslip error determined from (\\ref{eq:predicted-error-in-sideslip}) for all measurements from the circle maneuver.", include=TRUE, echo=FALSE>>=
+
+DX <- Dc[abs(Dc$ROLL) > 22, ]
+dstar <- DX$PITCH - DX$AKRD * cos (DX$ROLL*pi/180) - DX$GGVSPD/DX$TASX
+dstar <- dstar / sin (DX$ROLL*pi/180)
+dbeta <- DX$SSLIP - dstar
+hist(dbeta, breaks=40, main='', freq=FALSE, xlab="error in sideslip [deg.]")
+dbm <- mean (dbeta, na.rm=TRUE)
+dbsd <- sd  (dbeta, na.rm=TRUE)
+title (sprintf ("mean %.2f +/- %.2f", dbm, dbsd))
+dbsdm <- dbsd / sqrt (length(dbeta))
+print (sprintf ("mean error in sideslip: %.3f +/-%.3f", dbm, dbsdm))
+
+@
+
+This result, indicating that \Sexpr{round(dbm, 3)}$\pm$\Sexpr{round(dbsdm, 3)}$^{\circ}$
+should be added to the sideslip, is very close to the indication from Fig.\ \ref{fig:plotSS}, where no offset was required.\footnote{This is a result of iteration; first processing gave an offset of $-0.07^{\circ}$ but the sensitivity coefficients for sideslip were then adjusted and the flight data were reprocessed to make this offset zero in the netCDF files used for this analysis.}
+The uncertainty in the mean of this result is very low, and this result is more general, so this value will be used to correct the sideslip offset. This indicates that the sideslip sensitivity coefficients should be \{$e_{0}$,\, $e_{1}$\} = \{\Sexpr{round(cfs[1]-dbm, 3)}, \Sexpr{round(cfs[2], 3)}\}. Because this result is dependent on the vertical wind being zero, an uncertainty of at least 0.06$^{\circ}$ should be assigned to the first coefficient to recognize that the vertical wind might typically be $\pm$0.1\,m/s in a region such as this.\footnote{The measured vertical wind was 0.1\,m/s over the period of these circles.}
+
 \vfill\eject
 
 % As a consistency check, we repeat the fit determining TAS and heading offsets after adjusting the sideslip measurements by the indicated correction. 

@@ -394,7 +394,7 @@ key "wickham2009"
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "Cooper2014"
+bibfiles "WAC"
 options "plainnat"
 
 \end_inset

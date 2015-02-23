@@ -484,30 +484,25 @@ sd (CorrectPitch(D)[Valid], na.rm=TRUE)
 
 \subsection{Tests of the correction}
 
-Some possible tests that could lead to some confidence that the correction
-to pitch is valid are these:
-\begin{enumerate}
-\item If the oscillating error in pitch indeed makes a significant contribution
-to the error in vertical wind, it would be expected that incorporation
-of this correction, especially in regions of relatively quiescent
-air, would reduce the variance in the measured vertical wind.
-\item On course reversal, such as often occurred during DEEPWAVE flights,
-any pitch error should reverse sign and produce a corresponding offset
-in the vertical wind. Because after course reversal the aircraft often
-flew at the same altitude through the same region measured previously,
-it would be expected that, after correction, the two legs would have
-vertical wind closer to the same value for each direction of flight.\\
-\\
-The following is a tabulation of 5 instances where the flight track
-reversed course and remained at the same altitude.
+Two tests were used to test if these pitch corrections made any significant
+difference in the measurements of vertical wind. First, wind measurements
+made before and after level course reversal were compared to see if
+correcting the pitch reduces the difference in measurements on the two legs
+before and after turns. Reduction would be expected because if there is
+a pitch error it would reverse sign between the two legs, increasing their
+absolute difference. Second, flight-average and project-average vertical
+wind measurements were compiled without and with the pitch correction.
+
+The following is a tabulation of five instances where the flight track
+reversed course and remained at the same altitude. A number of other
+candidates were excluded because conditions were too variable along
+the legs to produce a small-uncertainty estimate of the vertical wind.
 In each case, flight periods of about 5 min (sometimes
 adjusted in times of strong wind to give similar-length segments flown
 upwind and downwind) are listed before and after the turn, but excluding
 the turn, to represent approximately overlapping flight segments where
-it would be expected that the vertical wind would be the same. A 
-the pitch error, if caused by gyro misalignment, would reverse
-sign between these legs, increasing the measured vertical wind on one leg while 
-decreasing it on the other.\\
+it would be expected that the vertical wind would be the same. 
+
 \begin{minipage}[t]{1\columnwidth}%
 \hskip1in%
 \begin{tabular}{|c|c|c|}
@@ -527,10 +522,8 @@ decreasing it on the other.\\
 \hline 
 \end{tabular}%
 \end{minipage}
-\item The vertical wind measured on individual flights, or for the full
-project, might be expected to average closer to zero after correction.
-This should particularly be the case for over-water flight away from
-the islands of New Zealand.\end{enumerate}
+
+
 
 The difference between average vertical wind measurements for each 
 pair of legs was calculated before and after applying the pitch-correction 
@@ -538,10 +531,8 @@ algorithm developed in this section. The average absolute value of the
 difference before correction was smaller than 0.1\,m/s, so the wind 
 measurements were already in very good agreement for these pairs of legs
 and not much improvement could be expected. However, application of the
-pitch-correction algorithm did reduce this average to about half the
-uncorrected value, as shown in Fig.\ \ref{fig:reverse-course-w-comparison},
-so the pitch correction kept the averages quite small and did appear to 
-produce some improvement as expected.
+pitch-correction algorithm did reduce this average to less than half the
+uncorrected value, as shown in Fig.\ \ref{fig:reverse-course-w-comparison}.
 
 <<reverse-course-w-comparison, fig.cap="Absolute difference in vertical wind for flight segments before and after level course-reversal maneuvers. The top panel shows the uncorrected measurements and the bottom panel shows the result of applying the pitch correction developed in this section.", include=TRUE, fig.height=6>>=
 ReverseW <- function (D, start1, end1, start2, end2) {
@@ -612,21 +603,35 @@ hist (abs(widc[rr]), border='red', col=rgb(100,0,0,30,maxColorValue=255),lwd=3,
 print (sprintf ("mean uncorrected %f, corrected %f", mean(abs(wid[rr])), mean(abs(widc[rr]))))
 
 @
+
+The measurements were in good agreement without any pitch correction,
+with an average absolute value of the difference between legs of 
+\Sexpr{round(mean(abs(wid[rr])),2)}\,m\,s$^{-1}$. The pitch correction kept the averages quite small and did appear to 
+produce some improvement, reducing the mean value to 
+\Sexpr{round(mean(abs(widc[rr])), 2)}\,m\,s$^{-1}$. More significant that this small reduction
+is that the values were so small even before correction. This is
+a good indicator of the accuracy of the pitch measurement even without correction. A course-reversal difference of 0.1\,m\,s$^{-1}$ would result from a pitch error 
+of less than 0.015$^{\circ}$, so this suggests that the inertial system is
+performing significantly better than its specified uncertainty (0.05$^{\circ}$
+would require. After correction, the mean difference suggests an error of less
+than 0.005$^{\circ}$ for the corrected values.
+
 Table\ \ref{tab:vw-by-flight} 
 lists the mean vertical wind with and without pitch 
 correction for each of the DEEPWAVE flights. For each flight, all 
-measurements above 25,000\,ft and with true airspeed above 130\,m/s 
-were included to emphasize normal
+measurements above 25,000\,ft with true airspeed above 130\,m/s 
+ and roll between $-5$ and $5^{\circ}$ were included to emphasize normal
 research conditions. Any missing measurements were also excluded 
 from the averages, and measurements from flights 6, 7, and 15 are not
 included because the first two were cases where the conventional
 vertical-wind measuring system malfunctioned and flight 15 was a
-flight devoted to calibration will little upper-level flight and
+flight devoted to calibration with little upper-level flight and
 frequent turns including circles.
 
-<<mean-vertical-wind-by-flight, include=TRUE>>=
+<<mean-vertical-wind-by-flight, include=FALSE>>=
 mvw <- vector ("numeric", 26)
 mvwc <- vector ("numeric", 26)
+pcav <- NA
 for (j in 1:26) {
     if (j == 6) {next}
     if (j == 7) {next}
@@ -635,17 +640,21 @@ for (j in 1:26) {
     df <- getNetCDF (fnm, c("VNS", "VEW", "GGVNS", "GGVEW", "WIC", "TASX",
                          "LATC", "GGALT", "THDG", "PITCH", "ROLL"))
     PC <- CorrectPitch (df)
+    pcav <- c(pcav, PC)
     df$PITCHC <- df$PITCH - PC
     df$WIX <- df$WIC + df$TASX * PC * pi / 180
     Valid <- df$TASX > 130
     Valid[df$GGALT/0.3048 < 25000] <- FALSE
+    Valid[abs(df$ROLL) > 5] <- FALSE
     mvw[j] <- mean (df$WIC[Valid], na.rm=TRUE)
     mvwc[j] <- mean (df$WIX[Valid], na.rm=TRUE)
-    print (sprintf ("flight %d mean vertical wind %.02f, corrected %.02f", 
-           j, mvw[j], mvwc[j]))
+    print (sprintf ("flight %d mean vertical wind %.02f, corrected %.02f pc %f %f", 
+           j, mvw[j], mvwc[j], mean(PC, na.rm=TRUE), sd(PC, na.rm=TRUE)))
 }
 rv <- c(1:5,8:14,16:26)
 print (sprintf (" mean and std dev all flights, corrected %.02f %.02f and %.02f %.02f", mean (mvw[rv]), sd(mvw[rv]), mean (mvwc[rv]), sd(mvwc[rv])))
+print (sprintf ("mean pitch correction %f st. dev. %f", mean (pcav, na.rm=TRUE), sd (pcav, na.rm=TRUE)))
+
 @ 
 
 \begin{center}
@@ -706,7 +715,8 @@ print (sprintf (" mean and std dev all flights, corrected %.02f %.02f and %.02f 
 \par\end{centering}
 \protect\caption{The average vertical wind for each flight, before and after
 application of the pitch-correction algorithm developed in this section.
-The data restriction applied was that the true airspeed be above 130\,m/s and
+The data restriction applied was that the true airspeed be above 130\,m/s,
+absolute value of the roll be less than $5^{\circ}$, and
 the flight level be above 25,000\,ft (to emphasize normal research measurement
 conditions in the DEEPWAVE project). Flights 6, 7, and 15 are also missing, as
 explained in the text.\label{tab:vw-by-flight}}
@@ -715,10 +725,44 @@ explained in the text.\label{tab:vw-by-flight}}
 \par\end{center}
 
 
-The mean value of the vertical wind, for all flights combined, was $-0.08$\,m/s
-for the uncorrected measurements and $-0.02$\,m/s for the corrected measurements,
-so both are within expected tolerances but the corrected measurements are 
-closer to zero for the full project. The pitch correction has little effect on
+The mean value of the vertical wind, for all flights combined, was 
+\Sexpr{round(mean(mvw[rv], na.rm=TRUE), 2)}\,m/s
+for the uncorrected measurements and \Sexpr{round(mean(mvwc[rv], na.rm=TRUE), 2)}\,m/s for the corrected measurements, with standard deviations of 
+\Sexpr{round(sd(mvw[rv], na.rm=TRUE), 2)}\,m/s, 
+so both are well within expected tolerances.
+The pitch correction has little effect on
 these mean measurements or the overall standard deviation. 
 
+Unlike the reverse-course comparison, the small offset obtained
+with the pitch corrections applied does not indicate that the
+measurements are only uncertain within these limits, because
+most flights are long compared to the Schuler-oscillation period
+of about 84 min, so flights will average over an oscillating
+correction that can average to a much smaller correction than
+that actually applied. More significant is the standard deviation
+of the applied correction, which amounts to
+0.082$^{\circ}$ averaged over the enter project.
+That magnitude of standard deviation indicates that the correction
+to vertical wind arising from application of the pitch-correction
+algorithm introduces changes with standard deviation of about 
+0.3\,m\,s$^{-1}$ project-wide. Studies of individual flights 
+show that this varies significantly from flight to flight.
+This uncertainty, however, is a significant contributor to the
+uncertainty in vertical wind. 
+Response to fluctuations with
+period small compared to the 84.4~min period of the Schuler
+oscillation should be affected by the pitch correction via
+the possible introduction of a slowly varying bias of typically
+0.3~m/s long-term standard deviation.
+
+The procedure developed here is not suited to application during
+normal processing of data files because it uses a fit to the
+entire sequence of ground-speed measurements to find the
+corrections. A procedure has been developed to add values of
+pitch and vertical wind after correction, but this must be
+run after the original file is generated.
+
+The procedure developed here only applies to the Honeywell IRUs. The C-MIGITS
+units already incorporate Kalman feedback from a GPS signal and so
+already apply a correction similar to the one applied here. 
 % \end{document}

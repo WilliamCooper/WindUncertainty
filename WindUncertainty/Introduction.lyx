@@ -3,25 +3,16 @@
 \begin_document
 \begin_header
 \textclass article
-\begin_preamble
-\usetheme{WAC}
-\setbeamertemplate{headline}{}
-\setbeamertemplate{footline}[default]{}
-\setbeamertemplate{navigation symbols}{}
-%\setbeamercovered{transparent}
-%\setbeamercovered{opaque}
-\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
-\end_preamble
 \use_default_options false
 \begin_modules
 knitr
 \end_modules
 \maintain_unincluded_children false
 \language english
-\language_package default
+\language_package none
 \inputencoding auto
-\fontencoding global
-\font_roman times
+\fontencoding default
+\font_roman default
 \font_sans default
 \font_typewriter default
 \font_math auto
@@ -40,17 +31,17 @@ knitr
 \spacing single
 \use_hyperref false
 \papersize default
-\use_geometry true
-\use_package amsmath 2
-\use_package amssymb 2
-\use_package cancel 1
-\use_package esint 0
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 1
 \use_package mathdots 0
-\use_package mathtools 1
-\use_package mhchem 1
-\use_package stackrel 1
-\use_package stmaryrd 1
-\use_package undertilde 1
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
 \cite_engine basic
 \cite_engine_type default
 \biblio_style plain
@@ -64,15 +55,14 @@ knitr
 \shortcut idx
 \color #008000
 \end_index
-\secnumdepth 2
-\tocdepth 2
+\secnumdepth 3
+\tocdepth 3
 \paragraph_separation indent
 \paragraph_indentation default
 \quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
-\bullet 1 0 30 -1
 \tracking_changes false
 \output_changes false
 \html_math_output 0
@@ -156,9 +146,20 @@ y and the separate systematic and random components included in that uncertainty
 
 \begin_layout Standard
 The reference program for this document can be found on NCAR/EOL computer
- space in the directory /h/eol/cooperw/RStudio/DEEPWAVE/GustPod and is named
- WindUncertainty.Rnw.
- That program runs the analysis program R within 
+ space (e.g., tikal.eol.ucar.edu) in the directory /h/eol/cooperw/RStudio/DEEPWAVE/Wi
+ndUncertainty and in GitHub where the repository is named 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://github.com/WilliamCooper/WindUncertainty.git"
+target "https://github.com/WilliamCooper/WindUncertainty.git"
+
+\end_inset
+
+.
+ The main program is WindUncertainty.Rnw; other files in those repositories
+ with suffixes .Rnw are sections in this report and are linked to the main
+ program.
+ Normal usage is to run this main program within 
 \begin_inset Quotes erd
 \end_inset
 
@@ -166,7 +167,7 @@ RStudio
 \begin_inset Quotes erd
 \end_inset
 
- and also, via 
+ to execute the contained R code and also, via 
 \begin_inset Quotes erd
 \end_inset
 
@@ -174,7 +175,7 @@ knitr,
 \begin_inset Quotes erd
 \end_inset
 
- generates this text document from 
+ to generate this text document from 
 \begin_inset ERT
 status collapsed
 
@@ -185,19 +186,31 @@ LaTeX
 
 \end_inset
 
- statements embedded in that file.
- The data used reside on associated file space and are archived in the directory
- /h/eol/cooperw/STudio/DEEPWAVE as R data files, with names ending in 
+ statements embedded in those files.
+ An R package 'Ranadu' is used; it resides on GitHub as 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://github.com/WilliamCooper/Ranadu.git"
+target "https://github.com/WilliamCooper/Ranadu.git"
+
+\end_inset
+
+.
+ The data used reside in NCAR/EOL project archives and, in subsetted form,
+ are archived in the directory /h/eol/cooperw/STudio/DEEPWAVE/WindUncertainty
+ as R data files, with names ending in 
 \begin_inset Quotes erd
 \end_inset
 
-Rdata.gz.
+Rdata.
 \begin_inset Quotes erd
 \end_inset
 
+ Those files are too large to be appropriate for GitHub but can be provided
+ from the NCAR/EOL computers.
  It is thus possible to reproduce this document from archived data and to
  repeat the included analyses with new data as needed.
- This document thus is 
+ This document thus attempts to be 
 \begin_inset Quotes erd
 \end_inset
 
@@ -207,12 +220,7 @@ reproducible research
 
  as that term is used by the author of knitr.
  References for knitr and the analysis packages in R are included in the
- Acknowledgements.
- 
-\end_layout
-
-\begin_layout Standard
-
+ Acknowledgements and References sections.
 \end_layout
 
 \end_body

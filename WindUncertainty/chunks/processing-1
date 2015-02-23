@@ -1,0 +1,7 @@
+fname <- sprintf ("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+VarNames <- c("VNS", "VEW","GGVNS", "GGVEW", "GGALT", "LATC", "LONC", "THDG") 
+Data <- getNetCDF (fname, standardVariables(VarNames))	
+D <- Data[Data$TASX > 130., ]
+Z <- plotWAC (D$Time, D$GGVEW-D$VEW, ylab="Ve error", ylim=c(-5, 5.))
+Z <- lineWAC (D$Time, D$GGVNS-D$VNS, col='darkgreen', lty=2)
+legend ('topleft', legend=c('VEW-GGVEW', 'VNS-GGVNS'), lwd=2, lty=c(1,2), col=c('blue', 'darkgreen'), text.col=c('blue', 'darkgreen'))

@@ -1,0 +1,29 @@
+% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
+% Do not edit unless you really know what you are doing.
+\documentclass{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\AtBeginDocument{
+  \def\labelitemii{\(\triangleright\)}
+  \def\labelitemiii{\normalfont\bfseries{--}}
+  \def\labelitemiv{\(\diamond\)}
+}
+
+\makeatother
+
+\begin{document}

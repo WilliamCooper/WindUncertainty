@@ -1,0 +1,20 @@
+plot(sin(0:360*pi/180), cos(0:360*pi/180), type='l', xlim=c(-1.5,1.5),ylim=c(-1.5,1.5), xlab=' ', ylab=' ')
+A <- 50
+x1a <- sin(A*pi/180); y1a <- cos(A*pi/180)
+lines (c(0, 1.4*x1a), c(0, 1.4*y1a), col='red')
+lines (c(x1a-sin((90-A)*pi/180), x1a+sin((90-A)*pi/180)), c(y1a+cos((90-A)*pi/180), y1a-cos((90-A)*pi/180)), col='blue')
+#arrows (x1a, y1a, x1a/2, y1a/2, length=0.05, col='darkgreen')
+A <- 60
+x1 <- sin(A*pi/180); y1 <- cos(A*pi/180)
+lines (c(0, 1.4*x1), c(0, 1.4*y1), col='darkorange', lty=2)
+lines (c(x1-sin((90-A)*pi/180), x1+sin((90-A)*pi/180)), c(y1+cos((90-A)*pi/180), y1-cos((90-A)*pi/180)), col='darkorange', lty=2)
+delta=10
+x2 <- sin((A+delta)*pi/180); y2 <- cos((A+delta)*pi/180)
+#lines (c(x1+x2/2, x1-x2/2), c(y1-y2/2, y1+y2/2), col='darkorange', lty=2)
+#lines (c(x1+y2/2, x1-y2/2), c(y1+x2/2, y1-x2/2), col='darkorange', lty=2) 
+#arrows (x1-x1a/2, y1-y1a/2, x1/2, y1/2, length=0.05, col='darkgreen', code=1, lty=1)
+#arrows (x1+0.4*y2, y1+0.4*x2, 1.4*x1, 1.4*y1, length=0.03, col='darkgreen', code=3)
+#text (0.75*x1-0.15, 0.75*y1+0.15, 'g', col='darkgreen')
+#text (0.0, 0.35, expression(paste("g",delta,lambda)), col='darkgreen', cex=0.6)
+#arrows (x1, y1, x1-x1a/2, y1-y1a/2, length=0.05, col='darkgreen', lty=2)
+text (1.4*(x1a+x1)/2,1.4*(y1a+y1)/2, expression(paste(delta,lambda)), col='darkgreen', cex=0.75)

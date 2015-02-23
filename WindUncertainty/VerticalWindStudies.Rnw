@@ -1,32 +1,19 @@
-%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
-%% Do not edit unless you really know what you are doing.
-% \documentclass{article}
-% \usepackage{mathptmx}
-% \usepackage[T1]{fontenc}
-% \usepackage[latin9]{inputenc}
-% \usepackage{geometry}
-% \geometry{verbose}
-% \setcounter{secnumdepth}{2}
-% \setcounter{tocdepth}{2}
-% \usepackage{amsmath}
-% \usepackage{amssymb}
-% \usepackage{graphicx}
-% 
-% \makeatletter
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
-% %% Because html converters don't know tabularnewline
-% \providecommand{\tabularnewline}{\\}
-% 
-% \AtBeginDocument{
-%   \def\labelitemii{\(\rightarrow\)}
-% }
-% 
-% \makeatother
-% 
-% \begin{document}
+<<parent-vert-wind-studies, echo=FALSE>>=
+set_parent ("WindUncertainty.Rnw")
+
+@
 
 \section{Studies of the Vertical Wind}
+
+\subsection{Overview}
+
+The preceding sections provided extensive information on how vertical
+wind is measured and how the radome-based system is calibrated. Here,
+two additional topics not covered well there are discussed to complement
+those earlier discussions. The sections here deal with the choice and
+quality of the variable characterizing the vertical motion of the 
+aircraft and some issues related to the relative timing of the
+measurements entering the calculation of vertical wind.
 
 
 \subsection{The vertical velocity of the aircraft\label{sec:VerticalVelocity}}
@@ -47,7 +34,7 @@ VSPD  & Honeywell IRU\tabularnewline
 \hline 
 VSPD\_A  & Avionics system (Honeywell IRU)\tabularnewline
 \hline 
-GGVSPDB  & GPS receiver, possibly with OMNISTAR corrections\tabularnewline
+GGVSPD  & GPS receiver, possibly with OmniSTAR corrections\tabularnewline
 \hline 
 CVSPD\_GP  & CMIGITS IRU, gust pod\tabularnewline
 \hline 
@@ -56,22 +43,30 @@ CVSPD\_LAMS  & CMIGITS IRU, LAMS pod\tabularnewline
 \end{tabular}
 \par\end{center}
 
-The vertical wind calculation depends on a measurement of vertical
+The standard vertical wind calculation depends on a measurement of vertical
 motion of the aircraft, which has been VSPD (from the IRU) or VSPD\_G
-or GGVSPDB (from the GPS) or, much earlier, WP3. For the systems based
+or GGVSPD (from the GPS) or, much earlier, WP3 from a baro-inertial
+update loop using VSPD. This updating is no longer used because
+the Honeywell IRU providing VSPD already incorporates such updating.
+For the systems based
 on the gust pod or LAMS, additional vertical-velocity measurements
 are provided by their pod-mounted IRUs, respectively CVSPD\_GP and
-CVSPD\_LAMS. VSPD is controlled against the known instability of IRU
+CVSPD\_LAMS. 
+
+Because VSPD as provided by the Honeywell IRU 
+is controlled against the known instability of IRU
 measurements in the vertical by updating to a reference value provided
-by pressure altitude, so it has some drawbacks: pressure altitude
+by pressure altitude, it has some drawbacks: pressure altitude
 is not really a measure of altitude but of pressure, so the reference
-altitude can be biased, and the IRU imposes an unknown baro-inertial
-loop with uncertain response characteristics and uncertainty. The
+altitude can be biased, and the IRU-imposed baro-inertial
+loop has unknown response characteristics and uncertainty. The
 advantage of an IRU variable over a GPS measurement has been, until
 recently, better response at high frequency at the expense of absolute
 accuracy. GPS measurements have now improved, esp.~with OmniSTAR,
 so it is worth considering what variable or combination of variables
-should be used in the calculation of vertical wind. For horizontal
+should be used in the calculation of vertical wind. 
+
+For horizontal
 wind, the standard solution in use since the early 1990s has been
 a complementary-filter solution where the difference between IRU and
 GPS measurements is low-pass filtered and the result is added to the
@@ -81,32 +76,43 @@ GPS measurements, thus providing both absolute accuracy and valid
 high-frequency measurements. It seems worthwhile to explore a similar
 approach for the vertical wind, to see if there is an advantage to
 a variable that is provided by an analogous complementary filter.
-When OMNISTAR is available, the measurement is so good that it may
-be preferable to use that directly. That will be explored here also.
+When OMNISTAR is available, the measurement of vertical aircraft
+motion is so good that it may
+be preferable to use that directly, so that will be explored here also.
 
-Currently, two vertical-wind variables are produced from the radome-based
+Some of the following references a variable GGVSPDB, a highest-resolution
+version of GGVSPD. GGVSPDB was used in this evaluation to ensure that
+the reduced resolution in GGVSPD did not influence the variance spectra,
+but GGVSPD is the usual variable used in wind calculation. It has
+sufficient resolution for that purpose.
+
+In standard processing, two vertical-wind variables are produced from the radome-based
 system, WI and WIC. These are called, respectively, ``Wind Vector,
 Vertical Gust Component'' and ``GPS-Corrected Wind Vector, Vertical
 Gust Component''. They are calculated by adding the relative wind
 measured by the radome system to the vertical motion of the aircraft,
-either VSPD (WI) or GGVSPDB (WIC). The former is directly from the
+either VSPD (WI) or GGVSPD (WIC). The former is directly from the
 Honeywell IRU; the latter is produced by the GPS receiver and may
 benefit from OmniSTAR accuracy (flagged by GGQUAL equal to 5).
 
 The names are not really appropriate. Neither is the gust component;
-both are the full vertical wind including gust and mean. Also, WIC
+both are the full vertical wind including relative wind and 
+aircraft motion. Also, WIC
 is not GPS-corrected, it is completely based on the GPS and does not
-use the IRU at all except as the attitude angles are involved in determining
+use the IRU at all except for the attitude angles need to determine
 the relative wind (the same for both). These calculations employ the
-nimbus function ``gusto'', which implements the code as described
-by Lenschow (XXX) or Lenschow and Spyers-Duran (XXX) and as described
+nimbus function ``gust'', which implements the algorithm described
 in Sect.~\ref{sub:General-comments}.
 
-In addition, the Honeywell IRU provides a measure of vertical acceleration.
+In addition, the Honeywell IRU provides a measurement of vertical acceleration.
 In a special calculation, this was integrated to get velocity and
-the result compared to VSPD. The variance spectrum was quite similar,
+the result compared to VSPD. The results of the integration and the
+variance spectrum of that result were 
+quite similar to VSPD,
 provided that a feedback loop was used to avoid exponentially growing
-errors from positive feedback.
+errors from positive feedback, so there is no advantage to using
+that integrated acceleration in place of VSPD. (It was hoped that
+some of the filtering imposed on VSPD could be avoided.)
 
 
 \subsubsection{Variance spectra for components affecting the vertical wind\label{sub:Variance-spectra-for-W-components}}
@@ -121,87 +127,113 @@ from 6:30:00 -- 12:30:00 having a standard deviation in vertical wind
 of 1.0\,m/s. Much of the variation in vertical wind was from waves,
 so the field was not fully developed turbulence, but the signals to
 be resolved had enough intensity that noise floors on the measurements
-were not a problem. (See below for examples where noise does enter
-the measurements.)
+were not a problem. 
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=0.9\textwidth]{VSPDspectra} 
+\includegraphics[width=0.9\textwidth]{VSPDspectraDW16} 
 \par\end{centering}
 
 \protect\protect\caption{\label{fig:Variance-spectra-VSPD}Variance spectra {[}units: m$^{2}$s$^{-2}$,
 density functions per logarithmic interval in frequency expressed
 in Hz{]} for various components entering vertical-wind calculations.
-Data from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC. The red trace
+Data are from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC. The thick blue trace
 is that for the vertical wind variable WIC; others show either measurements
-of the aircraft vertical motion (VSPD, GGVSPDB, VSPD\_A, CVSPD\_GP,
-CVSPD\_LAMS) or, as GUSTW, the relative-wind contribution to WIC.
-The green lines labeled ``EDR'' show the slope expected for an inertial
+of the aircraft vertical motion (VSPD, GGVSPDB)
+or, as GUSTW, the relative-wind contribution to WIC.
+The green diagonal lines show the slope expected for an inertial
 subrange and, for the heavy line labelled ``!0$^{-4}$'', corresponding
 to an eddy dissipation rate of $1\times10^{-4}$\,m$^{2}$s$^{-3}$.
 Other green reference lines are displaced by an order of magnitude
-in eddy dissipation rate.}
+in eddy dissipation rate. Calculation method: all-poles or maximum-entropy
+method, with 100 poles, resolution 0.0005, with results smoothed in 50 bins
+in the logarithm of frequency. Total variance is 1.36\,m$^2$s$^{-2}$.}
 \end{figure}
 
 
 Figure \ref{fig:Variance-spectra-VSPD} shows variance spectra calculated
-for the entire 6-h period, for a number of measurements entering vertical-wind
-calculations. The red trace shows the spectrum for the vertical wind
+for the entire 6-h period, for a number of measurements entering the
+vertical-wind
+calculations. The thick blue trace shows the spectrum for the standard
+vertical wind
 measurement WIC, with a pronounced broad peak near 10 km wavelength,
-a relatively small inertial subrange extending only to about 3 km,
+a relatively small inertial subrange extending only to about 2 km,
 and (after smoothing in 50 logarithmic intervals across the range
 of the plot) uncertainty estimates that range from about 5\% at the
 lowest frequencies to <1\% at the highest frequencies.
 
-The black trace, GUSTW, is the measurement of the vertical component
-of the relative wind. It is everywhere above the spectrum for WIC
-except above about 0.3 Hz. Because the vertical wind is the sum of
-GGVSPDB and GUSTW. At most frequencies, GUSTW and GGVSPDB make contributions
-having opposite sign, so that the resulting WIC is smaller than GUSTW;
-this is particularly evident at wavelengths longer than about 10 km,
-This can only arise if the amplitude of the aircraft vertical motion
-exceeds that of the vertical wind, causing the amplitude of the relative
-wind to exceed that of the vertical wind. At the lowest frequencies
-or longest wavelengths, there is little real signal in WIC so the
-measurements of relative wind and aircraft motion result almost entirely
-from aircraft motion and they almost cancel to produce a small spectral
-density for WIC. WIC exceeds WIC only at frequencies above about 0.3\,Hz,
-where the aircraft motion makes a small addition to the relative wind.
+The two measures of vertical aircraft motion, GGVSPD (from the GPS receiver)
+and VSPD (from the inertial reference unit) have important differences in
+their properties. At high frequency, VSPD (orange line) decreases rapidly
+with increasing frequency, so it makes negligible contribution to the
+vertical wind (WI) at frequencies above 1 Hz. In contrast, GGVSPD (red line) 
+does not show a similar steep drop in variance until after about 2 Hz,
+and it continues to make an important contribution to WIC over the 
+frequency range from about 0.3 to 3\,Hz. The absence of spectral
+variance above about 0.3\,Hz in VSPD appears to be the result of
+internal filtering of this signal in the inertial unit, and indeed
+some limited information on the properties of the signals does indicate
+filtering at about this frequency. Because the aircraft motion clearly
+has components in this frequency range (based on the ride in turbulence),
+it appears that WI should not be used for frequencies above about 0.3\,Hz.
 
-At frequencies above about 0.1\,Hz, the two IRU-only aircraft vertical
-speeds, VSPD and VSPD\_A, begin to fall below the three measurements
-based solely on GPS or updated to GPS via Kalman filters. This causes
-the variance spectrum for WI (not shown) to fall well below that for
-WIC, and well below the 5/3-spectrum line, at the highest frequencies.
-Coherence between VSPD and GGVSPDB starts to drop above 0.1\,Hz and
-falls to near 0.5 at 0.5 Hz. Figure~\ref{fig:Variance-spectra-VSPD}
-shows that VSPD also departs from GGVSPDB at frequencies below 0.01
-Hz, leading to the spectrum for WI to lie above that for WIC at high
-frequency. The spectrum for VSPD\_A is the same as that for VSPD except
-above about 0.1\,Hz, where it decreases even faster than VSPD as
-frequency increases. The latter effect is probably the result of filtering
-internal to the IRUs providing the signals. This comparison suggests
-that WI (based on VSPD) has deficiencies and might better be eliminated
-from the data products. As a backup to WIC, a variable based on either
-one of the products updated to GPS measurements (CVSPD\_GP or CVSPD\_LAMS)
-would mostly match WIC.
+The inertial-system variable VSPD is also subject to pressure damping,
+and this may account for the difference between GGVSPD and VSPD at
+long wavelength. The aircraft normally flies with reference to the
+pressure altitude, so in a region of varying altitude at a given
+pressure there are fluctuations in the aircraft geometric altitude (red
+line) not reflected in the pressure altitude (orange line). Both contribute
+in ways that result in essentially the same spectral variance for
+frequencies below 0.3 Hz, as shown by the near coincidence of the
+blue and cyan lines, so the difference is not significant. Here also,
+though, the red line representing the GPS measurement is a better
+measure of how the vertical wind should be affected, because the
+pressure-damped orange line will not show real vertical motion of
+the aircraft as it remains on a pressure surface.
 
-The dark green spectrum represents GGVSPDB, the measurement from the
-GPS system. In this case, OMNISTAR corrections were available throughout
-the flight, so this is a low-uncertainty measurement and perhaps the
-best. In this plot, it is perfectly over-plotted by the violet and
-orange lines, except at frequencies above 0.1 Hz where there is a
-small departure. Even there, the measurements from the two pod-mounted
-systems (CVSPD\_GP and CVSPD\_LAMS), mounted on the same wing pylon
-in adjacent canisters, produce identical spectra. This was confirmed
-by very high coherence (>0.99 except near 1 Hz, where the coherence
-dropped to about 0.97) and phase within a few degrees of zero throughout
-the frequency range. This is exceptional agreement between two independent
-measurements (although they are not fully independent because both
-use a GPS signal in a Kalman filter to adjust their response, and
-both receive the same GPS signal but process it independently). The
-small departure between GGVSPDG (dark green) and CVSPD\_LAMS (orange)
-occurs only a frequencies above 0.1 Hz.
+For these reasons, WIC is the preferable variable to use for
+vertical wind. This also answers the question posed earlier regarding
+the possibility of using a combination of measurements from inertial and 
+GPS systems to obtain better frequency response. The IRU measurements
+turn out to have poorer frequency response and lead to apparent
+biases for frequencies around 1\,Hz, so this is not a useful
+combination. Instead, it appears best to use the GPS-provided
+measurement of vertical aircraft speed without further modification.
+
+There is still some reason for concern about the spectral response
+of GGVSPD at frequencies around 0.5--1\,Hz, because there is no
+evidence that the GPS is providing valid response at this high rate.
+The unit used only provides measurements at 5\,Hz and these measurements
+are interpolated and filtered to higher frequency, so the cut-off
+apparent in Fig.~\ref{fig:Variance-spectra-VSPD} is a result of
+that sampling and may remove a real signal at higher frequency.
+
+The black trace (labeled GUSTW) is the vertical component of the
+relative wind. The sum of GUSTW and GGVSPD determines WIC, and the
+alternate measure of vertical wind WI is the sum of GUSTW and VSPD from
+the inertial reference unit. 
+GUSTW has higher spectral variance than WIC for frequencies below
+0.3\,Hz, so at these frequencies the aircraft motion tends to 
+counter the relative wind and reduced the measured variance.
+This would be the case, for example, if there were negligible
+vertical wind and the relative wind arose entirely from the
+vertical motion of the aircraft. On the other hand, for
+frequencies around about 0.5\,Hz the spectral variance in the
+vertical wind exceeds that in the relative wind 
+so the aircraft responds approximately in phase with the vertical gusts.
+
+The high-frequency variance spectrum has a slope differing 
+a small amount from the expected -5/3 spectrum, and that is 
+cause for some concern, but the turbulence in this region was not
+very well developed or consistent so this is probably not
+cause for alarm. Very good agreement with expectations has been
+seen in cases of boundary-layer measurements where well-developed
+turbulence at small scales is expected, but in those cases the
+intensity of turbulence at small scales was greater also. This is
+reason to continue to be suspicious of the response around
+0.5--1\,Hz. 
+%The gust-pod spectrum actually looks better, closer to -5/3 and
+% lying a little lower in spectral variance.
 
 Some of the relative magnitudes shown in Fig.~\ref{fig:Variance-spectra-VSPD}
 may change for different intensities of turbulence. However, some
@@ -209,38 +241,38 @@ tentative conclusions seem indicated by this figure and the discussion
 above: 
 \begin{enumerate}
 \item 
-\begin{figure}
-\noindent \begin{centering}
-\includegraphics[width=0.9\textwidth]{WIxpectra} 
-\par\end{centering}
-
-\protect\protect\caption{\label{fig:WIWICcomparison}Variance spectra for vertical-wind variables
-WI and WIC, from DEEPWAVE flight 16, 4 July 2014, 6:30:00--12:30:00. }
-\end{figure}
-
+% \begin{figure}
+% \noindent \begin{centering}
+% \includegraphics[width=0.9\textwidth]{WIxpectra} 
+% \par\end{centering}
+% 
+% \protect\protect\caption{\label{fig:WIWICcomparison}Variance spectra for vertical-wind variables
+% WI and WIC, from DEEPWAVE flight 16, 4 July 2014, 6:30:00--12:30:00. }
+% \end{figure}
+% 
 
 
 Consider eliminating the variable WI from the data archives. VSPD,
-on which WI is based, has problems at both high and low frequency
-and tends to produce variance spectra with incorrect distributions
-at high frequencies where an inertial-subrange shape might be expected.
-Having this variable could lead to the mistaken expectation that this
+on which WI is based, has problems at both high and low frequency.
+Providing this variable could lead to the mistaken expectation that this
 is the uncorrected version of WIC. The argument for using a variable
-based on VSPD has been that this represents the high-frequency contribution
+based on VSPD has been that this formerly represented the high-frequency contribution
 better than a GPS variable. That is not the case any longer, because
-GPS measurements have improved greatly and the IRU-provided measurements
-are obviously filtered at high frequency. Fig.~XXX shows that, while
-the variance spectra of WI and WIC are reasonably similar, the WI
-spectrum is above that for WIC for frequencies from about 0.007--0.3
-Hz, with WI often 30\% higher, and then falls below the WIC spectrum
-above 0.3 Hz. The high-frequency decrease in WI is apparently attributable
-to the drop in VSPD at high frequency, thought to be from imposed
-filters in the IRU providing this variable. WIC is reasonably consistent
-with a -5/3 spectrum for frequencies above 0.1 Hz, while WI is not.
-The difference in magnitude between 0.01--0.1 Hz is not evident: The
-variance spectra from VSPD and GGVSPDB have the same magnitude, coherence
-near unity and phase near zero, through this range. This needs further
-investigation unless the variable WI is no longer produced. 
+GPS measurements have improved greatly and the presently
+available IRU-provided measurements
+are obviously filtered at high frequency. 
+% Fig.~XXX shows that, while
+% the variance spectra of WI and WIC are reasonably similar, the WI
+% spectrum is above that for WIC for frequencies from about 0.007--0.3
+% Hz, with WI often 30\% higher, and then falls below the WIC spectrum
+% above 0.3 Hz. The high-frequency decrease in WI is apparently attributable
+% to the drop in VSPD at high frequency, thought to be from imposed
+% filters in the IRU providing this variable. WIC is reasonably consistent
+% with a -5/3 spectrum for frequencies above 0.1 Hz, while WI is not.
+% The difference in magnitude between 0.01--0.1 Hz is not evident: The
+% variance spectra from VSPD and GGVSPDB have the same magnitude, coherence
+% near unity and phase near zero, through this range. This needs further
+% investigation unless the variable WI is no longer produced. 
 
 \item VSPD does not have better frequency response than GGVSPDB at high
 frequency, as might be expected; the reverse is the case, possibly
@@ -263,11 +295,11 @@ perhaps representing a transition from where the pilots or autopilot
 cause motions that produce the relative-wind vertical component to
 where the vertical wind causes the aircraft response. 
 \item At high frequency (>0.3 Hz), the gust component dominates over the
-aircraft response and the coherence between them falls to values between
-0.1--0.5 and the phase relationship becomes variable before settling
+aircraft response, the coherence between them falls to values between
+0.1--0.5, and the phase relationship becomes variable before settling
 near zero at 0.5 Hz. 
 \end{enumerate}
-An example where there was very low turbulence is shown in 
+
 \begin{figure}
 \noindent \begin{centering}
 \includegraphics[width=0.9\textwidth]{WIXHR1} 
@@ -280,7 +312,7 @@ spectrum for the IRU-provided aircraft motion (VSPD, dashed line).
 Data from DEEPWAVE flight 15, 3:40:00--3:55:00.}
 \end{figure}
 
-
+An example where there was very low turbulence is shown in 
 Fig.~\ref{fig:WIXHR1}. The intensity of vertical-wind fluctuations
 was quite small for this flight segment, with a standard deviation
 in vertical wind of only about 0.2 m/s. Some features of this plot
@@ -308,44 +340,41 @@ spectrum indicates a random error about three times greater than expected
 from the transducer characteristics. This needs further investigation
 because it imposes an important limit on capability to measure low-intensity
 turbulence. 
-\item GGVSPDB as plotted here was obtained by interpolating linearly between
-1-Hz measurements and then applying a low-pass filter with cutoff
-frequency 1 Hz. Simple linear interpolation leads to a pronounced
-peak at 1~Hz and peaks also at 2, 4, ... Hz, so some better interpolation
-procedure is useful. Smoothing with Savitzky-Golay polynomias with
-a 25-point span might be best%
-\footnote{A test of this with 4th-order Savitzky-Golay polynomials spanning
-25 points produced a signal without the phase shift that arises with
-a Butterworth filter near the cutoff frequency.%
-}, but that can't be done in the conventional processing chain of nimbus
-which necessarily handles data second-by-second. {[}XXX check what
-is actually done for filtering and if a higher-rate is available for
-GGVSPDB.{]} VSPD (from the IRU), on the other hand, is present in
-the 25-Hz data files at 25 Hz, but it either has already been filtered
-in the IRU or simply reflects, with GGVSPDB, the absence of contributions
-from aircraft motion at these frequencies. It falls below even filtered
-GGVSPDB, though, so it probably doesn't represent any real signal
-at frequency above about 1 Hz. 
+% \item GGVSPDB as plotted here was obtained by interpolating linearly between
+% 1-Hz measurements and then applying a low-pass filter with cutoff
+% frequency 1 Hz. Simple linear interpolation leads to a pronounced
+% peak at 1~Hz and peaks also at 2, 4, ... Hz, so some better interpolation
+% procedure is useful. Smoothing with Savitzky-Golay polynomias with
+% a 25-point span might be best%
+% \footnote{A test of this with 4th-order Savitzky-Golay polynomials spanning
+% 25 points produced a signal without the phase shift that arises with
+% a Butterworth filter near the cutoff frequency.%
+% }, but that can't be done in the conventional processing chain of nimbus
+% which necessarily handles data second-by-second. {[}XXX check what
+% is actually done for filtering and if a higher-rate is available for
+% GGVSPDB.{]} VSPD (from the IRU), on the other hand, is present in
+% the 25-Hz data files at 25 Hz, but it either has already been filtered
+% in the IRU or simply reflects, with GGVSPDB, the absence of contributions
+% from aircraft motion at these frequencies. It falls below even filtered
+% GGVSPDB, though, so it probably doesn't represent any real signal
+% at frequency above about 1 Hz. 
 \item The relative-wind contribution (GUSTW) and the aircraft-motion contribution
 (GGVSPDB) both have peaks at about 0.05\,Hz, with cancelling contributions
 so that no peak occurs at that frequency in the resulting vertical
 wind. This peak arises from the autopilot controlling the aircraft,
 which has a noticeable oscillation about the set altitude with a period
 of about 15--20~s. A regular oscillation with this period is quite
-evident in 
+evident in Fig.~\ref{fig:AltOscillationFMS}. 
+
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=0.008\textwidth]{GGALTB} 
+\includegraphics[width=0.8\textwidth]{GGALTB} 
 \par\end{centering}
 
 \protect\protect\caption{\label{fig:AltOscillationFMS}The GPS-measured altitude during a flight
 segment in very smooth air. Data from DEEPWAVE flight 15, variable
 GGALTB.}
 \end{figure}
-
-
-
-Fig.~\ref{fig:AltOscillationFMS}. 
 
 \item The disagreement between VSPD and GGVSPDB even at low frequency is
 another indication that the IRU-provided value (VSPD) should not be
@@ -448,7 +477,9 @@ deviation in WIX was 0.22~m/s, vs 0.23 with no shift in GGVSPDB,
 so it may be preferable to leave the assumed lag for GGVSPDB at zero
 to avoid the awkwardness of advancing the measurement in time.
 
-With the assumed time lag in PITCH removed, the standard deviation
+With the assumed time lag in PITCH removed, the resulting
+measurement of vertical wind during the pitch maneuver is shown
+in Fig.~\ref{fig:pitchManeuvers}. The standard deviation
 in measured wind through the pitch maneuvers is only 4\% of the imposed
 vertical motion of the aircraft. 
 \begin{figure}
@@ -463,7 +494,7 @@ resulting measurement of vertical wind. }
 \end{figure}
 
 
-Furthermore, there is little signal corresponding to the imposed vertical
+There is little signal corresponding to the imposed vertical
 motion or variations in pitch, and the measured standard deviation
 in vertical wind is about the same as that for measurements just before
 and just after the pitch maneuvers. It thus appears that the measuring
@@ -471,19 +502,19 @@ system is able to remove the effects of the pitch maneuvers with essentially
 undetectable residual.
 
 
-\subsubsection{Unresolved Questions}
-\begin{enumerate}
-\item To obtain the result shown in Fig.~\ref{fig:pitchManeuvers}, it
-was necessary to use Savitzky-Golay polynomials for smoothing. It
-needs to be investigated if the situation is different from GGVSPDB
-measurements at 5 Hz interpolated and filtered for 25-Hz output, as
-would be the case for high-rate wind measurements. 
-\item It appears unresolved if GGVSPDB underestimates the contribution to
-the variance around 0.3 Hz. VSPD clearly makes no contribution here.
-The contributions from the two pod-mounted IRUs (with Kalman filtering
-to use GPS measurements) show slightly higher variance than GGVSPDB
-at these frequencies. \end{enumerate}
-
-\vfill\eject
+% \subsubsection{Unresolved Questions}
+% \begin{enumerate}
+% \item To obtain the result shown in Fig.~\ref{fig:pitchManeuvers}, it
+% was necessary to use Savitzky-Golay polynomials for smoothing. It
+% needs to be investigated if the situation is different from GGVSPDB
+% measurements at 5 Hz interpolated and filtered for 25-Hz output, as
+% would be the case for high-rate wind measurements. 
+% \item It appears unresolved if GGVSPDB underestimates the contribution to
+% the variance around 0.3 Hz. VSPD clearly makes no contribution here.
+% The contributions from the two pod-mounted IRUs (with Kalman filtering
+% to use GPS measurements) show slightly higher variance than GGVSPDB
+% at these frequencies. \end{enumerate}
+% 
+% \vfill\eject
 
 % \end{document}

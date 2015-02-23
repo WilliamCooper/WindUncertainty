@@ -10,17 +10,19 @@
 require(Ranadu)
 require(signal)
 library(knitr)
-Flight <- "rf05HR"
+Flight <- "rf16HR"
 Directory <- "/home/Data/"
 Project <- "DEEPWAVE"
 fname = sprintf("%s%s/DEEPWAVE%s.nc", Directory, Project,Flight)
+fname = "/home/Data/DEEPWAVE/DWrf16HR.nc"
 # copy to a new file before adding variables to it:
 fnew = sprintf("%s%s/DW%s_GP.nc", Directory, Project,Flight)
+fnew <- "/home/Data/DEEPWAVE/DWrf16HR_GP.nc"
 system(paste ("cp", fname, fnew, sep=' '), wait=TRUE)
-VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+VarNames <- c("GGALT","LATC", "LONC", "PSXC", "QCXC",
               "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS",
               "ADIFR", "AKRD", "SSLIP", "PITCH", "TASX",
-              "ROLL", "THDG", "BDIFR", "EWX", "GGVSPDB",
+              "ROLL", "THDG", "BDIFR", "EWX", "GGVSPD",
               "ADIFR_GP", "BDIFR_GP", "PS_GP", "QC_GP",
               "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
               "CVNS_GP", "CVEW_GP", "VSPD", "CVSPD_GP",
@@ -399,7 +401,7 @@ for (i in 1:DL) {
   Y1 <- TT1[,,i] %*% matrix (rw2[i,], 3, 1)
   Y2 <- TT2[,,i] %*% Y1
   Y3 <- TT3[,,i] %*% Y2
-  WG <- matrix (c(-VNS[i], -VEW[i], GGVSPDB[i]), 
+  WG <- matrix (c(-VNS[i], -VEW[i], GGVSPD[i]), 
                 3, 1)
   Y4 <- Y3 + WG
   WDX[i] <- atan2 (Y4[2], Y4[1]) / Cradeg
@@ -410,7 +412,7 @@ for (i in 1:DL) {
   WIX[i] <- Y4[3]
   GUSTW[i] <- Y3[3]
 }
-VSPDX <- GGVSPDB
+VSPDX <- GGVSPD
 GUSTA <- TASX * AOA * Cradeg
 GUSTB <- TASX * PITCH * Cradeg
 

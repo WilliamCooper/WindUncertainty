@@ -1,0 +1,19 @@
+# deal with missing values:
+D <- D[!is.na (D$Time), ]
+#interpolate if necessary:
+VNS <- zoo::na.approx (as.vector(D$VNS), maxgap=100, na.rm = FALSE)
+VEW <- zoo::na.approx (as.vector(D$VEW), maxgap=100, na.rm = FALSE)
+GGVNS <- zoo::na.approx (as.vector(D$GGVNS), maxgap=100, na.rm = FALSE)
+GGVEW <- zoo::na.approx (as.vector(D$GGVEW), maxgap=100, na.rm = FALSE)
+# 1013 points (must be odd) to span about 1/5 Schuler osc. -- about 16.8 min
+vndot <- signal::sgolayfilt (VNS-GGVNS, 3, 1013, m=1)  # m=1 for first deriv.
+vedot <- signal::sgolayfilt (VEW-GGVEW, 3, 1013, m=1)
+deltaPitchL <- -vndot/Ranadu::Gravity (D$LAT, D$GGALT)
+deltaRollL <- -vedot/Ranadu::Gravity (D$LAT, D$GGALT)
+HDG <- D$THDG*Cradeg
+deltaPitch <- (sin(HDG)*deltaRollL + cos(HDG)*deltaPitchL)/Cradeg
+deltaRoll <- (cos(HDG)*deltaRollL - sin(HDG)*deltaPitchL)/Cradeg
+Z <- plotWAC(D$Time, deltaPitch, ylab='Error in Angle [deg]')
+Z <- lineWAC (D$Time, deltaRoll, col='darkgreen', lty=2)
+legend('topleft', legend=c("Pitch error", "Roll Error"), lwd=2, lty=c(1,2), col=c("blue", "darkgreen"), text.col=c("blue", "darkgreen"), cex=0.8)
+#title(Flight)

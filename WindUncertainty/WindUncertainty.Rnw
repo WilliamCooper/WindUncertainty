@@ -89,6 +89,10 @@
 % macro for italic page numbers in the index
 \newcommand{\IndexDef}[1]{\textit{#1}}
 \newcommand{\IndexPrimary}[1]{\textbf{#1}}
+% force a page break at the start of sections
+\let\stdsection\section
+\renewcommand\section{\newpage\stdsection}
+
 
 % workaround for a makeindex bug,
 % see sec. "Index Entry Order"
@@ -117,7 +121,7 @@
 \author{Al Cooper, Dick Friesen (and, eventually, many others)}
 
 
-\date{\textcolor{red}{DRAFT} 1/20/2015}
+\date{\textcolor{red}{DRAFT} 2/16/2015}
 
 \maketitle
 \vfill\eject
@@ -126,6 +130,17 @@
 <<prelude, echo=FALSE, include=FALSE>>=
 ReloadData = FALSE    # if TRUE read data from original files; 
                       # if FALSE use saved data instead
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+require(ggplot2)
+require(grid)
+library(knitr)
+require(ggthemes)
+require(vioplot)
+require(plyr)
+opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+opts_chunk$set(fig.width=6, fig.height=5, fig.loc="center", digits=4)
+Project <- "DEEPWAVE"
+
 @
 
 <<A, child='Introduction.Rnw'>>=
@@ -139,6 +154,7 @@ ReloadData = FALSE    # if TRUE read data from original files;
 
 
 \section*{Acknowledgements}
+\label{sec:acknowledgements}
 
 The analyses reported here were mostly performed using R%
 \footnote{R Core Team (2014). R: A language and environment for statistical
@@ -160,6 +176,7 @@ New York, 2009. %
 } \citet{wickham2009} for R.
 
 \bibliographystyle{plainnat}
-\bibliography{Cooper2014}
+\label{sec:bibliography}
+\bibliography{WAC}
 
 \end{document}
