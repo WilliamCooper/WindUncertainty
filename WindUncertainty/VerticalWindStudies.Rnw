@@ -434,9 +434,9 @@ timing of the signals.
 An approximate formula for the vertical wind $w$ is\\
  
 \begin{equation}
-w=V\sin(\alpha-\phi)+w_{p}\label{eq:Weq}
+w=V\sin(\alpha-\theta)+w_{p}\label{eq:Weq}
 \end{equation}
-where $V$ is true airspeed, $\alpha$ is angle-of-attack, $\phi$
+where $V$ is true airspeed, $\alpha$ is angle-of-attack, $\theta$
 is pitch and $w_{p}$ is the vertical velocity of the aircraft. This
 equation can be used to adjust relative timing among the signals to
 minimize the variance in vertical wind during the pitch maneuvers.
@@ -459,7 +459,7 @@ if the residual vertical wind can be reduced. The sensors producing
 $V$ and $\alpha$ are located close together and are processed in
 the standard manner by the data acquisition system, so these can be
 assumed to determine the reference time. However, the other variables
-$\phi$ and $w_{p}$ are determined by independent systems and may
+$\theta$ and $w_{p}$ are determined by independent systems and may
 have timing offsets from the standard measurements, so these are the
 variables whose lags are explored here.
 

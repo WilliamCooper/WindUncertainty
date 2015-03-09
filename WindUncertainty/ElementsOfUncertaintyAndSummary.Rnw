@@ -32,13 +32,65 @@
 % 
 % \begin{document}
 
+<<parent2, echo=FALSE>>=
+set_parent ("WindUncertainty.Rnw")
+setwd("~/RStudio/DEEPWAVE/WindUncertainty")
+@
+
+
 \section{Uncertainty components and summary\label{sec:Uncertainty-components}}
+
+
+\subsection{General structure of an analysis of uncertainty}
+
+Here we follow a particular style for construction of an analysis of 
+uncertainty by including these components:
+
+\begin{enumerate}
+
+\item{\underbar{A description of the measuring system.}} Section 2 of this report
+serves this function by providing extensive discussion of each component
+contributing to the measurement of wind, and it discusses what is known
+about specifications for uncertainty associated with those components. 
+It also includes description of the algorithm leading to components of the
+measured wind, and it discusses the three independent systems available
+for measuring wind on the GV. 
+\item{\underbar{Descriptions of some tests and calibrations influencing the uncertainty
+in the wind measurements.}} Section 4 provides key information
+on how calibration maneuvers are used to determine the sensitivity of
+some of the measurements to components of the wind. This section on 
+calibration is key to the uncertainty analysis because to a large extent
+many of the potential errors from sensors are removed by this calibration,
+and the calibration becomes the central factor affecting the final
+uncertainty. Other intermediate sections discuss some specific tests
+applied to the measurements in order to check or reduce the uncertainty
+limits associated with these measurements. These sections (3, 5, and 6)
+go somewhat beyond a conventional analysis of uncertainty in that there
+are some new developments discussed there and some unconventional ways
+of checking the measurements. 
+\item{\underbar{Discussion of the elemental contributions to uncertainty.}} This discussion will follow in this chapter, as subsection XXXX, but first it appears useful
+to provide a more general although incomplete discussion of what is expected
+from that detailed analysis. Thus the standard component where elemental 
+sources of uncertainty are tabulated and discussed will be postponed until
+Section XXX.
+\item{\underbar{Summary and comprehensive estimate of uncertainty.}} This follows
+at the end of this section and presents the key conclusions of this study.
+\end{enumerate}
+
+Because three wind-measuring systems are characterized in this report,
+they will be discussed separately. However, the standard system is the
+radome-based system, so that will be treated in the most depth. The other
+two systems, the under-wing gust pod and the LAMS, are new systems and
+their characteristics are still being developed and explored, so their
+discussion necessarily will be incomplete until additional flight data
+are collected.
+
 
 
 \subsection{Radome-based system}
 
 
-\subsubsection{Preliminary estimates of uncertainty}
+\subsubsection{Preliminary estimates of uncertainty\label{subsub:prelim}}
 
 
 \paragraph{Vertical wind}
@@ -54,37 +106,37 @@ simulations to be sure that error contributions are propagated correctly.
 
 For the vertical wind, Eq.~\ref{eq:Weq} provides an approximate
 relationship that leads to straightforward error propagation, esp.~if
-it is assumed that the angle of attack $\alpha$ and pitch $\phi$
+it is assumed that the angle of attack $\alpha$ and pitch $\theta$
 are small angles so that
 
 \begin{equation}
-w=V(\alpha-\phi)+w_{p}\label{eq:Weq-1}
+w=V(\alpha-\theta)+w_{p}\label{eq:Weq-1}
 \end{equation}
 and errors in $w$ ($\delta w$) can be related to the errors in the
-basic measurements ($\delta V$, $\delta\alpha$, $\delta\phi$, $\delta w_{p}$)
+basic measurements ($\delta V$, $\delta\alpha$, $\delta\theta$, $\delta w_{p}$)
 by differentiating Eq.~\ref{eq:Weq-1}: 
 \begin{equation}
-\delta w=(\alpha-\phi)\delta V+V(\delta\alpha-\delta\phi)+\delta w_{p}\,\,\,.\label{eq:delta-w}
+\delta w=(\alpha-\theta)\delta V+V(\delta\alpha-\delta\theta)+\delta w_{p}\,\,\,.\label{eq:delta-w}
 \end{equation}
 Correlations among these error terms are possible, so a full evaluation
 that does not assume independence among the errors leads to:
 
 \begin{eqnarray}
-\left\langle (\delta w)^{2}\right\rangle  & = & (\alpha-\phi)^{2}\left\langle (\delta V)^{2}\right\rangle +V^{2}\left(\left\langle (\delta\alpha)^{2}\right\rangle +\left\langle (\delta\phi)^{2}\right\rangle \right)+\left\langle (\delta w_{p})^{2}\right\rangle \nonumber \\
- &  & +2\left((\alpha-\phi)\left(V(\left\langle \delta V\delta\alpha\right\rangle -\left\langle \delta V\delta\phi\right\rangle )+\left\langle \delta V\delta w_{p}\right\rangle \right)\right)\nonumber \\
- &  & +2V\left(\left\langle \delta\alpha\delta w_{p}\right\rangle +\left\langle \delta\phi\delta w_{p}\right\rangle \right)-2V^{2}\left\langle \delta\alpha\delta\phi\right\rangle \label{eq:delta-w-sq}
+\left\langle (\delta w)^{2}\right\rangle  & = & (\alpha-\theta)^{2}\left\langle (\delta V)^{2}\right\rangle +V^{2}\left(\left\langle (\delta\alpha)^{2}\right\rangle +\left\langle (\delta\theta)^{2}\right\rangle \right)+\left\langle (\delta w_{p})^{2}\right\rangle \nonumber \\
+ &  & +2\left((\alpha-\theta)\left(V(\left\langle \delta V\delta\alpha\right\rangle -\left\langle \delta V\delta\theta\right\rangle )+\left\langle \delta V\delta w_{p}\right\rangle \right)\right)\nonumber \\
+ &  & +2V\left(\left\langle \delta\alpha\delta w_{p}\right\rangle +\left\langle \delta\theta\delta w_{p}\right\rangle \right)-2V^{2}\left\langle \delta\alpha\delta\theta\right\rangle \label{eq:delta-w-sq}
 \end{eqnarray}
 
 
 The approximate magnitudes of these terms, discussed in detail below,
 are: $\delta V$=0.1~m/s, $\delta\alpha=0.1^{\circ}\simeq2$~mrad,
-$\delta\phi\simeq1$~mrad, and $\delta w_{p}=0.03$~m/s. Other typical
-magnitudes are $V\simeq200$~m/s, $\alpha\simeq\phi\simeq2^{\circ}\simeq3.5$~mrad.
+$\delta\theta\simeq1$~mrad, and $\delta w_{p}=0.03$~m/s. Other typical
+magnitudes are $V\simeq200$~m/s, $\alpha\simeq\theta\simeq2^{\circ}\simeq3.5$~mrad.
 For these typical magnitudes, the only terms in Eq.~\ref{eq:delta-w-sq}
 that make potentially significant contributions are:
 
 \begin{eqnarray}
-\left\langle (\delta w)^{2}\right\rangle  & = & V^{2}\left(\left\langle (\delta\alpha)^{2}\right\rangle -2\left\langle \delta\alpha\delta\phi\right\rangle +\left\langle (\delta\phi)^{2}\right\rangle \right)\label{eq:delta-w-sq-simplified}
+\left\langle (\delta w)^{2}\right\rangle  & = & V^{2}\left(\left\langle (\delta\alpha)^{2}\right\rangle -2\left\langle \delta\alpha\delta\theta\right\rangle +\left\langle (\delta\theta)^{2}\right\rangle \right)\label{eq:delta-w-sq-simplified}
 \end{eqnarray}
 
 
@@ -94,23 +146,13 @@ in this error arising from the Schuler oscillation and from accelerations
 that affect this error. The error in angle-of-attack, on the other
 hand, arises from a combination of measurement error from the pressure
 transducers and error in the formula used to deduce angle-of-attack
-from the pressure measurements. However, the calibration of the radome
-to determine sensitivity coefficients for calculating angle-of-attack
-relies on matching the angle-of-attack to the pitch angle when the
-aircraft flies level and there is no vertical wind, so a calibration
-error in pitch would produce the same calibration error in angle-of-attack
-and errors that are positively correlated. This positive correlation
-would reduce the net variance in vertical-wind measurements, but other
-errors arising from sources like uncertainty in the measurements from
-the pressure transducers likely produce errors in angle-of-attack
-uncorrelated with those in pitch. The calibration procedure averages
-over long periods of flight during which any pitch error likely undergoes
-a Schuler oscillation and other changes, so the angle-of-attack calibration
-averages over such errors in pitch. Because of these arguments and
-the difficulty of determining the true correlation between these errors,
-it seems appropriate to drop the correlation term from Eq.~\ref{eq:delta-w-sq-simplified}
-and then consider the result as an upper limit to the squared error
-in vertical wind.
+from the pressure measurements. This error is not independent of the error
+in pitch, however, because the calibration as presented in Section \ref{sub:Calibration-AOA}
+relies on the measured difference between pitch and angle of attack being zero
+when the vertical wind and vertical aircraft motion are zero. Thus any bias in pitch
+is transferred to a bias in angle of attack, so this component of the error in \eqref{eq:delta-w-sq-simplified} should cancel. The remaining errors arise from sources that are independent
+and likely uncorrelated, so the middle term on the right side of \eqref{eq:delta-w-sq-simplified}
+will be neglected in this prelimary analysis.
 
 It is possible to estimate the magnitudes of these errors from measurements.
 Because the GV instrumention includes two identical inertial systems,
@@ -118,8 +160,12 @@ the difference in measurements of pitch from those two systems provides
 one lower-bound estimate of the uncertainty in pitch. Measurements
 discussed in Sect.~\ref{sub:Attitude-angles} suggest that, for periods
 when the roll of the aircraft was within 5$^{\circ}$ of zero, the
-difference between these redundant measurements was about 0.3~mrad.
-This is comparable to the estimated uncertainty in angle-of-attack,
+difference between these redundant measurements was about 0.3~mrad or less than 
+about 0.02$^{\circ}$. Section \ref{sec:Schuler} presents additional evidence from evaluation of the Schuler coupling between pitch or roll errors and ground-speed errors, also indicating
+that typical pitch errors are of about this magnitude. This is significantly smaller
+than the manufacturer's specified uncertainty for this instrument, $\pm 0.05^{\circ}$.
+
+This uncertainty in pitch is comparable to the estimated random uncertainty in angle-of-attack,
 for which the variance spectra discussed in Sect.~\ref{sub:Variance-spectra-for-W-components}
 suggest a random error of about 0.02$^{\circ}\simeq0.35$~mrad.%
 \footnote{DEEPWAVE flight 15, 3:40--3:55, spectrum for AKRD, compared to simulated
@@ -127,20 +173,26 @@ spectrum with random-noise amplitude of 0.07. As generated, this has
 mean of half the amplitude, so it corresponds to a standard deviation
 of .07/$\sqrt{12}\simeq0.02^{\circ}\simeq0.35$~mrad.%
 } The estimated uncertainties in angle-of-attack and pitch are thus
-comparable, and both influence the uncertainty in vertical wind. The
-rough-estimate uncertainty in vertical wind (to be refined later)
-is, for flight at about 230~m/s, about $230\sqrt{0.0003^{2}+0.00035^{2}}\simeq0.1$~m/s.
+comparable, and both influence the uncertainty in vertical wind. 
+
+The rough-estimate uncertainty in vertical wind (to be refined later)
+is then, for flight at about 230~m/s, about $230\sqrt{0.0003^{2}+0.00035^{2}}\simeq0.1$~m/s.
 Other factors, esp.~the radome calibration, need to be considered
-for a refined estimate.
+for a refined estimate, as presented in Section XXXX.
 
 
 \paragraph{Horizontal wind}
 
 Errors in measurements affect the longitudinal and lateral components
-of the horizontal wind in different ways. For the longitudinal component,
-and relative-wind measurement has been calibrated by comparison to
-measurements of the single-beam LAMS to an estimated standard uncertainty
-of about 0.1~m/s (Cooper et al., 2014). The lateral component is
+of the horizontal wind in different ways. For the longitudinal component (along the
+aircraft longitudinal axis),
+the relative-wind measurement (essentially the true airspeed) 
+has been calibrated by comparison to
+measurements of the single-beam LAMS, leading to an estimated standard uncertainty
+of about 0.1~m/s (Cooper et al., 2014). The LAMS measurement is based on measurement
+of the Doppler shift and thus has low limits for bias and precision, dependent
+primarily on the uncertainty associated with determining the peak in the returned
+Doppler spectrum in the presence of turbulence. The lateral component is
 measured using the sideslip angle, which is determined in a manner
 similar to that used to calibrate the measurement of angle-of-attack.
 However, the zero reference angle for attack is determined well by
@@ -148,30 +200,40 @@ assuming that, on average in quiescent air, the vertical wind should
 be zero. No similar reference angle exists for sideslip, and trim
 adjustments to the aircraft can change the mean sideslip angle, so
 a different procedure with additional sources of uncertainty must
-be used. Two maneuvers are particularly effective for determining
+be used. 
+
+Two maneuvers are particularly effective for determining
 the zero reference for sideslip (at which angle the lateral horizontal
 component of the relative wind would be zero): (i) Reverse-heading
 maneuvers, where a straight leg is flown for a short time (typically
-2 min), then the flight track reverses heading and flies back along
+2 min), then the aircraft reverses heading and flies back along
 the reverse heading, with the result that the wind component perpendicular
 to the longitudinal axis of the aircraft should reverse sign; or (ii)
 constant-bank circles flown drifting with the wind, for which the
 lateral component of the wind should exhibit a sinusoidal variation
-around the circle. Both can provide a reference for zero sideslip
-angle.
+around the circle reflecting a possible heading and/or sideslip error. 
+Both maneuvers can provide a reference for correcting a combination
+of heading and sideslip errors, and the circle maneuver provides a
+mechanism for determining the sideslip error alone, as discussed
+in Sect.~\ref{sub:Analysis-of-circle}. There the uncertainty
+associated with the bias in sideslip was indicated to be about 0.06$^{\circ}$
+and the random uncertainty in heading was estimated to be less than 0.09$^{\circ}$,
+with a bias limit comparable to that in sideslip.
 
 As for vertical wind, the GPS-measured components of aircraft motion
 relative to the Earth have uncertainty significantly less than that
 of the relative wind, so errors are dominated by those arising from
-the relative-wind components. The first-order equation for the lateral
+the relative-wind components and from the transformation to Earth coordinates. 
+The first-order equation for the lateral
 component of the relative wind ($v_{y}$), analogous to Eq.~\ref{eq:Weq-1},
-is $v_{y}=V\psi$ where $\psi$ is the sideslip angle, and $V$ is
-known to typically 0.05\% so the error is dominated by that in sideslip.
+is $v_{y}=V\beta$ where $\beta$ is the sideslip angle. $V$ is
+known to typically 0.05\% so the error is dominated by that in sideslip and
+in heading.
 For the random error, one limit is obtained as for angle-of-attack
 by examining the variance spectrum in calm conditions. However, BDIFR
 and SSLIP do not exhibit such pure noise spectra at high frequency
-as did ADIFR and AKRD. QCF and QCF show noise spectra representative
-of random errors of about 0.15~hPa, slightly higher than estimated
+as did ADIFR and AKRD. The QCF variance spectrum has characteristics of noise
+for amplitudes of random errors of about 0.15~hPa, slightly higher than estimated
 for ADIFR. For BDIFR, an example is shown in Fig.~\ref{fig:bdifrSpectrum}.
 \begin{figure}
 \noindent \begin{centering}
@@ -199,14 +261,19 @@ sensors%
 } so that at the high-frequency limit the equivalent white-noise standard
 deviation would be 0.05~hPa. The spectrum for SSLIP looks similarly
 filtered, with an equivalent white-noise spectrum somewhere in the
-range of 0.02$^{\circ}$, similar to that characterizing AKRD. The
-resulting preliminary estimate of the standard uncertainty in the
-lateral component of the relative wind is about 0.1~m/s, as for the
-vertical wind. Like vertical wind, this needs to be refined for application
+range of 0.02$^{\circ}$, similar to that characterizing AKRD. However, the
+estimated uncertainty in the bias for the combined effects of sideslip and
+heading was, from the circle analysis, 0.02$\pm 0.09^{\circ}$, and these
+lead to contributions to the uncertainty in bias of the lateral wind of
+about 0.3~m/s. The horizontal wind thus has an asymmetrical estimated
+uncertainty, about three times as large for the lateral component as for
+the longitudinal component.
+
+Like vertical wind, this uncertainty estimate for the horizontal wind
+needs to be refined for application
 to the Earth-relative wind by consideration of the uncertainty in
-the determination of sensitivity coefficients for sideslip, the uncertainty
-in heading (needed for transformation to coordinates fixed relative
-to the Earth), and other contributions to the net uncertainty in wind.
+the determination of sensitivity coefficients for sideslip and other 
+contributions to the net uncertainty in wind.
 
 
 \subsubsection{Elemental sources of uncertainty in vertical wind, tabulated}
@@ -225,13 +292,13 @@ elements in that table.
 \midrule 
 1 & ADIFR transducer  & 0.07~hPa  & 0.002~hPa  & -- & --\tabularnewline
 \midrule 
-2 & AKRD=$c{}_{0}+c_{1}$(ADIFR/QCF) & 0.03$^{\circ}$ & 0.001$^{\circ}$ & 0.12 m/s & 0.04\tabularnewline
+2 & AKRD=$c{}_{0}+c_{1}$(ADIFR/QCF) & 0.03$^{\circ}$ & 0.001$^{\circ}$ & 0.12 & 0.04\tabularnewline
 \midrule 
 3 & BDIFR transducer  & 0.07~hPa  & 0.002~hPa  & -- & --\tabularnewline
 \midrule 
 4 & QCF transducer  & 0.34~hPa  & 0.01~hPa  & <0.02 & 0.001\tabularnewline
 \midrule 
-5 & pitch  & 0.05$^{\circ}$ & 0.02$^{\circ}$  & 0.19 & 0.08\tabularnewline
+5 & pitch  & 0.02$^{\circ}$ & 0.02$^{\circ}$  & 0.08 & 0.08\tabularnewline
 \midrule 
 6  & aircraft vertical velocity  & 0.03~m/s  & <0.03~m/s  & 0.03 & <0.03\tabularnewline
 \midrule 
@@ -253,19 +320,19 @@ The uncertainty listed there is assigned to bias because it is likely
 a calibration uncertainty and the resolution and stability are much
 smaller than this bias. However, a calibration bias in this measurement
 does not affect the final wind measurement because the procedure in
-Sect.~\ref{sub:radome-sensitivity}, determines the angle of attack
+Sect.~\ref{sub:radome-sensitivity} determines the angle of attack
 from flight data in a way that can be considered a calibration of
 the measurement of angle of attack, and a bias in ADIFR would be reflected
 in a change in sensitivity coefficients determined in that section
-that would compensate for bias in ADIFR. Only random errors in ADIFR
+that would compensate for that bias. Only random errors in ADIFR
 would propagate to the final measurement $w$, and such errors are
 thought to be negligible, so the propagated error for ADIFR is listed
 as negligible. The next item considers the determination of sensitivity
 coefficient for angle of attack and is the dominant contribution to
 uncertainty in $w$ arising from the measurement of angle of attack.
-\item \textbf{AKRD:} The calibration procedure of Sect.~{]}\ref{sub:radome-sensitivity}
-effectively removes the effects of possible biases in ADIFR and QCR
-and instead introduces uncertainties arising from the coefficients
+\item \textbf{AKRD:} The calibration procedure of Sect.~\ref{sub:radome-sensitivity}
+effectively removes the effects of possible biases in ADIFR and QCF
+and instead replaces them with uncertainties arising from the coefficients
 \{$c_{0},\, c_{1}$\} in (\ref{eq:AOArecommended}). The estimated
 bias and random error are those obtained by simulation in that section
 using the estimated uncertainties in the coefficients in (\ref{eq:AOArecommended}).
@@ -275,7 +342,16 @@ is true airspeed TASX, with additional contributions from correlated
 errors involving $V$ that are small in comparison to that listed.
 A typical value for V is about 220\,m\,s$^{-1}$, leading to the
 listed elemental uncertainties in $w$ arising from uncertainty in
-AKRD.
+AKRD. It is important, though, that the calibration is dependent on the 
+assumption that the mean vertical wind where the calibration data were 
+collected be zero. There is no independent way to check this except by 
+comparing results from different regions as done in this report. That
+remains a major weakness in calibration and leads to the fairly large estimated
+bias in Table~\ref{tab:Elemental-w}. This may well be an over-estimate, especially
+if large datasets are used (as in Section~sub:radome-sensitivity, where coefficients
+were based on a large set of flights from DEEPWAVE). Those coefficients produced
+a project-mean vertical wind of zero and so are likely less biased than indicated
+by the entry in this table.
 \item \textbf{BDIFR:} The sideslip angle has negligible effect on the vertical
 wind as long as the roll angle is small, so for measurements made
 during straight-and-level flight this contribution to uncertainty
@@ -295,23 +371,28 @@ QCF is also used to determine the true airspeed, which affects $w$,
 but the effect is negligible for the estimated uncertainty in QCF
 (<0.2\% of the measured value of $w$, or 0.02\,m\,s$^{-1}$ for
 10\,m\,s$^{-1}$ vertical wind).
-\item \textbf{PITCH:} The bias listed is from the specifications for the
-IRU, assuming that the specification for ``accuracy'' from the manufacturer
-is best assigned to bias because it largely results from errors in
-initial alignment to determine the vertical direction and from errors
-introduced by accelerations during flight. The assignment depends
+\item \textbf{PITCH:} The bias listed is smaller than that provided by the
+manufacturer of the inertial unit, but is supported by the analyses
+in Section~\ref{sec:Schuler} and \ref{subsub:prelim}. The partitioning
+between bias and random undertainty  depends
 on the interval considered, though, because Schuler precession will
 cause variation in this error with the Schuler-oscillation period
-of about 84 min and so for periods long compared to this will appear
-as a random-error component. The estimate of random error tabulated
+of about 84 min. For periods long compared to this the error will
+have the character of a random-error component, while for intervals
+small compared to this the error will have the character of a bias. 
+The estimate of random error tabulated
 here arises from comparison between two identical IRUs during flight.
 The propagated uncertainty in $w$ arising from the listed bias, at
-220\,m\,s$^{-1}$, is about 0.19\,m\,s$^{-1}$. 
+220\,m\,s$^{-1}$, is about 0.08\,m\,s$^{-1}$. The uncertainty in pitch
+is the leading contributor to the standard uncertainty in vertical wind
+and is also a significant contributor to the overall estimate of bias.
 \item \textbf{Aircraft Vertical Velocity:} The measurement used for vertical
 motion of the aircraft is discussed is Sect.~\ref{sec:VerticalVelocity}.
 The values listed here are those specified for measurements when ``OmniSTAR''
 corrections are available; if not, the values should be increased
-to about 0.1\,m\,s$^{-1}$. This is likely a mixture of bias and
+to about 0.1\,m\,s$^{-1}$ and so will make a contributor to uncertainty
+in vertical wind that is comparable to the contributions from pitch and angle 
+of attack. The error in aircraft vertical speed is likely a mixture of bias and
 random error, because the primary source is uncertainty in ionospheric
 corrections which will be persistent for important parts of flights
 but likely to change at least from flight to flight. Because of the
@@ -336,41 +417,157 @@ leading to a similar percentage change in the value of the vertical
 wind. This is negligible in comparison to other sources of uncertainty.
 \end{enumerate}
 The result of adding the elemental sources of uncertainty in quadrature
-is a bias estimate of 0.23\,m\,s and a randum-uncertainty estimate
-of 0.09\,m\,s$^{-1}$. It is unrealistic, though, to add the bias
-terms in this way. With such a small number of contributions, it is
-more likely that they will correlate so as to give addition or subtraction
-as a more realistic result. There is a more fundamental correlation,
-though. The calibration of angle-of-attack depends on the measurement
-of pitch, and for a given flight period over which the pitch bias
-remains constant the calibration of angle of attack will compensate
-for an error in pitch. For this reason, the bias arising from the
-calibration of angle of attack alone would be representative of flight
-segments for which the sensitivity coefficients have been determined.
-In that case, the representative bias in vertical wind would be 0.12\,m\,s$^{-1}$,
-the bias in angle-of-attack. Furthermore, bias in pitch would not
-be a function of other measurements so the first coefficient in the
-representation of angle of attack, or $c_{0}$ in (\ref{eq:AOArecommended}),
-also addresses the bias in pitch. If that bias stayed the same, only
-the bias in angle of attack would be needed to determine the bias
-in vertical wind. 
+is a bias estimate of 0.15\,m\,s and a random-uncertainty estimate
+of 0.09\,m\,s$^{-1}$. The dominant contributions are those from pitch and
+angle of attack, as was argued in the preliminary discussion in 
+Section~\ref{subsub:prelim}. The bias and random errors from pitch and from
+angle of attack, as listed here, arise from different sources so it is
+reasonable to combine then in quadrature to obtain composite estimates.
 
-This suggests that, when calculating vertical wind, the coefficient
-$c_{1}$ should be kept at the value determined in Sect.~\ref{sub:radome-sensitivity}
-, (\ref{eq:AOArecommended}). However, there is justification for
-adjusting $c_{0}$ to compensate for the varying bias in pitch, as
-long as it does not vary by more than about 0.05$^{\circ}$, the estimated
-bias in the pitch measurement. The error in pitch is key to maintaining
-low uncertainty in the measurement of vertical wind, so anything that
-can reduce that error can lead to important improvement in the wind
-measurement. Investigations might examine if the CMIGITS IRU, which
-incorporates a Kalman filter to control the errors in its measurements,
-might provide better information. The APPLANIX IRU should provide
-another route to improvement. Also, a more ambitious project to incorporate
-adjustment of the measurement of pitch based on the expected changes
-produced by accelerations and the Schuler oscillation could lead to
-significant improvement.
+Application of the correction procedure to the measurements of pitch, as
+developed in Section~\ref{sec:Schuler}, has the potential to reduce the
+estimated errors from pitch by at least a factor of two, so that could
+result in lowered uncertainty limits of about 0.13\,m/s (bias) and 0.06\,m/s 
+(standard uncertainty). Because the real bias arising from the calibration of
+angle of attack may be smaller than this, it may be worthwhile to include
+this correction in processing.
 
+ The APPLANIX IRU should provide
+another route to improvement in the measurement of pitch, because it offers
+significantly lower specified uncertainty. It achieves this through use of
+a full Kalman-filter correction to the measurements, which removes the need
+for the pitch correction proposed in this document. 
+
+\subsubsection{Elemental sources of uncertainty in horizontal wind, tabulated}
+
+\newcommand{\myparallel}{{\mkern3mu\vphantom{\perp}\vrule depth 0pt\mkern2mu\vrule depth 0pt\mkern3mu}}
+\begin{table}
+\begin{tabular}{cccccc}
+\toprule 
+\textbf{element} & \textbf{source of uncertainty}  & \textbf{bias}  & \textbf{random error}  & \textbf{$\delta u_{\perp,\myparallel}$ bias} & \textbf{$\delta u_{\perp,\myparallel}$ random }\tabularnewline
+\midrule
+\midrule 
+1 & BDIFR transducer  & 0.07~hPa  & 0.002~hPa  & -- & --\tabularnewline
+\midrule 
+2 & SSRD=$c{}_{0}+c_{1}$(BDIFR/QCF) & 0.03$^{\circ}$ & 0.001$^{\circ}$ & 0.12 & 0.04\tabularnewline
+\midrule 
+3 & ADIFR transducer  & 0.07~hPa  & 0.002~hPa  & -- & --\tabularnewline
+\midrule 
+4 & QCF transducer  & 0.34~hPa  & 0.01~hPa  & <0.02 & 0.001\tabularnewline
+\midrule 
+5 & pitch  & 0.02$^{\circ}$ & 0.02$^{\circ}$  & 0.08 & 0.08\tabularnewline
+\midrule 
+6  & aircraft vertical velocity  & 0.03~m/s  & <0.03~m/s  & -- & --\tabularnewline
+\midrule 
+7 & horiz. velocity components of GV  & 0.03~m/s  & <0.03~m/s  & 0.03 & 0.03\tabularnewline
+\midrule 
+8 & PSF transducer  & 0.10\,hPa & 0.001\,hPa & -- & --\tabularnewline
+\midrule 
+9 & ATX & 0.3$^{\circ}$ & 0.1$^{\circ}$C  & -- & --\tabularnewline
+\midrule 
+10 & $\delta q$ & $<$0.3\,hPa & 0.1\,hPa  & \{--,0.3\} & \{--,0.1\}\tabularnewline
+\bottomrule
+\end{tabular}
+
+\protect\caption{Elemental contributions to the uncertainty in measurement of horizontal
+wind.\label{tab:Elemental-h}}
+\end{table}
+
+\begin{enumerate}
+\item \textbf{BDIFR:} 
+The uncertainty listed there is assigned to bias because it is likely
+a calibration uncertainty and the resolution and stability are much
+smaller than this bias. However, a calibration bias in this measurement
+does not affect the final wind measurement because the procedure in
+Sect.~\ref{sub:radome-sensitivity} determines the sideslip angle
+from flight data in a way that can be considered a calibration of
+the measurement of sideslip, and a bias in BDIFR would be reflected
+in a change in sensitivity coefficients determined in that section
+that would compensate for that bias. Only random errors in BDIFR
+would propagate to the final measurement of horizontal wind, and 
+such errors are
+thought to be negligible, so the propagated error for BDIFR is listed
+as negligible. The next item considers the determination of sensitivity
+coefficient for sideslip and is the dominant contribution to
+uncertainty in horizontal wind arising from the measurement of sideslip.
+\item \textbf{SSRD:} The calibration procedure of Sect.~\ref{sub:radome-sensitivity}
+effectively removes the effects of possible biases in BDIFR and QCF
+and instead replaces them with uncertainties arising from the coefficients
+\{$e_{0},\, e_{1}$\} in (\ref{eq:betaFunctionForm}). The estimated
+bias and random error are those obtained by simulation in that section
+using the estimated uncertainties in the coefficients in (\ref{eq:betaFunctionForm}).
+For propagation to lateral horizontal wind, (\ref{eq:HWind}) indicates
+that the result is approximately $\delta u_{lateral}=V\delta\beta$ where $V$
+is true airspeed TASX, with additional contributions from correlated
+errors involving $V$ that are small in comparison to that listed.
+A typical value for V is about 220\,m\,s$^{-1}$, leading to the
+listed elemental uncertainties in horizontal wind arising from uncertainty in
+SSRD. 
+\item \textbf{ADIFR: }See Sect.~\ref{sub:Airflow-angles} and Table~\ref{tab:Radome-system-measurements}.
+The angle of attack has negligible effect on the horizontal
+wind as long as the roll angle is small, so for measurements made
+during straight-and-level flight this contribution to uncertainty
+in horizontal wind is negligible.
+\item \textbf{QCF:} The values listed are the characteristics of the transducer.
+Application of the calibration procedure based on comparison to the
+laser air motion sensor (\cite{CooperEtAl2014}) led to an alternate
+uncertainty estimate of 0.3\,hPa. As in the case of ADIFR, the procedure
+to determine sensitivity coefficients removes any effect of bias in
+QCF by calibration in terms of the coefficients \{$c_{0},\, c_{1}$\}
+so the effect on bias in $w$ is replaced by possible bias in those
+coefficients, as discussed for element 2. The effect of a random error
+in QCF of 0.01~hPa is, from (\ref{eq:AOArecommended}). to introduce
+an uncertainty in angle of attack of about 0.0002$^{\circ}$ or a
+contribution to uncertainty in $w$ of less than 0.001\,m\,s$^{-1}$.
+QCF is also used to determine the true airspeed, which affects $w$,
+but the effect is negligible for the estimated uncertainty in QCF
+(<0.2\% of the measured value of $w$, or 0.02\,m\,s$^{-1}$ for
+10\,m\,s$^{-1}$ vertical wind).
+\item \textbf{PITCH:} The bias listed is smaller than that provided by the
+manufacturer of the inertial unit, but is supported by the analyses
+in Section~\ref{sec:Schuler} and \ref{subsub:prelim}. The partitioning
+between bias and random undertainty  depends
+on the interval considered, though, because Schuler precession will
+cause variation in this error with the Schuler-oscillation period
+of about 84 min. For periods long compared to this the error will
+have the character of a random-error component, while for intervals
+small compared to this the error will have the character of a bias. 
+The estimate of random error tabulated
+here arises from comparison between two identical IRUs during flight.
+The propagated uncertainty in $w$ arising from the listed bias, at
+220\,m\,s$^{-1}$, is about 0.08\,m\,s$^{-1}$. The uncertainty in pitch
+is the leading contributor to the standard uncertainty in vertical wind
+and is also a significant contributor to the overall estimate of bias.
+\item \textbf{Aircraft Vertical Velocity:} The measurement used for vertical
+motion of the aircraft is discussed is Sect.~\ref{sec:VerticalVelocity}.
+The values listed here are those specified for measurements when ``OmniSTAR''
+corrections are available; if not, the values should be increased
+to about 0.1\,m\,s$^{-1}$ and so will make a contributor to uncertainty
+in vertical wind that is comparable to the contributions from pitch and angle 
+of attack. The error in aircraft vertical speed is likely a mixture of bias and
+random error, because the primary source is uncertainty in ionospheric
+corrections which will be persistent for important parts of flights
+but likely to change at least from flight to flight. Because of the
+likely persistence of the error, it is assigned here primarily to
+bias. 
+\item \textbf{Horizontal Velocity Components of the Aircraft:} For straight-and-level
+flight, the measurement of vertical wind is not dependent on the ground-speed
+components, so these are listed as negligible.
+\item \textbf{PSF:} The measured ambient pressure affects vertical wind
+only through the dependence of true airspeed TASX on PSF, as described
+in the document on \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{RAF processing algorithms},
+Section 4.7.1. Evaluation at typical values shows that the dependence
+of measured vertical wind on uncertainty in this variable is negligible.
+For example, TASX for PSF=300\,hPa, QCF=80\,hPa, and ATX=$-40^{\circ}$C
+differs from that for PSF=300.1 by 0.03\,m\,s$^{-1}$ or about 0.01\%,
+so this would also be the percentage change in vertical wind. 
+\item \textbf{ATX:} Temperature is needed to calculate TASX, but as for
+PSF the effect is negligible. This was tested as for PSF by evaluating
+at representative points. A representative result was that the listed
+bias in temperature would lead to a bias in TASX of about 0.05\%,
+leading to a similar percentage change in the value of the vertical
+wind. This is negligible in comparison to other sources of uncertainty.
+\end{enumerate}
 
 \subsection{Gust-pod system}
 
