@@ -287,12 +287,12 @@ elements in that table.
 \begin{table}
 \begin{tabular}{cccccc}
 \toprule 
-\textbf{element} & \textbf{source of uncertainty}  & \textbf{bias}  & \textbf{random error}  & \textbf{$\delta w$ bias} & \textbf{$\delta w$ random }\tabularnewline
+\textbf{element} & \textbf{uncertainty source}  & \textbf{bias}  & \textbf{random}  & \textbf{$\delta w$ bias} & \textbf{$\delta w$ random }\tabularnewline
 \midrule
 \midrule 
 1 & ADIFR transducer  & 0.07~hPa  & 0.002~hPa  & -- & --\tabularnewline
 \midrule 
-2 & AKRD=$c{}_{0}+c_{1}$(ADIFR/QCF) & 0.03$^{\circ}$ & 0.001$^{\circ}$ & 0.12 & 0.04\tabularnewline
+2 & AKRD coefficients & 0.03$^{\circ}$ & 0.001$^{\circ}$ & 0.12 & 0.04\tabularnewline
 \midrule 
 3 & BDIFR transducer  & 0.07~hPa  & 0.002~hPa  & -- & --\tabularnewline
 \midrule 
@@ -300,13 +300,11 @@ elements in that table.
 \midrule 
 5 & pitch  & 0.02$^{\circ}$ & 0.02$^{\circ}$  & 0.08 & 0.08\tabularnewline
 \midrule 
-6  & aircraft vertical velocity  & 0.03~m/s  & <0.03~m/s  & 0.03 & <0.03\tabularnewline
+6  & GV vertical velocity  & 0.03~m/s  & <0.03~m/s  & 0.03 & <0.03\tabularnewline
 \midrule 
-7 & horiz. velocity components of GV  & 0.03~m/s  & <0.03~m/s  & -- & --\tabularnewline
+7 & PSF transducer  & 0.10\,hPa & 0.001\,hPa & -- & --\tabularnewline
 \midrule 
-8 & PSF transducer  & 0.10\,hPa & 0.001\,hPa & -- & --\tabularnewline
-\midrule 
-9 & ATX & 0.3$^{\circ}$ & 0.1$^{\circ}$C  & -- & --\tabularnewline
+8 & ATX & 0.3$^{\circ}$ & 0.1$^{\circ}$C  & -- & --\tabularnewline
 \bottomrule
 \end{tabular}
 
@@ -330,7 +328,7 @@ thought to be negligible, so the propagated error for ADIFR is listed
 as negligible. The next item considers the determination of sensitivity
 coefficient for angle of attack and is the dominant contribution to
 uncertainty in $w$ arising from the measurement of angle of attack.
-\item \textbf{AKRD:} The calibration procedure of Sect.~\ref{sub:radome-sensitivity}
+\item \textbf{AKRD coefficients:} The calibration procedure of Sect.~\ref{sub:radome-sensitivity}
 effectively removes the effects of possible biases in ADIFR and QCF
 and instead replaces them with uncertainties arising from the coefficients
 \{$c_{0},\, c_{1}$\} in (\ref{eq:AOArecommended}). The estimated
@@ -398,9 +396,6 @@ corrections which will be persistent for important parts of flights
 but likely to change at least from flight to flight. Because of the
 likely persistence of the error, it is assigned here primarily to
 bias. 
-\item \textbf{Horizontal Velocity Components of the Aircraft:} For straight-and-level
-flight, the measurement of vertical wind is not dependent on the ground-speed
-components, so these are listed as negligible.
 \item \textbf{PSF:} The measured ambient pressure affects vertical wind
 only through the dependence of true airspeed TASX on PSF, as described
 in the document on \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{RAF processing algorithms},
@@ -444,28 +439,28 @@ for the pitch correction proposed in this document.
 \begin{table}
 \begin{tabular}{cccccc}
 \toprule 
-\textbf{element} & \textbf{source of uncertainty}  & \textbf{bias}  & \textbf{random error}  & \textbf{$\delta u_{\perp,\myparallel}$ bias} & \textbf{$\delta u_{\perp,\myparallel}$ random }\tabularnewline
+\textbf{element} & \textbf{uncertainty source}  & \textbf{bias}  & \textbf{random}  & $\delta u_{\perp,\myparallel}$ \textbf{bias} & $\delta u_{\perp,\myparallel}$ \textbf{random }\tabularnewline
 \midrule
 \midrule 
 1 & BDIFR transducer  & 0.07~hPa  & 0.002~hPa  & -- & --\tabularnewline
 \midrule 
-2 & SSRD=$c{}_{0}+c_{1}$(BDIFR/QCF) & 0.03$^{\circ}$ & 0.001$^{\circ}$ & 0.12 & 0.04\tabularnewline
+2 & SSRD coefficients & 0.03$^{\circ}$ & 0.001$^{\circ}$ & 0.12,-- & 0.04,--\tabularnewline
 \midrule 
 3 & ADIFR transducer  & 0.07~hPa  & 0.002~hPa  & -- & --\tabularnewline
 \midrule 
-4 & QCF transducer  & 0.34~hPa  & 0.01~hPa  & <0.02 & 0.001\tabularnewline
+4 & QCF transducer  & 0.34~hPa  & 0.01~hPa  & <0.02,0.3 & 0.001, 0.1\tabularnewline
 \midrule 
-5 & pitch  & 0.02$^{\circ}$ & 0.02$^{\circ}$  & 0.08 & 0.08\tabularnewline
+4 & heading & 0.09$^{\circ}$ & 0.02$^{\circ}$ & 0.4, -- & 0.08, --\tabularnewline
+\midrule
+5 & pitch  & 0.02$^{\circ}$ & 0.02$^{\circ}$  & -- & --\tabularnewline
 \midrule 
-6  & aircraft vertical velocity  & 0.03~m/s  & <0.03~m/s  & -- & --\tabularnewline
+6 & horiz. velocity of GV  & 0.03~m/s  & <0.03~m/s  & 0.03 & 0.03\tabularnewline
 \midrule 
-7 & horiz. velocity components of GV  & 0.03~m/s  & <0.03~m/s  & 0.03 & 0.03\tabularnewline
+7 & PSF transducer  & 0.10\,hPa & 0.001\,hPa & -- & --\tabularnewline
 \midrule 
-8 & PSF transducer  & 0.10\,hPa & 0.001\,hPa & -- & --\tabularnewline
+8 & ATX & 0.3$^{\circ}$ & 0.1$^{\circ}$C  & -- & --\tabularnewline
 \midrule 
-9 & ATX & 0.3$^{\circ}$ & 0.1$^{\circ}$C  & -- & --\tabularnewline
-\midrule 
-10 & $\delta q$ & $<$0.3\,hPa & 0.1\,hPa  & \{--,0.3\} & \{--,0.1\}\tabularnewline
+9 & $\delta q$ & $<$0.3\,hPa & 0.1\,hPa  & \{--,0.3\} & \{--,0.1\}\tabularnewline
 \bottomrule
 \end{tabular}
 
@@ -490,7 +485,7 @@ thought to be negligible, so the propagated error for BDIFR is listed
 as negligible. The next item considers the determination of sensitivity
 coefficient for sideslip and is the dominant contribution to
 uncertainty in horizontal wind arising from the measurement of sideslip.
-\item \textbf{SSRD:} The calibration procedure of Sect.~\ref{sub:radome-sensitivity}
+\item \textbf{SSRD coefficients:} The calibration procedure of Sect.~\ref{sub:radome-sensitivity}
 effectively removes the effects of possible biases in BDIFR and QCF
 and instead replaces them with uncertainties arising from the coefficients
 \{$e_{0},\, e_{1}$\} in (\ref{eq:betaFunctionForm}). The estimated
@@ -510,63 +505,46 @@ during straight-and-level flight this contribution to uncertainty
 in horizontal wind is negligible.
 \item \textbf{QCF:} The values listed are the characteristics of the transducer.
 Application of the calibration procedure based on comparison to the
-laser air motion sensor (\cite{CooperEtAl2014}) led to an alternate
-uncertainty estimate of 0.3\,hPa. As in the case of ADIFR, the procedure
+laser air motion sensor (\cite{CooperEtAl2014}) led to an estimated standard
+uncertainty of 0.1~m/s for steady flight conditions and 0.3~m/s for
+fluctuating conditions, so this is used for the table entry pertaining to
+the wind component in the direction of the longitudinal axis of the aircraft. 
+For the lateral componentm, QCF affects the calculated sideslip SSRD, but as
+in the case of AKRD the procedure
 to determine sensitivity coefficients removes any effect of bias in
 QCF by calibration in terms of the coefficients \{$c_{0},\, c_{1}$\}
-so the effect on bias in $w$ is replaced by possible bias in those
+so a potential bias in QCF does not enter the lateral 
+component of the horizontal wind but instead is replaced by possible bias in those
 coefficients, as discussed for element 2. The effect of a random error
-in QCF of 0.01~hPa is, from (\ref{eq:AOArecommended}). to introduce
-an uncertainty in angle of attack of about 0.0002$^{\circ}$ or a
-contribution to uncertainty in $w$ of less than 0.001\,m\,s$^{-1}$.
-QCF is also used to determine the true airspeed, which affects $w$,
-but the effect is negligible for the estimated uncertainty in QCF
-(<0.2\% of the measured value of $w$, or 0.02\,m\,s$^{-1}$ for
-10\,m\,s$^{-1}$ vertical wind).
-\item \textbf{PITCH:} The bias listed is smaller than that provided by the
-manufacturer of the inertial unit, but is supported by the analyses
-in Section~\ref{sec:Schuler} and \ref{subsub:prelim}. The partitioning
-between bias and random undertainty  depends
-on the interval considered, though, because Schuler precession will
-cause variation in this error with the Schuler-oscillation period
-of about 84 min. For periods long compared to this the error will
-have the character of a random-error component, while for intervals
-small compared to this the error will have the character of a bias. 
-The estimate of random error tabulated
-here arises from comparison between two identical IRUs during flight.
-The propagated uncertainty in $w$ arising from the listed bias, at
-220\,m\,s$^{-1}$, is about 0.08\,m\,s$^{-1}$. The uncertainty in pitch
-is the leading contributor to the standard uncertainty in vertical wind
-and is also a significant contributor to the overall estimate of bias.
-\item \textbf{Aircraft Vertical Velocity:} The measurement used for vertical
-motion of the aircraft is discussed is Sect.~\ref{sec:VerticalVelocity}.
-The values listed here are those specified for measurements when ``OmniSTAR''
-corrections are available; if not, the values should be increased
-to about 0.1\,m\,s$^{-1}$ and so will make a contributor to uncertainty
-in vertical wind that is comparable to the contributions from pitch and angle 
-of attack. The error in aircraft vertical speed is likely a mixture of bias and
-random error, because the primary source is uncertainty in ionospheric
-corrections which will be persistent for important parts of flights
-but likely to change at least from flight to flight. Because of the
-likely persistence of the error, it is assigned here primarily to
-bias. 
-\item \textbf{Horizontal Velocity Components of the Aircraft:} For straight-and-level
-flight, the measurement of vertical wind is not dependent on the ground-speed
+in QCF of 0.01~hPa for a typical value of QCF$\approx$100\,hPa is, 
+from (\ref{eq:BetaFunctionForm}). to introduce
+an uncertainty in sideslip of about 0.01\% or, because typical values of sideslip
+are smaller in magnitude than 1$^{\circ}$, an error propagated to horizontal wind 
+smaller than 0.001~m/s. This contribution is therefore neglected.
+\item \textbf{PITCH:} The contribution to uncertainty from the measurement of
+pitch was discussed above in connection with measurement of the vertical
+wind. However, in the case of horizontal wind, for level flight with negligible
+roll, an uncertainty in pitch makes negligible contribution to uncertainty in
+either component of the horizontal wind.
+\item \textbf{Horizontal Velocity Components of the Aircraft:} The 
+measurement of horizontal wind is the sum of the relative wind and the
+horizontal motion of the aircraft relative to the Earth, so uncertainty in
+this component enters directly into uncertainty in the measured wind components.
 components, so these are listed as negligible.
-\item \textbf{PSF:} The measured ambient pressure affects vertical wind
+\item \textbf{PSF:} The measured ambient pressure affects horizontal wind
 only through the dependence of true airspeed TASX on PSF, as described
 in the document on \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{RAF processing algorithms},
 Section 4.7.1. Evaluation at typical values shows that the dependence
-of measured vertical wind on uncertainty in this variable is negligible.
+of the measured lateral component of the horizontal wind on uncertainty in this variable is negligible.
 For example, TASX for PSF=300\,hPa, QCF=80\,hPa, and ATX=$-40^{\circ}$C
 differs from that for PSF=300.1 by 0.03\,m\,s$^{-1}$ or about 0.01\%,
-so this would also be the percentage change in vertical wind. 
+so this would also be the percentage change in the lateral component of the relative wind. 
 \item \textbf{ATX:} Temperature is needed to calculate TASX, but as for
 PSF the effect is negligible. This was tested as for PSF by evaluating
 at representative points. A representative result was that the listed
-bias in temperature would lead to a bias in TASX of about 0.05\%,
-leading to a similar percentage change in the value of the vertical
-wind. This is negligible in comparison to other sources of uncertainty.
+bias in temperature would lead to a typical bias in TASX of about 0.05\%,
+leading to a similar percentage change in the value of the lateral component of the
+relative wind. This is negligible in comparison to other sources of uncertainty.
 \end{enumerate}
 
 \subsection{Gust-pod system}
