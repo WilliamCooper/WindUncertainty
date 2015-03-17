@@ -309,12 +309,12 @@ elements in that table.
 \end{tabular}
 
 \protect\caption{Elemental contributions to the uncertainty in measurement of vertical
-wind.\label{tab:Elemental-w}}
+wind. Entries '--' indicate negligible contribution to uncertainty.\label{tab:Elemental-w}}
 \end{table}
 
 \begin{enumerate}
 \item \textbf{ADIFR: }See Sect.~\ref{sub:Airflow-angles} and Table~\ref{tab:Radome-system-measurements}.
-The uncertainty listed there is assigned to bias because it is likely
+The uncertainty is assigned to bias because it is likely
 a calibration uncertainty and the resolution and stability are much
 smaller than this bias. However, a calibration bias in this measurement
 does not affect the final wind measurement because the procedure in
@@ -444,13 +444,13 @@ for the pitch correction proposed in this document.
 \midrule 
 1 & BDIFR transducer  & 0.07~hPa  & 0.002~hPa  & -- & --\tabularnewline
 \midrule 
-2 & SSRD coefficients & 0.03$^{\circ}$ & 0.001$^{\circ}$ & 0.12,-- & 0.04,--\tabularnewline
+2 & SSRD coefficients & 0.03$^{\circ}$ & 0.001$^{\circ}$ & (0.12,~--) & (0.04,~--)\tabularnewline
 \midrule 
 3 & ADIFR transducer  & 0.07~hPa  & 0.002~hPa  & -- & --\tabularnewline
 \midrule 
-4 & QCF transducer  & 0.34~hPa  & 0.01~hPa  & <0.02,0.3 & 0.001, 0.1\tabularnewline
+4 & QCF transducer  & 0.34~hPa  & 0.01~hPa  & (<0.02,~0.3) & (0.001,~0.1)\tabularnewline
 \midrule 
-4 & heading & 0.09$^{\circ}$ & 0.02$^{\circ}$ & 0.4, -- & 0.08, --\tabularnewline
+4 & heading & 0.09$^{\circ}$ & 0.02$^{\circ}$ &(~0.4, --) & (0.08,~--)\tabularnewline
 \midrule
 5 & pitch  & 0.02$^{\circ}$ & 0.02$^{\circ}$  & -- & --\tabularnewline
 \midrule 
@@ -460,17 +460,17 @@ for the pitch correction proposed in this document.
 \midrule 
 8 & ATX & 0.3$^{\circ}$ & 0.1$^{\circ}$C  & -- & --\tabularnewline
 \midrule 
-9 & $\delta q$ & $<$0.3\,hPa & 0.1\,hPa  & \{--,0.3\} & \{--,0.1\}\tabularnewline
+9 & $\delta q$ & $<$0.3\,hPa & 0.1\,hPa  & (--,~0.3) & (--,~0.1)\tabularnewline
 \bottomrule
 \end{tabular}
 
 \protect\caption{Elemental contributions to the uncertainty in measurement of horizontal
-wind.\label{tab:Elemental-h}}
+wind. Entries '--' indicate negligible contribution to uncertainty.\label{tab:Elemental-h}}
 \end{table}
 
 \begin{enumerate}
 \item \textbf{BDIFR:} 
-The uncertainty listed there is assigned to bias because it is likely
+The uncertainty in BDIFR is assigned to bias because it is likely
 a calibration uncertainty and the resolution and stability are much
 smaller than this bias. However, a calibration bias in this measurement
 does not affect the final wind measurement because the procedure in
@@ -479,7 +479,10 @@ from flight data in a way that can be considered a calibration of
 the measurement of sideslip, and a bias in BDIFR would be reflected
 in a change in sensitivity coefficients determined in that section
 that would compensate for that bias. Only random errors in BDIFR
-would propagate to the final measurement of horizontal wind, and 
+propagate to the final measurement of horizontal wind, and the effect
+of the listed random error is typically less than 0.0001 m/s in lateral
+wind, with even smaller contribution to the longitudinal wind. These 
+contributions therefore are listed as negligible in the table.
 such errors are
 thought to be negligible, so the propagated error for BDIFR is listed
 as negligible. The next item considers the determination of sensitivity
@@ -488,7 +491,10 @@ uncertainty in horizontal wind arising from the measurement of sideslip.
 \item \textbf{SSRD coefficients:} The calibration procedure of Sect.~\ref{sub:radome-sensitivity}
 effectively removes the effects of possible biases in BDIFR and QCF
 and instead replaces them with uncertainties arising from the coefficients
-\{$e_{0},\, e_{1}$\} in (\ref{eq:betaFunctionForm}). The estimated
+\{$e_{0},\, e_{1}$\} in (\ref{eq:betaFunctionForm}). Because the uncertainties in
+the coefficients 
+resulting from the fit in Sect.~\ref{sub:radome-sensitivity} are highly correlated,
+the estimated
 bias and random error are those obtained by simulation in that section
 using the estimated uncertainties in the coefficients in (\ref{eq:betaFunctionForm}).
 For propagation to lateral horizontal wind, (\ref{eq:HWind}) indicates

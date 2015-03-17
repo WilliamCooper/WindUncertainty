@@ -701,9 +701,12 @@ to those obtained using the fit to the speed-run dataset.
 
 The standard errors in the coefficients for the larger dataset are
 respectively \Sexpr{round(summary(fm)$coefficients[1,2],4)} and \Sexpr{round(summary(fm)$coefficients[2,2],3)},
-so the coefficients are tightly constrained by the fit. Surprisingly,
-the correlation between error terms was very high and positive, increasing
-the combined effects of these errors in any calculation of angle-of-attack.
+so the coefficients are tightly constrained by the fit. 
+The correlation between error terms was very high and positive, but the second
+coefficient is applied to a term ($\delta p_{\alpha}/q$ that is typically negative with representative magnitude of about -0.0037$^{\circ}$ so the correlated
+uncertainties partially cancel, leaving a net uncertainty in angle of attack
+of 0.0007$^{\circ}$ (for 0.99 correlation between the uncertainty terms) as a result of uncertainty in the fit.
+
 The larger dataset provided results consistent with those from the
 speed runs alone but contained 17,721 measurements vs.~only 2,019
 for the speed-run dataset, so the larger set provides an opportunity
@@ -711,19 +714,35 @@ to examine the consistency of results from subsets of the measurements.
 For this purpose, randomly selected but exclusive subsets of the data
 were selected repeatedly and the fit coefficients were determined
 from each of these subsets. In one example, the dataset was divided
-randomly into 100 subsets and the fit coefficients calculated for
+randomly into 100 exclusive subsets and the fit coefficients were calculated for
 each of those subsets, and then this process was repeated 50 times.
 The resulting standard deviations in the fit coefficients were 0.070
-and 0.88. Repeating this for different subset sizes $N$ indicated
+and 0.88. With resampling, the independent samples entering these
+averages are fewer than 5000 but more than 100, suggesting that the
+means for the coefficients are known with uncertainties of between 0.007 -- 0.001 for the first coefficient and 0.09--0.012 for the second. The estimates from
+the fit (0.004, 0.053) are midway in these ranges, so the fit results 
+are consistent when the data are partitioned into various subsets. The fit
+results thus appear reasonably characterized by the estimated standard errors from the fit. 
+
+Repeating this for different subset sizes $N$ indicated
 that the standard deviations in the coefficients scaled in a manner
 consistent with $\sqrt{N}$ behavior, suggesting that the results
 are not biased by isolated outlier measurements such as would occur
-from regions with true vertical wind. The subsetting also revealed
-that the individual coefficients were highly correlated, with correlation
-coefficient 0.99. The effect of this is the two error terms add almost
-linearly, not in quadrature, in their effect on the final uncertainty
-in angle of attack.
+from regions of extended non-zero vertical wind. The subsetting also produced
+resulting values for the individual coefficients that were highly
+correlated, with correlation coefficient around 0.99. This also
+supports the partial cancellation of uncertainty as evaluated for the fits.
 
+These estimates of uncertainty characterize how well the sensitivity
+coefficients characterize the data, but the validity of the result is
+dependent on the mean vertical wind being zero, as discussed in connection 
+with Eq.~(\ref{eq:SolvedForAOA}). 
+A non-zero mean vertical wind of 0.1~m/s will introduce bias into the first 
+sensitivity of magnitude 0.02$^{\circ}$, 
+a value much larger than the estimated uncertainty in angle of attack
+resulting from the fit. This then is the major uncertainty affecting angle
+of attack and hence vertical wind, and it is difficult to quantify except
+by estimates of how large the vertical wind might be. XXXX continue here...
 The effect of these errors on the resulting angle of attack, for this
 dataset, was evaluated by applying randomly generated Gaussian fluctuations
 to the coefficients and calculating the net effect on the parameterized
