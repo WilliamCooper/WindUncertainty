@@ -254,12 +254,12 @@ if (ReloadData) {
   # rf11 103000--104000 is a speed run at 40,000 ft.
   # useful also to include some data from max altitude:
   r <- c(r1,r2,r3)
-  DD <- merge(D2, D4, all=TRUE)
-  DD <- merge(DD, D[r,], all=TRUE)
-  DD <- merge (DD, D3, all=TRUE)
-  Data <- merge (DD, D5, all=TRUE)
-  Data <- merge (Data, D6, all=TRUE)
-  Data2 <- merge (D2, D[r,], all=TRUE)
+  DD <- rbind(D2, D4)
+  DD <- rbind(DD, D[r,])
+  DD <- rbind (DD, D3)
+  Data <- rbind (DD, D5)
+  Data <- rbind (Data, D6)
+  Data2 <- rbind (D2, D[r,])
   Valid <- (Data2$TASX > 130.)
   Data2 <- Data2[Valid,]
   save (Data,Data2,D,D2, file="~/RStudio/DEEPWAVE/CalData.Rdata")
@@ -738,23 +738,22 @@ coefficients characterize the data, but the validity of the result is
 dependent on the mean vertical wind being zero, as discussed in connection 
 with Eq.~(\ref{eq:SolvedForAOA}). 
 A non-zero mean vertical wind of 0.1~m/s will introduce bias into the first 
-sensitivity of magnitude 0.02$^{\circ}$, 
+sensitivity coefficient of magnitude 0.02$^{\circ}$, 
 a value much larger than the estimated uncertainty in angle of attack
 resulting from the fit. This then is the major uncertainty affecting angle
 of attack and hence vertical wind, and it is difficult to quantify except
-by estimates of how large the vertical wind might be. XXXX continue here...
-The effect of these errors on the resulting angle of attack, for this
-dataset, was evaluated by applying randomly generated Gaussian fluctuations
-to the coefficients and calculating the net effect on the parameterized
-representation. The resulting standard error in angle-of-attack was
-0.001$^{\circ}$. However, because the speed-run values and standard
-values gave deviations relative to this calibration of about 0.03$^{\circ}$,
-that may be a better estimate of the uncertainty in angle of attack
-from possible bias, with the smaller standard error representing the
-random component of that uncertainty. The net effect on vertical wind
-produced by 0.03$^{\circ}$ uncertainty in the sensitivity coefficients
-for angle-of-attack is therefore estimated to be about 0.1~m/s from
-uncertainty in the calibration.
+by estimates of how large the vertical wind might be. For all 1-s measurements
+of vertical wind in the DEEPWAVE project, the mean vertical wind was 0.03\,m/s
+without correction for pitch errors and negligible with such correction (because
+that is required by the method of determining sensitivity coefficients), in both
+cases with a standard deviation of about 0.5\,m/s. When measurements are partitioned
+into groups within 1-5$^{\circ}$ longitude upwind and downwind of the island crest, 
+the two groups had respective mean vertical wind measurements of -0.026 and +0.032\,m/s,
+so even over the South Island of New Zealand there was no significant mean vertical
+wind at the altitude of research flights. It therefore seems reasonable to use
+a limit of about 0.05\,m/s as applicable to the calibration process, and so a bias
+limit on the first sensitivity coefficient of magnitude 0.01$^{\circ}$. This is then
+the dominant uncertainty component entering the measurement of angle of attack.
 
 One additional test was used to check the consistency of the measurements and to ensure that the project-mean vertical wind would be near zero for research-flight conditions.  All flights
 that appeared to provide good data for the calibration procedure were combined into
@@ -782,7 +781,7 @@ if (ReloadData) {
     if (j == 23) {    ## exclude bad period?
       Valid[setRange(DW$Time, 95000, 103000)] <- FALSE
     }
-    DataC <- merge (DataC, DW[Valid, ], all=TRUE)
+    DataC <- rbind (DataC, DW[Valid, ])
     lineWAC(DW$Time, DW$WIX, col='red')
     lineWAC (DW$Time, 10.*(DW$WIC-DW$WIX), col='green')
     cf <- c(4.437, 21.193)
@@ -825,7 +824,7 @@ capnFaoaG <- "For the gust pod, the angle-of-attack determined from the fit as a
 @
 
 
-\subsubsection{Application to the gust pod}
+\subsubsection{Application to the gust pod\label{sub:gust-pod-aoa}}
 
 A similar approach was taken for the gust pod, but with variables
 translated to apply to the gust-pod instead of the radome: $\Delta P_{\alpha}=$ADIF\_GP,
@@ -908,7 +907,7 @@ if (ReloadData) {
     if (i == 1) {
       DataC <- DW[Valid, ]
     } else {
-      DataC <- merge (DataC, DW[Valid, ], all=TRUE)
+      DataC <- rbind (DataC, DW[Valid, ])
     }
   }
   save (DataC, file="~/RStudio/DEEPWAVE/WindUncertainty/AOAGPdata.Rdata")
@@ -978,10 +977,10 @@ angle and heading without change in roll, altitude, or angle-of-attack,
 but that is impossible to fly. It is practical, however, to minimize
 roll and change in altitude, and that was how these maneuvers were
 flown. The three sets of yaw maneuvers were at these times: 3:32:00--3:35:30,
-4:31:00--4:33:30, and 5:26:40--5:29:30 UTC. Because the yaw maneuvers
-on rf11 (10:25:00 to 10:30:00) were flown in the old way, they were
+4:31:00--4:33:30, and 5:26:40--5:29:30 UTC.\footnote{Because the yaw maneuvers
+on rf11 (10:25:00 to 10:30:00) were flown less well, they were
 not combined with these new measurements, but it does not appear that
-the sideslip calibration has any significant dependence on altitude.
+the sideslip calibration has any significant dependence on altitude.}%
 In the case of yaw maneuvers, the calibration is based on the expectation
 that the horizontal wind remains constant. The first-order equations
 for the east and north components of the wind, $u$ and $v$, are:
@@ -1017,7 +1016,7 @@ coefficients and any associated fluctuations in the wind measurements
 during maneuvers.
 
 
-\subsubsection{Application to the radome-based and gust-pod systems}
+\subsubsection{Application to the radome-based and gust-pod systems\label{sub:radome-and-gust-pod-beta}}
 
 For both systems, a relatively simple fit was sufficient, in the following
 form:
@@ -1107,18 +1106,27 @@ capnF4 <- "As in the preceding figure but for the gust-pod system."
 
 The best-fit coefficients were \{e\} = \{\Sexpr{format (round(cfs[1], 3), nsmall=3)},
 \Sexpr{round (cfs[2], 3)}\}, the squared correlation was \Sexpr{round (summary(sfm)$r.squared, 2)}
-and the residual standard error was \Sexpr{round (summary(sfm)$sigma, 3)},
+and the residual standard error was \Sexpr{round (summary(sfm)$sigma, 2)},
 as listed above. The plotted measurements and this fit are shown in
-Fig.~\ref{fig:sideslip-fits}. The near-zero first coefficient is
-a forced result from using calculated wind components in (\ref{eq:beta-equation}).
+Fig.~\ref{fig:sideslip-fits}. 
 The sideslip offset that is represented by this term will be determined
 later by other means; cf. Section \prettyref{par:Offset-in-Sideslip}.)
 
 
 
 
-The standard calibration in use for the GV has coefficient $e_{1}$=21.155,
-slightly smaller than the value determined from this calibration.
+The standard calibration in use for the GV has coefficient $e_{1}$=21.155, so this fit has
+slope about 5\% greater than the standard values. These maneuvers were flown with special
+care to minimize altitude and roll changes, so this value may be preferable to the older values.
+The standard error of the fit, about 0.1$^{\circ}$, is likely much larger than the error in
+representing the values of sideslip via \eqref{eq:betaFunctionForm} because much of the 
+variability likely arises from real fluctuations in the horizontal wind, which would
+contribute this magnitude error for wind fluctuations of only about 0.4\,m/s. The respective uncertainties in the fit coefficients were about 0.005 and 0.17$^{\circ}$, the former
+leading to a possible bias error and the latter to an error of 0.17/22.3 or less than 1\%
+in the value of the sideslip. Measurements of sideslip are seldom larger than 0.2$^{\circ}$,
+so a fractional error of 1\% is not significant and will be neglected here. The bias in 
+sideslip is intertwined with possible bias in heading, so further study of this offset
+will be deferred to Section \ref{par:Offset-in-Sideslip} where it will be determined by a better method that separates it from the offset in heading.
 
 
 % \begin{figure}% {\centering \includegraphics[width=300pt]{figure/GP-sideslip}% % }% % \protect\caption[The sideslip attack determined from the fit, as a function of the% reference angle provided by Equation (9), for the combination of data% from all three yaw maneuvers listed in the text]{The sideslip attack determined from the fit, as a function of the% reference angle provided by Equation (9), for the combination of data% from all three yaw maneuvers listed in the text.\label{fig:sideslip}}% \end{figure}
@@ -1179,7 +1187,7 @@ flown with constant roll, will be used in Section \ref{sub:Analysis-of-circle}
 to obtain a better estimate of the sideslip offset. .\vfill\eject
 
 
-\subsection{True Airspeed from the Gust Pod}
+\subsection{True Airspeed from the Gust Pod\label{sub:GP-TAS}}
 
 % \subsection*{The Components of the Relative Wind}% % The gust pod is a new wind-sensing system so it is useful to document how the measurements are handled. The probe itself has five pressure-sensing holes located on a hemispheric cap pointed into the wind. The pressure difference between the two ports located upward and downward from centerline, measured as ADIF\_GP, is used in the calculation of angle-of-attack. The similar pressure difference between the two ports located toward starboard and toward port of centerline, measured as BDIF\_GP, are used in the calculation of sideslip. In addition, the probe has static ports located on the side of the cylinder carrying the hemispheric cap, and the difference between the pressure at the forward port and that at the static ports is measured as the dynamic pressure QC\_GP. The static pressure is also measured, as PS\_GP.% % In addition, there is an inertial reference unit mounted with the gust pod to measure its attitude angles (roll, pitch, heading) and to measure the three components of motion of the aircraft relative to the Earth. This unit receives GPS information and uses it to update its measurements via a Kalman filter.
 

@@ -367,6 +367,8 @@ Dc1 <- Dc; DL1 <- DL; DR1 <- DR
 
 @
 
+\subsubsection{Minimizing the variation in measured wind speed in circle maneuvers\label{WS-var-circles}}
+
 The fit results in Tables~\ref{tab:GSmin}--\ref{tab:GS3min} and also the mean measurements of the wind in those tables provide reference angles for the wind direction, so those angles can be used in fits that minimize \eqref{eq:delta-v-m}. 
 Because there is significant variation among the circles, the tabulated values
 for fitted values for the appropriate set (all turns, left turns, or right turns) will be used as the value of $\lambda$ when fitting. 
@@ -1095,7 +1097,7 @@ print (sprintf ("mean error in sideslip: %.3f +/-%.3f", dbm, dbsdm))
 
 This result, indicating that \Sexpr{round(dbm, 3)}$^{\circ}$
 should be subtracted from the sideslip measurements,\footnote{The value is the measurement error so the required correction is the negative of that value.} is different from the indication from Fig.\ \ref{fig:plotSS}, where no offset was required.
-The uncertainty in the mean of this result is very low, and this result is more general because it uses measured values of the pitch, so this value will be used to correct the sideslip offset. This indicates that the sideslip sensitivity coefficients should be \{$e_{0}$,\, $e_{1}$\} = \{\Sexpr{round(cfs[1]-dbm, 3)}, \Sexpr{round(cfs[2], 3)}\}. Because this result is dependent on the vertical wind being zero, an uncertainty of at least 0.06$^{\circ}$ should be assigned to the first coefficient to recognize that the vertical wind might typically be $\pm$0.1\,m/s in a region such as this.\footnote{The measured vertical wind was 0.1\,m/s over the period of these circles.}
+The uncertainty in the mean of this result is very low, and this result is more general because it uses measured values of the pitch, so this value will be used to correct the sideslip offset. This indicates that the sideslip sensitivity coefficients should be \{$e_{0}$,\, $e_{1}$\} = \{\Sexpr{round(cfs[1]-dbm, 3)}, \Sexpr{round(cfs[2], 3)}\}. Because this result is dependent on the vertical wind being zero, an uncertainty of at least 0.03$^{\circ}$ should be assigned to the first coefficient to recognize that the vertical wind might typically be $\pm$0.05\,m/s in a region such as this.% %msrmt 0.1, but biased/unreliable in high-bank turn?
 
 This result was obtained from files where a heading offset of -0.08$^{\circ}$ had been imposed. 
 The results of this circle analysis point to a combined error from heading and sideslip of $-0.02\pm 0.09^{\circ}$, so the indicated heading error 
@@ -1257,9 +1259,8 @@ The results obtained from analysis of the circle maneuvers are these:
 \begin{enumerate}
 \item The circle maneuvers indicate that the measured true airspeed (TASX) with current LAMS-based pressure corrections is accurate to within expected uncertainty. The fits indicate an error of 0.2$\pm 0.3$\,m/s, which is within the expected ($\pm$0.3\,m/s) uncertainty limits for TAS deduced using the LAMS calibration (\cite{CooperEtAl2014}).
 \item The indicated error in sideslip is 0.08$^{\circ}$, so the first sensitivity coefficient should be reduced by this amount. That leads to sensitivity coefficients for the radome of  \{\Sexpr{round(cfs[1]+0.084, 2)}, \Sexpr{format(round(cfs[2],3), nsmall=3)}\}. Cf.\ the discussion in Section\ \ref{sec:Calibrations} and the summary section \ref{CalSSsummary} at the end of that section.
-It appears reasonable to consider that the bias in this measurement may be
- about 0.06$^{\circ}$ because this is the variability among different circle maneuvers and also the sensitivity to 0.1\,m/s vertical wind during the
-maneuvers.
+It appears reasonable to consider that the bias in this measurement may be uncertain by
+about 0.03$^{\circ}$ because the mean offset is determined with this standard deviation from the combination of the available circle maneuvers and this is also the sensitivity to 0.05\,m/s vertical wind during the maneuvers.
 \item The heading offset presently in processing should be removed. The evidence
 from the circle fits is that the combined bias associated with the heading and sideslip offsets is 0.02$\pm 0.09^{\circ}$, which is reasonably consistent with the estimated uncertainty in heading as specified for the IRU. The heading and sideslip offsets are couplied, so the values indicated by the circle fits should be used together.
 \item The ground-speed measurements GGVEW and GGVNS from the Novatel GPS need to coincide with the inertial measurements. An offset of 80~ms is used for heading, so a similar assumed delay should be used for GGVEW/GGVNS.

@@ -221,16 +221,22 @@ Attitude angles (roll, pitch, and heading) are provided by the IRU
 discussed in the preceding sub-section, with specifications as listed
 in Table~\ref{tab:Radome-system-measurements}. There are duplicate
 inertial systems, so a measure of uncertainty is how well they agree.
-For the period 3:00:00--6:00:00 on DEEPWAVE flight 15, the mean difference
-in pitch was 0.1$^{\circ}$ and the standard deviation in the difference
-between measurements was also about 0.12$^{\circ}$, but if measurements
-are restricted to times where the magnitude of the roll is less than
-5$^{\circ}$ then the standard
-deviation is only 0.017$^{\circ}$. This may be an indication that
+For DEEPWAVE flight 16, the mean difference
+in pitch was 0.2$^{\circ}$ and the standard deviation in the difference
+between measurements was about 0.015$^{\circ}$ (for measurements with absolute value
+of the roll smaller than 3$^{\circ}$), and if the measurements are filtered to
+remove variations with period exceeding about 1000~s the slowly varying component
+of the difference has standard deviation of about 0.012$^{\circ}$ while
+the fast-varying component has standard deviation of 0.008$^{\circ}$. This was
+characteristic of most flights, although there were two (8 and 20) that had
+slightly larger standard deviations. The project averages were 0.02$^{\circ}$ for the
+slow component and about 0.007$^{\circ}$ for the fast component. This is an indication that
 the system performs better than indicated by the specifications, and indeed 
 additional evidence for this is provided in Section 3. The difference in 
-pitch and enhanced standard deviation in turns likely arise from small mis-alignment of the units relative to
-the longitudinal axis of the aircraft.
+pitch and enhanced standard deviation in turns likely arises from small mis-alignment of the units relative to
+the longitudinal axis of the aircraft. As discussed in Section 3, the error in
+pitch tends to precess with a period of about 84.4~min, so the slowly varying
+component tends to be dominated by this precession which, for periods short compared to 84.4~min, introduces a bias while the faster varying component has the character of a random error.
 
 
 \subsubsection{Ambient pressure\label{sub:Ambient-pressure}}
