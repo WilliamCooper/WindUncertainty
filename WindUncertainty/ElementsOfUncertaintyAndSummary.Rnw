@@ -904,11 +904,149 @@ measurements of the longitudinal component of the wind are the same for both sys
 
 
 
-\subsection{Net uncertainty in measurements of wind: Summary}
-
--- provide a summary table here --
+\subsection{Summary}
 
 
-\section{Potential for improvement in measurement of wind}
-  -- not done yet --
+This subsection summarizes the net uncertainty in wind measurements
+as developed in the earlier parts of this section. See Table~\ref{tab:Summary-of-uncertainty} for the key results.
+
+\begin{table}
+\noindent \begin{centering}
+\begin{minipage}[t]{1\columnwidth}%
+
+\protect\caption{Summary of uncertainty for measurements of wind from the GV. The two
+entries for bias for the horizontal wind are first the component lateral
+to the axis of the aircraft and second the component parallel to the
+axis of the aircraft.\label{tab:Summary-of-uncertainty}}
+\noindent \begin{center}
+\begin{tabular}{>{\centering}p{3cm}ccc>{\centering}p{2.5cm}}
+\toprule 
+\textbf{Measurement} & \textbf{bias} & \textbf{random uncertainty} & \textbf{net uncertainty} & \textbf{notes}\tabularnewline
+\midrule
+\midrule 
+vertical wind, radome & 0.1 & 0.04 & 0.1 & pitch\footnote{Potential for modest improvement if the pitch-correction algorithm
+of Sect.~\ref{sec:Schuler} is applied. }\tabularnewline
+\midrule 
+horizontal wind components, radome & 0.4 , 0.3 & 0.2 & 0.4 & roll < 5$^{\circ}$ \footnote{Expect minor degradation in turns.}\tabularnewline
+\midrule 
+vertical wind, gust pod & 0.18 & 0.11 & 0.2 & roll < 5$^{\circ}$\footnote{Errors may be much larger in turns.}\tabularnewline
+\midrule 
+horizontal wind components, gust pod & 0.7, 0.3 & 1.7, 0.2 & 1.8, 0.4 & best conditions\footnote{Selected flights in DEEPWAVE; can be factor-of-2 more uncertain for
+worst flights. Must qualify heading measurement by comparison to another
+measurement to get the listed performance. Not valid in turns.}\tabularnewline
+\bottomrule
+\end{tabular}
+\par\end{center}%
+\end{minipage}
+\par\end{centering}
+
+\end{table}
+
+
+
+\subsubsection{The radome-based system. }
+
+The standard wind measuring system on the GV is called the radome-based
+system and results in the basic wind measurements WDC, WSC, and WIC
+representing the horizontal wind direction (degrees relative to true
+north), horizontal wind speed (m/s) and vertical wind speed (m/s).
+For this system, the estimated bias limit, random component of standard
+uncertainty, and combined standard uncertainty are listed in Table~\ref{tab:Summary-of-uncertainty}.
+The combined uncertainty is obtained by adding the estimate of bias
+and the estimate of random error in quadrature, but this characteristic
+can be questioned because the bias estimate does not have normal statistical
+characteristics. It is preferable to use the estimates of bias and
+of the random component of standard uncertainty separately when characterizing
+a measurement. As an approximation, it is reasonable to consider about
+0.4\,m/s as the uncertainty in each component of the measurement
+of horizontal wind and 0.1\,m/s as the corresdponding uncertainty
+in vertical wind. In any specific direction, the uncertainty in horizontal
+wind remains about 0.4\,m/s, so this is also the uncertainty in measured
+wind speed. Translation to uncertainty in wind direction depends on
+the magnitude of the wind speed: If the wind speed is $u$ and the
+uncertainty in the component of the wind transverse to the wind speed
+is $\delta_{u}$, the uncertainty in wind direction $\delta\xi$ is
+about $\delta_{u}$/u. For example, for $u=20$\,m/s and $\delta_{u}=0.4$\,m/s,
+$\delta\xi=0.02$ rad. or about 1\,$^{\circ}$.
+
+There is some potential for improvement in the vertical wind if the
+pitch-correction algorithm of Section\inputencoding{latin1}{~}\inputencoding{latin9}\ref{sec:Schuler}
+is applied. The improvement is fairly modest, though, estimated to
+reduce the standard uncertainty to about 0.07\,m/s. Further reduction
+would require independent evidence that the calibration maneuvers
+are flown where the average wind is smaller than the 0.05\,m/s value
+assumed when obtaining these results. In the case of horizontal wind,
+the leading uncertainty is that associated with heading, which could
+be improved by implementation of a full Kalman filter to adjust the
+heading or by replacement of the IRU with a higher-quality system
+with inherent Kalman filtering. There are systems available with much
+lower specified uncertainty that could reduce the uncertainty in lateral
+wind significantly.
+
+
+\subsubsection{The gust-pod system}
+
+The vertical wind measured by the gust pod is surprisingly good, when
+it is considered that the measurements are made under the wing of
+the aircraft in a region of seriously distorted airflow. While of
+lesser quality than the measurements from the radome, the measurements
+based on the gust pod have estimated undertainty only about twice
+that of the radome-based measurement. On the other hand, the measurements
+of horizontal wind from the gust pod have significantly greater uncertainty
+than those from the radome. The uncertainty approaches 2\,m/s even
+in the selected best cases, and there are examples where the discrepancy
+between similar measurements of heading becomes much larger than the
+tabulated values and the associated uncertainty in horizontal wind
+becomes even larger. Vertical and horizontal winds are both problematic
+in turns and should not be used for roll angles exceeding about 5$^{\circ}$
+in magnitude. The problem with measurements in turns arises because
+the gust-pod system is not aligned with the longitudinal axis of the
+aircraft so, in turns, the three attitude angles (pitch, roll, heading)
+become intermixed. It may be that the appropriate angle transformations
+can be found to handle this problem, but current processing leads
+to obvious errors in turns.
+
+Using measurements of horizontal wind from the gust pod is not
+recommended. That system was designed to provide a back-up measurement that
+could be anti-iced to remain operational in heavy cloud. In the case
+of vertical wind, it appears that the system fills this back-up roll
+well. However, the horizontal wind from the gust pod is much inferior
+to that from the radome-based system and probably should be used only
+with much caution. That would involve checking that the measurement
+of heading from the gust-pod IRU provides measurements in reasonable
+agreement with other units, considering installation differences in
+orientation) and excluding turns. An additional restriction arises
+from the fit restrictions used to determine the coefficients in the
+equation representing angle of attack. Those restrictions were: true
+airspeed (TASF) greater than 130\,m/s, absolute value of roll less
+than 5$^{\circ}$, and altitude greater than 5000~m. Outside these
+limits, extrapolation errors can lead to significant errors in the
+measurements from the gust pod.
+
+The straightforward way to improve the measurements from the gust
+pod would be to improve the measurement of heading. It might be possible
+to calculate a surrogate heading from the fuselage IRU and the known
+installation offset of the gust-pod IRU, but this hasn't bee investigated
+yet and would require continued study beyond that reported here.
+
+\subsubsection{Conclusion}
+
+The first three lines in Table \ref{tab:Summary-of-uncertainty} claim
+that wind can be measured with low uncertainty from a high-speed aircraft
+such as the NCAR/NSF GV. This is particularly challenging at high speed
+because the aircraft introduces flow distortions and pressure variations
+over and near the fuselage that affect many of the sensors used to measure
+wind. Calibration by comparison to a laser air-motion sensor has led to
+improvement in the measurement of horizontal wind and is the basis for
+achieving these tolerances. Calibration maneuvers, especially those involving
+flying circles, have provided evidence for the claimed limits to uncertainty
+and have refined some of the calibrations used to achieve these limits.
+The fourth line in the table indicates disappointing performance
+for the gust-pod measurement of the component of horizontal wind lateral to
+the aircraft, so in general this measurement should
+not be used for research without further improvement. However, the measurement`
+of vertical wind from the gust pod provides a useful
+back-up to the conventional measurement.
+
+
 % \end{document}
