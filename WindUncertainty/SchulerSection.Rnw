@@ -24,7 +24,7 @@ fluctuations associated with those systems. An inertial system aligns
 during initialization to detect the local vertical direction and then
 calculates the new vertical direction as the aircraft moves (changing
 the local vertical direction) and accelerates (which can cause gyros
-to precess). Any mis-alignment present at initialization persists
+to precess). Any misalignment present at initialization persists
 but also can oscillate and can cause errors in roll and pitch to mix
 as the aircraft changes flight direction. The standard error associated
 with this measurement is 0.05$^{\circ}$ for flight duration of a
@@ -230,7 +230,7 @@ and the east component of the ground velocity:
 where $\phi$ is the roll angle and $V_{e}$ and $\zeta_{e}$ are
 determined from fits to the observed error $\delta v_{e}=\mathrm{VEW-GGVEW}$.
 
-Thus the observed errors in the components of the aircraft groundspeed
+Thus the observed errors in the components of the aircraft ground speed
 can be used to find corrections to be applied to the measurements
 of pitch and roll. 
 
@@ -243,7 +243,7 @@ so to a reasonable approximation the errors in pitch and heading will
 be given by the respective derivatives in the error terms $\delta v_{n}$
 and $\delta v_{e}$. 
 
-<<v-errors-straight-leg, fig.lp="fig:",fig.cap="Errors in the NS and EW components of groundspeed as determined by comparison to GPS, for DEEPWAVE flight ff02, a ferry flight starting on 1 June 2014 and traveling from Hawaii to Pago-Pago.", include=TRUE>>=
+<<v-errors-straight-leg, fig.lp="fig:",fig.cap="Errors in the NS and EW components of ground speed as determined by comparison to GPS, for DEEPWAVE flight ff02, a ferry flight starting on 1 June 2014 and traveling from Hawaii to Pago-Pago.", include=TRUE>>=
 
 D <- Data[Data$TASX > 130., ]
 plotWAC (D$Time, D$GGVEW-D$VEW, ylab="Ve error", ylim=c(-2.5,3.))
@@ -316,7 +316,7 @@ can be larger.
 
 In a reference frame called the $l$-frame or ENU frame, where the
 coordinate axes are local-east, local-north, and upward, the preceding
-section showed that the pitch and roll errors are related, vis (\ref{eq:delta-theta})
+section showed that the pitch and roll errors are related, via (\ref{eq:delta-theta})
 and (\ref{eq:delta-phi}), to the time-derivatives of the errors in
 horizontal velocity. Pitch and roll as used in these equations will
 be the respective errors in platform alignment%

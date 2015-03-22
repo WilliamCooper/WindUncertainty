@@ -272,7 +272,7 @@ right-turn measurements & \Sexpr{format(round(mwdR,1), nsmall=1)} & \Sexpr{round
 
 \par\end{center}
 
-There is an apparently significant difference of about 1~m/s in mean wind speed, both measured and resulting from the fits, between the right-turn circles and the left-turn circles. This is apparently a real difference between wind conditions in the regions where the circles were flown and is supported by the difference between maximum and minimum groundspeed for the two sets of circles. Conditions are more uniform for the rightn circles, as reflected in the lower residual error for those circles, so more weight will be given here to the results from the right-turn circles. Both indicate a small heading error, but that was obtained by imposing a shift forward for the ground-speed measurements GGVEW and GGVNS of 840~ms. Without this shift, the indicated heading error was -1.6$^{\circ}$ for the left-turn circles and $+1.5^{\circ}$ for the right-turn circles, a clear reflection of a timing error between the measurements from the inertial system and those from the GPS receiver. This finding was the reason that the shift was imposed in processing. \footnote{Except as it applies to this study, this shift normally has little effect because the ground speed used in the calculation of wind is the result of the complementary filter discussed in the next section so the measurements of ground speed from the GPS only enter with a filter time constant of about 120~s, while the short-term response is determined by the inertial system.} 
+There is an apparently significant difference of about 1~m/s in mean wind speed, both measured and resulting from the fits, between the right-turn circles and the left-turn circles. This is apparently a real difference between wind conditions in the regions where the circles were flown and is supported by the difference between maximum and minimum ground speed for the two sets of circles. Conditions are more uniform for the right-turn circles, as reflected in the lower residual error for those circles, so more weight will be given here to the results from the right-turn circles. Both indicate a small heading error, but that was obtained by imposing a shift forward for the ground-speed measurements GGVEW and GGVNS of 840~ms. Without this shift, the indicated heading error was -1.6$^{\circ}$ for the left-turn circles and $+1.5^{\circ}$ for the right-turn circles, a clear reflection of a timing error between the measurements from the inertial system and those from the GPS receiver. This finding was the reason that the shift was imposed in processing. \footnote{Except as it applies to this study, this shift normally has little effect because the ground speed used in the calculation of wind is the result of the complementary filter discussed in the next section so the measurements of ground speed from the GPS only enter with a filter time constant of about 120~s, while the short-term response is determined by the inertial system.} 
 
 
 Two other circle patterns were flown on this same flight, at about 4:35:00--4:53:00 and 5:30:00--5:53:00 UTC. Similar tables for those circle maneuvers are shown in Tables.~\ref{tab:GS2min} and \ref{tab:GS3min}. In these three cases, indicated airspeed corrections from individual circles varied from $-0.6$ to 0.6\,m/s and angular corrections (combining heading and sideslip errors) varied from 0.01 to 0.23$^{\circ}$, with mean values of 0.2$\pm 0.2$\,m/s and 0.13$\pm 0.03^{\circ}$. 
@@ -1262,7 +1262,7 @@ The results obtained from analysis of the circle maneuvers are these:
 It appears reasonable to consider that the bias in this measurement may be uncertain by
 about 0.03$^{\circ}$ because the mean offset is determined with this standard deviation from the combination of the available circle maneuvers and this is also the sensitivity to 0.05\,m/s vertical wind during the maneuvers.
 \item The heading offset presently in processing should be removed. The evidence
-from the circle fits is that the combined bias associated with the heading and sideslip offsets is 0.02$\pm 0.09^{\circ}$, which is reasonably consistent with the estimated uncertainty in heading as specified for the IRU. The heading and sideslip offsets are couplied, so the values indicated by the circle fits should be used together.
+from the circle fits is that the combined bias associated with the heading and sideslip offsets is 0.02$\pm 0.09^{\circ}$, which is reasonably consistent with the estimated uncertainty in heading as specified for the IRU. The heading and sideslip offsets are coupled, so the values indicated by the circle fits should be used together.
 \item The ground-speed measurements GGVEW and GGVNS from the Novatel GPS need to coincide with the inertial measurements. An offset of 80~ms is used for heading, so a similar assumed delay should be used for GGVEW/GGVNS.
 \end{enumerate}
 
@@ -1289,15 +1289,15 @@ to the information in ProcessingAlgorithms.pdf, section 3.4, and contains
 additional detail as well as notes regarding implementation of changes.
 
 To accomplish this combining of measurements, a low-pass filter, $F_{L}(\{\mathrm{GVNS,GVEW\}})$,
-is applied to the GPS measurements of groundspeed, \{GVNS,GVEW\},
+is applied to the GPS measurements of ground speed, \{GVNS,GVEW\},
 which are assumed to be valid for frequencies at or lower than the
 cutoff frequency $f_{c}$ of the filter. Then the complementary high-pass
 filter, denoted ($1-F_{L}$)($\{\mathrm{VNS,VEW\}}$), is applied
-to the IRS measurements of groundspeed, \{VNS,VEW\}, which are assumed
+to the IRS measurements of ground speed, \{VNS,VEW\}, which are assumed
 valid for frequencies at or higher than $f_{c}$. Ideally, the transition
 frequency would be selected where the GPS errors (increasing with
 frequency) are equal to the IRS errors (decreasing with frequency).
-The filter used is a three-pole Butterworth lowpass filter, coded
+The filter used is a three-pole Butterworth low-pass filter, coded
 following the algorithm described in Bosic, S.~M., 1980: \emph{Digital
 and Kalman filtering : An Introduction to Discrete-Time Filtering
 and Optimum Linear Estimation, }p. 49. The digital filter used is
@@ -1320,7 +1320,7 @@ VEW = IRS-measured east component of the aircraft ground speed\\
  VNS = IRS-measured north component of the aircraft ground speed\\
  GVEW = GPS-measured east component of the aircraft ground speed\\
  GVNS = GPS-measured north component of the aircraft ground speed\\
- $F_{L}()$ = three-pole Butterworth lowpass recursive digital filter\\
+ $F_{L}()$ = three-pole Butterworth low-pass recursive digital filter\\
  \\
  \rule[0.5ex]{1\linewidth}{1pt}
 
@@ -1337,11 +1337,11 @@ This is straightforward and effective when both sets of measurements
 (IRS and GPS) are available. The approach in use becomes more complicated
 when the GPS signals are lost, as sometimes happens in sharp turns.
 Then some means is needed to avoid sudden discontinuities in velocity
-(and hence windspeed), which would introduce spurious effects into
+(and hence wind speed), which would introduce spurious effects into
 variance spectra and other properties dependent on a continuously
 valid measurement of wind. To extrapolate measurements through periods
 when the GPS measurements are not available, a fit is determined to
-the difference between the best-estimate variables \{VNSC,VEWC\} and
+the difference between the best-estimate variables \{VNSC, VEWC\} and
 the IRS variables \{VNS,VEW\} for the period before GPS reception
 was lost, and that fit is used to extrapolate through periods when
 GPS reception is not available. The procedure is described in section

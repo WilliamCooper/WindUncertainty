@@ -39,8 +39,8 @@ but oriented to align with the aircraft reference frame) must be transformed
 to an Earth-based reference system (conventionally with $\hat{x}$
 toward east, $\hat{y}$ toward north, and $\hat{z}$ upward) so that
 the components can be combined to yield the Earth-relative wind. This
-transformation is a function of the attitude angles of the aircraft,
-heading ($\psi$), pitch ($\theta$), and roll ($\phi$), measured
+transformation is a function of the attitude angles of the aircraft
+(heading $\psi$, pitch $\theta$, and roll $\phi$), measured
 by an inertial reference unit in all three cases discussed here. Once
 in an Earth-based reference system, the relative wind vector is added
 to the vector representing the aircraft motion relative to the Earth
@@ -76,7 +76,7 @@ relative wind is therefore determined from measurements of true airspeed,
 angle of attack, and sideslip angle.
 
 
-\subsubsection{Transformation to an Earth Reference Frame}
+\subsubsection{Transformation to an Earth reference frame}
 
 The orientations of the aircraft, the gust pod, and the LAMS are measured
 by IRUs located respectively in the fuselage and in the pod itself.
@@ -167,7 +167,7 @@ the measuring system (and subscript-$x$ the east component of the wind), are:
 
 \subsubsection{Overview}
 
-The primary measurement on the GV is that based on measurement of
+The primary measurement of wind on the GV is that based on measurement of
 true airspeed via a pitot tube, airflow angles via pressure differences
 measured on the nose radome, attitude angles measured by an inertial
 reference unit, and ground-speed components measured by the same inertial
@@ -175,7 +175,8 @@ reference unit and also by a Global Positioning System receiver. A
 cursory description of this system was provided by \cite{CooperEtAl2014}.
 A more extensive description will be provided here. Table~\ref{tab:Radome-system-measurements}
 provides a summary of the measurements used to determine the wind
-and the characteristics of the sensors used, and the \href{http://www.eol.ucar.edu/instruments}{EOL instrument web pages}
+and the characteristics of the sensors used, and 
+the \href{http://www.eol.ucar.edu/instruments}{EOL instrument web pages}
 provide additional information on these measurements.\marginpar{XXX}
 \begin{table}
 \begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.5cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
@@ -198,7 +199,7 @@ dynamic pressure (QCF, QCR) & differential transducer PPT0005DXX2VB-5021 & 0--5 
 pressure differences, radome (ADIFR, BDIFR) & differential transducer PPT0001DXX2VB-5021 & range $\pm1$ PSI$\simeq$$\pm$68.95 hPa & 0.07 hPa\\
 0.14 hPa max. & the first is ``typ.'', average over the range\tabularnewline
 \midrule 
-horizontal GV velocity components (VNS, VEW) & Laseref IV Model HG2001 GD03 & strap-down accelerometers & 2.1\,m\,s$^{-1}$  & 0.1\,m\,s$^{-1}$ with slom updating to GPS\tabularnewline
+horizontal GV velocity components (VNS, VEW) & Laseref IV Model HG2001 GD03 & strap-down accelerometers & 2.1\,m\,s$^{-1}$  & 0.1\,m\,s$^{-1}$ with slow updating to GPS\tabularnewline
 \midrule 
 '' '' '' (GGVNS, GGVEW) & Novatel OEM-3 differential GPS  & (L1/L2) correction via OmniSTAR XP & 0.03\,m\,s$^{-1}$ & <0.1\,m\,s$^{-1}$ when OmniSTAR is not available \tabularnewline
 \midrule 
@@ -350,7 +351,7 @@ There are two sources of information regarding the ground-speed vector,
 an inertial reference unit (IRU) and a Global Positioning System (GPS). 
 \begin{enumerate}
 \item \uline{The IRU:} The inertial system on the GV is a Honeywell Laseref
-IV Model HG2001 GD03, with characteristics as listedin Table~\ref{tab:Radome-system-measurements}.
+IV Model HG2001 GD03, with characteristics as listed in Table~\ref{tab:Radome-system-measurements}.
 There are three units on the aircraft, two of which are recorded via
 the ARINC data bus to standard data files. These are strap-down ring
 laser gyro micro inertial systems. The measurements of ground-speed
@@ -451,7 +452,7 @@ plotWAC (DE[, c("Time", "GGVSPD", "VSPD")], ylab='Aircraft vertical speed [m/s]'
 
 @
 
-The last set of components entering the measurement of wind consists of the measurements of the motion of the aircraft with respect to the Earth. These measurements must be combined with the measurement of relative wind to transform the measurements to an Earth-referenced measurement. Figure~\ref{fig:radome-plot-groundspeed} shows the east and north components of the groundspeed as measured by the IRU and GPS. They are close enough to lie almost on top of each other in this plot, but the red lines show the difference magnified by a factor of 100. They clearly show the Schuler oscillation that results from an IRU error in pitch, having magnitude of about 1--2~m\,s$^{-1}$. This error is discussed in the next section, and Section XXX discusses how the IRU measurements (having good short-term response but long-term drift) and the GPS measurements (having long-term accuracy but inferior short-term response) are combined in the measurement of wind. In addition to the Schuler oscillation, additional perturbations associated with turns result from the mixing of pitch, roll, and heading errors when the aircraft is banked.
+The last set of components entering the measurement of wind consists of the measurements of the motion of the aircraft with respect to the Earth. These measurements must be combined with the measurement of relative wind to transform the measurements to an Earth-referenced measurement. Figure~\ref{fig:radome-plot-groundspeed} shows the east and north components of the ground speed as measured by the IRU and GPS. They are close enough to lie almost on top of each other in this plot, but the red lines show the difference magnified by a factor of 100. They clearly show the Schuler oscillation that results from an IRU error in pitch, having magnitude of about 1--2~m\,s$^{-1}$. This error is discussed in the next section, and Section XXX discusses how the IRU measurements (having good short-term response but long-term drift) and the GPS measurements (having long-term accuracy but inferior short-term response) are combined in the measurement of wind. In addition to the Schuler oscillation, additional perturbations associated with turns result from the mixing of pitch, roll, and heading errors when the aircraft is banked.
 
 <<radome-plot-wind, include=TRUE, fig.cap="Wind measurements for DEEPWAVE research flight 16.">>=
 
@@ -589,7 +590,7 @@ absence of such a correction, PS\_GP should not be considered an alternate measu
 The dynamic pressure QC\_GP is measured by a differential pressure
 transducer, with characteristics shown in Table~\ref{tab:Gust-pod-measurements}.
 The measurement is the pressure difference between the forward-pointing
-port on the Rosemouint 858 probe and the static ports on the side
+port on the Rosemount 858 probe and the static ports on the side
 of that probe. Because the system is located under the wing in a region
 of disturbed airflow, the dynamic pressure requires unconventional
 correction to obtain the airspeed, as discussed in Sect.~\ref{sec:Calibrations}. This
@@ -984,9 +985,9 @@ in detail in this report because it is still under development. The
 characteristics and associated uncertainties in measured wind are discussed
 by \cite{SpulerEtAl2011} and \cite{CooperEtAl2014}. The system consists of
 one or several fiber-based laser beams focused ahead of the aircraft and
-a collection system to detect the Doppler shift in light backscattered
+a collection system to detect the Doppler shift in light back-scattered
 from aerosols. The transmitter optical components are mounted in an
-underwing pod, similar to that used for the gust pod, and like the
+under-wing pod, similar to that used for the gust pod, and like the
 gust pod the system incorporates a compact C-MIGITS inertial reference
 unit to measure the attitude angles and ground speed of the pod.
 Early measurements from this system have been used to determine corrections

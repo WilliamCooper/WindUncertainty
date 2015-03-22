@@ -76,7 +76,7 @@ GPS measurements, thus providing both absolute accuracy and valid
 high-frequency measurements. It seems worthwhile to explore a similar
 approach for the vertical wind, to see if there is an advantage to
 a variable that is provided by an analogous complementary filter.
-When OMNISTAR is available, the measurement of vertical aircraft
+When OmniSTAR is available, the measurement of vertical aircraft
 motion is so good that it may
 be preferable to use that directly, so that will be explored here also.
 
@@ -142,7 +142,7 @@ is that for the vertical wind variable WIC; others show either measurements
 of the aircraft vertical motion (VSPD, GGVSPDB)
 or, as GUSTW, the relative-wind contribution to WIC.
 The green diagonal lines show the slope expected for an inertial
-subrange and, for the heavy line labelled ``!0$^{-4}$'', corresponding
+subrange and, for the heavy line labeled ``!0$^{-4}$'', corresponding
 to an eddy dissipation rate of $1\times10^{-4}$\,m$^{2}$s$^{-3}$.
 Other green reference lines are displaced by an order of magnitude
 in eddy dissipation rate. Calculation method: all-poles or maximum-entropy
@@ -278,7 +278,7 @@ are obviously filtered at high frequency.
 frequency, as might be expected; the reverse is the case, possibly
 because of filters imposed on VSPD in the inertial unit itself. This
 argues for direct use of GGVSPDB in the vertical-wind calculation,
-at least when OMNISTAR corrections are available. 
+at least when OmniSTAR corrections are available. 
 \item The relative-wind variance spectrum exceeds that of the vertical wind,
 indicating that the contribution from aircraft motion counters the
 relative-wind contribution at all but the highest frequencies. The
@@ -333,7 +333,7 @@ signal with peak amplitude of 0.4~hPa or a random error of about
 be linked to the nature of the transducers used or to some effect
 originating in the pressure lines connecting the transducers to the
 ports. The specifications for the pressure transducer that measures
-ADIFR assert a standard uncertainty of about 0.03 Hpa, and as sampled
+ADIFR assert a standard uncertainty of about 0.03 hPa, and as sampled
 and digitized by the data system the resolution is about 0.002 hPa
 ($\pm70\,$hPa for $2^{16}$ range digital encoding). Thus the white-noise
 spectrum indicates a random error about three times greater than expected
@@ -359,7 +359,7 @@ turbulence.
 % GGVSPDB, though, so it probably doesn't represent any real signal
 % at frequency above about 1 Hz. 
 \item The relative-wind contribution (GUSTW) and the aircraft-motion contribution
-(GGVSPDB) both have peaks at about 0.05\,Hz, with cancelling contributions
+(GGVSPDB) both have peaks at about 0.05\,Hz, with canceling contributions
 so that no peak occurs at that frequency in the resulting vertical
 wind. This peak arises from the autopilot controlling the aircraft,
 which has a noticeable oscillation about the set altitude with a period
@@ -379,7 +379,7 @@ GGALTB.}
 \item The disagreement between VSPD and GGVSPDB even at low frequency is
 another indication that the IRU-provided value (VSPD) should not be
 used, because the GPS-measured value at low frequency is surely a
-better measurement than is possible from the IRU. (OMNISTAR corrections
+better measurement than is possible from the IRU. (OmniSTAR corrections
 were present throughout this flight.) 
 \item The difference between WIC and GUSTW near 0.3~Hz, seen also as a
 possible effect in Fig.~\ref{fig:Variance-spectra-VSPD}, indicates
@@ -419,7 +419,7 @@ this measurement. (No lag is assumed for RTRL, another candidate for
 the reference temperature.) 
 \item The vertical speed of the aircraft, taken for the preferred vertical
 wind variable from GGVSPDB, the variable produced by the Novatel GPS
-receiver employing OMNISTAR corrections when possible. This variable
+receiver employing OmniSTAR corrections when possible. This variable
 is only sampled at a rate of 5 Hz, and no time lag is used in processing. 
 \end{itemize}
 It is useful to try to determine appropriate lags from the data and
@@ -470,7 +470,7 @@ and shift GGVSPDB backward 0.04~s. Almost as good was to shift PITCH
 forward 0.08~s and shift GGVSPDB backward 0.04~s. This reset the
 assumed lag in PITCH to zero while imposing a small lag of -0.04~s
 in GGVSPDB. For the purpose of this study, to avoid the phase lag
-produced by filters at the high-frequency limit, Savitzsky-Golay filtering
+produced by filters at the high-frequency limit, Savitzky-Golay filtering
 was used for GGVSPDB with 4th-order polynomials applied over 25-measurement
 intervals to smooth the original measurements. The resulting standard
 deviation in WIX was 0.22~m/s, vs 0.23 with no shift in GGVSPDB,

@@ -9,12 +9,34 @@ set_parent ("WindUncertainty.Rnw")
 
 \section{Introduction}
 
+Wind is the motion of the atmosphere relative to the Earth. Most reseearch
+aircraft have the capability to measure wind, and these measurements have
+many uses in research projects using aircraft. They help define the
+flow and so provide
+context for other measurements, and they are often used to study fluxes 
+of atmospheric constituents, turbulence, wave motions, cloud updrafts and 
+downdrafts, convergence and divergence, and many other topics. They can
+provide important information transferred to models for data assimilation or
+for validation tests of model results.
+
+The range and endurance of the NSF/NCAR Gulfstream~V research aircraft (operated 
+by the Research Aviation Facility, Earth Observing Laboratory,  NCAR) makes it
+possible to measure wind over large distances and so to characterize mesoscale
+and even larger features in the atmosphere. However, the high speed of that
+aircraft (typically Mach 0.8, or about 240\,m\,s$^{-1}$ for flight near 40,000 ft)
+poses special problems for wind measurement. The flow distortion around the aircraft
+perturbs pressure measurements that are central to the measurement of wind, and
+the measurement of air temperature, needed in the calculation of wind, requires
+corrections of typically more than 20$^{\circ}$C to account for dynamic heating of
+the sensors. Accurate measurement of wind thus is particularly challenging on
+this and other high-speed aircraft. 
+
 This report documents how measurements of wind are made from the NSF/NCAR
 Gulfstream~V research aircraft (hereafter, GV) and provides a characterization
 of the uncertainty associated with those measurements. The characterization
 applies to the system as it existed in 2014, in particular as it operated
 in the DEEPWAVE research project flown from New Zealand in June-July
-2014. Key aspects influencing the uncertainty in the measurements
+2014. Key features of the instrumentation influencing the uncertainty in the measurements
 as characterized here are the presence of ``OmniSTAR'' GPS (Global Positioning
 System) measurements,
 providing measurements of the velocity of the aircraft relative to
@@ -27,37 +49,47 @@ GPS measurements from Novatel and Garmin units,
 and a gust-sensing system based on pressure ports in the nose radome.
 The results obtained here do not necessarily apply to measurements
 from earlier projects when not all these components were available in
-their present form.
+their present form, but they should apply to measurements subsequent to 2014.
 
 Section \ref{sec:Components} describes the components of the wind-measuring
-system in more detail, and Section \ref{sec:Calibrations} summarizes
+system in more detail, with examples of the measurements and information on
+the specifications for the sensors involved. That is followed by a section that
+develops a correction procedure for pitch because that correction and the evidence
+it provides regarding uncertainty are used in
+subsequent sections. Section \ref{sec:Calibrations} summarizes
 how the measurements have been calibrated, tested, and intercompared.
 Some related studies affecting the measurements are then presented
-in the next sections. This information all provides the basis for
+in the next two sections. The section discussing vertical wind focuses on
+studies of the measurement of aircraft vertical motion, needed to calculate
+the vertical wind, while that discussing horizontal wind uses circle maneuvers
+to check the measurement of horizontal wind and develop corrections to the heading and sideslip.
+This information then provides the basis for
 Section~\ref{sec:Uncertainty-components}, where the contributions
-to uncertainty from various sources are tabulabed and where there
+to uncertainty from various sources are tabulated and where there
 is a discussion of the basis for each estimate contributing to uncertainty
 in the measured wind. That section then concludes with a summary characterizing
 the overall uncertainty and the separate systematic and random components
-included in that uncertainty.
+included in that uncertainty. There is also an appendix on reproducibility of these
+analyses that describes the
+programs used for these calculations and documents where they and the data can be found.
 
-The program that performed the calculations reported here
-can be found on NCAR/EOL computer
-space in the directory /h/eol/cooperw/RStudio/DEEPWAVE/WindUncertainty 
-and in the GitHub repository \href{https://github.com/WilliamCooper/WindUncertainty.git}{https://github.com/WilliamCooper/WindUncertainty.git}.
-The former is accessible via computers like tikal.eol.ucar.edu.
-The main program is WindUncertainty.Rnw; other files in those repositories
-with suffixes .Rnw are sections in this report and are linked to the
-main program. Normal usage is to run this main program within ''RStudio''
-to execute the contained R code and also, via ''knitr,'' to generate
-this text document from LaTeX statements embedded in those files.
-An R package 'Ranadu' is used estensively in the R code; it resides on GitHub as \href{https://github.com/WilliamCooper/Ranadu.git}{https://github.com/WilliamCooper/Ranadu.git}.
-The data used reside in NCAR/EOL project archives and, in subsetted
-form, are archived in the directory /h/eol/cooperw/STudio/DEEPWAVE/WindUncertainty
-as R data files, with names ending in ''Rdata.'' Those files are
-too large to be appropriate for GitHub but can be provided from the
-NCAR/EOL computers. It is thus possible to reproduce this document
-from archived data and to repeat the included analyses with new data
-as needed. This document thus attempts to be ''reproducible research''
-as that term is used by the author of knitr. References for knitr
-and the analysis packages in R are included in the \nameref{sec:acknowledgements} and References at the end of this document.
+% The program that performed the calculations reported here
+% can be found on NCAR/EOL computer
+% space in the directory /h/eol/cooperw/RStudio/DEEPWAVE/WindUncertainty 
+% and in the GitHub repository \href{https://github.com/WilliamCooper/WindUncertainty.git}{https://github.com/WilliamCooper/WindUncertainty.git}.
+% The former is accessible via computers like tikal.eol.ucar.edu.
+% The main program is WindUncertainty.Rnw; other files in those repositories
+% with suffixes .Rnw are sections in this report and are linked to the
+% main program. Normal usage is to run this main program within ''RStudio''
+% to execute the contained R code and also, via ''knitr,'' to generate
+% this text document from LaTeX statements embedded in those files.
+% An R package 'Ranadu' is used extensively in the R code; it resides on GitHub as \href{https://github.com/WilliamCooper/Ranadu.git}{https://github.com/WilliamCooper/Ranadu.git}.
+% The data used reside in NCAR/EOL project archives and, in subsetted
+% form, are archived in the directory /h/eol/cooperw/RStudio/DEEPWAVE/WindUncertainty
+% as R data files, with names ending in ''Rdata.'' Those files are
+% too large to be appropriate for GitHub but can be provided from the
+% NCAR/EOL computers. It is thus possible to reproduce this document
+% from archived data and to repeat the included analyses with new data
+% as needed. This document thus attempts to be ''reproducible research''
+% as that term is used by the author of knitr. References for knitr
+% and the analysis packages in R are included in the \nameref{sec:acknowledgements} and References at the end of this document.

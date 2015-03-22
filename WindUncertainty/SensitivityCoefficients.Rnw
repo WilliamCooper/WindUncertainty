@@ -305,7 +305,7 @@ This fit gave coefficients $c_{0}^{*}$ and $c_{1}^{*}$ equal to
 The fit accounted for \Sexpr{round(100*summary(fmy)$r.squared, 1)}\%
 of the variance and had a residual standard error of \Sexpr{round(summary(fmy)$sigma, 2)}$^{\circ}$,
 so it represented the speed runs well. In Fig.~\ref{fig:AOA-fit-and-plot},
-the thin grey line under the thick orange dashed line represents the
+the thin gray line under the thick orange dashed line represents the
 uncertainty in the fit result and shows that the uncertainty in representing
 these data with this set of coefficients is negligible. The more significant
 uncertainty, however, comes from the assumption that the vertical
