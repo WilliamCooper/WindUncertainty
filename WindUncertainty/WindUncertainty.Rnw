@@ -192,7 +192,7 @@ the directory at \href{https://github.com/WilliamCooper/WindUncertainty.git}{thi
 There is some supplemental material in that directory, like the bibliography
 and many code segments saved in the 'chunks' subdirectory, so the
 full directory should be downloaded in order to run the program. The calculations
-use the programming language R (\citet{RLanguage}) and were run within RStudio
+use the programming language R (\citet{Rlanguage}) and were run within RStudio
 (\citet{RStudio2012}), so this is the most straightforward way to replicate the
 calculations and the generation of this document.
 
@@ -238,7 +238,7 @@ is thus preserved.
 \attachm{\Sexpr{thisFileName}.Rnw\\\Sexpr{thisFileName}.pdf\\chunks/*\\SessionInfo}
 
 
-\section*{Acknowledgements}
+\section*{Acknowledgments}
 \label{sec:acknowledgements}
 
 The analyses reported here were mostly performed using R%

@@ -1,5 +1,15 @@
 <<parent-components, echo=FALSE>>=
 set_parent ("WindUncertainty.Rnw")
+if (!exists ("ReloadData")) {
+  ReloadData <- FALSE
+  print (" forced ReloadData FALSE because variable doesn't exist")
+  library(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+  opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+  opts_chunk$set(fig.width=6, fig.height=5, fig.loc="center", digits=4)
+  Project <- "DEEPWAVE"
+  setwd ("~/RStudio/DEEPWAVE/WindUncertainty")
+}
+# ReloadData <- TRUE
 
 @
 
@@ -383,30 +393,36 @@ the conversion from dynamic pressure to true airspeed involves the
 temperature, as documented in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{this document on processing algorithms}.
 The measurements of temperature were checked against expectations for
 height-vs-pressure changes from the hydrostatic equation by \cite{CooperEtAl2014}, with the result that the measurements were validated to an uncertainty of about 0.3$^{\circ}$C. Documentation of the temperature uncertainty will be
-presented in more detail in a separate document, but at this level of
-uncertainty the measurement of temperature will be shown to introduce negligible
-uncertainty to the measurement of wind.
-XXX \marginpar{XXX}
+presented in more detail in a separate document.
+
 
 
 \subsubsection{Examples of measurements}
-<<radome-plot-angles, fig.cap="Attitude angles pitch, roll, and heading as measured by three independent systems, the standard Honeywell IRU (blue lines), a duplicate backup Honeywell IRU (green lines), and the C-MIGITS IRU mounted in the gust pod (red line). All plot units are degrees. Data from DEEPWAVE flight 16 (4 July 2014).", include=TRUE>>=
+<<radome-plot-angles, fig.cap="Attitude angles pitch, roll, and heading as measured by three independent systems inertial reference systems. The systems are: (1) the standard Honeywell IRU (PITCH, ROLL, THDG, blue lines); (2) a duplicate backup Honeywell IRU (PITCH\\_IRS2, ROLL\\_IRS2, THDG\\_IRS2, green lines), and the C-MIGITS-III IRU mounted in the gust pod (CPITCH\\_GP, CROLL\\_GP, CTHDG\\_GP, red lines). All units are degrees. Data from DEEPWAVE flight 16 (4 July 2014), 9:00:00 to 10:00:00", include=TRUE>>=
 
 Flight <- "rf16"
-VarNames <- c("PITCH", "CPITCH_GP", "ROLL", "CROLL_GP", "PITCH_IRS2", "ROLL_IRS2")
-VarNames <- c(VarNames, "THDG", "CTHDG_GP", "THDG_IRS2")
-VarNames <- c(VarNames, "QCF", "QCFC", "PSF", "PSFC", "TASX")
-VarNames <- c(VarNames, "ADIFR", "BDIFR", "AKRD", "SSRD")
-VarNames <- c(VarNames, "GGVEW", "GGVNS", "VEW", "VNS", "GGVSPD", "VSPD", "GGALT")
-VarNames <- c(VarNames, "WDC", "WSC", "WIC")
-VarNames <- c(VarNames, "WD_GP", "WS_GP", "WI_GP", "TAS_GP")
-DE <- getNetCDF (sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight), VarNames)
+VarNames <- c("PITCH", "PITCH_IRS2", "CPITCH_GP",
+              "ROLL", "ROLL_IRS2", "CROLL_GP",
+              "THDG", "THDG_IRS2", "CTHDG_GP",
+              "QCF", "QCFC", "PSF", "PSFC", "TASX",
+              "ADIFR", "BDIFR", "AKRD", "SSRD",
+              "VNS", "VEW", "GGVNS", "GGVEW",
+              "WDC", "WSC", "WIC", "GGVSPD", "VSPD",
+              "WI_GP", "WD_GP", "WS_GP", "GGALT")
+DataFrameFile1 <- "DataFrames/DataFrame1.Rdata"
+if (ReloadData) {
+  DE <- getNetCDF (sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight), 
+                   VarNames)
+  save (DE, file=DataFrameFile1)
+} else {
+  load(file=DataFrameFile1)
+}
 op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:3, ncol = 1), widths = 1,  heights = c(5,5,6))
 plotWAC (DE[, c("Time", "PITCH", "PITCH_IRS2", "CPITCH_GP")])
 plotWAC (DE[, c("Time", "ROLL", "ROLL_IRS2", "CROLL_GP")])
 op <- par (mar=c(5,4,1,1)+0.1)
-plotWAC (DE[, c("Time", "THDG", "THDG_IRS2", "CTHDG_GP")])
+plotWAC (DE[, c("Time", "THDG", "THDG_IRS2", "CTHDG_GP")], legend.position="bottomleft")
 
 @
 
@@ -416,8 +432,10 @@ Typical measurements of the attitude angles are shown in Fig.~\ref{fig:radome-pl
 
 op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:3, ncol = 1), widths = 1,  heights = c(5,5,6))
-plotWAC (DE[, c("Time", "QCF", "QCFC")], ylab="dynamic pressure [hPa]")
-plotWAC (DE[, c("Time", "PSF", "PSFC")], ylab='ambient pressure [hPa]')
+plotWAC (DE[, c("Time", "QCF", "QCFC")], ylab="dynamic pressure [hPa]", 
+         legend.position="topright")
+plotWAC (DE[, c("Time", "PSF", "PSFC")], ylab='ambient pressure [hPa]',
+         legend.position="topright")
 op <- par (mar=c(5,4,1,1)+0.1)
 plotWAC (DE[, c("Time", "TASX")], ylab='True Airspeed [m/s]')
 
@@ -431,7 +449,8 @@ op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:2, ncol = 1), widths = 1,  heights = c(5,6))
 plotWAC (DE[, c("Time", "ADIFR", "BDIFR")], ylab="radome pressure-port differences [hPa]")
 op <- par (mar=c(5,4,1,1)+0.1)
-plotWAC (DE[, c("Time", "AKRD", "SSRD")], ylab='AOA and sideslip angles [deg.]')
+plotWAC (DE[, c("Time", "AKRD", "SSRD")], ylab='AOA and sideslip angles [deg.]',
+         legend.position='right')
 
 @
 
@@ -629,7 +648,7 @@ system in Sect.~\ref{sub:Temperature}, and the same variable (ATX) is used.
 
 A preliminary calibration was in use for in-field processing during
 DEEPWAVE, but it did not perform very well. A new calibration
-is developed in Section \ref{sec:Calibrations}. On the basis of that
+is developed in Section \ref{sec:Calibrations}. On the basis of that new
 calibration, it appears that the gust pod provides a useful alternative
 to wind measurements based on the radome. Plots and average values are
 presented there to support the validity of this measurement.
@@ -648,7 +667,7 @@ presented there to support the validity of this measurement.
 %results from DEEPWAVE rf05, saved for reference, see GPcal.pdf, a
 %note saved on 22 June 2014.\marginpar{XXX}
 
-<<vw-gp-vs-wic, include=TRUE, fig.cap="Comparison of vertical wind calculated from the gust pod (WI\\_GP) to the conventional measurement of vertical wind (WIC).">>=
+<<vw-gp-vs-wic, include=TRUE, fig.cap="Comparison of vertical wind calculated from the gust pod (WI\\_GP) to the conventional measurement of vertical wind (WIC).", include=TRUE>>=
 
 op <- par (mfrow=c(1,1), mar=c(5,5,2,2)+0.1)
 v <- DE$GGALT/0.3048 > 25000
@@ -657,32 +676,33 @@ plot(DE$WIC[v], DE$WI_GP[v], type='p', pch=20, col='blue', xlab="WIC [m/s]", yla
 lines(c(-10,10), c(-10,10), lwd=3, lty=2, col='darkorange')
 sdWICmWIG <- sd(DE$WIC[v]-DE$WI_GP[v], na.rm=TRUE)
 
-<<hw-gp-vs-std, include=TRUE, fig.cap="Comparison of vertical wind direction (top panel) and vertical wind speed (bottom panel) as determined from the gust pod and from the conventional radome-based system.">>=
+<<hw-gp-vs-std, include=TRUE, fig.cap="Comparison of horizontal wind direction (top panel) and horizontal wind speed (bottom panel) as determined from the gust pod and from the conventional radome-based system, for measurements where the true airspeed is greater than 130 m/s (to exclude periods of possible flap deployment). Only measurements considered valid are plotted for the gust pod; the restrictions where the gust-pod measurement is flagged as missing and therefore is not plotted here are: altitude (GGALT) > 5000 m, absolute value of roll (ROLL) < 5$^{\\circ}$. This causes exclusion of some measurements hear the start and end of the flight and during turns.">>=
 
 op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:2, ncol = 1), widths = 1,  heights = c(5,6))
-plotWAC(DE[, c("Time", "WDC", "WD_GP")], ylab="wind direction [deg.]")
+v <- DE$GGALT > 5000
+v[abs(DE$ROLL) > 5] <- FALSE
+#DE[!v,"WD_GP"] <- NA
+#DE[!v,"WS_GP"] <- NA
+plotWAC(DE[DE$TASX > 130, c("Time", "WDC", "WD_GP")], ylab="wind direction [deg.]")
 op <- par (mar=c(5,4,1,1)+0.1)
-plotWAC(DE[, c("Time", "WSC", "WS_GP")], ylab="wind speed [m/s]")
+plotWAC(DE[DE$TASX > 130, c("Time", "WSC", "WS_GP")], ylab="wind speed [m/s]")
 
 @
 
 The following are some plots that show the results of this processing,
 in this case from DEEPWAVE flight RF16 on 4 July 2014. Figure~\ref{fig:vw-gp-vs-wic} shows 
-a comparison of the vertical wind calculated from the gust pod (WI\_GP) vs the conventional vertical wind (WIC). The standard deviation between the two measurements is about 0.3\,m/s.
-This is a good illustration because this is a flight with large-amplitude waves and some
+a comparison of the vertical wind calculated from the gust pod (WI\_GP) vs the conventional vertical wind (WIC). The standard deviation between the two measurements is \Sexpr{round(sdWICmWIG, 2)}\,m/s. % mean diff 0.13
+This is a good illustration of performance because this is a flight with large-amplitude waves and some
 of the largest vertical-wind measurements in the DEEPWAVE project, so the consistency of these
 measurements even to extremes in this plot indicates that the measurements from the gust pod
 are useful even for these large-amplitude measurements. Figure~\ref{fig:hw-gp-vs-std} shows
 the corresponding horizontal-wind measurements, and also shows good agreement between the
-gust pod and the conventional wind-sensing system. In this case, so spikes are evident
-in the measurements from the gust pod. These are the result of a problem with the C-MIGITS
+gust pod and the conventional wind-sensing system.\footnote{Some spikes would occur
+in turns if the exclusions listed in the figure caption were not applied to the measurements from the gust pod. These are the result of a problem with the C-MIGITSIII
 measurement of heading, which exhibits noisy fluctuations as it moves through 180$^{\circ}$. 
-These are a problem for the horizontal wind measurements, esp.~the east component. They
-can be removed by spike-removal routines but are present in first-pass data files. Almost
-all appear in turns where the measurements from the gust pod should not be used because errors arising
-from misalignment of the gust-pod IRU with respect to the aircraft longitudinal axis 
-causes mixing of the attitude angles in turns.
+These fluctuations introduce large perturbations in the horizontal wind measurements, 
+affecting esp.~the east component of the wind.}
 
 <<vw-gp-small-segment, include=TRUE, fig.cap="A 15-min segment from flight 16 of the DEEPWAVE project, showing the good agreement of the vertical wind measurements from the gust pod (WI\\_GP) and from the conventional wind-sensing system on the GV (WIC). The dashed orange line is a 1:1 reference line, and each blue dot represents a 1-s pair of corresponding measurements.">>=
 

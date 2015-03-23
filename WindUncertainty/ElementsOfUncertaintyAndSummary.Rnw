@@ -865,7 +865,19 @@ where there appeared to be problems with the measurement, was 0.3$^{\circ}$, so
 the uncertainty associated with this measurement is much higher than that for the
 radome-based system. The mean difference between the two measurements of heading,
 averaged over flights, had a standard deviation of 0.17$^{\circ}$, so this may
-be a reasonable estimate of bias, as entered into the table.
+be a reasonable estimate of bias, as entered into the table.\footnote{Special processing,
+using a hybrid heading obtained by complementary filtering (cf.~Sect.~\ref{sec:comp-filter}) 
+with CTHDG\_GP considered the "fast"  signal and THDG the "slow"  signal, with appropriate
+adjustment for the discontinuity at 360$^{\circ}$ and with exclusion of data during and
+for 1 min after turns, reduced the standard deviation of the difference in heading to
+less than 0.10$^{\circ}$ with a similar reduction in estimated bias. The resulting heading variable
+retains the high-frequency response of the gust-pod IRU, needed to address issues like
+wing flex or vibration of the pod, but used the higher-quality measurement of heading from
+the fuselage IRU for long-term updating. This can improve the measurement of horizontal
+wind from the gust pod significantly, at the expense of having the measurements use
+a reference measurement outside the instrument. If improvement in the measurement of
+horizontal wind from the gust pod becomes important, such processing can be
+used for special cases.}
 \item \textbf{PITCH:} The contribution to uncertainty from the measurement of
 pitch was discussed above in connection with measurement of the vertical
 wind. However, in the case of horizontal wind, for level flight with negligible
@@ -1010,6 +1022,18 @@ aircraft so, in turns, the three attitude angles (pitch, roll, heading)
 become intermixed. It may be that the appropriate angle transformations
 can be found to handle this problem, but current processing leads
 to obvious errors in turns.
+
+Some support for this value of uncertainty in vertical wind from the gust pod
+was provided by Fig.~\ref{fig:vw-gp-vs-wic}, where the two measurements of
+vertical wind were compared for all measurements from one flight. The standard
+error in the difference between the two measurements was 0.27\,m/s, while the
+uncertainties in Table~\ref{tab:Summary-of-uncertainty} would suggest an
+expected uncertainty in the difference of 0.22\,m/s. While this is slightly
+lower than the measured difference, some of that
+difference can arise from real differences in vertical wind at the two
+locations on the aircraft and from timing differences, so the measured
+standard error is in
+reasonable agreement with the expectations from the uncertainty analysis.
 
 Using measurements of horizontal wind from the gust pod is not
 recommended. That system was designed to provide a back-up measurement that
