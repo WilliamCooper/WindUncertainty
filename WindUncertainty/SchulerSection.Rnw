@@ -1,12 +1,20 @@
 %include("chunks/latex-header")
 
 <<parent-schuler, echo=FALSE>>=
-set_parent ("WindUncertainty.Rnw")
 
 if (!exists ("ReloadData")) {
   ReloadData <- FALSE
   print (" forced ReloadData FALSE because variable doesn't exist")
+  library (knitr)
+  set_parent ("WindUncertainty.Rnw")
+  library (Ranadu, quietly=TRUE, warn.conflicts=FALSE)
+  opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+  opts_chunk$set(fig.width=6, fig.height=5, fig.loc="center", digits=4)
+  Project <- "DEEPWAVE"
+  setwd ("~/RStudio/DEEPWAVE/WindUncertainty")
 }
+ReloadData <- TRUE   ##### TEMPORARY #######
+
 @
 
 \section{Schuler correction for pitch\label{sec:Schuler}}
@@ -57,29 +65,18 @@ wind.
 
 <<reinitialization,echo=FALSE,include=FALSE>>=
 
-require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
-require(ggplot2)
-require(grid)
-library(knitr)
-require(ggthemes)
-require(vioplot)
-require(plyr)
-opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
-opts_chunk$set(fig.width=6, fig.height=5, fig.loc="center", digits=4)
-thisFileName <- "XXX"
-Directory <- DataDirectory ()
 Flight <- "ff02" 			
 Project = "DEEPWAVE"			
-fname = sprintf("%s%s/%s%s.nc", Directory,Project,Project,Flight)
+fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, 
+                Project,Flight)
 VarNames <- c("BLATA", "BLONGA", "BNORMA", "VNS", "VEW", "VSPD", "GGVNS", "GGVEW", 
               "GGVSPD", "LAT", "LON", "ALT", "THDG", "PITCH", "ROLL") 
 if (ReloadData) {
   Data <- getNetCDF (fname, standardVariables(VarNames))		
-  save (Data, file="~/RStudio/DEEPWAVE/SchulerData1.Rdata")
+  save (Data, file="DataFrames/SchulerData1.Rdata")
 } else {
-  load (file="~/RStudio/DEEPWAVE/SchulerData1.Rdata")
+  load (file="DataFrames/SchulerData1.Rdata")
 }
-#SaveRData <- sprintf("%s.Rdata.gz", thisFileName)
 Cradeg <- pi / 180
 
 @
