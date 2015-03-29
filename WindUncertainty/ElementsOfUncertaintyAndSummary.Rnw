@@ -275,8 +275,7 @@ contributions to the net uncertainty in wind.
 \subsection{Elemental sources, vertical wind\label{sub:vw-elements}}
 
 Next, we tabulate the elemental sources of uncertainty in the measurement
-of vertical wind and attempt to reconcile them with the indications
-of uncertainty in the preceding paragraphs. 
+of vertical wind. 
 
 \subsubsection{Radome-based system}
 
@@ -373,10 +372,15 @@ QCF is also used to determine the true airspeed, which affects $w$,
 but the effect is negligible for the estimated uncertainty in QCF
 (<0.2\% of the measured value of $w$, or 0.02\,m\,s$^{-1}$ for
 10\,m\,s$^{-1}$ vertical wind).
-\item \textbf{PITCH:} The bias listed is smaller than that provided by the
-manufacturer of the inertial unit, but is supported by the analyses
-in Section~\ref{sec:Schuler}, Section~\ref{sub:attitude-angles} 
-and \ref{subsub:prelim}. The partitioning
+\item \textbf{PITCH:} The estimates listed are those that apply without
+the pitch-correction procedure of Sect.~\ref{sec:Schuler}. In that section,
+it was estimated that the standard error in pitch is 0.02$^{\circ}$ and that
+this is primarily in the form of a slowly varying error that, over measurement
+periods short compared to the Schuler oscillation period of 84.4~min, will 
+appear as a bias. The correction procedure represented by
+Eq.~\ref{eq:pitch-error-wo-approx} corrects for this error well enough to
+leave the residual bias negligible, so the bias entry in Table~\ref{tab:Elemental-w}
+can be eliminated by application of that algorithm. The partitioning
 between bias and random uncertainty depends
 on the interval considered, because Schuler precession will
 cause variation in this error with the Schuler-oscillation period
@@ -394,10 +398,8 @@ case in the table.
  The uncertainty in pitch
 is the leading contributor to the standard uncertainty in vertical wind
 and is also the leading contributor to the overall estimate of bias.
-These tabulated values can be reduced substantially (perhaps by a factor of two)
-by application of
-the correction technique of Sect.~\ref{sec:Schuler}, but this is not
-done in routine processing so needs special calculation.
+The correction technique of Sect.~\ref{sec:Schuler} is not
+incorporated in routine processing so needs special calculation.
 \item \textbf{Aircraft Vertical Velocity:} The measurement used for vertical
 motion of the aircraft is discussed is Sect.~\ref{sec:VerticalVelocity}.
 The values listed here are those specified for measurements when ``OmniSTAR''
@@ -427,22 +429,18 @@ wind. This is negligible in comparison to other sources of uncertainty.
 \end{enumerate}
 
 The result of adding the elemental sources of uncertainty in quadrature
-is a bias estimate of 0.10\,m\,s and a random-uncertainty estimate
-of 0.04\,m\,s$^{-1}$. The dominant contributions are those from pitch and
+is a bias estimate of 0.10\,m\,s$^{-1}$ and a random-uncertainty estimate
+of 0.04\,m\,s$^{-1}$, with pitch correction.
+Without the correction, the bias estimate increases to 0.35\,m\,s$^{-1}$,
+so the pitch correction results in significant reduction in uncertainty and without
+that correction the uncertainty is dominated by the bias introduced by the measurement
+of pitch. In the corrected case, the dominant contributions are those from pitch and
 angle of attack, as was argued in the preliminary discussion in 
 Section~\ref{subsub:prelim}. The bias and random errors from pitch and from
 angle of attack, as listed here, arise from different sources so it is
 reasonable to combine them in quadrature to obtain composite estimates.
 
-Application of the correction procedure to the measurements of pitch, as
-developed in Section~\ref{sec:Schuler}, has the potential to reduce the
-estimated errors from pitch by at least a factor of two, so that could
-result in lowered uncertainty limits of about 0.07\,m/s (bias) and 0.03\,m/s 
-(standard uncertainty). Because the real bias arising from the calibration of
-angle of attack may be smaller than listed here, it may be worthwhile to include
-this pitch correction in processing.
-
- The APPLANIX IRU should provide
+The APPLANIX IRU should provide
 another route to improvement in the measurement of pitch, because it offers
 significantly lower specified uncertainty. It achieves this through use of
 a full Kalman-filter correction to the measurements, which would remove the need
@@ -941,8 +939,8 @@ axis of the aircraft.\label{tab:Summary-of-uncertainty}}
 \textbf{Measurement} & \textbf{bias} & \textbf{random uncertainty} & \textbf{net uncertainty} & \textbf{notes}\tabularnewline
 \midrule
 \midrule 
-vertical wind, radome & 0.1 & 0.04 & 0.1 & pitch\footnote{Potential for modest improvement if the pitch-correction algorithm
-of Sect.~\ref{sec:Schuler} is applied. }\tabularnewline
+vertical wind, radome & 0.1 & 0.04 & 0.1 & lower with pitch correction\footnote{With application of the
+pitch-correction algorithm of Sect.~\ref{sec:Schuler}, Eq.~\ref{eq:pitch-error-wo-approx}, the bias estimate is 0.05\,m\,s$^{-1}$ and the net uncertainty is 0.06\,m/s.}\tabularnewline
 \midrule 
 horizontal wind components, radome & 0.4 , 0.3 & 0.2 & 0.4 & roll < 5$^{\circ}$ \footnote{Expect minor degradation in turns.}\tabularnewline
 \midrule 
@@ -988,11 +986,14 @@ $\delta\xi=0.02$ rad. or about 1\,$^{\circ}$.
 
 There is some potential for improvement in the vertical wind if the
 pitch-correction algorithm of Section\inputencoding{latin1}{~}\inputencoding{latin9}\ref{sec:Schuler}
-is applied. The improvement is fairly modest, though, estimated to
-reduce the standard uncertainty to about 0.07\,m/s. Further reduction
+is applied. The improvement in effect removes the bias contribution from pitch, so
+it reduces the estimated bias to 0.05\,m/s and the standard uncertainty to about 0.06\,m/s. Further reduction
 would require independent evidence that the calibration maneuvers
 are flown where the average wind is smaller than the 0.05\,m/s value
-assumed when obtaining these results. In the case of horizontal wind,
+assumed when obtaining these results, because this then is the dominant
+remaining uncertainty. 
+
+In the case of horizontal wind,
 the leading uncertainty is that associated with heading, which could
 be improved by implementation of a full Kalman filter to adjust the
 heading or by replacement of the IRU with a higher-quality system

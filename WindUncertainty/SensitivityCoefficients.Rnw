@@ -1,6 +1,18 @@
 
 <<parent, echo=FALSE>>=
-set_parent ("WindUncertainty.Rnw")
+if (!exists ("ReloadData")) {
+  ReloadData <- FALSE
+  print (" forced ReloadData FALSE because variable doesn't exist")
+  library (knitr)
+  set_parent ("WindUncertainty.Rnw")
+  library (Ranadu, quietly=TRUE, warn.conflicts=FALSE)
+  opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+  opts_chunk$set(fig.width=6, fig.height=5, fig.loc="center", digits=4)
+  Project <- "DEEPWAVE"
+  setwd ("~/RStudio/DEEPWAVE/WindUncertainty")
+}
+# ReloadData <- TRUE   ##### TEMPORARY #######
+
 @
 
 \section{Sensitivity coefficients\label{sec:Calibrations}}
@@ -37,9 +49,8 @@ SummarizeFit <- function(ft) {
   print (sprintf ("R-squared %.3f", summary(ft)$r.squared))
 }
 
-# this is repeated from SchuilerSection, for independent compilation to PDF
+# this is repeated from SchulerSection, for independent compilation of this section to PDF
 <<calculate-pitch-correction-2>>=
-setwd ("~/RStudio/DEEPWAVE/WindUncertainty")
 read_chunk ("chunks/pitch-correction-function.R")
 <<correct-pitch>>=
 @
@@ -181,21 +192,26 @@ The first fit was to the following simplified equation:
 A fit to the data is shown in Fig.~\ref{fig:AOA-fit-and-plot} and
 tabulated in the following summary of the fit, which was produced
 by the ``R'' call at the top of the listing. AOAREFC is $\alpha^{*}$
-with correction to pitch as in Section \ref{sec:Schuler}and AQR=$\Delta p_{\alpha}/q$
+with correction to pitch as in Section \ref{sec:Schuler} and AQR=$\Delta p_{\alpha}/q$
 .
 
 <<getData-AOA, include=TRUE>>=
 
-# --now in parent file. For ReloadData = FALSE, retrieve from previously saved data
-if (!exists ("ReloadData")) {
-  ReloadData <- FALSE
-  print (" forced ReloadData FALSE because variable doesn't exist")
+transferAttributes <- function (dsub, d) {
+  ds <- dsub
+  for (nm in names (ds)) {
+    var <- sprintf ("d$%s", nm)
+    A <- attributes (eval (parse (text=var)))
+    A$dim <- NULL
+    A$class <- NULL
+    var2 <- sprintf ("ds$%s", nm)
+    attributes (ds[,nm]) <- A
+  }
+  return(ds)
 }
-Project <- "DEEPWAVE"
-if (ReloadData) {
-  Flight <- "rf15"        # this was the flight with cal maneuvers
-  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-  VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+Flight <- "rf15"        # this was the flight with cal maneuvers
+fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
               "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
               "ADIFR", "AKRD", "SSLIP", "PITCH", 
               "ROLL", "THDG", "BDIFR", "EWX", "GGALT",
@@ -203,43 +219,77 @@ if (ReloadData) {
               "CROLL_GP", "CPITCH_GP", "CTHDG_GP", "WIC",
               "CVNS_GP", "CVEW_GP", "VSPD", "CVSPD_GP",
               "ATX", "GGVSPD", "QCF", "PSF")
+if (ReloadData) {
   D <- getNetCDF (fname, VarNames)      # this handles high-rate data also
   PC <- CorrectPitch(D)
-  Valid <- (D$TASX > 130)
-  Valid[abs(D$ROLL) > 5] <- FALSE
-  #hist(PC[Valid], xlim=c(-0.02,0.02))
+  # Valid <- (D$TASX > 130)
+  # Valid[abs(D$ROLL) > 5] <- FALSE
+  # hist(PC[Valid], xlim=c(-0.02,0.02))
   D["PITCHC"] <- D$PITCH - PC
-  Flight <- "rf11"        # this had  cal maneuvers at 40K ft
-  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-  D2 <- getNetCDF (fname, VarNames)
-  D2["PITCHC"] <- D2$PITCH - CorrectPitch (D2)
-  r4 <- setRange (D2$Time, 103000,104000)
-  D2 <- D2[r4,]
-  Flight <- "rf16"        # 43000-ft leg
-  fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-  D3 <- getNetCDF (fname, VarNames)
-  D3["PITCHC"] <- D3$PITCH - CorrectPitch (D3)
-  r5 <- setRange (D3$Time, 94000,110000)
-  D3 <- D3[r5, ]
+  save (D, file="DataFrames/SC1.Rdata")
+} else {
+  load (file="DataFrames/SC1.Rdata")    # loads D
+}
+Flight <- "rf11"        # this had  cal maneuvers at 40K ft
+fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+if (ReloadData) {
+  D2x <- getNetCDF (fname, VarNames)
+  D2x["PITCHC"] <- D2x$PITCH - CorrectPitch (D2x)
+  r4 <- setRange (D2x$Time, 103000,104000)
+  D2 <- D2x[r4,]
+  D2 <- transferAttributes (D2, D2x)  # preserve attributes after subsetting
+  save (D2, file="DataFrames/SC2.Rdata")
+} else {
+  load (file="DataFrames/SC2.Rdata")    # loads D2
+}
+Flight <- "rf16"        # 43000-ft leg
+fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+if (ReloadData) {
+  D3x <- getNetCDF (fname, VarNames)
+  D3x["PITCHC"] <- D3x$PITCH - CorrectPitch (D3x)
+  r5 <- setRange (D3x$Time, 94000,110000)
+  D3 <- D3x[r5, ]
+  D3 <- transferAttributes (D3, D3x)
+  save (D3, file="DataFrames/SC3.Rdata")
+} else {
+  load (file="DataFrames/SC3.Rdata")    # loads D3
+}
+if (ReloadData) {
   Flight <- "rf14"        # 45000-ft leg
   fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-  D4 <- getNetCDF (fname, VarNames)
-  D4["PITCHC"] <- D4$PITCH - CorrectPitch (D4)
-  r6 <- setRange (D4$Time, 113000,122000)
-  D4 <- D4[r6, ]
+  D4x <- getNetCDF (fname, VarNames)
+  D4x["PITCHC"] <- D4x$PITCH - CorrectPitch (D4x)
+  r6 <- setRange (D4x$Time, 113000,122000)
+  D4 <- D4x[r6, ]
+  D4 <- transferAttributes (D4, D4x)
+  save (D4, file="DataFrames/SC4.Rdata")
+} else {
+  load(file="DataFrames/SC4.Rdata")    # loads D4
+}
+if (ReloadData) {
   flight = "rf11"
   fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-  D5 <- getNetCDF (fname, VarNames)
-  D5["PITCHC"] <- D5$PITCH - CorrectPitch (D5)
-  r7 <- setRange (D5$Time, 70000, 100000)
-  D5 <- D5[r7, ]
+  D5x <- getNetCDF (fname, VarNames)
+  D5x["PITCHC"] <- D5x$PITCH - CorrectPitch (D5x)
+  r7 <- setRange (D5x$Time, 70000, 100000)
+  D5 <- D5x[r7, ]
+  D5 <- transferAttributes (D5, D5x)
+  save (D5, file="DataFrames/SC5.Rdata")
+} else {
+  load (file="DataFrames/SC5.Rdata")
+}
+if (ReloadData) {
   flight = "rf03"
   fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
-  D6 <- getNetCDF (fname, VarNames)
-  D6["PITCHC"] <- D6$PITCH - CorrectPitch (D6)
-  D6 <- D6[D6$GGALT/0.3048 > 35000, ]
-  
+  D6x <- getNetCDF (fname, VarNames)
+  D6x["PITCHC"] <- D6x$PITCH - CorrectPitch (D6x)
+  D6 <- D6x[D6x$GGALT/0.3048 > 35000, ]
+  D6 <- transferAttributes (D6, D6x)
+  save (D6, file="DataFrames/SC6.Rdata")
+} else {
+  load (file="DataFrames/SC6.Rdata")
 }
+
 capnF1 <- "The angle-of-attack determined from the fit to pressure measurements from the radome, as a function of the reference angle provided by Equation (\\ref{eq:AOAsens1term}), for the combination of data from all four speed runs as listed in the text."
 
 @
@@ -262,22 +312,20 @@ if (ReloadData) {
   Data2 <- rbind (D2, D[r,])
   Valid <- (Data2$TASX > 130.)
   Data2 <- Data2[Valid,]
-  save (Data,Data2,D,D2, file="~/RStudio/DEEPWAVE/CalData.Rdata")
+  save (Data,Data2, file="DataFrames/CalData.Rdata")
 } else {
-  load (file="~/RStudio/DEEPWAVE/CalData.Rdata")
+  load (file="DataFrames/CalData.Rdata")    # loads Data, Data2
 }
 Cradeg <- pi / 180.
 Data2["Mach"] <- MachNumber (Data2$PSF, Data2$QCF)  # uses uncorrected q, p
 ## use corrected value of PITCHC
 Data2["AOAREFC"] <- Data2$PITCHC - asin(Data2$GGVSPD/Data2$TASX) / Cradeg
 Data2["AOAREF"]  <- Data2$PITCH  - asin(Data2$GGVSPD/Data2$TASX) / Cradeg
-Data2["AQR"] <- Data2$ADIFR/Data2$QCF # basic pressure ratio for AO
+Data2["AQR"] <- Data2$ADIFR/Data2$QCF # basic pressure ratio for AOA
 fmy <- lm(AOAREFC~AQR, data=Data2)
-#print(summary(fmy))
+cfr <- as.vector (coefficients (fmy))
 SummarizeFit (fmy)
 fmyp <- lm (AOAREF~AQR, data=Data2)
-#print(summary(fmyp))
-cfr <- coefficients (fmy)
 A1 <- cfr[1]+cfr[2]*Data2$AQR
 Data2["A1"] <- A1
 std.coef <- c(4.605, 18.44, 6.75)
@@ -293,18 +341,17 @@ g <- g + theme_WAC()
 print (g)
 #plot (Data2$AOAREFC, A1, pch=16, cex=0.8, col='blue', xlab="Ref. AOA", ylab="fit AOA")
 #lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='darkorange')
-capnF1b <- "The angle of attack determined from the simple fit to the pressure ratio from the radome, compared to the standard variable AKRD used for preliminary processing. The 
-points plotted in red are those measured at altitudes between 8 and 9 km GPS altitude; all others are plotted as blue symbols."
+capnF1b <- "The angle of attack determined from the simple fit to the pressure ratio from the radome, compared to the standard variable AKRD used for preliminary processing. The points plotted in red are those measured at altitudes between 8 and 9 km GPS altitude; all others are plotted as blue symbols."
 capnF2 <- "The angle-of-attack determined from the expanded fit, as a function of the reference angle provided by Equation (\\ref{eq:AOAsens1term})."
 capnF1b <- "The angle of attack determined from the simple fit to the pressure ratio from the radome, as a function of the angle-of-attack predicted for zero vertical wind from the formula in the text (blue shapes), and the corresponding distribution that would result from using the standard calibration (green shapes). The shapes show the distributions for measurements in centered bins at (1/3)-deg increments in the predicted angle-of-attack. The dashed orange line is the best fit to the speed-run measurements."
 
 @
 
-This fit gave coefficients $c_{0}^{*}$ and $c_{1}^{*}$ equal to
-\Sexpr{format(round(summary(fmy)$coef[1],3), nsmall=3)} and \Sexpr{round(summary(fmy)$coef[2],3)}.
+This fit gave coefficients $c_{0}^{*}$ and $c_{1}^{*}$ equal to 
+\Sexpr{format(round(cfr[1],3), nsmall=3)} and \Sexpr{round(cfr[2],3)}.
 The fit accounted for \Sexpr{round(100*summary(fmy)$r.squared, 1)}\%
 of the variance and had a residual standard error of \Sexpr{round(summary(fmy)$sigma, 2)}$^{\circ}$,
-so it represented the speed runs well. In Fig.~\ref{fig:AOA-fit-and-plot},
+so it represents the speed-run data well. In Fig.~\ref{fig:AOA-fit-and-plot},
 the thin gray line under the thick orange dashed line represents the
 uncertainty in the fit result and shows that the uncertainty in representing
 these data with this set of coefficients is negligible. The more significant
@@ -319,8 +366,8 @@ involved, especially that from the radome. The IRU outputs measurements
 with a time delay that can be variable and unknown but is expected
 to be <0.1~s, and normal processing uses an adjustment of 60~ms
 to compensate for this delay. To guard against this delay affecting
-the calibration, a series of fits like that leading to the above formula
-and coefficients were performed after shifting the measurement of
+the calibration, fits like that leading to the above formula
+and coefficients were repeated after shifting the measurement of
 pitch by various time intervals, both forward and backward. For shifts
 within about 0.5\,s, the results did not change significantly, although
 the fit with adjustment of pitch \emph{backward} by about 0.5\,s
@@ -401,7 +448,7 @@ MakeHR <- function (X) {
 
 <<cycle-thru-times, include=TRUE, eval=FALSE>>=
 
-# beware: can't use this with ReloadData==TRUE, r4 missing
+# beware: can't use this with ReloadData==FALSE, r4 missing
 # DPITCH <- c(D$PITCH[1], D$PITCH[1:(length(D$PITCH)-1)]) 
 # D2PITCH <- c(D2$PITCH[1], D2$PITCH[1:(length(D2$PITCH)-1)]) 
 # #DPITCH <- c(D$PITCH[2:length(D$PITCH)], D$PITCH[length(D$PITCH)])
@@ -523,7 +570,7 @@ The next step was to expand the data set to include flights from a
 range of altitudes including up to FL450, and to see if it is necessary
 to refine the fit to include additional terms like that in Eq.~\ref{eq:AOAstandard}
 to constrain the zero of the angle-of-attack while preserving the
-measured sensitivity as in (\ref{eq:AOAsens1term}). The expanded
+measured sensitivity as in (\ref{eq:AOAsens1term}). This expanded
 dataset included RF14, with a FL450 leg from 11:30 to 12:20 UTC; RF16,
 with a FL430 leg from 9:30 to 11:00 UTC; RF03, all measurements above 35,000\,ft flight altitude (to incorporate a long flight where fuel burn-off changed the angle of attack); 
 and an expanded section from
@@ -552,7 +599,7 @@ would be zero. For this reason, pitch and vertical aircraft motion
 were excluded from the candidate terms in the fit.%
 }
 
-<<switch-to-larger-dataset, include=TRUE>>=
+<<switch-to-expanded-dataset, include=TRUE>>=
 
 # now expand to larger dataset
 Valid <- (Data$TASX > 130.) & (abs(Data$ROLL) < 5.)
@@ -591,14 +638,14 @@ sd3 <- summary(fm)$sigma
 #print(summary(fm))
 #A3 <- cf3[1] + cf3[2]*Data$AQR + cf3[2]*Data$AQRM + cf3[3]*Data$AQRM2 
 #      + cf3[4]*Data$AQRM3 + cf3[5]*Data$Mach
-Data$A3 <- cf3[1]+cf3[2]*Data$AQR     # "larger" dataset
+Data$A3 <- cf3[1]+cf3[2]*Data$AQR     # "expanded" dataset
 Data$A1 <- cfr[1]+cfr[2]*Data$AQR     # speed-runs
 cfs <- c(4.604, 18.67, 6.49)          # standard coefficients
 Data$A3std <- cfs[1]+cfs[2]*Data$AQR+cfs[3]*Data$AQRM
 Data$A4 <- 4.437 + 21.193*Data$AQR    # all flights (exc. 6,7,15,segment in )
 @
 
-The results from the two-coefficient fit to the larger data set, using\\
+The results from the two-coefficient fit to the expanded data set, using\\
 \begin{equation}
 \alpha=c_{0}+c_{1}\frac{\Delta p_{\alpha}}{q}\,\,\,,\label{eq:AOArecommended}
 \end{equation}
@@ -634,11 +681,14 @@ of the pitch errors as discussed in Sect.~\ref{sec:Schuler}, is
 \{$c_{0},\, c_{1}$\} = \{\Sexpr{round(cf31,3)}, \Sexpr{round(cf32,3)}\}.
 
 
-Evaluation of all the points in the larger dataset using three fits,
-that from the larger dataset, from the speed runs alone, 
+Evaluation of all the points in the expanded dataset using three fits,
+that from the expanded dataset, from the speed runs alone, 
 and using the \textquotedbl{}standard\textquotedbl{}
-fit discussed above, gave only very small differences in the results:
-the angle-of-attack evaluated from the larger-dataset coefficients
+fit discussed above, gave only very small differences in the results.
+In Fig.~\ref{fig:second-violin-plot} the values of angle-of-attack
+obtained using the fit to data from the expanded dataset are compared
+to those obtained using the fit to the speed-run dataset. 
+The angle-of-attack evaluated from the expanded-dataset coefficients
 resulted in values 
 \Sexpr{format(round(mean(Data$A3-Data$A1, na.rm=TRUE),3), nsmall=3)}%
 $\pm\Sexpr{format(round(sd(Data$A3-Data$A1, na.rm=TRUE),3), nsmall=3)}%
@@ -647,16 +697,18 @@ the speed-run coefficients and
 \Sexpr{round(mean(Data$A3-Data$A3std, na.rm=TRUE),3)}%
 $\pm\Sexpr{round(sd(Data$A3-Data$A3std, na.rm=TRUE),3)}^{\circ}$ larger
 than those from the standard coefficients, so using any of these formulas
-would give about the same results.  Still another determination of the
-sensitivity coefficients was based on the full set of measurements from
-all flights in the DEEPWAVE project; 
-that led to coefficients \{4.437, 21.193\} and a difference
-in angle of attack relative to the reference data set above of 
-\Sexpr{round(mean(Data$A4-Data$A3, na.rm=TRUE),3)}%
-$\pm\Sexpr{round(sd(Data$A4-Data$A3, na.rm=TRUE),3)}^{\circ}$.
-One measure of uncertainty in the results from applying
-these fits is that the various fits differ by about 0.03$^{\circ}$
-in resulting angle-of-attack. 
+would give about the same results.  
+
+% Still another determination of the
+% sensitivity coefficients was based on the full set of measurements from
+% all flights in the DEEPWAVE project; 
+% that led to coefficients \{4.437, 21.193\} and a difference
+% in angle of attack relative to the reference data set above of 
+% \Sexpr{round(mean(Data$A4-Data$A3, na.rm=TRUE),3)}%
+% $\pm\Sexpr{round(sd(Data$A4-Data$A3, na.rm=TRUE),3)}^{\circ}$.
+% One measure of uncertainty in the results from applying
+% these fits is that the various fits differ by about 0.03$^{\circ}$
+% in resulting angle-of-attack. 
 
 <<second-violin-plot, include=TRUE, warning=FALSE, fig.cap="Distributions in the angle-of-attack determined from the two-coefficient fit to the expanded dataset, plotted with the distributions that would result from use of the equation based on the speed-runs only. The pink color denotes regions covered by both distributions.">>=
 
@@ -665,7 +717,7 @@ in resulting angle-of-attack.
 ## DF["A3"] <- A3
 ## DF["A3std"] <- A3std
 ## DF["A1"] <- A1
-clr <- c("larger-dataset fit", "speed-run fit")
+clr <- c("expanded-dataset fit", "speed-run fit")
 col <- c("red", "lightblue")
 #g <- qplot(D$AOAREF,D$A,geom="violin", group = plyr::round_any(D$AOAREF,0.5, round),  fill=clr[1])
 g <- ggplot(data=Data, aes(x=AOAREFC,y=A3))
@@ -677,7 +729,7 @@ g <- g + geom_violin(aes(y=A1,group = plyr::round_any(AOAREFC, 0.33333, round), 
 xsz = 2.8
 ysz = 0.30
 # g <- g + geom_rect(aes(xmin=3.5-xsz/2.,xmax=3.5+xsz/2.,ymin=0.6-ysz/2.,ymax=0.6+ysz/2.), fill="lightyellow", colour="blue")
-# g <- g + annotate("text", label="larger-data-set residual: 0.13 deg.", x=3.5,y=0.6,size=6, colour="red")
+# g <- g + annotate("text", label="expanded-data-set residual: 0.13 deg.", x=3.5,y=0.6,size=6, colour="red")
 g <- g + xlab (expression(paste("Reference AOA [", degree, "]")))
 g <- g + ylab (expression(paste("AOA from fit [",degree,"]"))) + ylim(0.,6.)
 g <- g + geom_line(aes(y=AOAREF), colour="darkorange", lwd=2, linetype=2)
@@ -691,15 +743,13 @@ g
 capnF1c <- "Comparison of angle of attack determined from (6) to the reference data for the four speed runs."
 @
 
-In Fig.~\ref{fig:second-violin-plot} the values of angle-of-attack
-obtained using the fit to data from the expanded dataset are compared
-to those obtained using the fit to the speed-run dataset. 
+
 
 
 
  % The best fit to the expanded dataset, keeping $c_1^{*}$ fixed as given in (\ref{eq:AOAsens1term}), was% the following equation:% % \begin{equation}% \alpha=c_{0}+\frac{\Delta p_{\alpha}}{q}(c_{1}^{*}+c_{1}M+c_{2}M^{2}+c_{3}M^{3})+c_{4}M\label{eq:BestFitAOAradome}% \end{equation}% with coefficients \{$c_{i}$\}=\{4.1079717, 82.6157340, -135.8737038,% 77.4028078, 0.5531502\} and $c_1^*$ =21.872829. The results are shown in the following figure, and a summary of the fit is listed also. The residual error in angle of attack was 0.11$^\circ$ for the 17,168 points used in the fit, and all terms in (\ref{eq:BestFitAOAradome}) tested as having high significance. (The variables listed as AQRMx are $\frac{\Delta p_{\alpha}}{q}M^x$ where $M$ is the Mach number.)
 
-The standard errors in the coefficients for the larger dataset are
+The standard errors in the coefficients for the expanded dataset are
 respectively \Sexpr{round(summary(fm)$coefficients[1,2],4)} and \Sexpr{round(summary(fm)$coefficients[2,2],3)},
 so the coefficients are tightly constrained by the fit. 
 The correlation between error terms was very high and positive, but the second
@@ -707,9 +757,9 @@ coefficient is applied to a term ($\delta p_{\alpha}/q$ that is typically negati
 uncertainties partially cancel, leaving a net uncertainty in angle of attack
 of 0.0007$^{\circ}$ (for 0.99 correlation between the uncertainty terms) as a result of uncertainty in the fit.
 
-The larger dataset provided results consistent with those from the
+The expanded dataset provided results consistent with those from the
 speed runs alone but contained 17,721 measurements vs.~only 2,019
-for the speed-run dataset, so the larger set provides an opportunity
+for the speed-run dataset, so this larger set provides an opportunity
 to examine the consistency of results from subsets of the measurements.
 For this purpose, randomly selected but exclusive subsets of the data
 were selected repeatedly and the fit coefficients were determined
@@ -744,10 +794,10 @@ resulting from the fit. This then is the major uncertainty affecting angle
 of attack and hence vertical wind, and it is difficult to quantify except
 by estimates of how large the vertical wind might be. For all 1-s measurements
 of vertical wind in the DEEPWAVE project, the mean vertical wind was 0.03\,m/s
-without correction for pitch errors and negligible with such correction (because
-that is required by the method of determining sensitivity coefficients), in both
+without correction for pitch errors and <0.01\,m/s with such correction, in both
 cases with a standard deviation of about 0.5\,m/s. When measurements are partitioned
 into groups within 1-5$^{\circ}$ longitude upwind and downwind of the island crest, 
+using a slanted dividing line approximately matching the orientation of the island,
 the two groups had respective mean vertical wind measurements of -0.026 and +0.032\,m/s,
 so even over the South Island of New Zealand there was no significant mean vertical
 wind at the altitude of research flights. It therefore seems reasonable to use
@@ -765,10 +815,11 @@ altitude). Also, the period from 9:50 to 10:30 UTC on flight 23 was excluded bec
 if (ReloadData) {
   DataC <- data.frame()
   for (j in c(1:5,8:14,16:26)) {     	
-    fname = sprintf("%s%s/%srf%02d.nc", Directory,Project,Project,j)
+    fname = sprintf("%s%s/%srf%02d.nc", DataDirectory(), Project, Project, j)
     DW <- getNetCDF (fname, standardVariables (c("THDG", "VEW", "GGVEW", "VNS", "GGVNS",
                                                    "ADIFR", "QCF",
                                                    "LAT", "PITCH", "ROLL", "GGVSPD")))
+    if (j == 16) {DW16 <- DW}    # save to preserve attributes
     DW$AR <- DW$ADIFR / DW$QCF
     plotWAC(DW[, c("Time", "WIC")])
     PC <- CorrectPitch (DW)
@@ -790,10 +841,11 @@ if (ReloadData) {
     lineWAC (DW$Time, DW$WIY, col='darkorange')
     lineWAC (DW$Time, Valid, col='lightblue')
     print (sprintf (" flight %d mean w %.2f", j, mean (DW$WIY[Valid], na.rm=TRUE)))
-  } 
-  save (DataC, file='~/RStudio/DEEPWAVE/WindUncertainty/AOAdata.Rdata')
+  }
+  DataC <- transferAttributes (DataC, DW16)
+  save (DataC, file='DataFrames/AOAdata.Rdata')
 } else {
-  load (file='~/RStudio/DEEPWAVE/WindUncertainty/AOAdata.Rdata')
+  load (file='DataFrames/AOAdata.Rdata')    # loads DataC
 }
 
 <<plot-all-flights-radome-aoa, include=TRUE>>=
@@ -817,7 +869,7 @@ DataC$WIY <- DataC$TASX * (DataC$AKRD2-DataC$PITCH)*pi/180 + DataC$GGVSPD
 
 @
 
-The result was fit coefficients \Sexpr{round(cfallflt[1], 3)} and \Sexpr{round(cfallflt[2], 3)}.\label{coefficients-aoa-all-flt} These coefficients are similar to those determined for the subset data used previously, but they could be used instead if the goal is to minimize the offsets in mean vertical wind for the project because, for the constraints used, they will force a project-mean vertical wind of 0. A test of these coefficients for the segment of flight 12 away from the influence of South Island indeed led to a mean wind very close to zero, and flight-by-flight averages also as reasonably small with these coefficients.
+The result was fit coefficients \Sexpr{round(cfallflt[1], 3)} and \Sexpr{round(cfallflt[2], 3)}.\label{coefficients-aoa-all-flt} These coefficients are similar to those determined for the subset data used previously, but they could be used instead if the goal is to minimize the offsets in mean vertical wind for the project because, for the constraints used, they will force a project-mean vertical wind of 0. A test of these coefficients for the segment of flight 12 away from the influence of South Island indeed led to a mean wind very close to zero, and flight-by-flight averages also are reasonably small with these coefficients.
 
 <<fig-cap-3a>>=
 capnFaoaG <- "For the gust pod, the angle-of-attack determined from the fit as a function of the reference angle provided by (\\ref{eq:AOAeq}), for the combined four speed runs. Compare to Fig.~\\ref{fig:AOA-fit-and-plot}, the corresponding plot for the radome."
@@ -888,10 +940,11 @@ these same speed runs.
 
 if (ReloadData) {
   for (i in 1:26) {   		
-    fname = sprintf("%s%s/%srf%02d.nc", Directory,Project,Project,i)
+    fname = sprintf("%s%s/%srf%02d.nc", DataDirectory(), Project, Project, i)
     DW <- getNetCDF (fname, standardVariables (c("CTHDG_GP", "CVEW_GP", "CVNS_GP", 
                                                    "ADIF_GP", "QC_GP", "PS_GP", "WI_GP",
                                                    "CPITCH_GP", "CROLL_GP", "CVSPD_GP")), F=i)
+    if (i == 16) {DW16 <- DW}
     DW$AQR_GP <- DW$ADIF_GP / DW$QC_GP
     DW$MACHG <- MachNumber (DW$PS_GP, DW$QC_GP)
     DW$AQRM_GP <- DW$AQR_GP * DW$MACHG
@@ -910,9 +963,10 @@ if (ReloadData) {
       DataC <- rbind (DataC, DW[Valid, ])
     }
   }
-  save (DataC, file="~/RStudio/DEEPWAVE/WindUncertainty/AOAGPdata.Rdata")
+  DataC <- transferAttributes (DataC, DW16)
+  save (DataC, file="DataFrames/AOAGPdata.Rdata")
 } else {
-  load (file='~/RStudio/DEEPWAVE/WindUncertainty/AOAGPdata.Rdata')
+  load (file='DataFrames/AOAGPdata.Rdata')
 }
 DataS <- DataC
 excl <- c(1:4,15,17:19,23:25)
@@ -1172,19 +1226,16 @@ longitudinal axis and the gust pod. The detailed report for the fit
 is listed above, and the result of applying these sensitivity coefficients
 to the measurements from the gust pod is shown in Fig.~\ref{fig:sideslip-gust-pod}.
 
-On additional study is needed to determine the sensitivity coefficients
-for sideslip. An offset in sideslip, arising from an erroneous first
-coefficient $e_{0}$ in the calibration, would produce an offset in
-the lateral component of the measured wind, and that erroneous lateral
-component would enter the calibration equation to again give a first
-coefficient near zero. An offset therefore must be determined in another
-way. Two candidates for finding the offset are reverse-heading maneuvers,
-during which the horizontal wind component lateral to the aircraft
-should remain constant but change sign, or circle maneuvers, during
-which an offset in sideslip will appear as a sinusoidally varying
-perturbation to the wind. Later in this report, a set of circles,
-flown with constant roll, will be used in Section \ref{sub:Analysis-of-circle}
-to obtain a better estimate of the sideslip offset. .\vfill\eject
+An additional study is needed to separate a possible offset in sideslip
+from a similar error in heading, because the approach used here assumes that
+the heading is accurate. In the data files used for this study, an offset in
+heading of -0.08$^{\circ}$ was imposed; without that offset, the offset in
+sideslip (coefficient $e_0$) would be reduced by 0.08.
+A method of determining these separate offsets
+is developed later in this report (Section \ref{sub:Analysis-of-circle}), 
+where a set of circles flown with constant roll angle 
+are used to obtain a better estimate of the sideslip offset. That study
+results in a corrected value for $e_0$.\marginpar{XXX}
 
 
 \subsection{True Airspeed from the Gust Pod\label{sub:GP-TAS}}
@@ -1320,7 +1371,7 @@ wind measurement was compromised by an obstruction in the pressure-sensor
 lines of the radome, the best vertical wind will be that calculated
 using (\ref{eq:AOAGfunction}) for the angle of attack but conventional
 TASX for the true airspeed, because the pressure ports used to determine
-TASX are not obstructed.
+TASX were not obstructed.
 
 \vfill\eject
 

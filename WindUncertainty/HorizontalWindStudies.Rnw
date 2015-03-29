@@ -1270,7 +1270,7 @@ from the circle fits is that the combined bias associated with the heading and s
 
 
 
-\subsection{The complementary filter}
+\subsection{The complementary filter\label{sub:comp-filter}}
 
 Wind measurements combine a measurement of relative wind with a measurement
 of aircraft motion to determine the air motion relative to the ground.

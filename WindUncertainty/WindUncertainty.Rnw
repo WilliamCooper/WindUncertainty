@@ -144,10 +144,10 @@
  from the NSF/NCAR Gulfstream V Research Aircraft}
 
 
-\author{Al Cooper, Dick Friesen (and, eventually, many others)}
+\author{Al Cooper, Dick Friesen, Matt Hayman, Jorgen Jensen, Scott Spuler, Jeff Stith\\(and, we hope, many others)}
 
 
-\date{\textcolor{red}{DRAFT} 3/20/2015}
+\date{\textcolor{red}{DRAFT} 3/30/2015}
 
 \maketitle
 \vfill\eject
@@ -198,7 +198,8 @@ calculations and the generation of this document.
 
 A package named Ranadu, containing auxillary functions, is used extensively
 in the R code. It is
-available on GitHub as \href{https://github.com/WilliamCooper/Ranadu.git}{https://github.com/WilliamCooper/Ranadu.git}.
+available on GitHub as \href{https://github.com/WilliamCooper/Ranadu.git}{https://github.com/WilliamCooper/Ranadu.git}. The specific version used for calculations in this
+report is included in the 'zip' archive listed below.
 
 The data files used are also preserved in the NCAR High Performance
 Storage System (HPSS) in files that are available, and they can be
@@ -235,7 +236,7 @@ is thus preserved.
 \textsf{\textsc{\textcolor{blue}{Git:}}} & https://github.com/WilliamCooper/WindUncertainty.git\tabularnewline
 \end{tabular}
 
-\attachm{\Sexpr{thisFileName}.Rnw\\\Sexpr{thisFileName}.pdf\\chunks/*\\SessionInfo}
+\attachm{\Sexpr{thisFileName}.Rnw\\\Sexpr{thisFileName}.pdf\\chunks/*\\SessionInfo\\Ranadu\_2.1-15-3-8.tar.gz}
 
 
 \section*{Acknowledgments}

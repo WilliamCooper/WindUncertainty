@@ -13,7 +13,7 @@ if (!exists ("ReloadData")) {
   Project <- "DEEPWAVE"
   setwd ("~/RStudio/DEEPWAVE/WindUncertainty")
 }
-ReloadData <- TRUE   ##### TEMPORARY #######
+# ReloadData <- TRUE   ##### TEMPORARY #######
 
 @
 
@@ -250,6 +250,7 @@ legend ('topright', legend=c('VEW-GGVEW', 'VNS-GGVNS'), lwd=2, col=c('blue', 'da
 <<calculate-pitch-correction>>=
 read_chunk ("chunks/pitch-correction-function.R")
 <<correct-pitch>>=
+
 @
 
 The errors can be determined directly from the time-derivatives of
@@ -337,12 +338,12 @@ southbound level flight, and for eastbound flight an $l$-frame roll
 error becomes a $b$-frame pitch error while an $l$-frame pitch error
 become a negative $b$-frame roll error. 
 
-Consider a unit vector representing the orientation errors in pitch
+Consider a unit vector $\mathbf{b}^{(l)}$ representing the orientation errors in pitch
 and roll in the $l$-frame, with components \{$\sin\delta\phi,\,\sin\delta\theta,\,\sqrt{1-\sin^{2}\delta\phi-\sin^{2}\delta\theta}$\}
 or, because the errors are always small, approximately \{$\delta\phi,\,\delta\theta,\,1$\}.
 The three-angle transformation of this vector from the $l$-frame
 to the $b$-frame is then represented by the following matrices, with
-\{$\phi,\,\theta,\,\psi$\} representing \{roll, pitch, heading\}:
+\{$\phi,\,\theta,\,\psi$\} denoting \{roll, pitch, heading\}:
 
 \begin{equation}
 R_{l}^{b}=\begin{bmatrix}\cos\psi\cos\phi+\sin\psi\sin\phi\sin\theta & -\sin\psi\cos\phi+\cos\psi\sin\phi\sin\theta & -\cos\theta\sin\phi\\
@@ -350,7 +351,7 @@ R_{l}^{b}=\begin{bmatrix}\cos\psi\cos\phi+\sin\psi\sin\phi\sin\theta & -\sin\psi
 \cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi & -\sin\psi\sin\phi-\cos\psi\sin\theta\sin\phi & \cos\theta\cos\phi
 \end{bmatrix}\label{eq:transform-l-to-b}
 \end{equation}
-
+ If the roll and pitch angles are small,
 
 \begin{eqnarray}
 \mathbf{b^{(b)}=}R_{l}^{b}\mathbf{b^{(l)}} & \approx & \left[\begin{array}{ccc}
@@ -375,13 +376,15 @@ pitch and roll errors in the $b$-frame:
 \delta\phi^{(b)} & \approx & \cos\psi\delta\phi-\sin\psi\delta\theta\nonumber 
 \end{eqnarray}
 In turns, the roll angle is no longer negligible, so in general the
-full transformation should be used and the pitch error should be found
-from the results of (\ref{eq:b-vector-in-b-frame}). Because the pitch
-and roll angles are applied by this full transformation, the resulting
-errors are obtained by subtracting the measured pitch and roll from
-the transformed result; e.g., \\
+full transformation matrix \eqref{eq:transform-l-to-b} should be used.  Because this
+matrix imposes rotations
+by the measured pitch
+and roll angles, the unit vector representing the errors in pitch and roll
+after transformation will have components from which the true pitch and roll
+can be determined, so subtracting the corrected pitch from the measured pitch
+gives the error in measured pitch: \\
 \begin{equation}
-\delta\theta^{(b)}=\arctan\frac{b_{2}^{(b)}}{b_{3}^{(b)}}-\theta\label{eq:pitch-error-wo-approx}
+\delta\theta^{(b)}=\theta-\arctan\frac{b_{2}^{(b)}}{b_{3}^{(b)}}\label{eq:pitch-error-wo-approx}
 \end{equation}
 This pitch error should then be subtracted from the measured pitch
 to obtain a corrected value of the pitch for use in the calculation
@@ -423,9 +426,9 @@ VarNames <- c("VNS", "VEW","GGVNS", "GGVEW", "GGALT", "LATC", "LONC", "THDG", "P
 if (ReloadData) {
   D <- getNetCDF (fname, standardVariables(VarNames))
   D <- D[D$TASX > 130, ]
-  save (D, file="~/RStudio/DEEPWAVE/SchulerData2.Rdata")
+  save (D, file="DataFrames/SchulerData2.Rdata")
 } else {
-  load (file="~/RStudio/DEEPWAVE/SchulerData2.Rdata")
+  load (file="DataFrames/SchulerData2.Rdata")
 }
 D$DifEW <- D$GGVEW - D$VEW
 D$DifNS <- D$GGVNS - D$VNS
@@ -474,7 +477,7 @@ Valid[abs(D$ROLL) > 5] <- FALSE
 ## hist (CorrectPitch(D)[Valid], xlim=c(-0.05, 0.05))
 ## mean is very close to zero
 ## mean (CorrectPitch(D)[Valid], na.rm=TRUE)
-sd (CorrectPitch(D)[Valid], na.rm=TRUE)
+sdc <- sd (CorrectPitch(D)[Valid], na.rm=TRUE)
 
 @
 
@@ -522,14 +525,13 @@ it would be expected that the vertical wind would be the same.
 
 
 
-The difference between average vertical wind measurements for each 
-pair of legs was calculated before and after applying the pitch-correction 
-algorithm developed in this section. The average absolute value of the
-difference before correction was smaller than 0.1\,m/s, so the wind 
-measurements were already in very good agreement for these pairs of legs
-and not much improvement could be expected. However, application of the
-pitch-correction algorithm did reduce this average to less than half the
-uncorrected value, as shown in Fig.\ \ref{fig:reverse-course-w-comparison}.
+%  The average absolute value of the
+% difference before correction was smaller than 0.1\,m/s, so the wind 
+% measurements were already in very good agreement for these pairs of legs
+% and not much improvement could be expected. 
+% However, application of the
+% pitch-correction algorithm did reduce this average to about 36\% of the
+% uncorrected value, as shown in Fig.\ \ref{fig:reverse-course-w-comparison}.
 
 <<reverse-course-w-comparison, fig.cap="Absolute difference in vertical wind for flight segments before and after level course-reversal maneuvers. The top panel shows the uncorrected measurements and the bottom panel shows the result of applying the pitch correction developed in this section.", include=TRUE, fig.height=6>>=
 ReverseW <- function (D, start1, end1, start2, end2) {
@@ -577,9 +579,9 @@ for (j in rr) {
     df$PITCHC <- df$PITCH - PC
     df$WIX <- df$WIC + df$TASX * PC * pi / 180
     df <- df[setRange(df$Time, RC[2,j], RC[5,j]), ]
-    save (df, file=sprintf ("~/RStudio/DEEPWAVE/dfx%02d.Rdata", j))
+    save (df, file=sprintf ("DataFrames/Schulerdfx%02d.Rdata", j))
   } else {
-    load (file=sprintf ("~/RStudio/DEEPWAVE/dfx%02d.Rdata", j))
+    load (file=sprintf ("DataFrames/Schulerdfx%02d.Rdata", j))
   }
   x <- ReverseW (df, RC[2,j], RC[3,j], RC[4,j], RC[5,j])
   wid[j] <- x[1]
@@ -597,20 +599,23 @@ hist (abs(wid[rr]), border='blue', col=rgb(0,0,100,30, maxColorValue=255),
       xlab='difference, uncorrected mean vertical wind [m/s]', main=NULL)
 hist (abs(widc[rr]), border='red', col=rgb(100,0,0,30,maxColorValue=255),lwd=3, 
       breaks=10, xlim=c(0,.2), xlab='difference, corrected mean vertical wind [m/s]', main=NULL)
-print (sprintf ("mean uncorrected %f, corrected %f", mean(abs(wid[rr])), mean(abs(widc[rr]))))
+# print (sprintf ("mean uncorrected %f, corrected %f", mean(abs(wid[rr])), mean(abs(widc[rr]))))
 
 @
 
+The difference between average vertical wind measurements for each 
+pair of legs was calculated before and after applying the pitch-correction 
+algorithm developed in this section.
 The measurements were in good agreement without any pitch correction,
-with an average absolute value of the difference between legs of 
-\Sexpr{round(mean(abs(wid[rr])),2)}\,m\,s$^{-1}$. The pitch correction kept the averages quite small and did appear to 
-produce some improvement, reducing the mean value to 
-\Sexpr{round(mean(abs(widc[rr])), 2)}\,m\,s$^{-1}$. More significant that this small reduction
+with an average absolute value of the difference between opposing legs of 
+\Sexpr{round(mean(abs(wid[rr])),2)}\,m\,s$^{-1}$. The pitch correction kept the averages quite small and  
+improved the agreement, reducing the mean value of the difference to 
+\Sexpr{round(mean(abs(widc[rr])), 2)}\,m\,s$^{-1}$. More significant that this reduction
 is that the values were so small even before correction. This is
-a good indicator of the accuracy of the pitch measurement even without correction. A course-reversal difference of 0.1\,m\,s$^{-1}$ would result from a pitch error 
+a good indicator of the low uncertainty of the pitch measurement even without correction. A course-reversal difference of 0.1\,m\,s$^{-1}$ would result from a pitch error 
 of less than 0.015$^{\circ}$, so this suggests that the inertial system is
-performing significantly better than its specified uncertainty (0.05$^{\circ}$
-would require. After correction, the mean difference suggests an error of less
+performing significantly better than its specified uncertainty (0.05$^{\circ}$).
+After correction, the mean difference suggests an error of less
 than 0.005$^{\circ}$ for the corrected values.
 
 Table\ \ref{tab:vw-by-flight} 
@@ -633,16 +638,21 @@ for (j in 1:26) {
     if (j == 6) {next}
     if (j == 7) {next}
     if (j == 15) {next}
-    fnm <- sprintf ("%s%s/%srf%02d.nc", DataDirectory (), Project, Project, j)
-    df <- getNetCDF (fnm, c("VNS", "VEW", "GGVNS", "GGVEW", "WIC", "TASX",
-                         "LATC", "GGALT", "THDG", "PITCH", "ROLL"))
-    PC <- CorrectPitch (df)
-    pcav <- c(pcav, PC)
-    df$PITCHC <- df$PITCH - PC
-    df$WIX <- df$WIC + df$TASX * PC * pi / 180
+    if (ReloadData) {
+      fnm <- sprintf ("%s%s/%srf%02d.nc", DataDirectory (), Project, Project, j)
+      df <- getNetCDF (fnm, c("VNS", "VEW", "GGVNS", "GGVEW", "WIC", "TASX",
+                           "LATC", "GGALT", "THDG", "PITCH", "ROLL"), F=j)
+      PC <- CorrectPitch (df)
+      df$PITCHC <- df$PITCH - PC
+      df$WIX <- df$WIC + df$TASX * PC * pi / 180
+      save (df, PC, file=sprintf ("DataFrames/SchulerWrf%02d.Rdata", j))
+    } else {    #
+      load (file=sprintf ("DataFrames/SchulerWrf%02d.Rdata", j))
+    }
     Valid <- df$TASX > 130
     Valid[df$GGALT/0.3048 < 25000] <- FALSE
     Valid[abs(df$ROLL) > 5] <- FALSE
+    pcav <- c(pcav, PC[Valid])
     mvw[j] <- mean (df$WIC[Valid], na.rm=TRUE)
     mvwc[j] <- mean (df$WIX[Valid], na.rm=TRUE)
     print (sprintf ("flight %d mean vertical wind %.02f, corrected %.02f pc %f %f", 
@@ -713,8 +723,8 @@ print (sprintf ("mean pitch correction %f st. dev. %f", mean (pcav, na.rm=TRUE),
 \protect\caption{The average vertical wind for each flight, before and after
 application of the pitch-correction algorithm developed in this section.
 The data restriction applied was that the true airspeed be above 130\,m/s,
-absolute value of the roll be less than $5^{\circ}$, and
-the flight level be above 25,000\,ft (to emphasize normal research measurement
+absolute value of the roll less than $5^{\circ}$, and
+the flight level above 25,000\,ft (to emphasize normal research measurement
 conditions in the DEEPWAVE project). Flights 6, 7, and 15 are also missing, as
 explained in the text.\label{tab:vw-by-flight}}
 \end{table}
@@ -729,37 +739,36 @@ for the uncorrected measurements and \Sexpr{round(mean(mvwc[rv], na.rm=TRUE), 2)
 so both are well within expected tolerances.
 The pitch correction has little effect on
 these mean measurements or the overall standard deviation. 
-
-Unlike the reverse-course comparison, the small offset obtained
+However, the small offset obtained
 with the pitch corrections applied does not indicate that the
 measurements are only uncertain within these limits, because
 most flights are long compared to the Schuler-oscillation period
-of about 84 min, so flights will average over an oscillating
-correction that can average to a much smaller correction than
-that actually applied. More significant is the standard deviation
-of the applied correction, which amounts to
-0.082$^{\circ}$ averaged over the enter project.
-That magnitude of standard deviation indicates that the correction
+of about 84 min. Flights will average over an oscillating
+correction and that average may be small compared to the
+correction applied. The standard deviation
+of the applied correction is \Sexpr{round(sd(pcav, na.rm=TRUE), 2)}$^{\circ}$ when
+calculated for the entire project.
+That indicates that the correction
 to vertical wind arising from application of the pitch-correction
-algorithm introduces changes with standard deviation of about 
-0.3\,m\,s$^{-1}$ project-wide. Studies of individual flights 
+algorithm introduces changes with standard deviation of about
+\Sexpr{round(sd(pcav, na.rm=TRUE)*240*pi/180, 2)}\,m\,s$^{-1}$ 
+project-wide. Studies of individual flights 
 show that this varies significantly from flight to flight.
 This uncertainty, however, is a significant contributor to the
 uncertainty in vertical wind. 
-Response to fluctuations with
-period small compared to the 84.4~min period of the Schuler
-oscillation should be affected by the pitch correction via
-the possible introduction of a slowly varying bias of typically
-0.3~m/s long-term standard deviation.
+Without pitch correction, measurements of vertical wind 
+will have an error with typical period of the Schuler
+oscillation that, for measurements spanning much shorter periods,
+will appear as a slowly varying bias.
 
-The procedure developed here is not suited to application during
+The correction procedure developed here is not suited to application during
 normal processing of data files because it uses a fit to the
 entire sequence of ground-speed measurements to find the
-corrections. A procedure has been developed to add values of
+corrections while the normal processor is sequential. 
+An R script has been developed to add values of
 pitch and vertical wind after correction, but this must be
 run after the original file is generated.
-
-The procedure developed here only applies to the Honeywell IRUs. The C-MIGITS
+The correction only applies to the Honeywell IRUs; The C-MIGITSIII
 units already incorporate Kalman feedback from a GPS signal and so
 already apply a correction similar to the one applied here. 
 % \end{document}
