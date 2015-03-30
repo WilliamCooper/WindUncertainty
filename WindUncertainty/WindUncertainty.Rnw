@@ -38,6 +38,7 @@
  pdfsubject={characterization of the uncertainty in wind measurements, GV},
  pdfkeywords={wind,uncertainty, NCAR Research Aviation Facility, research aircraft, NCAR/EOL/RAF}}
 \usepackage{breakurl}
+\usepackage{html}
 
 \makeatletter
 
@@ -181,7 +182,10 @@ thisFileName <- "WindUncertainty"
 
 \appendix
 
-\section*{Appendix: Reproducibility}
+<<H, child='Conventions.Rnw'>>=
+@
+
+\section{Appendix: Reproducibility}
 
 This document is constructed in ways that support duplication of the
 study. The processing programs are incorporated into the same file

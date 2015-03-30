@@ -1,0 +1,766 @@
+%% LyX 2.1.3 created this file.  For more info, see http://www.lyx.org/.
+<<parent-AppxA, echo=FALSE>>=
+set_parent ("WindUncertainty.Rnw")
+
+@
+
+% define format for exercises and examples:
+\newcount\exernumber \exernumber=1
+\newcount\examnumber \examnumber=1
+\def\beginexercise{\bigskip\goodbreak\hrule\nobreak\smallskip\nobreak\hrule\nobreak\bigskip\sl\nobreak
+{\bf\noindent EXERCISE \arabic{chapter}.\the\exernumber:\enspace}\advance\exernumber by 1}
+\def\endexercise{\nobreak\bigskip\nobreak\hrule\nobreak\smallskip\nobreak\hrule\nobreak\bigskip\goodbreak\rm}
+\def\beginexample{\bigskip\goodbreak\nobreak\hrule\nobreak\smallskip\nobreak\hrule\nobreak\bigskip\sl\nobreak
+{\bf\noindent EXAMPLE \arabic{chapter}.\the\examnumber:\enspace}\advance\examnumber by 1}
+\def\endexample{\endexercise}
+
+
+\section{Appendix: Conventions for uncertainty analysis}
+
+So that this document might serve as a model for future analyses of
+uncertainty, this appendix documents some of the conventions followed
+here and suggested for standardized use.
+
+
+\subsection{Why perform analyses of uncertainty?}
+
+When measurements are made to test scientific theories, provide input
+to models, or characterize nature, they are only useful if accompanied
+by some sense of their reliability. A key use of uncertainty analysis
+is to provide this sense, in as quantitative terms as can be justified.
+A quoted value should be considered incomplete unless accompanied
+by some sense of the associated uncertainty. A target is to estimate
+confidence limits to be associated with measurements or to be propagated
+to final scientific results. Although it is usually impossible in
+a strict statistical sense to provide formal estimates of confidence
+limits, this target still underlies approaches to uncertainty analysis.
+If those who make measurements don't characterize their reliability,
+others must make their own (probably less informed) evaluations.
+
+There are additional benefits of analyzing measurement uncertainty.
+If an uncertainty analysis is done before an experiment, it may suggest
+ways to refine the experiment to minimize critical uncertainty contributions,
+and it should be possible to judge if the desired uncertainty is attainable.
+An uncertainty analysis also highlights the dominant sources of error
+and so can guide efforts to improve instruments.
+
+
+\subsection{Error, accuracy, and uncertainty}
+
+The \emph{error} in a measurement is the difference between the measurement
+and the correct value of the measurand. A measurement
+is of little use unless there is some way of estimating how large
+this error may be. This estimate is called the \emph{uncertaint}y.\footnote{Results are sometimes classified according to their use: \textit{indication}
+based only on primary measures such as sample means or correlation
+coefficients; \textit{determination} based on primary and secondary
+statistics, so that some estimate of uncertainty is obtained; and
+\textit{inference}, in which a specific mathematical model is used
+to assess uncertainty quantitatively. Often, a considerable amount
+of information about the underlying distribution must be known (or
+assumed) before statistical inference is possible. Experimental results
+are usually appropriately quoted as determinations.} The uncertainty usually can be estimated in some way from knowledge
+of the performance of an instrument or from calibrations, intercomparisons,
+or statistical analysis of repeated measurements of the same quantity. 
+
+The term \emph{accuracy} is often used erroneously where \emph{uncertainty}
+would be appropriate. \emph{Accuracy} is determined by the
+presence or absence of error, not uncertainty; a measurement may by
+chance be accurate and still have a large uncertainty. \emph{Measurement}
+\emph{uncertainty} is the correct term for an estimate of the limits
+to the experimental error; it is incorrect to refer to this as the
+measurement \emph{accuracy,} although that is unfortunately common
+usage. \emph{Accuracy} is sometimes used to refer to error, not uncertainty,
+but because accuracy is an absolute term even this usage is best avoided.
+A measurement will either be accurate or not.  
+
+
+\subsection{Standards for evaluating uncertainty}
+
+Many different measures are used to characterize measurement error,
+often making it difficult to determine which interpretation should
+be associated with a quoted uncertainty. However, there is now an
+established international consensus, defined by the International
+Organization for Standardization (ISO) and by the US National Institute
+of Standards and Technology (NIST), and this or modified forms have
+also been adopted by many engineering societies. Acceptance of this
+methodology followed decades of debate within engineering societies
+and among international groups, and finally reached standardization
+through the recommendations of the International Committee on Weights
+and Measures. The two key publications defining these standards are
+the \href{http://www.iso.org/iso/iso_catalogue/catalogue_ics/catalogue_detail_ics.htm?csnumber=50461}{Guide to the Expression of Uncertainty in Measurement}
+(often referred to as the ``GUM'') and NIST Technical Note 1297
+{[}1994 revision{]}, \href{http://www.nist.gov/pml/pubs/tn1297/index.cfm}{\textquotedblleft Guidelines for Evaluating and Expressing the Uncertainty of NIST Measurement Results.\textquotedblright}
+The latter is available in full from the web link and will be the
+primary reference followed in this document.\footnote{While the methodology described here is consistent with recommendations
+from those publications, it seems appropriate in addition to advocate
+separate estimation of the uncertainty associated with systematic
+errors because the validity of such estimates often depends on judgment
+and so is much harder to defend than in the case of random error. } 
+
+
+\subsection{Classification of sources of error and of uncertainty}
+
+\emph{\label{sec:Classification-of-sources}Errors} are often classified
+as ``systematic'' or ``random,'' the former arising from consistent
+and repeatable sources (like an offset in calibration) and the latter
+from fluctuations about the measurand that are expected to average
+to zero in a repeated series of measurements. The former are also
+called ``biases'' when they arise from characteristics of an instrument.
+It is straightforward to differentiate these error classes by this
+test: Random errors are reduced when an experiment is repeated many
+times and the results averaged together, while systematic errors remain
+the same. Systematic errors can be reduced by better equipment or
+better calibration or better experimental procedures. Figure \ref{fig:IllustrationOfTerms}
+illustrates these terms.
+
+\begin{figure}[H]
+\noindent \begin{centering}
+\includegraphics[width=11cm]{A-figure1}
+\par\end{centering}
+
+\protect\caption{\emph{\label{fig:IllustrationOfTerms}Illustration of the separate
+effects of bias errors and random errors. The true population mean
+is $\mu$, but an instrument is used that has a bias $b$ and measures
+with random error (in each observation) $\sigma$. The resulting estimate
+of the mean, obtained from $\overline{x}$, is in error because of
+the separate contributions of the bias error $b$ and the random error
+in the measurement of the mean, in this case $(\overline{x}-a)$.
+The precision of the instrument is $\sigma$, so the estimated random
+error in the mean is $\sigma/{N}^{1/2}$. The actual error in an experiment
+is the difference between the true value $\mu$ and the measured value
+$\overline{x}$. The histogram represents a frequency distribution
+measured in a particular experiment, with mean shown as the solid
+line labeled $\overline{x}$. In a large number of observations, it
+would be expected that the results would tend toward the smooth dashed
+curve with mean $a=\mu+b$. The measured standard deviation is $s$,
+but the limiting value for a large number of measurements is expected
+to be $\sigma$.} }
+
+
+\end{figure}
+
+
+It is awkward that most of the mathematical treatments of errors deal
+with random errors, while most errors encountered in experimental
+research are instead systematic errors. Digitization noise\footnote{I.e., the error that results when a continuously varying measurement
+is measured by a digital instrument that must round the measurement
+to the nearest digital value.} and the errors introduced when counting finite numbers of events\footnote{When, for example, the average measurement might be the possibly fractional
+value $x$ but the actual value must be an integer.} are among the few good examples of random errors in modern experiments.\footnote{The prevalence of systematic error is a particularly compelling reason
+to follow the methodology advocated here, because that approach features
+parallel treatment of systematic and random errors and focuses attention
+on their different characteristics. These separate error sources should
+be investigated and treated in different ways, and should be reported
+separately.} Analyses of uncertainty are made more difficult when most sources
+of uncertainty are Type-B. Evaluation of standard uncertainty for
+such sources is often subjective, based on judgment, and hard to quantify
+or defend rigorously. Repeated calibrations, intercomparisons among
+different instruments, and long-term stability of the calibrations
+can all provide information on Type-B uncertainty.
+
+Error contributions thought to be random may really be systematic,
+and evaluating their associated uncertainty via Type-A methods may
+not reveal that dependence. An example often cited as a possible source
+of random error is a dependence of an instrument on line voltage,
+causing fluctuations in the response function of an instrument during
+an experiment. However, line voltage fluctuations are seldom random,
+and are probably biased in a particular direction relative to the
+conditions at the time of calibration, so it is likely that in a given
+experiment or series of experiments such fluctuations will introduce
+a bias. Furthermore, such errors are likely to be correlated in time,
+so the usual procedure of assuming random error contributions to be
+independent for different measurements will not be valid. Estimating
+the associated uncertainty via standard Type-A methods can thus be
+misleading in such a case. Close inspection of other common sources
+of error shows that they are often biases, and this increases the
+importance of estimating the associated uncertainty appropriately.
+Other examples will be given in later sections.
+
+
+\subsection{Recommended Guidelines}
+
+These are central features of the methodology recommended and used
+here:
+\begin{enumerate}
+\item Components introducing uncertainty are classified into two categories,
+Type-A and Type-B (as defined in section \ref{sec:Classification-of-sources}),
+and \emph{standard uncertainties} are evaluated for each component.
+The estimated coverage associated with these evaluations is, in the
+case of Type-A components, that corresponding to one standard deviation.
+This is not quantifiable in a manner that can be defended rigorously
+in the base of Type-B errors, but estimating a standard uncertainty
+remains a goal.
+\item To obtain the combined evaluation of uncertainty resulting from the
+net effects of many uncorrelated sources, the standard uncertainties
+are combined in quadrature,\footnote{i.e., $s^{2}=\sum_{i}s_{i}^{2}$.}
+and the number of degrees of freedom in the combined uncertainty is
+estimated from the Welch-Satterthwaite equation (cf. (\ref{eq:WS})).
+For cases with correlations among components, methods that treat these
+correlations must be used, as specified in a subsequent section. A
+complete uncertainty report should also include an estimate of the
+number of degrees of freedom associated with the result.
+\item If some standard uncertainties are asymmetrical, the positive and
+negative values should be combined separately to obtain separate upper
+and lower composite values. 
+\item The recommended uncertainty to be reported is the combined standard
+uncertainty, evaluated to represent a single standard deviation. Other
+estimates (e.g., that covering a specified level of confidence) can
+be obtained readily from this, provided that the number of degrees-of-freedom
+in the result is also reported. 
+\item \emph{{[}Not part of the standard:{]}} The uncertainty report should
+also include separate estimates of precision and bias in the result. 
+\end{enumerate}
+An uncertainty report will normally include a tabulated list of sources
+of uncertainty, which should have separate sections for distinct influences
+like those arising from calibration, data collection, and data analysis.
+It is also useful to include associated estimates of precision, degrees
+of freedom, and bias for each contribution shown in the table. Such
+tabulations make it possible to isolate major sources of error, to
+consider the validity of other investigators' estimates of error sources,
+and to repeat the analyses for a new case when only one of the contributions
+has changed. 
+
+An important aspect of this methodology is that the degrees of freedom
+associated with cited estimates should be calculated and quoted. This
+becomes important when the number of degrees of freedom in the result
+is small, so that error limits and propagated errors have non-Gaussian
+character. Even if it is assumed that the individual measurements
+are distributed according to a Gaussian error distribution, the true
+standard deviation for an average of $n$ samples, $\sigma_{n}$,
+is not known and must be estimated from the observations. The test
+statistic $t=(\overline{x}-\xi)/S_{n}$ (where $\overline{x}$ is
+the average of $n$ measurements, $\xi$ is the true value of $x$,
+and $S_{n}$ is the estimated standard deviation of the average $\overline{x}$
+about $\xi$, determined from $S_{n}=[\sum_{i=1}^{n}(x_{i}\overline{x})^{2}/(n(n-1))]^{\frac{1}{2}}$)
+will not be Gaussian distributed. The appropriate distribution for
+such averages is the Student-t distribution. The difference between
+the Gaussian and Student-t distributions is generally insignificant
+when the number of degrees of freedom\footnote{In the case of an average of n values, the number of degrees of freedom
+is $n-1$.} exceeds about thirty, but for small sample sizes the differences
+can be quite important. For this reason, when $n<30$, the confidence
+limits used should be taken from the Student-t distribution rather
+than from the normal distribution.
+
+Figure \ref{fig:Student's t distribution} shows the relationship
+between the 95\% confidence limits and the t statistic for the Student-t
+distribution. 
+\begin{figure}
+\begin{centering}
+\includegraphics[width=5in,keepaspectratio]{A-figure2}
+\par\end{centering}
+
+\protect\caption{\emph{\label{fig:Student's t distribution}Confidence limits for the
+Student's t distribution.}}
+\end{figure}
+ If the final number of degrees of freedom is larger than thirty,
+the range to select for the precision error limit in the result is
+easily determined by use of the estimated standard deviation in the
+result, the approximate 68\% confidence limit. Otherwise, it is necessary
+to know the effective number of degrees of freedom in the final result,
+as shown in Fig.~\ref{fig:Student's t distribution}. The Welch-Satterthwaite
+formula provides an estimate: 
+\begin{equation}
+n_{r}={\frac{{[\sum_{i}S_{Y,i}^{2}]^{2}}}{{\sum_{i}{S_{Y,i}^{4}}/n_{i}}}}\label{eq:WS}
+\end{equation}
+ where n$_{r}$ is the number of degrees of freedom in the final result,
+$S_{Y,i}$ is the standard deviation in $Y$ that would result from
+error source $i$ alone, and $n_{i}$ is the number of degrees of
+freedom in that source of uncertainty.
+
+The format advocated and followed here for an analysis of uncertainty
+includes these components:\\
+ %
+\fbox{\begin{minipage}[t]{1\columnwidth}%
+\begin{enumerate}
+\item \textit{Description of the measurement system with discussion of the
+limits within which the analysis to be presented is valid.} For example,
+the uncertainty in measurements of wind for a research aircraft might
+be specified for straight-and-level flight within three hours of takeoff
+(because of drift of the inertial navigation system), perhaps within
+some altitude range. This description should discuss the calibration
+procedures, tests to characterize measurement uncertainty, data processing,
+and propagation of uncertainty to derived quantities.
+\item \textit{Tabulation} \textit{and classification of} \textit{the elemental
+sources} \textit{of uncertainty. }An example will be shown in Table
+2.1. Each elemental source should be listed with its associated standard
+uncertainty $u_{i}$ and, for Type-A sources, the number of degrees
+of freedom ($n_{i}$). It is also convenient to tabulate the effect
+of the error source on the final measurement $Y$ by including entries
+for $u_{i}(\partial Y/\partial x_{i})$ in the tables, where $u_{i}$
+is the standard uncertainty in the uncertainty-component $x_{i}$.
+This simplifies propagation to the final result, although special
+treatment is still needed in cases where the contributions are correlated.
+The sources should be classified into groups contributing to calibration,
+data acquisition, and data processing, or into similarly meaningful
+groups for the instrument under consideration.
+\item \textit{Discussion of} \textit{each elemental source} \textit{of uncertainty
+in the table(s)} \textit{along with a} \textit{description of} \textit{the
+basis for the evaluation. }These discussions should reflect the evidence
+for the tabulated values.
+\item \textit{The resulting} \textit{combined standard uncertainty,} \textit{combining
+all sources into one value. }It is also useful to combine contributions
+to random and systematic error (or precision and bias) into separate
+composite values. 
+\item \textit{Summarize} \textit{the results and the uncertainty limitations
+of the measurement.} It is helpful here to highlight the main sources
+of error and possible actions that could improve the measurements. \end{enumerate}
+%
+\end{minipage}}
+
+
+\subsection{Estimating uncertainties}
+
+Like errors, estimates of \emph{uncertainty} are also classified into
+two categories, ``Type-A'' (evaluated by statistical methods) and
+``Type-B'' (evaluated by other means). 
+
+
+\subsubsection{Type-A evaluation}
+
+A Type-A evaluation of uncertainty is based on statistical analysis
+of repeated measurements or knowledge of the statistical character
+of the observations. Standard statistical measures and approaches
+including the standard deviation, analysis of variance, propagation
+of error, etc., can provide the needed estimate. For example, the
+standard?deviation?$s_{i}$ in repeated measurements of the same quantity
+leads to an estimate of?standard?uncertainty??$u_{i}=s_{i}$.?Statistical
+means can also provide the required estimate of the degrees of freedom
+associated with the standard uncertainty.
+
+Two important points need to be made in regard to Type-A evaluations:
+\begin{enumerate}
+\item ``Type-A'' refers to how the estimate is obtained, not to the type
+of error. Type-A evaluations often result in estimates of systematic
+error. For example, a random error affecting calibration of an instrument
+can subsequently produce a systematic error when the instrument is
+used, but the uncertainty can still be estimated via a Type-A evaluation.
+This uncertainty component is therefore Type-A, even though the associated
+error being characterized is systematic. This has sometimes been called
+``fossilization'' of error: The random error in the calibration
+procedure becomes a bias when that calibration is used. 
+\item Variability in a measurement may result from random measurement error,
+but it also may result from variability in the quantity being measured.
+Variations in a measurement arising from true variation in the quantity
+being measured cannot be used to estimate random measurement error,
+although they may place upper limits on that error. When using a standard
+devistion in repeated measurements to estimate standard uncertainty,
+it is necessary to correct for any contribution from natural variability.
+\end{enumerate}
+A particularly clear?example of a Type-A evaluation leading to a proper
+estimate of precision is that where the measurement consists of counting
+discrete events, such as cloud droplets or particles. The uncertainty
+in such measurements is expected to be characterized by Poisson statistics
+if the events occur at times determined from random distribution of
+the droplets in space. 
+
+
+\subsubsection{Type-B evaluation}
+
+\noindent A Type-B?evaluation?of?standard?uncertainty?is?more?dependent?on?judgment
+and experience so it is harder to?defendthan Type-A evaluations. Some
+guidance can be obtained from the following, but it must be acknowledged
+that these are imperfect and not quantitative, so another analyst
+with different judgment and experience could well disagree with the
+estimate. In place of statistical measures, information obtained from
+intercomparisons with other instruments, performance against standards,
+?repeated calibrations, stability of the measurements, and specifications
+of components can all contribute to Type-B estimates of uncertainty.
+Nevertheless, it is useful to attempt to make Type-B evaluations that
+are as far as possible comparable to Type-A evaluations. For example,
+it is a goal that the ``coverage'' of the estimate be comparable
+to a standard deviation. The following may provide some guidance when
+developing such estimates: 
+\begin{itemize}
+\item If the error source is expected to be within the limits $\pm a$ 50\%
+of the time, then $u_{j}\approx1.5a$.?
+\item If it is expected to be within those limits about 2/3 of the time,
+then $u_{j}\approx a$. 
+\item If the quantity is expected to be within those limits 100\% of the
+time, but equally probable anywhere in this range, then use $u_{j}\approx a/\surd3$. 
+\item If?the?limits?are interpreted as 3-standard-deviation limits, then
+$u_{j}\approx a/3$. (The NIST TN and GUM provide other examples?also.)?
+\end{itemize}
+
+\subsection{The composite or net uncertainty}
+
+The tabluated standard uncertainties should then be combined to a
+single standard uncertainty, $u_{c}$, which incorporates all sources
+of uncertainty. ?Where possible, degrees of freedom should also be
+provided. The?recommended?uncertainty?to?quote?with?results?is the
+standard uncertainty?$u_{c}$; This?is?a?departure?from?earlier?practice,?favoring?2?standard
+deviations or 95\% confidence limits.\footnote{``Confidence limits'' should only refer to Type-A evaluations; the
+term ``coverage probability'' is sometimes used to emphasize the
+difference between Type-B evaluations and those obtained via statistical
+analysis.} NIST continues to accept such estimates also, and uses the term\emph{
+expanded uncertainty} (symbol $U$) such that $U=2u_{c}$.
+
+
+\subsection{Propagation of uncertainty estimates}
+
+The interesting quantities for research are often derived from the
+basic measurements by calculations that combine many measurements
+into final quantities, transform the measurements, apply filters,
+or otherwise convert the fundamental measurements into derived quantities.
+In such cases, the uncertainty characteristics of the derived quantities
+can become quite complicated and difficult to understand without a
+prescribed methodology, and serious errors in interpretation can result.
+For example, some attempts to derive correlations between radar reflectivity
+($Z$) and rainfall ($R$) have been distorted by the problem that
+both are based on different calculations from the same characteristics
+of the drop size distributions, and hence there is a natural correlation
+between the two that arises purely from correlated error sources.
+If data sources are used that provide imprecise estimates of $Z$
+and $R$, a correlation will appear that is purely the result of these
+correlated error contributions and does not reflect a natural correlation
+between radar reflectivity and rainfall rate. It would be a serious
+error to use the correlation determined in this way to estimate rainfall
+from radar reflectivity.
+
+The following develops a consistent approach, often called ``error
+propagation,'' that makes it possible to determine the uncertainty
+characteristics in derived quantities if the characteristics of the
+fundamental measurements are known. Let $\{x\}$ = $\{x_{\ell},\ell=1,L\}$
+be a set of measured quantities with known measurement uncertainties.\footnote{Brackets denote multidimensional quantities and bold-face symbols
+denote matrices.} Consider derived quantities $\{Y\}$ = $\{Y_{m},~m=1,M\}$, each
+of which is a function of the measured quantities $\{x\}$: 
+\begin{equation}
+Y_{m}=Y_{m}(x_{1},x_{2},\dots x_{L})~or~{\textbf{Y}}={\textbf{Y}}({\textbf{x}}).
+\end{equation}
+ The mean values of $x_{\ell}$, $\overline{x_{\ell}}$, are then
+the ``best'' values for $x_{\ell}$ in the sense that they minimize
+the squares of the deviations from these best values. In the same
+sense, the ``best'' values for $Y_{m}$ are the values $Y_{m}(\overline{x_{1}},\overline{x_{2}},\dots\overline{x_{L}})$.\footnote{These values do not necessarily minimize the sum of the squared deviations
+from $\{\overline{Y}\}$, the derived quantities, unless the relationship
+to the measured quantities is linear.}
+
+The one-standard-deviation uncertainties in $\{Y\}$ are those that
+represent the range over which $\{Y\}$ can vary while $\{x\}$ remain
+within one-standard-deviation of their measured values. For small
+deviations, a first-order Taylor expansion relates deviations in $\{Y\}$
+to deviations in $\{x\}$: 
+\begin{equation}
+Y_{m}(x_{1},x_{2},\dots\,\,x_{L})=Y_{m}(\overline{x_{1}},\overline{x_{2}},\dots\,\,\overline{x_{L}})+\sum_{k=1}^{L}{\frac{{\partial Y_{m}(x_{1},x_{2},\dots\,\,x_{L})}}{{\partial x_{k}}}}\Bigr|_{\overline{x}}(x_{k}-\overline{x_{k}}).
+\end{equation}
+ The variance in $Y_{m}$ is then obtained by averaging over the $N$
+measurements, indicated by index $i$: 
+\begin{equation}
+V_{Y_{m}Y_{m}}={\frac{{1}}{{N}}}\sum_{i=1}^{N}\bigl(Y_{m}(\{x\}_{i})-Y_{m}(\{\overline{x}\})\bigr)^{2}
+\end{equation}
+
+
+\begin{equation}
+~~~~={\frac{{1}}{{N}}}\sum_{i=1}^{N}\Bigl[\bigl(\sum_{j=1}^{L}{\frac{{\partial Y_{m}}}{{\partial x_{j}}}}\Bigr|_{\overline{x}}(x_{i}-x_{j})\bigr)\bigl(\sum_{k=1}^{L}{\frac{{\partial Y_{m}}}{{\partial x_{k}}}}\Bigr|_{{\overline{x}}}(x_{k}-x_{i})\bigr)\Bigr]
+\end{equation}
+\begin{equation}
+~~~~~=\sum_{j}\sum_{k}{\frac{{\partial Y_{m}}}{{\partial x_{j}}}}\Bigr|_{\overline{x}}{\frac{{\partial Y_{m}}}{{\partial x_{k}}}}\Bigr|_{\overline{x}}\bigl({\frac{{1}}{{N}}}\sum_{i}(x_{ji}-\overline{x_{j}})(x_{ki}-\overline{x_{k}})\bigr)\,\,\,.\label{eq:DerivedCoverianceMatrix}
+\end{equation}
+
+
+The matrix elements 
+\begin{equation}
+H_{jk}^{-1}={\frac{{1}}{{N}}}\sum_{i=1}^{N}(x_{ji}-\overline{x_{j}})(x_{ki}-\overline{x_{k}})
+\end{equation}
+ entering (\ref{eq:DerivedCoverianceMatrix}) are the variances and
+covariances of the measured quantities, so ${\textbf{H}}^{-1}$ is
+called the \textit{covariance matrix} or the \textit{error matrix.}
+If the relationship between $\{Y\}$ and $\{x\}$ is linear or is
+assumed linear (as in the first-order Taylor expansion) over the range
+of fluctuations, then this matrix is particularly useful for determining
+the variances in derived quantities because those variances can be
+expressed as 
+\begin{equation}
+V_{Y_{m}Y_{n}}=\langle(Y_{m}-\overline{Y_{m}})(Y_{n}-\overline{Y_{n}})\rangle
+\end{equation}
+\begin{equation}
+~~~~~=\sum_{j=1}^{L}\sum_{k=1}^{L}{\frac{{\partial Y_{m}(x)}}{{\partial x_{j}}}}\Bigr|_{x=\overline{x}}{\frac{{\partial Y_{n}(x)}}{{\partial x_{k}}}}\Bigr|_{x=\overline{x}}H_{jk}^{-1}
+\end{equation}
+ or, in matrix notation, 
+\begin{equation}
+V=T^{t}H^{-1}T\label{eq:refa}
+\end{equation}
+ where $T_{mj}$ = $\partial Y_{m}/\partial x_{j}$ is the element
+of the (column) matrix of derivatives of the derived quantity $Y_{m}$
+with respect to the measured quantity $x_{j}$ and the superscript
+$t$ denotes the transpose matrix. This general form is valid for
+any correlations among the original measurements (which will be represented
+by off-diagonal elements of $H$) and properly represents the correlations
+among dependent variables.
+
+\beginexample
+\htmlrule
+\html{\textbf{Example 2.1:}} A thermocouple can be used to measure
+temperature, because a junction between two metals will produce a
+voltage difference in the two metals that is dependent on (and nearly
+proportional to) the temperature of the junction. A common experimental
+set-up is shown in Fig.~\ref{fig:ThermocoupleExperiment}.
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[width=4.5in]{A-figure3}
+\par\end{centering}
+
+\protect\caption{\emph{\label{fig:ThermocoupleExperiment}Experimental configuration
+for measuring temperature with a thermocouple. Junctions J1 and J2
+are junctions between copper and constantan wire, so the voltage V1
+is a measure of the temperature difference between $T$ and $T_{ref}$.
+A thermistor R$_{t}$ measures the bath temperature via the voltage
+V2, and so provides a reference temperature to be added to the temperature
+difference measured by the thermocouple.}}
+\end{figure}
+ The thermocouple junctions both produce voltage differences, dependent
+respectively on the temperature $T$ and on the reference bath temperature
+$T_{ref}$. The reason for using this arrangement is that both the
+wires leading to the instrument measuring the voltage $V$ are then
+copper wires, and can connect to copper junctions at the voltmeter
+without introducing additional contact potentials such as would result
+if the constantan wire were connected directly to the voltmeter. The
+uncertainty in $T$ is then caused by two sources: (a) the uncertainty
+in the measurement of $\Delta T$ = $T-T_{ref}$, and (b) the uncertainty
+in $T_{ref}$. Often, a thermistor is used to measure the temperature
+of the reference bath (or of a metal block used in the same way).
+
+If a thermistor is used to determine the temperature of the reference
+junction, as shown, there are two voltages that must be measured to
+determine the unknown temperature $T$: $V_{1}$, produced by the
+pair of thermocouples, and $V_{2}$, produced by the thermistor. These
+are related to the temperature difference $\Delta T$=($T-T_{ref}$)
+and to $T_{2}$, the temperature of the thermistor junction, by functions
+$Y_{1}$ and $Y_{2}$, which often are almost linear relationships:
+\begin{equation}
+\Delta T=Y_{1}(V_{1})=a_{1}V_{1}
+\end{equation}
+\begin{equation}
+T_{2}=Y_{2}(V_{2})=a_{2}V_{2}.
+\end{equation}
+ Then the first two fundamental quantities affecting the measurement,
+in the earlier notation, are $x_{1}=V_{1}$ and $x_{2}=V_{2}$.
+
+If $V_{1}$ and $V_{2}$ are measured by the same voltmeter, part
+of the uncertainty in $V_{2}$ will be correlated with that in $V_{1}$
+because bias in the voltmeter will affect both measurements in the
+same way. This will be reflected in off-diagonal terms in the error
+matrix, representing correlations between errors in $V_{1}$ and $V_{2}$.
+
+There will also be an error in the measurement of $T$ introduced
+by the assumption that $T_{ref}=T_{2}$, because the temperature bath
+or constant-temperature block may not be uniform in temperature. Another
+function $Y_{3}=x_{3}=T_{ref}-T_{2}$ can be introduced to account
+for this error source, which probably will be a systematic error.
+The measurement $T$ is then determined from 
+\begin{equation}
+T=\Delta T+(T_{ref}-T_{2})+T_{2}=Y_{1}(V_{1})+Y_{2}(V_{2})+Y_{3}.
+\end{equation}
+
+
+Suppose that the voltmeter has a precision of $S_{i}$ and a systematic
+error of $B_{i}$ when measuring $V_{i}$, and that the random errors
+are uncorrelated but the bias errors are always the same (as might
+occur for a calibration error). If the only sources of error are these
+random and systematic errors and a non-zero value of $Y_{3}$, the
+error matrix for the random component of the uncertainty is 
+\begin{equation}
+H_{r}^{-1}=\left(\begin{matrix}S_{1}^{2}\end{matrix}\right)
+\end{equation}
+ and the bias component is 
+\begin{equation}
+H_{s}^{-1}=\left(\begin{matrix}(B_{1}^{2}\end{matrix}\right)
+\end{equation}
+ when expressed in terms of the fundamental quantities $x_{1}$, $x_{2}$,
+and $x_{3}$ representing the two measurements and the unmeasured
+difference between $T_{ref}$ and $T_{2}$.
+
+The sum of these matrices can be used in (\ref{eq:refa}) to evaluate
+the variance in the measured temperature: 
+\begin{equation}
+V_{TT}=\begin{pmatrix}a_{1}\end{pmatrix}\begin{pmatrix}S_{1}^{2}+B_{1}^{2}\end{pmatrix}\begin{pmatrix}a_{1}\cr a_{2}\cr1\cr\end{pmatrix}
+\end{equation}
+\begin{equation}
+~~~~~=a_{1}^{2}S_{1}^{2}+a_{2}^{2}S_{2}^{2}+(a_{1}B_{1}+a_{2}B_{2})^{2}+B_{3}^{2}.
+\end{equation}
+ The first two terms show that the random contributions add to the
+net variance in quadrature, as expected for independent error sources.
+The next term shows that the bias contributions, however, add linearly.
+This results because a bias error affects measurements of $\Delta T$
+and $T_{2}$ in the same way, so the error enters the final result
+additively. \endexample
+\htmlrule
+
+
+\subsection{Monte Carlo techniques}
+
+Sometimes the functional relationships are so complex or non-linear
+that the preceding analytical formulas are unwieldy. In such cases,
+an alternative is to employ what is conventionally called a \textit{Monte
+Carlo} technique. In this approach, the measured quantities are varied
+randomly in ways that represent the experimental uncertainties, and
+the calculations leading to the final answer are repeated with these
+artificial quantities. This is done repeatedly, and the variances
+and covariances in the resulting final answers are calculated. Random
+number generators are available on computer systems that generate
+variables having zero mean, unity variance, and a Gaussian probability
+distribution. Correlated fluctuations can be represented by defining
+linear combinations of such independent variables. In cases where
+the error propagation is especially complex (e.g, where the final
+answer might depend on non-linear fits to the input data), Monte Carlo
+techniques may be the only feasible way of determining the uncertainty
+in the final result.
+
+
+\subsection{Reference Material}
+
+This section provides, for reference, specific definitions of some
+of the other terms used in the analysis of uncertainty. This information
+is included here because this terminology is sometimes in conflict
+with nonscientific usage and is not always used consistently even
+in scientific papers.
+
+With many of these terms, it is necessary to distinguish between the
+characteristics of a \textit{parent} distribution and the estimates
+of those characteristics obtained from a specific sample from the
+parent population. For example, one may want to estimate characteristics
+of the parent population from measurements taken on only a specific
+subset from that population. A common convention, followed here, is
+to use Greek letters for population characteristics and Roman letters
+for sample characteristics. Thus, for example, $\overline{x}$ will
+denote the average of a set of measurements, but $\mu$ will denote
+an average characteristic of the underlying population.
+
+\textit{Precision} is a measure of reproducibility or scatter in the
+results, without regard for the accuracy of the result. It is a measure
+of random error only; systematic errors will not affect the precision
+of a result, although they do affect the accuracy.
+
+The \textit{mean} of a set of measurements $\{x_{1},x_{2},\dots x_{N}\}$
+is the average: 
+\begin{equation}
+\overline{x}={\frac{{1}}{{N}}}\sum_{i=1}^{N}x_{i}.
+\end{equation}
+ The \textit{expectation value} of a quantity is the value expected
+if averaged over the entire parent population, and will be denoted
+by angle brackets: $\langle\rangle$. For example, the mean in the
+parent population that corresponds to the sample mean x is 
+\begin{equation}
+\mu=\langle x\rangle={\textrm{lim}}_{N\rightarrow\infty}(\overline{x}).
+\end{equation}
+
+
+There is an important distinction to be made between the standard
+deviation characterizing the random error of a measurement and the
+standard deviation characterizing a set of accurate observations and
+hence reflecting physical reality. The latter is often encountered
+in experimental research, and pertains to the natural variability
+in the parameter being measured; e.g., the temperature may really
+vary when measured over a path through the atmosphere. The former
+represents the precision with which a constant value of that parameter
+could be measured in a particular experiment. For example, in experiments
+using airborne instrumentation variance spectra for measured variables
+seldom show evidence of noise except at low levels that correspond
+to digitization noise. This indicates that random measurement errors
+seldom contribute significantly to the uncertainty in such a measurement.
+However, there usually is high natural variability that causes repeated
+sets of measurements in presumably identical conditions to vary significantly,
+and the standard deviations among repeated measurements of, for example,
+fluxes of water vapor are large. This standard deviation reflects
+natural variability, not the random error in the measurement. It results
+from the variability of particular samples about the underlying population
+mean, and that variability would still characterize measurements from
+error-free sensors.
+
+The \textit{median} is the value that divides the population into
+equal halves; i.e., half the members lie above and half below the
+median. The \textit{most probable value} is that observed most frequently,
+sometimes referred to as the \textit{mode} of a distribution. As an
+example, the expected distribution of time intervals between randomly
+occurring events is 
+\begin{equation}
+N(t)=N_{0}e^{-t/\tau}
+\end{equation}
+ where $N(t)$ is the number of events per time interval that occur
+at time t, $N_{0}$ is the total number of events, $t$ is the time,
+and $\tau$ is a time constant characterizing the process. For this
+distribution, the mean time is $\tau$, the median time is $\tau$ln(2),
+and the mode occurs for t=0.
+
+A \textit{deviation} $\delta$ is the difference between a specific
+measurement or value and the mean. The \textit{standard deviation}
+$\sigma$ is the ``root-mean-square'' value of the deviations, obtained
+from 
+\begin{equation}
+\sigma=\Bigl[{\textrm{lim}}_{N\rightarrow\infty}\bigl({\frac{{1}}{{N}}}\sum_{i=1}^{N}(x_{i}-\mu)^{2}\bigr)\Bigr]^{\frac{{1}}{{2}}}.
+\end{equation}
+ For a sample of measurements, the conventional estimate $s$ of the
+population standard deviation $\sigma$ is 
+\begin{equation}
+s=\Bigl[{\frac{{1}}{{N-1}}}\sum_{i=1}^{N}(x_{i}-\overline{x})^{2}\Bigr]^{\frac{{1}}{{2}}}.
+\end{equation}
+ The \textit{variance} is the average of the squares of the deviations,
+or the square of the standard deviation.
+
+If $x_{j}$ is a possible observation, the observed fraction of observations
+having the value $x_{j}$ is $P(x_{j})=N(x_{j})/N$ where $N$ is
+the total number of observations and $N(x_{j})$ is the number having
+value $x_{j}$. The underlying population distribution function is
+then 
+\begin{equation}
+\Phi(x_{j})={\textrm{lim}}_{N\rightarrow\infty}P(x_{j}).
+\end{equation}
+ The preceding quantities can then be expressed in terms of the distribution
+function; for example, the mean is 
+\begin{equation}
+\mu=\sum_{j=1}^{N}x_{j}\Phi(x_{j})
+\end{equation}
+ and the variance is 
+\begin{equation}
+\sigma^{2}=\sum_{j=1}^{N}(x_{j}-\mu)^{2}\Phi(x_{j})=\Bigl(\sum_{j=1}^{N}x_{j}^{2}\Phi(x_{j})\Bigr)-\mu^{2}=\langle x^{2}\rangle-\mu^{2}.
+\end{equation}
+ The extensions to continuous distribution functions are these: 
+\begin{equation}
+\sum_{j}P(x_{j})\rightarrow\int P(x)dx
+\end{equation}
+\begin{equation}
+\mu=\int_{-\infty}^{\infty}x\Phi(x)dx
+\end{equation}
+\begin{equation}
+\sigma^{2}=\int_{-\infty}^{\infty}(x-\mu)^{2}\Phi(x)dx.
+\end{equation}
+ Similarly, the expectation value for any function $f$ of measurable
+characteristics $x$ is 
+\begin{equation}
+\langle f(x)\rangle=\int f(x)\Phi(x)dx
+\end{equation}
+ where $x$ can be a set of variables and the multidimensional integration
+must then cover all possible values of $x$.
+
+Other characteristics sometimes cited are the \textit{probable error},
+the magnitude of the deviation exceeded by 50\% of the deviations,
+and the \textit{average deviation,} the expectation value for the
+absolute magnitude of the deviations. For a Gaussian distribution,
+the probable error, average deviation, and standard deviation have
+the ratios 0.674:0.800:1.
+
+If the distribution in measurement errors follows a known probability
+distribution, then \textit{confidence intervals} determined from that
+distribution can be used to obtain quantitative estimates of probabilities
+associated with such errors. It is this relationship that establishes
+the often used correspondence between standard deviation and probability,
+for the Gaussian distribution. Specifically, measurements falling
+more than two standard deviations ($\pm2\sigma$) from the true value
+are expected with about 0.05 probability, so $2\sigma$ limits correspond
+to approximate limits providing 95\% coverage. Other distribution
+functions can be treated in the same way.
+
+% \furtherread
+% 
+% Abernethy, R. B., and Benedict, 1984:
+% 
+% Abernethy, R. B., and B. Ringhiser, 1985: The history and statistical
+% development of the new ASME-SAE-AIAA-ISO measurement uncertainty methodology.
+% 
+% Barford, N.. C., 1985: \textit{Experimental Measurements: Precision,
+% Error, and Truth.} John Wiley and Sons, New York, 159 pp.
+% 
+% Beers, Yardley, 1957: \textit{Introduction to the Theory of Error.}
+% Addison-Wesley. Reading, Massachusetts, 66 pp.
+% 
+% Taylor, J. R., 1982: An Introduction to Error Analysis. University
+% Science Books, Mill Valley, California, 270 pp. \endfurther
+% {}
+% 
