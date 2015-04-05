@@ -19,11 +19,15 @@ downdrafts, convergence and divergence, and many other topics. They can
 provide important information transferred to models for data assimilation or
 for validation tests of model results.
 
-The range and endurance of the NSF/NCAR Gulfstream~V research aircraft (operated 
-by the Research Aviation Facility, Earth Observing Laboratory,  NCAR) makes it
+This report applies to the Gulfstream V research aircraft owned by the
+National Science Foundation and operated by the Research Aviation Facility
+(RAF), Earth Observing Laboratory (EOL), National Center for Atmospheric
+Research (NCAR). This aircraft is referred to here as the NSF/NCAR GV or
+simply the GV.
+Its range and endurance makes it
 possible to measure wind over large distances and so to characterize mesoscale
-and even larger features in the atmosphere. However, the high speed of that
-aircraft (typically Mach 0.8, or about 240\,m\,s$^{-1}$ for flight near 40,000 ft)
+and even larger features in the atmosphere. However, its high speed 
+(typically Mach 0.8, or about 240\,m\,s$^{-1}$ for flight near 40,000 ft)
 poses special problems for wind measurement. The flow distortion around the aircraft
 perturbs pressure measurements that are central to the measurement of wind, and
 the measurement of air temperature, needed in the calculation of wind, requires
@@ -51,27 +55,34 @@ The results obtained here do not necessarily apply to measurements
 from earlier projects when not all these components were available in
 their present form, but they should apply to measurements subsequent to 2014.
 
+The intent in this report is to follow the conventions established by
+the International Committee on Weights and Measures and by the
+National Institute of Standards and Technology. Appendix A summarizes
+key aspects of those recommendations and how they are addressed in this
+report. We also present additional information resulting from various
+studies of the measurements that have tested the validity of the
+measurements or have been used for calibration. 
+
 Section \ref{sec:Components} describes the components of the wind-measuring
 system in more detail, with examples of the measurements and information on
-the specifications for the sensors involved. That is followed by a section that
-develops a correction procedure for pitch because that correction and the evidence
-it provides regarding uncertainty are used in
-subsequent sections. Section \ref{sec:Calibrations} summarizes
+the specifications for the sensors involved. 
+That section is followed by a summary of the uncertainty in wind
+measurements, with a tabulation of individual error sources and
+references to later parts of the document where studies reported
+here have led to estimates of limits on those error sources. It is
+our hope that this section will provide a summary of the results that
+can either stand alone or provide a guide to the further information
+in this report that has led to the conclusions summarized there.
+
+Section \ref{sec:Calibrations} summarizes
 how the measurements have been calibrated, tested, and intercompared.
 Some related studies affecting the measurements are then presented
 in the next two sections. The section discussing vertical wind focuses on
 studies of the measurement of aircraft vertical motion, needed to calculate
-the vertical wind, while that discussing horizontal wind uses circle maneuvers
+the vertical wind, and includes a correction procedure that can
+improve the measurement of pitch and hence the vertical wind.
+The section discussing horizontal wind uses circle maneuvers
 to check the measurement of horizontal wind and develop corrections to the heading and sideslip.
-This information then provides the basis for
-Section~\ref{sec:Uncertainty-components}, where the contributions
-to uncertainty from various sources are tabulated and where there
-is a discussion of the basis for each estimate contributing to uncertainty
-in the measured wind. That section then concludes with a summary characterizing
-the overall uncertainty and the separate systematic and random components
-included in that uncertainty. There is also an appendix on reproducibility of these
-analyses that describes the
-programs used for these calculations and documents where they and the data can be found.
 
 % The program that performed the calculations reported here
 % can be found on NCAR/EOL computer

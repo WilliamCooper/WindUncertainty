@@ -31,7 +31,12 @@ airflow sensor and linked to GPS measurements via a Kalman filter.
 \item A laser air motion sensor (LAMS) described by \cite{SpulerEtAl2011} combined
 with its own IRU/GPS system. See also \cite{CooperEtAl2014}.
 \end{enumerate}
-Although the measurement components differ, for each of these the
+All three also depend on a measurement of temperature and, for the first
+two, humidity which is used to correct for the influence of moisture
+on the specific heats and gas constant of moist air. 
+Those two also share dependence on the measurement of ambient pressure
+as delivered by static sources on the fuselage.
+Although the other measurement components differ, for each of these the
 measurement of wind involves the vector sum of two components, the
 motion of the air relative to the aircraft and the motion of the aircraft
 relative to the Earth. The former is the ``relative wind'' and is
@@ -119,7 +124,7 @@ the gust pod, this is negligible because the IRU is co-located with the gust-mea
 0 & 1 & 0\\
 -\sin\theta & 0 & \cos\theta
 \end{array}\right)
-\]
+\]\label{eq:rotation-matrices}
 
 
 \[
@@ -149,13 +154,14 @@ is given by (\ref{eq:relative wind}).
 The measured ground-speeds (with components VNS, VEW, VSPD) then can be added to the
 relative wind to get the true Earth-relative wind. In the ``R''
 file associated with this document, the required transformations are
-coded to provide a processing option, but the conventional ``nimbus''
+coded to provide a processing option, but the RAF ``nimbus''
 routine ``gust.c'' provides the transformation as implemented in
 standard processing.
 
 The final equations, defining the Earth-relative wind $\mathbf{v}_{E}$
 in terms of the three wind variables \{WDx, WSx, WIx\} where x denotes
-the measuring system (and subscript-$x$ the east component of the wind), are:
+the measuring system (radome, gust-pod, or LAMS) and subscripts $_x$ or $_y$ the respective
+east or north component of the wind, are:
 
 \begin{equation}
 \mathbf{v}_{E}=\mathbf{v}_{r}+\left(\begin{array}{c}
@@ -193,43 +199,137 @@ and the characteristics of the sensors used, and
 the \href{http://www.eol.ucar.edu/aircraft-instrumentation}{EOL instrument web pages} 
 (cf.~"State Parameters", "Wind")
 provide additional information on these measurements.
+% \begin{table}
+% \begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.5cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
+% \toprule 
+% \textbf{Measurement \small{(VARIABLE)}} & \textbf{Instrument} & \textbf{Range, Characteristics} & \textbf{Standard Uncertainty} & \textbf{Comments}\tabularnewline
+% \midrule
+% \midrule 
+% pitch, roll\\
+% (PITCH, ROLL) & Laseref IV Model \small{HG2001 GD03} & ring gyros, strap-down system & 0.05$^{\circ}$ & mixed bias and random error\tabularnewline
+% \midrule 
+% heading\\
+% (THDG) & `` &  & 0.2$^{\circ}$ & \tabularnewline
+% \midrule 
+% ambient pressure (PSF) & absolute transducer Paroscientific 1000-15A-28 & 0--15 PSI $\simeq$0--1035\,hPa & 0.10\,hPa &
+% (from specs, assumed to give std uncertainty)\tabularnewline
+% \midrule 
+% dynamic pressure (QCF, QCR) & differential transducer PPT0005DXX2VB-S021 & 0--5 PSI $\simeq$0--345 hPa & 0.34 hPa\\
+% 0.68 hPa max. & ``\tabularnewline
+% \midrule 
+% pressure differences, radome (ADIFR, BDIFR) & differential transducer PPT0001DXX2VB-S021 & range $\pm1$ PSI$\simeq$$\pm$68.95 hPa & 0.07 hPa\\
+% 0.14 hPa max. & the first is ``typ.'', average over the range\tabularnewline
+% \midrule 
+% horizontal GV velocity components (VNS, VEW) & Honeywell Laseref IV HG2001 GD03 & strap-down accelerometers & 2.1\,m\,s$^{-1}$  & 0.1\,m\,s$^{-1}$ with slow updating to GPS\tabularnewline
+% \midrule 
+% '' '' '' (GGVNS, GGVEW) & Novatel OEM-3 differential GPS  & (L1/L2) correction via OmniSTAR XP & 0.03\,m\,s$^{-1}$ & <0.1\,m\,s$^{-1}$ when OmniSTAR is not available \tabularnewline
+% \midrule 
+% vertical GV speed (VSPD) &  Laseref IV (see above) & & 0.76 m\,s$^{-1}$ & with baro-loop updating\tabularnewline
+% \midrule 
+%  '' '' '' (GGVSPD) & Novatel GPS (see above)&  & 0.03\,m\,s$^{-1}$ with OmniSTAR & 0.1\,m\,s$^{-1}$ without OmniSTAR\tabularnewline
+% \midrule 
+% air temperature &HARCO 100009-1  &anti-iced, -80 to +40$^{\circ}$C  &0.3$^{\circ}$C  & needed for TAS calc.\tabularnewline
+% \bottomrule
+% \end{tabular}
+% 
+% \protect\caption{Characteristics of measurements from the radome-based system that
+% are used for the standard calculation of the wind. See further
+% discussion of each measurement in Sect.~\ref{sub:The-radome-based-system}.\label{tab:Radome-system-measurements}}
+% \end{table}
+
 \begin{table}
-\begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.5cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
+\begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.7cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
 \toprule 
-\textbf{Measurement \small{(VARIABLE)}} & \textbf{Instrument} & \textbf{Range, Characteristics} & \textbf{Standard Uncertainty} & \textbf{Comments}\tabularnewline
+\textbf{Measurement  \small{(VARIABLE)}} &
+\textbf{Instrument} &
+\textbf{Range, Characteristics} &
+\textbf{Standard Uncertainty} &
+\textbf{Comments}\tabularnewline
 \midrule
 \midrule 
 pitch, roll\\
-(PITCH, ROLL) & Laseref IV Model \small{HG2001 GD03} & ring gyros, strap-down system & 0.05$^{\circ}$ & mixed bias and random error\tabularnewline
+(PITCH, ROLL) &
+Honeywell Laseref IV HG2001 GD03 &
+ring gyros, strap-down system &
+0.05$^{\circ}$ &
+mixed bias and random error\tabularnewline
 \midrule 
 heading\\
-(THDG) & `` &  & 0.2$^{\circ}$ & \tabularnewline
+(THDG) &
+`` &
+`` &
+0.2$^{\circ}$ &
+``\tabularnewline
 \midrule 
-ambient pressure (PSF) & absolute transducer Paroscientific 1000-15A-28 & 0--15 PSI $\simeq$0--1035\,hPa & 0.10\,hPa &
-(from specs, assumed to give std uncertainty)\tabularnewline
+ambient pressure (PSF) &
+Paroscientific 1000-15A-28 (absolute) &
+o--15 psi $\simeq$0--1035\,hPa &
+0.10\,hPa\\
+ &
+specs. assumed st. uncertainty\tabularnewline
 \midrule 
-dynamic pressure (QCF, QCR) & differential transducer PPT0005DXX2VB-5021 & 0--5 PSI $\simeq$0--345 hPa & 0.34 hPa\\
-0.68 hPa max. & ``\tabularnewline
+dynamic pressure (QCF, QCR) &
+Honeywell PPT0005-DXX2VB-5021 &
+0--5 PSI $\simeq$0--345 hPa &
+0.34 hPa\\
+0.68 hPa max. &
+``\tabularnewline
 \midrule 
-pressure differences, radome (ADIFR, BDIFR) & differential transducer PPT0001DXX2VB-5021 & range $\pm1$ PSI$\simeq$$\pm$68.95 hPa & 0.07 hPa\\
-0.14 hPa max. & the first is ``typ.'', average over the range\tabularnewline
+pressure differences (\{A,B\}DIFR) &
+Honeywell PPT0001-DXX2VB-5021 &
+$\pm1$\textasciitilde{}psi $\simeq$$\pm$68.95 hPa &
+0.07 hPa\\
+0.14 hPa max. &
+the first is ``typ.'', average over the range\tabularnewline
 \midrule 
-horizontal GV velocity components (VNS, VEW) & Laseref IV Model HG2001 GD03 & strap-down accelerometers & 2.1\,m\,s$^{-1}$  & 0.1\,m\,s$^{-1}$ with slow updating to GPS\tabularnewline
+horizontal GV velocity components
+
+(VNS, VEW) &
+Laseref IV (see above) &
+strap-down accelerometers &
+2.1\,m\,s$^{-1}$  &
+0.1~m~s$^{-1}$ with slow updating to GPS\tabularnewline
 \midrule 
-'' '' '' (GGVNS, GGVEW) & Novatel OEM-3 differential GPS  & (L1/L2) correction via OmniSTAR XP & 0.03\,m\,s$^{-1}$ & <0.1\,m\,s$^{-1}$ when OmniSTAR is not available \tabularnewline
+``\\
+(GGVNSB, GGVEWB) &
+Novatel OEM-3 differential GPS  &
+(L1/L2) correction via OmniSTAR XP &
+0.03\,m\,s$^{-1}$ &
+ <0.1\,m\,s$^{-1}$ when OmniSTAR is not available\tabularnewline
 \midrule 
-vertical GV speed (VSPD) &  Laseref IV (see above) & & 0.76 m\,s$^{-1}$ & with baro-loop updating\tabularnewline
+vertical GV speed (VSPD) &
+Laserref IV (see above) &
+strap-down accelerometers &
+0.76 m\,s$^{-1}$ &
+with baro-loop updating\tabularnewline
 \midrule 
- '' '' '' (GGVSPD) & Novatel GPS (see above)&  & 0.03\,m\,s$^{-1}$ with OmniSTAR & 0.1\,m\,s$^{-1}$ without OmniSTAR\tabularnewline
+ " (GGVSPDB) &
+Novatel GPS (see above) &
+ &
+0.03\,m\,s$^{-1}$ with OmniSTAR &
+0.1\,m\,s$^{-1}$ without OmniSTAR\tabularnewline
 \midrule 
-air temperature &HARCO 100009-1  &anti-iced, -80 to +40$^{\circ}$C  &0.3$^{\circ}$C  & needed for TAS calc.\tabularnewline
+temperature (ATX) &
+HARCO 100009-1 &
+$-80$ to +40$^{\circ}$C, anti-iced &
+0.3$^{\circ}$ &
+needed for true airspeed\tabularnewline
+\midrule 
+dewpoint
+
+(DPX) &
+Buck Research 1011C &
+$-70$ to +30$^{\circ}$C &
+<5$^{\circ}$ &
+for level flight\tabularnewline
 \bottomrule
 \end{tabular}
 
 \protect\caption{Characteristics of measurements from the radome-based system that
-are used for the standard calculation of the wind. See further
-discussion of each measurement in Sect.~\ref{sub:The-radome-based-system}.\label{tab:Radome-system-measurements}}
+are used for the standard calculation of the wind. See the
+discussion of each measurement in the text of Sect.~\ref{sub:The-radome-based-system}.\label{tab:Radome-system-measurements}}
 \end{table}
+
 
 \subsubsection{Attitude angles\label{sub:Attitude-angles}}
 
@@ -292,8 +392,8 @@ the relative airflow. Figure~\ref{fig:pitot-tube-photo} shows the
 location of the research-system pitot tube on the GV as well as one
 of the avionics-system pitot tubes. The excess pressure above the
 ambient sensed by a pitot tube or, approximately, by the center port
-on the radome is equal to 0.5 times the air density times the airspeed
-squared, so this excess pressure can be used to determine the airspeed
+on the radome is $0.5\rho_a v^2$ where $\rho_a$ is the density of air
+and $v$ the airspeed, so this excess pressure can be used to determine the airspeed
 of the aircraft. On NSF/NCAR aircraft, the measurement of dynamic
 pressure is made using differential sensors connected between a static
 source and a total-pressure source from either a pitot tube (QCF)
@@ -326,7 +426,7 @@ of 0.1 hPa.
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=8.5cm]{PitotTube}
+\includegraphics[width=8.5cm]{PitotTube-r}
 \par\end{centering}
 
 \protect\protect\caption{A pitot tube used for the measurement of dynamic pressure.\label{fig:pitot-tube-photo}}
@@ -374,7 +474,8 @@ components are affected by errors that arise from initial alignment
 errors or orientation errors resulting from gyro responses to acceleration
 and so often exhibit a characteristic Schuler oscillation with magnitude
 that can be as much as 1--3 m\,s$^{-1}$. This is the primary source of error
-in the measurements, so for aircraft velocity components it is important
+in the measurements of wind,
+so for aircraft velocity components it is important
 to remove these errors by comparison to lower-uncertainty measurements
 provided by the GPS that are not subject to the Schuler oscillation.
 In addition, there are signal delays that are accounted for in post
@@ -398,9 +499,22 @@ the conversion from dynamic pressure to true airspeed involves the
 temperature, as documented in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{this document on processing algorithms}.
 The measurements of temperature were checked against expectations for
 height-vs-pressure changes from the hydrostatic equation by \cite{CooperEtAl2014}, with the result that the measurements were validated to an uncertainty of about 0.3$^{\circ}$C. Documentation of the temperature uncertainty will be
-presented in more detail in a separate document.
+presented in more detail in a separate document. 
 
+\subsubsection{Humidity (dew point)\label{sub:dewpoint}}
 
+The calculation of true airspeed from measured dynamic and static pressure involves
+the specific heats and gas constant for air, and this can depart from dry-air values
+when water vapor is present in significant amounts. This correction is usually
+insignificant for dew-point temperatures below about -20$^{\circ}$C but can be important
+at higher dew-point temperature. The equations used are those in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{the document on processing algorithms}. The correction 
+to true airspeed is approximately a factor of (1+0.3$q_h$ where $q_h$ is the
+dimensionless specific humidity, typically about 0.01 at 10$^{\circ}$C dewpoint and
+700~hPa pressure. In this case the correction to airspeed, typically 150~m/s at
+this altitude, is about 0.45~m/s, so the correction is not negligible but is relatively
+insensitive to uncertainty in the measured humidity.The dewpoint measurements become more uncertain than listed here at the low end of this range, but the humidity correction is insignificant there. They are likely 
+better than listed here for the upper range, in level flight, but lags and overshooting
+introduce errors when conditions are changing rapidly as in climbs or descents.
 
 \subsubsection{Examples of measurements}
 <<radome-plot-angles, fig.cap="Attitude angles pitch, roll, and heading as measured by three independent systems inertial reference systems. The systems are: (1) the standard Honeywell IRU (PITCH, ROLL, THDG, blue lines); (2) a duplicate backup Honeywell IRU (PITCH\\_IRS2, ROLL\\_IRS2, THDG\\_IRS2, green lines), and the C-MIGITS-III IRU mounted in the gust pod (CPITCH\\_GP, CROLL\\_GP, CTHDG\\_GP, red lines). All units are degrees. Data from DEEPWAVE flight 16 (4 July 2014), 9:00:00 to 10:00:00", include=TRUE>>=
@@ -431,7 +545,7 @@ plotWAC (DE[, c("Time", "THDG", "THDG_IRS2", "CTHDG_GP")], legend.position="bott
 
 @
 
-Typical measurements of the attitude angles are shown in Fig.~\ref{fig:radome-plot-angles}. The large difference in pitch is a result of the gust pod being installed in a canister below the wind where it points downward by several degrees relative to the aircraft longitudinal axis. (The pods were designed this way to provide better approaching airflow for cloud-imaging probes and other sampling from the airstream.) There is also a significant difference in heading and in roll for similar reasons.
+Typical measurements of the attitude angles are shown in Fig.~\ref{fig:radome-plot-angles}. The large difference in pitch is a result of the gust pod being installed in a canister below the wing where it points downward by several degrees relative to the aircraft longitudinal axis. (The pods were designed this way to provide better approaching airflow for cloud-imaging probes and other sampling from the airstream.) There is also a significant difference in heading and in roll for similar reasons.
 
 <<radome-plot-pressures, include=TRUE, fig.cap="The measurements of dynamic pressure (QCF and, after correction QCFC), ambient pressure (PSF and corrected PSFC) and the resulting true airspeed TASX. Data from DEEPWAVE flight 16.">>=
 
@@ -528,24 +642,23 @@ feedback loop to reduce errors in the measurements. The relevant specifications
 are listed in Table~\ref{tab:Gust-pod-measurements}.
 
 \noindent \begin{center}
-\includegraphics[width=12.1cm]{GustPod1}\includegraphics[height=5.1cm]{GustPod2x}\\
+\includegraphics[width=12.1cm]{GustPod1}\includegraphics[height=5.1cm]{GustPod2x-r}\\
  \textsl{Photograph of the Gust Pod (bottom left) and the ports on
 the Rosemount 858 probe (right).} 
 \par\end{center}
 
 \begin{table}
 \begin{minipage}[t]{0.93\columnwidth}%
-\begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.5cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
+\begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.7cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
 \toprule 
 \textbf{Measurement \small{(VARIABLE)}} & \textbf{Instrument} & \textbf{Range, Characteristics} & \textbf{Standard Uncertainty} & \textbf{Comments}\tabularnewline
 \midrule
 \midrule 
 velocity components
-
-CVNS\_GP, CVEW\_GP, CVSPD\_GP & C-MIGITSIII & with GPS & 0.1\,m\,s$^{-1}$  & horizontal and vertical\tabularnewline
+(CVNS\_GP, CVEW\_GP, CVSPD\_GP) & C-MIGITSIII & with GPS & 0.1\,m\,s$^{-1}$  & horizontal and vertical\tabularnewline
 \midrule 
 pitch, roll\\
-(CPITCH\_GP, CROLL\_GP) & C-MIGITSIII & with GPS & 1\,mrad$\simeq$0.06$^{\circ}$ & \tabularnewline
+(CPITCH\_GP, CROLL\_GP) & C-MIGITSIII & with GPS & 1\,mrad$\simeq$0.06$^{\circ}$ & with Kalman filter \tabularnewline
 \midrule 
 heading\\
 CTHDG\_GP & C-MIGITSIII & with GPS & 1.5\,mrad\\
@@ -555,15 +668,14 @@ $\simeq$0.09$^{\circ}$ & valid when in motion%
 }\tabularnewline
 \midrule 
 pressure differences,858 ports\\
-(ADIFR\_GP, BDIFR\_GP) & differential pressure transducer PPT0001DXX2VB-5021 & range $\pm1$ PSI$\simeq$$\pm$68.95 hPa & 0.07 hPa\\
+(ADIFR\_GP, BDIFR\_GP) & Honeywell PPT0001-DXX2VB-S021 & $\pm1$ psi$\simeq$$\pm$68.95 hPa & 0.07 hPa\\
 0.14 hPa max. & the first is ``typ.''; same transducers as for radome\tabularnewline
 \midrule 
-dynamic pressure (QC\_GP) & differential pressure transducer PPT0005DXX2VB-5021%
-\footnote{check: 5021 or S021?%
-} & 0--5 PSI $\simeq$0--345 hPa & 0.34 hPa\\
+dynamic pressure (QC\_GP) & Honeywell PPT0005-DXX2VB-S021%
+ & 0--5 psi $\simeq$0--345 hPa & 0.34 hPa\\
 0.68 hPa max. & ``\tabularnewline
 \midrule 
-ambient pressure (PS\_GP) & absolute transducer Paroscientific 6000-15A-28 & o--15 PSI $\simeq$0--1035\,hPa & 0.10\,hPa & digital transducer\tabularnewline
+ambient pressure (PS\_GP) & Paroscientific 6000-15A-28 & 0--15 PSI $\simeq$0--1035\,hPa & 0.10\,hPa & digital transducer\tabularnewline
 \bottomrule
 \end{tabular}%
 \end{minipage}
@@ -577,7 +689,7 @@ in the text of Sect.~\ref{sub:The-gust-pod-system}.\label{tab:Gust-pod-measureme
 
 \subsubsection{Attitude angles}
 
-The C-MIGITS INS/GPS unit provides measurements of the attitude angles,
+The C-MIGITSIII INS/GPS unit provides measurements of the attitude angles,
 recorded as variables CROLL\_GP, CPITCH\_GP, and CTHDG\_GP. The estimated
 standard uncertainty in measurement of pitch, 1~mrad (cf.~Table~\ref{tab:Gust-pod-measurements}),
 is supported by comparison to the cabin-mounted inertial systems;
@@ -589,7 +701,8 @@ be expected from vibrations and wing flex that affect the gust pod,
 so these comparisons are good support for the approximate validity
 of the specifications. Some of the specifications (esp.~for heading)
 degrade in the absence of turns or maneuvers that can be used by the
-Kalman filter to improve the measurements. 
+Kalman filter to improve the measurements, as noted in 
+Table~\ref{tab:Gust-pod-measurements}. 
 
 
 \subsubsection{Ambient or static pressure}
@@ -907,7 +1020,7 @@ Because the weight of the aircraft decreases during the flight, so
 does the angle-of-attack.
 Because the wing flexes, the measured sideslip at the gust pod also varies with weight
 of the aircraft. This change in sideslip causes an offset in the mean lateral
-component of the wind.
+component of the wind as measured by the gust-pod system.
 
 % as shown by Fig.~\ref{fig:SSGPrf18}, so there will be an offset
 % in sideslip that will affect the mean lateral component of the wind.
@@ -1021,7 +1134,7 @@ by \cite{SpulerEtAl2011} and \cite{CooperEtAl2014}. Figure~\ref{fig:LAMSschemati
 shows the one-beam LAMS as installed on the GV, and Fig.~\ref{fig:LAMS-4Beam} shows the
 configuration of the three or four-beam version. \noindent\begin{center}%
 \begin{figure}%
-\includegraphics[width=0.9\columnwidth]{amt-2014-0031-f01}%
+\includegraphics[width=0.9\columnwidth]{amt-2014-0031-f01-r}%
 %\includegraphics[width=120mm]{amt-2014-0031-f01}
 \caption{Diagram of the LAMS. Light generated by
 the laser in the cabin is transmitted by optical fibres to a~wing
@@ -1042,8 +1155,8 @@ and is used here with permission from the Optical Society of America.}%
 \end{center}%
 \noindent\begin{center}%
 \begin{figure}%
-\includegraphics[width=0.59\columnwidth]{LAMS-1}%
-\includegraphics[width=0.4\columnwidth]{LAMS-2}%
+\includegraphics[width=0.59\columnwidth]{LAMS-1r}%
+\includegraphics[width=0.4\columnwidth]{LAMS-2r}%
 \caption{The four-beam configuration of the LAMS optical head as installed in a GV 
 under-wing pod.}%
 \label{fig:LAMS-4Beam}%
@@ -1102,7 +1215,7 @@ Both methods were relatively accurate, with less than $0.2^{\circ}$ difference i
 
 %\subsubsubsection{Laser Survey}
 
-Prior to IDEAS-4-GV, a laser survey system was used to estimate the LAMS beam pointing angles of Beams 1, 2, and 3 (the forward pointing beam had not been added at that point).  The LAMS head was positioned in the hanger so the bottom two beams were approximately parallel to the floor.  Two IR card targets were placed at the focal points of those beams.
+Prior to IDEAS-4-GV in Sept.--Oct.~2013, a laser survey system was used to estimate the LAMS beam pointing angles of Beams 1, 2, and 3 (the forward pointing beam had not been added at that point).  The LAMS head was positioned in the hanger so the bottom two beams were approximately parallel to the floor.  Two IR card targets were placed at the focal points of those beams.
 
 The laser survey system locked onto a corner cube reflector and register its position in space.  The corner cube was first used to estimate the position of the LAMS exit ports by taking a series of points around their circumference.  The tracker then registered the positions of the IR card targets by the same method.  Once complete, the LAMS head was rotated by $120^{\circ}$ and the process was repeated.  This measurement was repeated for three different LAMS head rotations, where two beams were surveyed at a time.
 
@@ -1120,7 +1233,7 @@ The weaknesses of this method are
 
 \item The measurement process can perturb the beam target.
 
-\item There is no reference to the C-MIGITS INS.
+\item There is no reference to the C-MIGITS IRU.
 
 \item There is no independent redundant measurement and uncertainty is difficult to quantify.
 
@@ -1139,14 +1252,14 @@ The telescope beam measurement system was developed in house to provide position
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=10cm]{BeamPointing_ReceiverDiagram.png} 
+\includegraphics[width=10cm]{BeamPointing_ReceiverDiagram-r.png} 
 \par\end{centering}
 \protect\protect\protect\caption{\label{fig:TelescopePointingRX}Diagram of the receiver system.  The invisible infared beam enters the beam expander which amplifies the angle of the beam relative to the telescope optic axis, and is then focused onto an IR card.  The IR card fluoresces at a visible wavelength and that light is reimaged onto a CCD.}
 \end{figure}
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=10cm]{BeamPointingCollection.png} 
+\includegraphics[width=10cm]{BeamPointingCollection-r.png} 
 \par\end{centering}
 \protect\protect\protect\caption{\label{fig:TelescopePictures}Photographs of the telescope angle measurement system in the RAF optics lab.  View of the setup from behind the LAMS pod (top left), the receiver system (bottom left), LAMS mounted in the telescope mount (right).}
 \end{figure}

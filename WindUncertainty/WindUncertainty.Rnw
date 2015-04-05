@@ -145,10 +145,10 @@
  from the NSF/NCAR Gulfstream V Research Aircraft}
 
 
-\author{Al Cooper, Dick Friesen, Matt Hayman, Jorgen Jensen, Scott Spuler, Jeff Stith\\(and, we hope, many others)}
+\author{Al Cooper, Dick Friesen, Matt Hayman, Jorgen Jensen, Don Lenschow, Allen Schanot, \\Scott Spuler, Jeff Stith\\(and, we hope, many others)}
 
 
-\date{\textcolor{red}{DRAFT} 3/30/2015}
+\date{\textcolor{red}{DRAFT} 4/6/2015}
 
 \maketitle
 \vfill\eject
@@ -173,11 +173,11 @@ thisFileName <- "WindUncertainty"
 
 <<A, child='Introduction.Rnw'>>=
 <<B, child='ComponentsOfWindSensingSystem.Rnw'>>=
-<<C, child='SchulerSection.Rnw'>>=
+<<G, child='ElementsOfUncertaintyAndSummary.Rnw'>>=
+#<<C, child='SchulerSection.Rnw'>>=
 <<D, child='SensitivityCoefficients.Rnw'>>=
 <<E, child='VerticalWindStudies.Rnw'>>=
 <<F, child='HorizontalWindStudies.Rnw'>>=
-<<G, child='ElementsOfUncertaintyAndSummary.Rnw'>>=
 @
 
 \appendix

@@ -20,11 +20,13 @@ ReloadData <- TRUE   ##### TEMPORARY #######
 
 The preceding sections provided extensive information on how vertical
 wind is measured and how the radome-based system is calibrated. Here,
-two additional topics not covered well there are discussed to complement
+three additional topics not covered well there are discussed to complement
 those earlier discussions. The sections here deal with the choice and
 quality of the variable characterizing the vertical motion of the 
-aircraft and some issues related to the relative timing of the
-measurements entering the calculation of vertical wind.
+aircraft, some issues related to the relative timing of the
+measurements entering the calculation of vertical wind, and a proposed
+method for using detection of the Schuler oscillation of the IRU to
+correct the measurement of pitch.
 
 
 \subsection{The vertical velocity of the aircraft\label{sec:VerticalVelocity}}
@@ -55,10 +57,12 @@ CVSPD\_LAMS  & CMIGITS IRU, LAMS pod\tabularnewline
 \par\end{center}
 
 The standard vertical wind calculation depends on a measurement of vertical
-motion of the aircraft. Past projects have used one of VSPD (from the IRU), VSPD\_G
-or GGVSPD (from the GPS) or, much earlier, WP3 from a baro-inertial
-update loop using VSPD. This updating is no longer used because
-the Honeywell IRU providing VSPD already incorporates such updating.
+motion of the aircraft. Past projects have used one of VSPD (from the IRU), VSPD\_A, VSPD\_G
+or GGVSPD (from GPS, the first two alternate names for the value
+provided by the avionics package) or, 
+much earlier, WP3 from a baro-inertial
+update loop using VSPD. Baro-inertial updating is no longer used because
+the Honeywell IRU that now provides VSPD already incorporates such updating.
 For the systems based
 on the gust pod or LAMS, additional vertical-velocity measurements
 are provided by their pod-mounted IRUs, respectively CVSPD\_GP and
@@ -167,7 +171,11 @@ in the logarithm of frequency. Total variance is 1.36\,m$^2$s$^{-2}$.}
 Figure \ref{fig:Variance-spectra-VSPD} shows variance spectra calculated
 for the entire 6-h period, for a number of measurements entering the
 vertical-wind
-calculations. The thick blue trace shows the spectrum for the standard
+calculations.\footnote{This plot is an exception to the goals of "reproducible
+analysis" explained in the introduction and Appendix B. The calculations used
+an external spectral-analysis program, not R code, and the specific data are not
+part of the data archive for the document.}%
+The thick blue trace shows the spectrum for the standard
 vertical wind
 measurement WIC, which has a pronounced broad peak near 10 km wavelength,
 a relatively small inertial subrange extending only to about 2 km,
@@ -221,9 +229,12 @@ The unit used provides measurements at 5\,Hz and these measurements
 are interpolated and filtered to higher frequency, so the cut-off
 apparent in Fig.~\ref{fig:Variance-spectra-VSPD} is a result of
 that sampling and may remove a real signal at higher frequency.
+This topic will be reconsidered in the next section when variance
+spectra for the horizontal wind are examined.
 
 The black trace (labeled GUSTW) is the vertical component of the
-relative wind. The sum of GUSTW and GGVSPD determines WIC, and the
+relative wind, calculated as in Sect.~\ref{sub:The-Relative-Wind}. 
+The sum of GUSTW and GGVSPD determines WIC, and the
 alternate measure of vertical wind WI is the sum of GUSTW and VSPD from
 the inertial reference unit. 
 GUSTW has higher spectral variance than WIC for frequencies below
@@ -266,7 +277,7 @@ above:
 % 
 
 
-Consider eliminating the variable WI from the data archives. VSPD,
+Exclude the variable WI from future data archives. VSPD,
 on which WI is based, has problems at both high and low frequency.
 Providing this variable could lead to the mistaken expectation that this
 is the uncorrected version of WIC, while the two variables actually use
@@ -412,8 +423,8 @@ are available; they were not present in the 25-Hz file I used.{]}
 
 \subsection{Timing of measurements}
 
-It is necessary that the different measurements entering the calculation
-of vertical wind be sampled at the same time. That is particularly
+The different measurements entering the calculation
+of vertical wind should be sampled at the same time. That is particularly
 difficult in the case of samples from the inertial reference system
 and GPS because they produce sample streams according to their own
 timing and not in response to requests from the aircraft data system.
@@ -423,13 +434,13 @@ The variables involved in calculating the vertical wind are:
 that can introduce small lags. No lag is currently used in processing. 
 \item Pitch, from the IRU, transferred to the aircraft data system after
 some delay that must be removed in processing. The standard processing
-has a ``delay'' of -80~ms; i.e., the measurement is advanced in
+has a ``delay'' of -60~ms; i.e., the measurement is advanced in
 time by 80 ms so as to apply to a time later than when it is received.
 It is hard to understand how this is justified. 
 \item Other attitude angles (heading and roll), which enter in minor ways
 if the aircraft is not flying a straight-and-level course. The timing
 of these can probably be neglected for calculations of vertical wind,
-but the standard variables are also given a time lag of -80 ms. 
+but the standard variables are also given a time lag of -60 ms. 
 \item True airspeed, measured using the pitot-tube measurement of dynamic
 pressure, used also with a measurement of temperature. While no lag
 is assumed for dynamic pressure, the reference total temperature for
@@ -477,7 +488,8 @@ entering Eq.~\ref{eq:Weq}, however, can be adjusted to determine
 if the residual vertical wind can be reduced. The sensors producing
 $V$ and $\alpha$ are located close together and are processed in
 the standard manner by the data acquisition system, so these can be
-assumed to determine the reference time. However, the other variables
+assumed to determine the reference time except for possible delays
+introduced by pressure lines. However, the other variables
 $\theta$ and $w_{p}$ are determined by independent systems and may
 have timing offsets from the standard measurements, so these are the
 variables whose lags are explored here.
@@ -520,7 +532,10 @@ and just after the pitch maneuvers. It thus appears that the measuring
 system is able to remove the effects of the pitch maneuvers with essentially
 undetectable residual.
 
+\subsection{Correcting pitch for the Schuler oscillation\label{sub:Schuler}}
 
+<<E3, child='SchulerSection.Rnw'>>=
+@
 % \subsubsection{Unresolved Questions}
 % \begin{enumerate}
 % \item To obtain the result shown in Fig.~\ref{fig:pitchManeuvers}, it
