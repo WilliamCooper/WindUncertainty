@@ -383,13 +383,13 @@ T_{1}=\left(\begin{array}{ccc}
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
+\begin{equation}
 T_{2}=\left(\begin{array}{ccc}
 \cos\theta & 0 & \sin\theta\\
 0 & 1 & 0\\
 -\sin\theta & 0 & \cos\theta
-\end{array}\right)
-\]
+\end{array}\right)\label{eq:rotation-matrices}
+\end{equation}
 
 \end_inset
 
@@ -627,7 +627,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="11" columns="5">
+<lyxtabular version="3" rows="12" columns="5">
 <features rotate="0" booktabs="true" tabularvalignment="middle">
 <column alignment="center" valignment="top" width="2.3cm">
 <column alignment="center" valignment="top" width="2.5cm">
@@ -709,7 +709,7 @@ pitch, roll
 \begin_inset Text
 
 \begin_layout Plain Layout
-Laseref IV Model HG2001 GD03
+Honeywell Laseref IV HG2001 GD03
 \end_layout
 
 \end_inset
@@ -776,6 +776,9 @@ heading
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
 
 \end_layout
 
@@ -798,6 +801,9 @@ heading
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
 
 \end_layout
 
@@ -818,7 +824,7 @@ ambient pressure (PSF)
 \begin_inset Text
 
 \begin_layout Plain Layout
-absolute transducer Paroscientific 1000-15A-28
+Paroscientific 1000-15A-28 (absolute)
 \end_layout
 
 \end_inset
@@ -827,7 +833,7 @@ absolute transducer Paroscientific 1000-15A-28
 \begin_inset Text
 
 \begin_layout Plain Layout
-o--15 PSI 
+o--15 psi 
 \begin_inset Formula $\simeq$
 \end_inset
 
@@ -852,7 +858,7 @@ hPa
 \begin_inset Newline newline
 \end_inset
 
-(assumed std uncertainty)
+
 \end_layout
 
 \end_inset
@@ -861,7 +867,8 @@ hPa
 \begin_inset Text
 
 \begin_layout Plain Layout
-digital transducer
+from specs.
+ assumed standard uncertainty
 \end_layout
 
 \end_inset
@@ -881,7 +888,7 @@ dynamic pressure (QCF, QCR)
 \begin_inset Text
 
 \begin_layout Plain Layout
-differential pressure transducer PPT0005DXX2VB-5021
+Honeywell PPT0005DXX2VB-5021 (differential)
 \end_layout
 
 \end_inset
@@ -939,7 +946,7 @@ pressure differences, radome (ADIFR, BDIFR)
 \begin_inset Text
 
 \begin_layout Plain Layout
-differential pressure transducer PPT0001DXX2VB-5021
+Honeywell PPT0001DXX2VB-5021 (differential)
 \end_layout
 
 \end_inset
@@ -948,11 +955,10 @@ differential pressure transducer PPT0001DXX2VB-5021
 \begin_inset Text
 
 \begin_layout Plain Layout
-range 
 \begin_inset Formula $\pm1$
 \end_inset
 
- PSI
+~psi 
 \begin_inset Formula $\simeq$
 \end_inset
 
@@ -1001,7 +1007,7 @@ typ.
 \begin_inset Text
 
 \begin_layout Plain Layout
-horizontal velocity components
+horizontal GV velocity components
 \end_layout
 
 \begin_layout Plain Layout
@@ -1014,7 +1020,7 @@ horizontal velocity components
 \begin_inset Text
 
 \begin_layout Plain Layout
-Laseref IV Model HG2001 GD03
+Laseref IV (see above)
 \end_layout
 
 \end_inset
@@ -1053,22 +1059,25 @@ s
 \begin_inset Text
 
 \begin_layout Plain Layout
-improved by processing via reference to GPS
+0.1
+\begin_inset space ~
+\end_inset
+
+m
+\begin_inset space ~
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+ with slow updating to GPS
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-vertical aircraft speed (VSPD)
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
@@ -1077,52 +1086,10 @@ vertical aircraft speed (VSPD)
 \end_inset
 
 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-strap-down accelerometers
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.76 m
-\begin_inset space \thinspace{}
+\begin_inset Newline newline
 \end_inset
 
-s
-\begin_inset Formula $^{-1}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-with baro-loop updating
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-horizontal velocity components (GGVNSB, GGVEWB)
+(GGVNSB, GGVEWB)
 \end_layout
 
 \end_inset
@@ -1161,7 +1128,16 @@ s
 \begin_inset Formula $^{-1}$
 \end_inset
 
-or <0.1
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ <0.1
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -1174,15 +1150,6 @@ s
 \end_inset
 
  when OmniSTAR is not available
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-OmniSTAR corrections not always available
 \end_layout
 
 \end_inset
@@ -1248,11 +1215,128 @@ vertical wind component (GGVSPDB)
 </cell>
 </row>
 <row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+vertical GV speed (VSPD)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Laserref IV (see above)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+strap-down accelerometers
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.76 m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+with baro-loop updating
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+air temperature (ATX)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+HARCO 100009-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-80$
+\end_inset
+
+ to +40
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+C, anti-iced
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+needed for calculating true airspeed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-air temperature
+humidity
+\end_layout
+
+\begin_layout Plain Layout
+(DPX)
 \end_layout
 
 \end_inset
@@ -1261,6 +1345,35 @@ air temperature
 \begin_inset Text
 
 \begin_layout Plain Layout
+Buck dewpoint hygrometer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-70$
+\end_inset
+
+ to +30
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+C
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\begin_inset Formula $^{\circ}$
+\end_inset
+
 
 \end_layout
 
@@ -1270,25 +1383,7 @@ air temperature
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+uncertainty typical in climbs
 \end_layout
 
 \end_inset
