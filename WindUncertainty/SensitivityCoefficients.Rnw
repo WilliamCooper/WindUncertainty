@@ -192,7 +192,7 @@ The first fit was to the following simplified equation:
 A fit to the data is shown in Fig.~\ref{fig:AOA-fit-and-plot} and
 tabulated in the following summary of the fit, which was produced
 by the ``R'' call at the top of the listing. AOAREFC is $\alpha^{*}$
-with correction to pitch as in Section \ref{sec:Schuler} and AQR=$\Delta p_{\alpha}/q$
+with correction to pitch as in Section \ref{sub:Schuler} and AQR=$\Delta p_{\alpha}/q$
 .
 
 <<getData-AOA, include=TRUE>>=
@@ -383,7 +383,7 @@ then decreased, so any effect of a lag partially cancels in such data
 segments.
 
 The calibration would also be affected by pitch errors such as are
-discussed in Sect.~\ref{sec:Schuler}. Therefore the correction procedure
+discussed in Sect.~\ref{sub:Schuler}. Therefore the correction procedure
 discussed in that section was applied to these data before finding
 the preceding fit. In comparison to the fit without this correction,
 the standard error was changed only negligibly and the two fit coefficients
@@ -676,7 +676,7 @@ fit, so that is another indication that the speed-run dataset and
 the expanded dataset give consistent results. 
 
 The recommended calibration for DEEPWAVE, determined with correction
-of the pitch errors as discussed in Sect.~\ref{sec:Schuler}, is
+of the pitch errors as discussed in Sect.~\ref{sub:Schuler}, is
 (\ref{eq:AOArecommended}) with these values for the coefficients:
 \{$c_{0},\, c_{1}$\} = \{\Sexpr{round(cf31,3)}, \Sexpr{round(cf32,3)}\}.
 
@@ -1373,10 +1373,7 @@ using (\ref{eq:AOAGfunction}) for the angle of attack but conventional
 TASX for the true airspeed, because the pressure ports used to determine
 TASX were not obstructed.
 
-\vfill\eject
-
-
-
+%\vfill\eject
 
 \subsection{Summary of sensitivity coefficients\label{sub:CalSummary}}
 

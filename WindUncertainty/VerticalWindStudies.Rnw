@@ -14,7 +14,7 @@ ReloadData <- TRUE   ##### TEMPORARY #######
 
 @
 
-\section{Studies of the Vertical Wind}
+\section{Studies of the Vertical Wind\label{sec:vertical-wind}}
 
 \subsection{Overview}
 
@@ -155,7 +155,7 @@ density functions per logarithmic interval in frequency expressed
 in Hz{]} for various components entering vertical-wind calculations.
 Data are from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC. The thick blue trace
 is that for the vertical wind variable WIC; others show either measurements
-of the aircraft vertical motion (VSPD, GGVSPDB)
+of the aircraft vertical motion (VSPD, GGVSPD)
 or, as GUSTW, the relative-wind contribution to WIC.
 The green diagonal lines show the slope expected for an inertial
 subrange; the thicker green line labeled ``!0$^{-4}$'' corresponds
@@ -312,11 +312,16 @@ indicating that the contribution from aircraft motion counters the
 relative-wind contribution at all but the highest frequencies. The
 variable GGVSPDB is close to 180$^{\circ}$ out-of-phase with the
 relative wind (GUSTW in Fig.~\ref{fig:Variance-spectra-VSPD}) for
-frequencies smaller than 0.2\,Hz. At low frequency, the motion of
-the aircraft probably produces more of the measured
-vertical component of the relative
-wind than does the real wind, while
-at intermediate frequency (near 0.1 Hz) the aircraft perhaps
+frequencies smaller than 0.2\,Hz. At low frequency, 
+the aircraft is flown to maintain altitude and so to counter
+any vertical wind, so these altitude adjustments and any other
+adjustments made while maintaining altitude contribute to the
+relative-wind spectrum but not to the net measurement of vertical wind.
+%the motion of
+%the aircraft probably produces more of the measured
+%vertical component of the relative
+%wind than does the real wind, while
+At intermediate frequency (near 0.1 Hz) the aircraft %perhaps
 responds to the vertical wind so as to move out-of-phase with it,
 exaggerating the measured vertical component of the relative wind.
 There is a transition in phase from being above 180$^{\circ}$ to
@@ -401,9 +406,9 @@ evident in Fig.~\ref{fig:AltOscillationFMS}.
 \includegraphics[width=0.8\textwidth]{GGALTB} 
 \par\end{centering}
 
-\protect\protect\caption{\label{fig:AltOscillationFMS}The GPS-measured altitude during a flight
-segment in very smooth air. Data from DEEPWAVE flight 15, variable
-GGALTB.}
+\protect\protect\caption{\label{fig:AltOscillationFMS}The GPS-measured altitude [m] during a flight
+segment in very smooth air. Data from DEEPWAVE flight 15, 3:40:00 to
+3:45:00 UTC, variable GGALTB.}
 \end{figure}
 
 \item The disagreement between VSPD and GGVSPDB even at low frequency is

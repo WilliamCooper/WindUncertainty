@@ -400,9 +400,9 @@ source and a total-pressure source from either a pitot tube (QCF)
 or the front port on the radome (QCR). The sensor used, with characteristics
 listed in Table~\ref{tab:Radome-system-measurements}, has these
 additional characteristics: Specified resolution is 0.0011\% of full
-scale or 0.0076 hPa, which is better than 16-bit resolution; maximum
-sampling rate 120 Hz; response time 50ms and response delay 21 ms
-at 50\,Hz sample rate, or about one sample period. The response time
+scale or 0.0076 hPa, which is better than 16-bit resolution; the maximum
+sampling rate is 120 Hz, response time 50ms and response delay 21 ms
+or about one sample period at 50\,Hz sample rate. The response time
 is affected further by the pressure lines between the pressure ports
 and the transducers; see Sect.~XXX\marginpar{XXX} for discussion of
 this effect. The transducer provides 50-Hz output that is then filtered
@@ -699,9 +699,10 @@ while the expected difference for two systems each having standard
 uncertainties of 1 mrad would be 1.4\,mrad. Some contribution would
 be expected from vibrations and wing flex that affect the gust pod,
 so these comparisons are good support for the approximate validity
-of the specifications. Some of the specifications (esp.~for heading)
-degrade in the absence of turns or maneuvers that can be used by the
-Kalman filter to improve the measurements, as noted in 
+of the specifications. However, the feedback from the Kalman filter using
+GPS measurements can be ineffective in the absence of turns or maneuvers,
+so some of the specified uncertainties, esp.~for heading, can be
+exceeded significantly in the absence of maneuvers, as noted in 
 Table~\ref{tab:Gust-pod-measurements}. 
 
 
@@ -1181,12 +1182,12 @@ LAMS hardware supports up to four beams, with three pointing $35^{\circ}$ off th
 \begin{center}
 \begin{tabular}{>{\centering}p{3.5cm}>{\centering}p{3.5cm}>{\centering}p{2.5cm}>{\centering}p{2.5cm}}
 \toprule 
-\textbf{Beam Name\\ After DEEPWAVE} & \textbf{Beam Name\\ Before/During DEEPWAVE} & \textbf{$\theta$} & \textbf{$\phi$} \tabularnewline
+\textbf{Beam Name\\ After DEEPWAVE} & \textbf{Beam Name\\ Before/During DEEPWAVE} & \textbf{$\theta_L$} & \textbf{$\phi_L$} \tabularnewline
 \midrule
 \midrule 
 Beam 1/A & Beam 1/A & $35^{\circ}$ & $180^{\circ}$ \tabularnewline
 \midrule 
-Beam 4/B & Beam 4/B & $35^{\circ}$ & $60^{\circ}$ \tabularnewline
+Beam 4/B & Beam 2/B & $35^{\circ}$ & $60^{\circ}$ \tabularnewline
 \midrule 
 Beam 3/C & Beam 3/C & $35^{\circ}$ & $-60^{\circ}$ \tabularnewline
 \midrule
@@ -1196,7 +1197,12 @@ Beam 2/D & Beam 4/D & $0^{\circ}$ & -- \tabularnewline
 \end{tabular}
 \end{center}
 \end{minipage}
-\caption{Designations and ideal orientations of LAMS beams for installation on the GV.}
+\caption{Designations and ideal orientations of LAMS beams for installation on the GV. 
+$\theta_L$ is the angle from the longitudinal axis of the aircraft to the beam, and
+$\phi_L$ is the azimuthal angle of rotation about the longitudinal axis relative to
+the downward (aircraft-axis) direction, with positive values to starboard. In
+particular, beam 1 is upward at an angle of 35$^{\circ}$ from the centerline
+of the aircraft.}
 \end{table}
 
 During IDEAS-4-GV, the LAMS beams were focused approximately 15 m from the LAMS exit ports on the pod.  After this flight program, concerns were raised about the aircraft causing flow distortion in the LAMS sample volumes, and the beam focus was moved to 20 m from the exit port.  In both cases the sample volume is approximately 2 m long.
@@ -1399,9 +1405,9 @@ Add note that C-MIGITS cannot provide reliable heading information without movin
 
 \subsubsection{C-MIGITS/Absolute Beam Pointing\label{sub:Absolute}}
 
-With the relative pointing angles of the beams, an air velocity vector can be retrieved reliably in the predefined LAMS coordinate frame.  However, the exact transformation between the LAMS beams and the C-MIGITS coordinate frame (defined by the unit's principle axes) is unknown.  We typically assume that one C-MIGITS axis is exactly aligned to the forward pointing beam and one is directed along the angle beam 1.  However, it stands to reason that there will be some slight differences between the LAMS beam coordinate frame and the principle axes of the C-MIGITS.  At present, the only method we have for determining this transformation relies on making small angle adjustments based on flight maneuvers.
+With the relative pointing angles of the beams, an air velocity vector can be retrieved reliably in the predefined LAMS coordinate frame.  However, the exact transformation between the LAMS beams and the C-MIGITS coordinate frame (defined by the unit's principal axes) is unknown.  We typically assume that one C-MIGITS axis is exactly aligned to the forward pointing beam and one is directed along the angle beam 1.  However, it stands to reason that there will be some slight differences between the LAMS beam coordinate frame and the principal axes of the C-MIGITS.  At present, the only method we have for determining this transformation relies on making small angle adjustments based on flight maneuvers.
 
-Let the transformation matrix between the LAMS relative coordinate frame and the C-MIGITS principle axes be $\mathbf{T_{L}}$.  The velocity from LAMS is converted to the C-MIGITS coordinate frame using
+Let the transformation matrix between the LAMS relative coordinate frame and the C-MIGITS principal axes be $\mathbf{T_{L}}$.  The velocity from LAMS is converted to the C-MIGITS coordinate frame using
 \begin{equation}\label{velL2C}
 \vec{v}_c = \mathbf{T_{L}}\vec{v}_L,
 \end{equation}
@@ -1450,7 +1456,14 @@ The Doppler shift measured on a particular beam is
 \begin{equation}\label{DopplerShift}
 f_D = \frac{2}{\lambda}\hat{u}\cdot\vec{v},
 \end{equation}
-where $\lambda$ is the laser wavelength (1560 nm), $\hat{u}$ is the beam direction and $\vec{v}$ is the velocity vector of the air relative to the instrument.  A factor of two is included because the Doppler shift is imposed twice, first when the beam is absorbed by the aerosol and second when it is re-emitted.  Along the beam line-of-sight, each FFT bin corresponds to a velocity resolution of $\Delta v_{LOS} = 0.15 \mathrm{m/s}$.  With post processing the backscatter Doppler peak can be determined at sub-bin resolution.  This is accomplished using linear interpolation on the derivative of the backscatter peak to find the derivative zero crossing.  For the purposes of this analysis, we assume a sub-sample resolution of about 0.3, giving a line-of-sight velocity resolution of about $\Delta v_{LOS} = 0.05 \mathrm{m/s}$.
+where $\lambda$ is the laser wavelength (1560 nm), $\hat{u}$ is the beam direction and $\vec{v}$ is the velocity vector of the air relative to the instrument.  A factor of two is included because the Doppler shift is imposed twice, first when the beam is absorbed by the aerosol and second when it is re-emitted.  Along the beam line-of-sight, each FFT bin corresponds to a velocity resolution of $\Delta v_{LOS} = 0.15 \mathrm{m/s}$. 
+%With post processing the backscatter Doppler peak can be determined at sub-bin resolution.  %This is accomplished using linear interpolation on the derivative of the backscatter peak to find the derivative zero crossing. 
+However, the peak in the detected Doppler spectrum can be determined with resolution of
+about 0.3~bin
+by using a fit to the derivative of the spectrum.
+%For the purposes of this analysis, we assume a sub-sample resolution of about 0.3, 
+%giving 
+This gives a line-of-sight velocity resolution of about $\Delta v_{LOS} = 0.05 \mathrm{m/s}$.
 
 The resulting covariance matrix for each line-of-sight velocity measurement (only accounting for frequency accuracy) is diagonal with identically distributed variances
 \begin{equation}\label{CovFreq}
@@ -1569,7 +1582,7 @@ by 18 m can be estimated as follows:
 
 where $k_{0}=2\pi/\Delta$ with $\Delta=18$ m. For modest eddy dissipation
 rates in the range $\epsilon=0.001$ to 0.01 m$^{2}$s$^{-3}$, and
-for $\alpha=2/3$ (FIND REFERENCE XXX)\marginpar{XXX}, (\ref{eq:Uvariance}) results in estimates of
+for $\alpha=0.67$ (FIND REFERENCE XXX)\marginpar{XXX}, (\ref{eq:Uvariance}) results in estimates of
 the velocity variance of about .02--0.1 m$^{2}$s$^{-2}$, or standard
 deviations of about 0.14 to 0.3 m/s. These fluctuations, entering
 (\ref{eq:TAS3beam}), will cause errors in the estimate of $u$ that

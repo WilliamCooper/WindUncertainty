@@ -22,7 +22,7 @@ for validation tests of model results.
 This report applies to the Gulfstream V research aircraft owned by the
 National Science Foundation and operated by the Research Aviation Facility
 (RAF), Earth Observing Laboratory (EOL), National Center for Atmospheric
-Research (NCAR). This aircraft is referred to here as the NSF/NCAR GV or
+Research (NCAR). This aircraft is referred to here either as the NSF/NCAR GV or
 simply the GV.
 Its range and endurance makes it
 possible to measure wind over large distances and so to characterize mesoscale
@@ -35,8 +35,7 @@ corrections of typically more than 20$^{\circ}$C to account for dynamic heating 
 the sensors. Accurate measurement of wind thus is particularly challenging on
 this and other high-speed aircraft. 
 
-This report documents how measurements of wind are made from the NSF/NCAR
-Gulfstream~V research aircraft (hereafter, GV) and provides a characterization
+This report documents how measurements of wind are made from the GV research aircraft and provides a characterization
 of the uncertainty associated with those measurements. The characterization
 applies to the system as it existed in 2014, in particular as it operated
 in the DEEPWAVE research project flown from New Zealand in June-July
@@ -59,30 +58,42 @@ The intent in this report is to follow the conventions established by
 the International Committee on Weights and Measures and by the
 National Institute of Standards and Technology. Appendix A summarizes
 key aspects of those recommendations and how they are addressed in this
-report. We also present additional information resulting from various
+report. This report also contains additional information resulting from various
 studies of the measurements that have tested the validity of the
 measurements or have been used for calibration. 
 
-Section \ref{sec:Components} describes the components of the wind-measuring
+The organization is as follows. Section \ref{sec:Components} describes the 
+components of the wind-measuring
 system in more detail, with examples of the measurements and information on
 the specifications for the sensors involved. 
 That section is followed by a summary of the uncertainty in wind
-measurements, with a tabulation of individual error sources and
-references to later parts of the document where studies reported
-here have led to estimates of limits on those error sources. It is
+measurements (Sect.~\ref{sec:Uncertainty-components}), with a tabulation of 
+individual error sources and many
+references to other parts of the document where studies 
+have led to estimates of limits on those error sources. It is
 our hope that this section will provide a summary of the results that
 can either stand alone or provide a guide to the further information
-in this report that has led to the conclusions summarized there.
+in this report.
 
-Section \ref{sec:Calibrations} summarizes
-how the measurements have been calibrated, tested, and intercompared.
-Some related studies affecting the measurements are then presented
-in the next two sections. The section discussing vertical wind focuses on
-studies of the measurement of aircraft vertical motion, needed to calculate
-the vertical wind, and includes a correction procedure that can
-improve the measurement of pitch and hence the vertical wind.
-The section discussing horizontal wind uses circle maneuvers
-to check the measurement of horizontal wind and develop corrections to the heading and sideslip.
+Each of the subsequent sections provides information used to assess
+uncertainty. Section \ref{sec:Calibrations} describes
+how the key gust measurements have been calibrated, tested, and intercompared.
+Section \ref{sec:vertical-wind} discusses the choice of measurement to
+represent the vertical motion of the aircraft and some aspects of the
+uncertainty in that measurement, the relative timing of acquisition of the
+measurements entering vertical wind, and a procedure for detecting the
+Schuler oscillation in the pitch measurement and applying a correction that
+reduces the uncertainty in that measurement that, uncorrected, accounts for
+the dominant uncertainty in vertical wind. Section \ref{sec:HWind} then
+uses drifting or Lagrangian circle maneuvers to establish limits on some
+critical components entering measurement of the horizontal wind, the true
+airspeed and offsets in heading and sideslip, which account for some of the
+bias limits used in Sect.~\ref{sec:Uncertainty-components}, and it describes
+how the measurements of ground-speed components from the inertial units and
+GPS units have been combined to reduce uncertainty in the components of the
+horizontal wind. Finally, Appendix B presents some of the characteristics of
+turbulence measurements, including variance spectra and potential to measure
+fluxes, and notes some limitations of such measurements.
 
 % The program that performed the calculations reported here
 % can be found on NCAR/EOL computer

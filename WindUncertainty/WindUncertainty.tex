@@ -226,7 +226,7 @@ for validation tests of model results.
 This report applies to the Gulfstream V research aircraft owned by the
 National Science Foundation and operated by the Research Aviation Facility
 (RAF), Earth Observing Laboratory (EOL), National Center for Atmospheric
-Research (NCAR). This aircraft is referred to here as the NSF/NCAR GV or
+Research (NCAR). This aircraft is referred to here either as the NSF/NCAR GV or
 simply the GV.
 Its range and endurance makes it
 possible to measure wind over large distances and so to characterize mesoscale
@@ -239,8 +239,7 @@ corrections of typically more than 20$^{\circ}$C to account for dynamic heating 
 the sensors. Accurate measurement of wind thus is particularly challenging on
 this and other high-speed aircraft. 
 
-This report documents how measurements of wind are made from the NSF/NCAR
-Gulfstream~V research aircraft (hereafter, GV) and provides a characterization
+This report documents how measurements of wind are made from the GV research aircraft and provides a characterization
 of the uncertainty associated with those measurements. The characterization
 applies to the system as it existed in 2014, in particular as it operated
 in the DEEPWAVE research project flown from New Zealand in June-July
@@ -263,30 +262,42 @@ The intent in this report is to follow the conventions established by
 the International Committee on Weights and Measures and by the
 National Institute of Standards and Technology. Appendix A summarizes
 key aspects of those recommendations and how they are addressed in this
-report. We also present additional information resulting from various
+report. This report also contains additional information resulting from various
 studies of the measurements that have tested the validity of the
 measurements or have been used for calibration. 
 
-Section \ref{sec:Components} describes the components of the wind-measuring
+The organization is as follows. Section \ref{sec:Components} describes the 
+components of the wind-measuring
 system in more detail, with examples of the measurements and information on
 the specifications for the sensors involved. 
 That section is followed by a summary of the uncertainty in wind
-measurements, with a tabulation of individual error sources and
-references to later parts of the document where studies reported
-here have led to estimates of limits on those error sources. It is
+measurements (Sect.~\ref{sec:Uncertainty-components}), with a tabulation of 
+individual error sources and many
+references to other parts of the document where studies 
+have led to estimates of limits on those error sources. It is
 our hope that this section will provide a summary of the results that
 can either stand alone or provide a guide to the further information
-in this report that has led to the conclusions summarized there.
+in this report.
 
-Section \ref{sec:Calibrations} summarizes
-how the measurements have been calibrated, tested, and intercompared.
-Some related studies affecting the measurements are then presented
-in the next two sections. The section discussing vertical wind focuses on
-studies of the measurement of aircraft vertical motion, needed to calculate
-the vertical wind, and includes a correction procedure that can
-improve the measurement of pitch and hence the vertical wind.
-The section discussing horizontal wind uses circle maneuvers
-to check the measurement of horizontal wind and develop corrections to the heading and sideslip.
+Each of the subsequent sections provides information used to assess
+uncertainty. Section \ref{sec:Calibrations} describes
+how the key gust measurements have been calibrated, tested, and intercompared.
+Section \ref{sec:vertical-wind} discusses the choice of measurement to
+represent the vertical motion of the aircraft and some aspects of the
+uncertainty in that measurement, the relative timing of acquisition of the
+measurements entering vertical wind, and a procedure for detecting the
+Schuler oscillation in the pitch measurement and applying a correction that
+reduces the uncertainty in that measurement that, uncorrected, accounts for
+the dominant uncertainty in vertical wind. Section \ref{sec:HWind} then
+uses drifting or Lagrangian circle maneuvers to establish limits on some
+critical components entering measurement of the horizontal wind, the true
+airspeed and offsets in heading and sideslip, which account for some of the
+bias limits used in Sect.~\ref{sec:Uncertainty-components}, and it describes
+how the measurements of ground-speed components from the inertial units and
+GPS units have been combined to reduce uncertainty in the components of the
+horizontal wind. Finally, Appendix B presents some of the characteristics of
+turbulence measurements, including variance spectra and potential to measure
+fluxes, and notes some limitations of such measurements.
 
 % The program that performed the calculations reported here
 % can be found on NCAR/EOL computer
@@ -698,9 +709,9 @@ source and a total-pressure source from either a pitot tube (QCF)
 or the front port on the radome (QCR). The sensor used, with characteristics
 listed in Table~\ref{tab:Radome-system-measurements}, has these
 additional characteristics: Specified resolution is 0.0011\% of full
-scale or 0.0076 hPa, which is better than 16-bit resolution; maximum
-sampling rate 120 Hz; response time 50ms and response delay 21 ms
-at 50\,Hz sample rate, or about one sample period. The response time
+scale or 0.0076 hPa, which is better than 16-bit resolution; the maximum
+sampling rate is 120 Hz, response time 50ms and response delay 21 ms
+or about one sample period at 50\,Hz sample rate. The response time
 is affected further by the pressure lines between the pressure ports
 and the transducers; see Sect.~XXX\marginpar{XXX} for discussion of
 this effect. The transducer provides 50-Hz output that is then filtered
@@ -959,9 +970,10 @@ while the expected difference for two systems each having standard
 uncertainties of 1 mrad would be 1.4\,mrad. Some contribution would
 be expected from vibrations and wing flex that affect the gust pod,
 so these comparisons are good support for the approximate validity
-of the specifications. Some of the specifications (esp.~for heading)
-degrade in the absence of turns or maneuvers that can be used by the
-Kalman filter to improve the measurements, as noted in 
+of the specifications. However, the feedback from the Kalman filter using
+GPS measurements can be ineffective in the absence of turns or maneuvers,
+so some of the specified uncertainties, esp.~for heading, can be
+exceeded significantly in the absence of maneuvers, as noted in 
 Table~\ref{tab:Gust-pod-measurements}. 
 
 
@@ -1432,12 +1444,12 @@ LAMS hardware supports up to four beams, with three pointing $35^{\circ}$ off th
 \begin{center}
 \begin{tabular}{>{\centering}p{3.5cm}>{\centering}p{3.5cm}>{\centering}p{2.5cm}>{\centering}p{2.5cm}}
 \toprule 
-\textbf{Beam Name\\ After DEEPWAVE} & \textbf{Beam Name\\ Before/During DEEPWAVE} & \textbf{$\theta$} & \textbf{$\phi$} \tabularnewline
+\textbf{Beam Name\\ After DEEPWAVE} & \textbf{Beam Name\\ Before/During DEEPWAVE} & \textbf{$\theta_L$} & \textbf{$\phi_L$} \tabularnewline
 \midrule
 \midrule 
 Beam 1/A & Beam 1/A & $35^{\circ}$ & $180^{\circ}$ \tabularnewline
 \midrule 
-Beam 4/B & Beam 4/B & $35^{\circ}$ & $60^{\circ}$ \tabularnewline
+Beam 4/B & Beam 2/B & $35^{\circ}$ & $60^{\circ}$ \tabularnewline
 \midrule 
 Beam 3/C & Beam 3/C & $35^{\circ}$ & $-60^{\circ}$ \tabularnewline
 \midrule
@@ -1447,7 +1459,12 @@ Beam 2/D & Beam 4/D & $0^{\circ}$ & -- \tabularnewline
 \end{tabular}
 \end{center}
 \end{minipage}
-\caption{Designations and ideal orientations of LAMS beams for installation on the GV.}
+\caption{Designations and ideal orientations of LAMS beams for installation on the GV. 
+$\theta_L$ is the angle from the longitudinal axis of the aircraft to the beam, and
+$\phi_L$ is the azimuthal angle of rotation about the longitudinal axis relative to
+the downward (aircraft-axis) direction, with positive values to starboard. In
+particular, beam 1 is upward at an angle of 35$^{\circ}$ from the centerline
+of the aircraft.}
 \end{table}
 
 During IDEAS-4-GV, the LAMS beams were focused approximately 15 m from the LAMS exit ports on the pod.  After this flight program, concerns were raised about the aircraft causing flow distortion in the LAMS sample volumes, and the beam focus was moved to 20 m from the exit port.  In both cases the sample volume is approximately 2 m long.
@@ -1650,9 +1667,9 @@ Add note that C-MIGITS cannot provide reliable heading information without movin
 
 \subsubsection{C-MIGITS/Absolute Beam Pointing\label{sub:Absolute}}
 
-With the relative pointing angles of the beams, an air velocity vector can be retrieved reliably in the predefined LAMS coordinate frame.  However, the exact transformation between the LAMS beams and the C-MIGITS coordinate frame (defined by the unit's principle axes) is unknown.  We typically assume that one C-MIGITS axis is exactly aligned to the forward pointing beam and one is directed along the angle beam 1.  However, it stands to reason that there will be some slight differences between the LAMS beam coordinate frame and the principle axes of the C-MIGITS.  At present, the only method we have for determining this transformation relies on making small angle adjustments based on flight maneuvers.
+With the relative pointing angles of the beams, an air velocity vector can be retrieved reliably in the predefined LAMS coordinate frame.  However, the exact transformation between the LAMS beams and the C-MIGITS coordinate frame (defined by the unit's principal axes) is unknown.  We typically assume that one C-MIGITS axis is exactly aligned to the forward pointing beam and one is directed along the angle beam 1.  However, it stands to reason that there will be some slight differences between the LAMS beam coordinate frame and the principal axes of the C-MIGITS.  At present, the only method we have for determining this transformation relies on making small angle adjustments based on flight maneuvers.
 
-Let the transformation matrix between the LAMS relative coordinate frame and the C-MIGITS principle axes be $\mathbf{T_{L}}$.  The velocity from LAMS is converted to the C-MIGITS coordinate frame using
+Let the transformation matrix between the LAMS relative coordinate frame and the C-MIGITS principal axes be $\mathbf{T_{L}}$.  The velocity from LAMS is converted to the C-MIGITS coordinate frame using
 \begin{equation}\label{velL2C}
 \vec{v}_c = \mathbf{T_{L}}\vec{v}_L,
 \end{equation}
@@ -1701,7 +1718,14 @@ The Doppler shift measured on a particular beam is
 \begin{equation}\label{DopplerShift}
 f_D = \frac{2}{\lambda}\hat{u}\cdot\vec{v},
 \end{equation}
-where $\lambda$ is the laser wavelength (1560 nm), $\hat{u}$ is the beam direction and $\vec{v}$ is the velocity vector of the air relative to the instrument.  A factor of two is included because the Doppler shift is imposed twice, first when the beam is absorbed by the aerosol and second when it is re-emitted.  Along the beam line-of-sight, each FFT bin corresponds to a velocity resolution of $\Delta v_{LOS} = 0.15 \mathrm{m/s}$.  With post processing the backscatter Doppler peak can be determined at sub-bin resolution.  This is accomplished using linear interpolation on the derivative of the backscatter peak to find the derivative zero crossing.  For the purposes of this analysis, we assume a sub-sample resolution of about 0.3, giving a line-of-sight velocity resolution of about $\Delta v_{LOS} = 0.05 \mathrm{m/s}$.
+where $\lambda$ is the laser wavelength (1560 nm), $\hat{u}$ is the beam direction and $\vec{v}$ is the velocity vector of the air relative to the instrument.  A factor of two is included because the Doppler shift is imposed twice, first when the beam is absorbed by the aerosol and second when it is re-emitted.  Along the beam line-of-sight, each FFT bin corresponds to a velocity resolution of $\Delta v_{LOS} = 0.15 \mathrm{m/s}$. 
+%With post processing the backscatter Doppler peak can be determined at sub-bin resolution.  %This is accomplished using linear interpolation on the derivative of the backscatter peak to find the derivative zero crossing. 
+However, the peak in the detected Doppler spectrum can be determined with resolution of
+about 0.3~bin
+by using a fit to the derivative of the spectrum.
+%For the purposes of this analysis, we assume a sub-sample resolution of about 0.3, 
+%giving 
+This gives a line-of-sight velocity resolution of about $\Delta v_{LOS} = 0.05 \mathrm{m/s}$.
 
 The resulting covariance matrix for each line-of-sight velocity measurement (only accounting for frequency accuracy) is diagonal with identically distributed variances
 \begin{equation}\label{CovFreq}
@@ -1820,7 +1844,7 @@ by 18 m can be estimated as follows:
 
 where $k_{0}=2\pi/\Delta$ with $\Delta=18$ m. For modest eddy dissipation
 rates in the range $\epsilon=0.001$ to 0.01 m$^{2}$s$^{-3}$, and
-for $\alpha=2/3$ (FIND REFERENCE XXX)\marginpar{XXX}, (\ref{eq:Uvariance}) results in estimates of
+for $\alpha=0.67$ (FIND REFERENCE XXX)\marginpar{XXX}, (\ref{eq:Uvariance}) results in estimates of
 the velocity variance of about .02--0.1 m$^{2}$s$^{-2}$, or standard
 deviations of about 0.14 to 0.3 m/s. These fluctuations, entering
 (\ref{eq:TAS3beam}), will cause errors in the estimate of $u$ that
@@ -1989,7 +2013,7 @@ one lower-bound estimate of the uncertainty in pitch. Measurements
 discussed in Sect.~\ref{sub:Attitude-angles} suggest that, for periods
 when the roll of the aircraft was within 5$^{\circ}$ of zero, the
 difference between these redundant measurements was about 0.3~mrad or less than 
-about 0.02$^{\circ}$. Section \ref{sec:Schuler} presents additional evidence from evaluation of the Schuler coupling between pitch or roll errors and ground-speed errors, also indicating
+about 0.02$^{\circ}$. Section \ref{sub:Schuler} presents additional evidence from evaluation of the Schuler coupling between pitch or roll errors and ground-speed errors, also indicating
 that typical pitch errors are of about this magnitude. This is significantly smaller
 than the manufacturer's specified uncertainty for this instrument, $\pm 0.05^{\circ}$.
 
@@ -2205,7 +2229,7 @@ but the effect is negligible for the estimated uncertainty in QCF
 (<0.2\% of the measured value of $w$, or 0.02\,m\,s$^{-1}$ for
 10\,m\,s$^{-1}$ vertical wind).
 \item \textbf{PITCH:} The estimates listed are those that apply without
-the pitch-correction procedure of Sect.~\ref{sec:Schuler}. In that section,
+the pitch-correction procedure of Sect.~\ref{sub:Schuler}. In that section,
 it was estimated that the standard error in pitch is 0.02$^{\circ}$ and that
 this is primarily in the form of a slowly varying error that, over measurement
 periods short compared to the Schuler oscillation period of 84.4~min, will 
@@ -2230,7 +2254,7 @@ case in the table.
  The uncertainty in pitch
 is the leading contributor to the standard uncertainty in vertical wind
 and is also the leading contributor to the overall estimate of bias.
-The correction technique of Sect.~\ref{sec:Schuler} is not
+The correction technique of Sect.~\ref{sub:Schuler} is not
 incorporated in routine processing so needs special calculation.
 \item \textbf{Aircraft Vertical Velocity:} The measurement used for vertical
 motion of the aircraft is discussed is Sect.~\ref{sec:VerticalVelocity}.
@@ -2772,7 +2796,7 @@ axis of the aircraft.\label{tab:Summary-of-uncertainty}}
 \midrule
 \midrule 
 vertical wind, radome & 0.1 & 0.04 & 0.1 & lower with pitch correction\footnote{With application of the
-pitch-correction algorithm of Sect.~\ref{sec:Schuler}, Eq.~\ref{eq:pitch-error-wo-approx}, the bias estimate is 0.05\,m\,s$^{-1}$ and the net uncertainty is 0.06\,m/s.}\tabularnewline
+pitch-correction algorithm of Sect.~\ref{sub:Schuler}, Eq.~\ref{eq:pitch-error-wo-approx}, the bias estimate is 0.05\,m\,s$^{-1}$ and the net uncertainty is 0.06\,m/s.}\tabularnewline
 \midrule 
 horizontal wind components, radome & 0.4 , 0.3 & 0.2 & 0.4 & roll < 5$^{\circ}$ \footnote{Expect minor degradation in turns.}\tabularnewline
 \midrule 
@@ -2817,7 +2841,7 @@ about $\delta_{u}$/u. For example, for $u=20$\,m/s and $\delta_{u}=0.4$\,m/s,
 $\delta\xi=0.02$ rad. or about 1\,$^{\circ}$.
 
 There is some potential for improvement in the vertical wind if the
-pitch-correction algorithm of Section\inputencoding{latin1}{~}\inputencoding{latin9}\ref{sec:Schuler}
+pitch-correction algorithm of Section\inputencoding{latin1}{~}\inputencoding{latin9}\ref{sub:Schuler}
 is applied. The improvement in effect removes the bias contribution from pitch, so
 it reduces the estimated bias to 0.05\,m/s and the standard uncertainty to about 0.06\,m/s. Further reduction
 would require independent evidence that the calibration maneuvers
@@ -3076,7 +3100,7 @@ The first fit was to the following simplified equation:
 A fit to the data is shown in Fig.~\ref{fig:AOA-fit-and-plot} and
 tabulated in the following summary of the fit, which was produced
 by the ``R'' call at the top of the listing. AOAREFC is $\alpha^{*}$
-with correction to pitch as in Section \ref{sec:Schuler} and AQR=$\Delta p_{\alpha}/q$
+with correction to pitch as in Section \ref{sub:Schuler} and AQR=$\Delta p_{\alpha}/q$
 .
 
 
@@ -3140,7 +3164,7 @@ then decreased, so any effect of a lag partially cancels in such data
 segments.
 
 The calibration would also be affected by pitch errors such as are
-discussed in Sect.~\ref{sec:Schuler}. Therefore the correction procedure
+discussed in Sect.~\ref{sub:Schuler}. Therefore the correction procedure
 discussed in that section was applied to these data before finding
 the preceding fit. In comparison to the fit without this correction,
 the standard error was changed only negligibly and the two fit coefficients
@@ -3300,7 +3324,7 @@ fit, so that is another indication that the speed-run dataset and
 the expanded dataset give consistent results. 
 
 The recommended calibration for DEEPWAVE, determined with correction
-of the pitch errors as discussed in Sect.~\ref{sec:Schuler}, is
+of the pitch errors as discussed in Sect.~\ref{sub:Schuler}, is
 (\ref{eq:AOArecommended}) with these values for the coefficients:
 \{$c_{0},\, c_{1}$\} = \{4.468, 21.481\}.
 
@@ -3820,10 +3844,7 @@ using (\ref{eq:AOAGfunction}) for the angle of attack but conventional
 TASX for the true airspeed, because the pressure ports used to determine
 TASX were not obstructed.
 
-\vfill\eject
-
-
-
+%\vfill\eject
 
 \subsection{Summary of sensitivity coefficients\label{sub:CalSummary}}
 
@@ -3864,7 +3885,7 @@ Equation (\ref{eq:TASformula}), with (\ref{eq:TASfit}) and coefficients
 
 
 
-\section{Studies of the Vertical Wind}
+\section{Studies of the Vertical Wind\label{sec:vertical-wind}}
 
 \subsection{Overview}
 
@@ -4005,7 +4026,7 @@ density functions per logarithmic interval in frequency expressed
 in Hz{]} for various components entering vertical-wind calculations.
 Data are from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC. The thick blue trace
 is that for the vertical wind variable WIC; others show either measurements
-of the aircraft vertical motion (VSPD, GGVSPDB)
+of the aircraft vertical motion (VSPD, GGVSPD)
 or, as GUSTW, the relative-wind contribution to WIC.
 The green diagonal lines show the slope expected for an inertial
 subrange; the thicker green line labeled ``!0$^{-4}$'' corresponds
@@ -4162,11 +4183,16 @@ indicating that the contribution from aircraft motion counters the
 relative-wind contribution at all but the highest frequencies. The
 variable GGVSPDB is close to 180$^{\circ}$ out-of-phase with the
 relative wind (GUSTW in Fig.~\ref{fig:Variance-spectra-VSPD}) for
-frequencies smaller than 0.2\,Hz. At low frequency, the motion of
-the aircraft probably produces more of the measured
-vertical component of the relative
-wind than does the real wind, while
-at intermediate frequency (near 0.1 Hz) the aircraft perhaps
+frequencies smaller than 0.2\,Hz. At low frequency, 
+the aircraft is flown to maintain altitude and so to counter
+any vertical wind, so these altitude adjustments and any other
+adjustments made while maintaining altitude contribute to the
+relative-wind spectrum but not to the net measurement of vertical wind.
+%the motion of
+%the aircraft probably produces more of the measured
+%vertical component of the relative
+%wind than does the real wind, while
+At intermediate frequency (near 0.1 Hz) the aircraft %perhaps
 responds to the vertical wind so as to move out-of-phase with it,
 exaggerating the measured vertical component of the relative wind.
 There is a transition in phase from being above 180$^{\circ}$ to
@@ -4251,9 +4277,9 @@ evident in Fig.~\ref{fig:AltOscillationFMS}.
 \includegraphics[width=0.8\textwidth]{GGALTB} 
 \par\end{centering}
 
-\protect\protect\caption{\label{fig:AltOscillationFMS}The GPS-measured altitude during a flight
-segment in very smooth air. Data from DEEPWAVE flight 15, variable
-GGALTB.}
+\protect\protect\caption{\label{fig:AltOscillationFMS}The GPS-measured altitude [m] during a flight
+segment in very smooth air. Data from DEEPWAVE flight 15, 3:40:00 to
+3:45:00 UTC, variable GGALTB.}
 \end{figure}
 
 \item The disagreement between VSPD and GGVSPDB even at low frequency is
@@ -4399,11 +4425,13 @@ r%
 
 \subsubsection{Basis for the correction}
 
-Before discussing additional aspects of the measurement system like
-determination of sensitivity coefficients for the radome, it is necessary
-to explain and document a correction that will be used in that determination
-and in subsequent studies. The normal primary weakness in measurement
-of vertical wind is the measurement of pitch, which is provided only
+%Before discussing additional aspects of the measurement system like
+%determination of sensitivity coefficients for the radome, it is necessary
+%to explain and document a correction that will be used in that determination
+%and in subsequent studies. 
+The primary weakness in the measurement
+of vertical wind normally is the error in the
+measurement of pitch, which is provided 
 by inertial reference systems and therefore has the uncertainty and
 fluctuations associated with those systems. An inertial system aligns
 during initialization to detect the local vertical direction and then
@@ -4411,14 +4439,14 @@ calculates the new vertical direction as the aircraft moves (changing
 the local vertical direction) and accelerates (which can cause gyros
 to precess). Any misalignment present at initialization persists
 but also can oscillate and can cause errors in roll and pitch to mix
-as the aircraft changes flight direction. The standard error associated
+as the aircraft changes flight direction. The standard uncertainty associated
 with this measurement is 0.05$^{\circ}$ for flight duration of a
 few hours, and the error often increases during the flight as heading
 errors and accelerometer biases affect the results.
 
-Following the work of Schuler (\cite{Schuler1923}), coupling among
+The work of Schuler (\cite{Schuler1923}) demonstrated that coupling among
 some of these error sources leads to limits on the growth of errors
-and simultaneous oscillations in some of the measurement errors. In
+and to simultaneous oscillations in some of the measurement errors. In
 particular, an error in pitch leads to an error in horizontal acceleration,
 and integration of that error in horizontal acceleration leads to
 a position error that compensates for the original error in pitch.
@@ -4434,11 +4462,21 @@ of velocity are available from GPS and those measurements can be compared
 to the uncorrected measurements from the inertial systems to measure
 the error in velocity and, from its derivative, the error in acceleration.
 The specified uncertainty for the IRU, 0.05$^{\circ}$, contributes
-an uncertainty in measured vertical wind of about 0.2 m/s, and it
-is shown later that this is the dominant contribution to uncertainty
-in that measurement, so improving on this can lead to significant
+an uncertainty in measured vertical wind of about 0.2 m/s, and 
+Table~\ref{tab:Elemental-w} lists this as the dominant contribution to uncertainty
+in that measurement. Therefore, improving the measurement
+of pitch can lead to important
 reduction in the uncertainty associated with measurement of vertical
 wind.
+
+For that reason, this section documents a procedure that can be used to
+correct for a major part of the error in the measurement of pitch by
+correcting for the Schuler oscillation as determined from errors
+ in the ground-speed components of the aircraft as measured by the
+IRU. This applies only to the Honeywell IRU used with the radome-based
+wind system because the IRUs used with the gust pod or the LAMS
+already incorporate a Kalman-filter correction that applies a similar
+adjustment to the measurements. 
 
 
 
@@ -4968,16 +5006,19 @@ will have an error with typical period of the Schuler
 oscillation that, for measurements spanning much shorter periods,
 will appear as a slowly varying bias.
 
-The correction procedure developed here is not suited to application during
-normal processing of data files because it uses a fit to the
+The correction procedure developed here is not 
+applied in normal processing of data files because
+%suited to application during
+%normal processing of data files because it uses a fit to the
+it fits to the
 entire sequence of ground-speed measurements to find the
-corrections while the normal processor is sequential. 
-An R script has been developed to add values of
-pitch and vertical wind after correction, but this must be
-run after the original file is generated.
-The correction only applies to the Honeywell IRUs; The C-MIGITSIII
-units already incorporate Kalman feedback from a GPS signal and so
-already apply a correction similar to the one applied here. 
+corrections while the normal processor is sequential and
+has no access to future measurements while processing. 
+To apply these corrections, an additional processing
+step is required. A program has been developed to add values of
+pitch and vertical wind after correction, and this was used
+for all the analyses in this report including the determinations
+of sensitivity coefficients in Sect.~\ref{sec:Calibrations}.
 % \end{document}
 % \subsubsection{Unresolved Questions}
 % \begin{enumerate}

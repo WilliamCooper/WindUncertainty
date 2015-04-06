@@ -29,11 +29,13 @@ r%
 
 \subsubsection{Basis for the correction}
 
-Before discussing additional aspects of the measurement system like
-determination of sensitivity coefficients for the radome, it is necessary
-to explain and document a correction that will be used in that determination
-and in subsequent studies. The normal primary weakness in measurement
-of vertical wind is the measurement of pitch, which is provided only
+%Before discussing additional aspects of the measurement system like
+%determination of sensitivity coefficients for the radome, it is necessary
+%to explain and document a correction that will be used in that determination
+%and in subsequent studies. 
+The primary weakness in the measurement
+of vertical wind normally is the error in the
+measurement of pitch, which is provided 
 by inertial reference systems and therefore has the uncertainty and
 fluctuations associated with those systems. An inertial system aligns
 during initialization to detect the local vertical direction and then
@@ -41,14 +43,14 @@ calculates the new vertical direction as the aircraft moves (changing
 the local vertical direction) and accelerates (which can cause gyros
 to precess). Any misalignment present at initialization persists
 but also can oscillate and can cause errors in roll and pitch to mix
-as the aircraft changes flight direction. The standard error associated
+as the aircraft changes flight direction. The standard uncertainty associated
 with this measurement is 0.05$^{\circ}$ for flight duration of a
 few hours, and the error often increases during the flight as heading
 errors and accelerometer biases affect the results.
 
-Following the work of Schuler (\cite{Schuler1923}), coupling among
+The work of Schuler (\cite{Schuler1923}) demonstrated that coupling among
 some of these error sources leads to limits on the growth of errors
-and simultaneous oscillations in some of the measurement errors. In
+and to simultaneous oscillations in some of the measurement errors. In
 particular, an error in pitch leads to an error in horizontal acceleration,
 and integration of that error in horizontal acceleration leads to
 a position error that compensates for the original error in pitch.
@@ -64,11 +66,21 @@ of velocity are available from GPS and those measurements can be compared
 to the uncorrected measurements from the inertial systems to measure
 the error in velocity and, from its derivative, the error in acceleration.
 The specified uncertainty for the IRU, 0.05$^{\circ}$, contributes
-an uncertainty in measured vertical wind of about 0.2 m/s, and it
-is shown later that this is the dominant contribution to uncertainty
-in that measurement, so improving on this can lead to significant
+an uncertainty in measured vertical wind of about 0.2 m/s, and 
+Table~\ref{tab:Elemental-w} lists this as the dominant contribution to uncertainty
+in that measurement. Therefore, improving the measurement
+of pitch can lead to important
 reduction in the uncertainty associated with measurement of vertical
 wind.
+
+For that reason, this section documents a procedure that can be used to
+correct for a major part of the error in the measurement of pitch by
+correcting for the Schuler oscillation as determined from errors
+ in the ground-speed components of the aircraft as measured by the
+IRU. This applies only to the Honeywell IRU used with the radome-based
+wind system because the IRUs used with the gust pod or the LAMS
+already incorporate a Kalman-filter correction that applies a similar
+adjustment to the measurements. 
 
 <<reinitialization,echo=FALSE,include=FALSE>>=
 
@@ -765,14 +777,17 @@ will have an error with typical period of the Schuler
 oscillation that, for measurements spanning much shorter periods,
 will appear as a slowly varying bias.
 
-The correction procedure developed here is not suited to application during
-normal processing of data files because it uses a fit to the
+The correction procedure developed here is not 
+applied in normal processing of data files because
+%suited to application during
+%normal processing of data files because it uses a fit to the
+it fits to the
 entire sequence of ground-speed measurements to find the
-corrections while the normal processor is sequential. 
-An R script has been developed to add values of
-pitch and vertical wind after correction, but this must be
-run after the original file is generated.
-The correction only applies to the Honeywell IRUs; The C-MIGITSIII
-units already incorporate Kalman feedback from a GPS signal and so
-already apply a correction similar to the one applied here. 
+corrections while the normal processor is sequential and
+has no access to future measurements while processing. 
+To apply these corrections, an additional processing
+step is required. A program has been developed to add values of
+pitch and vertical wind after correction, and this was used
+for all the analyses in this report including the determinations
+of sensitivity coefficients in Sect.~\ref{sec:Calibrations}.
 % \end{document}

@@ -157,7 +157,7 @@ one lower-bound estimate of the uncertainty in pitch. Measurements
 discussed in Sect.~\ref{sub:Attitude-angles} suggest that, for periods
 when the roll of the aircraft was within 5$^{\circ}$ of zero, the
 difference between these redundant measurements was about 0.3~mrad or less than 
-about 0.02$^{\circ}$. Section \ref{sec:Schuler} presents additional evidence from evaluation of the Schuler coupling between pitch or roll errors and ground-speed errors, also indicating
+about 0.02$^{\circ}$. Section \ref{sub:Schuler} presents additional evidence from evaluation of the Schuler coupling between pitch or roll errors and ground-speed errors, also indicating
 that typical pitch errors are of about this magnitude. This is significantly smaller
 than the manufacturer's specified uncertainty for this instrument, $\pm 0.05^{\circ}$.
 
@@ -373,7 +373,7 @@ but the effect is negligible for the estimated uncertainty in QCF
 (<0.2\% of the measured value of $w$, or 0.02\,m\,s$^{-1}$ for
 10\,m\,s$^{-1}$ vertical wind).
 \item \textbf{PITCH:} The estimates listed are those that apply without
-the pitch-correction procedure of Sect.~\ref{sec:Schuler}. In that section,
+the pitch-correction procedure of Sect.~\ref{sub:Schuler}. In that section,
 it was estimated that the standard error in pitch is 0.02$^{\circ}$ and that
 this is primarily in the form of a slowly varying error that, over measurement
 periods short compared to the Schuler oscillation period of 84.4~min, will 
@@ -398,7 +398,7 @@ case in the table.
  The uncertainty in pitch
 is the leading contributor to the standard uncertainty in vertical wind
 and is also the leading contributor to the overall estimate of bias.
-The correction technique of Sect.~\ref{sec:Schuler} is not
+The correction technique of Sect.~\ref{sub:Schuler} is not
 incorporated in routine processing so needs special calculation.
 \item \textbf{Aircraft Vertical Velocity:} The measurement used for vertical
 motion of the aircraft is discussed is Sect.~\ref{sec:VerticalVelocity}.
@@ -940,7 +940,7 @@ axis of the aircraft.\label{tab:Summary-of-uncertainty}}
 \midrule
 \midrule 
 vertical wind, radome & 0.1 & 0.04 & 0.1 & lower with pitch correction\footnote{With application of the
-pitch-correction algorithm of Sect.~\ref{sec:Schuler}, Eq.~\ref{eq:pitch-error-wo-approx}, the bias estimate is 0.05\,m\,s$^{-1}$ and the net uncertainty is 0.06\,m/s.}\tabularnewline
+pitch-correction algorithm of Sect.~\ref{sub:Schuler}, Eq.~\ref{eq:pitch-error-wo-approx}, the bias estimate is 0.05\,m\,s$^{-1}$ and the net uncertainty is 0.06\,m/s.}\tabularnewline
 \midrule 
 horizontal wind components, radome & 0.4 , 0.3 & 0.2 & 0.4 & roll < 5$^{\circ}$ \footnote{Expect minor degradation in turns.}\tabularnewline
 \midrule 
@@ -985,7 +985,7 @@ about $\delta_{u}$/u. For example, for $u=20$\,m/s and $\delta_{u}=0.4$\,m/s,
 $\delta\xi=0.02$ rad. or about 1\,$^{\circ}$.
 
 There is some potential for improvement in the vertical wind if the
-pitch-correction algorithm of Section\inputencoding{latin1}{~}\inputencoding{latin9}\ref{sec:Schuler}
+pitch-correction algorithm of Section\inputencoding{latin1}{~}\inputencoding{latin9}\ref{sub:Schuler}
 is applied. The improvement in effect removes the bias contribution from pitch, so
 it reduces the estimated bias to 0.05\,m/s and the standard uncertainty to about 0.06\,m/s. Further reduction
 would require independent evidence that the calibration maneuvers

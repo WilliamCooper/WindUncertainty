@@ -1,0 +1,1313 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\addressee} \global\addressee={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Memo to: \the\addressee \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+\newcommand{\EOLmemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Earth Observing Laboratory}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.3truein \leftline{\hskip \longindent \datetoday} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lyxlist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+\end_preamble
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding default
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize letterpaper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 0
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.54cm
+\topmargin 3.54cm
+\rightmargin 2.54cm
+\bottommargin 2.54cm
+\headheight 1cm
+\headsep 2cm
+\footskip 0.5cm
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+EOLmemo 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+global
+\backslash
+addressee={File}  % >>change "File" to the "To:" name desired
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+To:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+the
+\backslash
+addressee
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+From:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Al Cooper
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Subject:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+spectral analysis
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+XXX or comments flag changes needing attention
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<initialization,echo=FALSE,include=FALSE, warning=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(fig.width=6, fig.height=5, fig.pos="center", digits=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+thisFileName <- "SpecAnalysis"
+\end_layout
+
+\begin_layout Plain Layout
+
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggplot2, quietly=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(grid, quietly=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+library(knitr, quietly=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggthemes, quietly=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(vioplot, quietly=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(plyr, quietly=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+Flight <- "rf08" 				
+\end_layout
+
+\begin_layout Plain Layout
+
+Project = "IDEASG"			 
+\end_layout
+
+\begin_layout Plain Layout
+
+fname = sprintf("%s%s/%s%sHR.nc", DataDirectory (),Project,Project,Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+# VarList <- setVariableList (fname, standardVariables())
+\end_layout
+
+\begin_layout Plain Layout
+
+VarList <- c("WIC", "UXC", "VYC", "TASX")
+\end_layout
+
+\begin_layout Plain Layout
+
+print (VarList)
+\end_layout
+
+\begin_layout Plain Layout
+
+Data <- getNetCDF (fname, VarList)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Characterization of turbulence
+\end_layout
+
+\begin_layout Standard
+An important use of wind measurements is in studies of turbulence, where
+ the variance or power spectrum often is used to characterize the distribution
+ of energy or variance vs.~frequency.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+For wind, the variance spectrum has units of, e.g., m
+\begin_inset Formula $^{2}$
+\end_inset
+
+s
+\begin_inset Formula $^{-2}$
+\end_inset
+
+ per frequency interval which is energy per mass per frequency interval,
+ so this is best interpreted as an energy spectrum, not a power spectrum
+ (which would have units of (energy/time) per frequency interval or, e.g.,
+ Watts/Hz instead of Joules/Hz for unit mass.
+ For this reason, 
+\begin_inset Quotes eld
+\end_inset
+
+variance spectrum
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+energy spectrum
+\begin_inset Quotes erd
+\end_inset
+
+ or, perhaps best, 
+\begin_inset Quotes eld
+\end_inset
+
+spectral density of variance
+\begin_inset Quotes erd
+\end_inset
+
+ seem preferable to 
+\begin_inset Quotes eld
+\end_inset
+
+power spectrum
+\begin_inset Quotes erd
+\end_inset
+
+ for the present application.
+\end_layout
+
+\end_inset
+
+ This section illustrates the ability of the wind-sensing system on the
+ NSF/NCAR GV to measure the variance spectrum of turbulence and discusses
+ some other measures of the intensity of turbulence.
+ The tools for spectral analysis used here are discussed further in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Cooper1994"
+
+\end_inset
+
+.
+ In particular, the 
+\begin_inset Quotes eld
+\end_inset
+
+all poles
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+maximum entropy
+\begin_inset Quotes erd
+\end_inset
+
+ method of spectral analysis (cf.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Press:1992:NRC:148286"
+
+\end_inset
+
+) will be the main method used for generating plots of the spectral density
+ of variance from the measurements of wind.
+\end_layout
+
+\begin_layout Standard
+Some examples from the DEEPWAVE project have been shown in Sect.~
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{sec:VerticalVelocity}
+\end_layout
+
+\end_inset
+
+.
+ That project emphasized studies of waves and often measured in regions
+ where waves rather than turbulent air motions were predominant, so different
+ measurements from low-level flight will be used here.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<call-Xanadu, include=FALSE, echo=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+setwd ("~/RStudio/DEEPWAVE/WindUncertainty")
+\end_layout
+
+\begin_layout Plain Layout
+
+fnew <- "./R-toXanadu.nc"
+\end_layout
+
+\begin_layout Plain Layout
+
+unlink(fnew)
+\end_layout
+
+\begin_layout Plain Layout
+
+Z <- makeNetCDF (Data, fnew)
+\end_layout
+
+\begin_layout Plain Layout
+
+start <- 195100
+\end_layout
+
+\begin_layout Plain Layout
+
+end <- 201200
+\end_layout
+
+\begin_layout Plain Layout
+
+setXanadu <- function (fnew, start, end, var) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  ## edit the .def files for the Xanadu call
+\end_layout
+
+\begin_layout Plain Layout
+
+  lines <- readLines ("Xanadu.def")
+\end_layout
+
+\begin_layout Plain Layout
+
+  newlines <- vector ("character")
+\end_layout
+
+\begin_layout Plain Layout
+
+  for (line in lines) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (grepl ("XANFILE", line)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      line <- gsub ("=.*", sprintf ("=%s", gsub ("
+\backslash
+
+\backslash
+.nc", '', fnew)), line)
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    newlines[length (newlines) + 1] <- line
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  writeLines (newlines, "Xanadu.def")
+\end_layout
+
+\begin_layout Plain Layout
+
+  ## and the otto.def file
+\end_layout
+
+\begin_layout Plain Layout
+
+  lines <- readLines ("otto.def")
+\end_layout
+
+\begin_layout Plain Layout
+
+  newlines <- vector ("character")
+\end_layout
+
+\begin_layout Plain Layout
+
+  for (line in lines) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (grepl ("START", line)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      line <- gsub (" [0-9]*", sprintf (" %d", start), line)
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (grepl ("END", line)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      line <- gsub (" [0-9]*", sprintf (" %d", end), line)
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (substr (line, 1, 4) == "VAR ") {
+\end_layout
+
+\begin_layout Plain Layout
+
+      line <- gsub (" [A-Z]*", sprintf (" %s", var), line)
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    newlines[length (newlines) + 1] <- line
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  writeLines (newlines, "otto.def")
+\end_layout
+
+\begin_layout Plain Layout
+
+  return()
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+setXanadu (fnew, start, end, "WIC")
+\end_layout
+
+\begin_layout Plain Layout
+
+unlink ("MEMPlot.png")
+\end_layout
+
+\begin_layout Plain Layout
+
+system ("Xanadu otto", intern=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+while (!file.exists ("MEMPlot.png")) {Sys.sleep (1)}
+\end_layout
+
+\begin_layout Plain Layout
+
+file.rename ("MEMPlot.png", "PSD1.png")
+\end_layout
+
+\begin_layout Plain Layout
+
+setXanadu (fnew, start, end, "UXC")
+\end_layout
+
+\begin_layout Plain Layout
+
+unlink ("MEMPlot.png")
+\end_layout
+
+\begin_layout Plain Layout
+
+system ("Xanadu otto", intern=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+while (!file.exists ("MEMPlot.png")) {Sys.sleep (1)}
+\end_layout
+
+\begin_layout Plain Layout
+
+file.rename ("MEMPlot.png", "PSD2.png")
+\end_layout
+
+\begin_layout Plain Layout
+
+setXanadu (fnew, start, end, "VYC")
+\end_layout
+
+\begin_layout Plain Layout
+
+unlink ("MEMPlot.png")
+\end_layout
+
+\begin_layout Plain Layout
+
+system ("Xanadu otto", intern=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+while (!file.exists ("MEMPlot.png")) {Sys.sleep (1)}
+\end_layout
+
+\begin_layout Plain Layout
+
+file.rename ("MEMPlot.png", "PSD3.png")
+\end_layout
+
+\begin_layout Plain Layout
+
+setXanadu (fnew, start, end, "TASX")
+\end_layout
+
+\begin_layout Plain Layout
+
+unlink ("MEMPlot.png")
+\end_layout
+
+\begin_layout Plain Layout
+
+system ("Xanadu otto", intern=TRUE)
+\end_layout
+
+\begin_layout Plain Layout
+
+while (!file.exists ("MEMPlot.png")) {Sys.sleep (1)}
+\end_layout
+
+\begin_layout Plain Layout
+
+file.rename ("MEMPlot.png", "PSD4.png")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename PSD1.png
+	lyxscale 50
+	height 45theight%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename PSD2.png
+	lyxscale 50
+	height 45theight%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename PSD3.png
+	lyxscale 50
+	height 45theight%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename PSD4.png
+	lyxscale 50
+	height 45theight%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\family sans
+\color blue
+-- End of Memo --
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Reproducibility:
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+include enough info to re-run.
+ in zip, include program, pdf if not too big, and subset data, not entire
+ file.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Project:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{thisFileName}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Archive package:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{thisFileName}.zip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Contains:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+attachment list below
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Program:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{thisFileName}.Rnw
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Original Data:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+/scr/raf
+\backslash
+_data/
+\backslash
+Sexpr{Project}/
+\backslash
+Sexpr{Flight}.nc
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Git:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+git@github.com:WilliamCooper/
+\backslash
+Sexpr{thisFileName}.git
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+attachm{
+\backslash
+Sexpr{thisFileName}.Rnw
+\backslash
+
+\backslash
+
+\backslash
+Sexpr{thisFileName}.pdf
+\backslash
+
+\backslash
+
+\backslash
+Sexpr{SaveRData}
+\backslash
+
+\backslash
+SessionInfo}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+cc{first attachment
+\backslash
+
+\backslash
+second
+\backslash
+
+\backslash
+3rd att}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+attach{attachment}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+attachm{first
+\backslash
+
+\backslash
+second} %
+\backslash
+cc{first attachment
+\backslash
+
+\backslash
+second
+\backslash
+
+\backslash
+3rd att}
+\end_layout
+
+\begin_layout Plain Layout
+
+<<save-system-info, echo=FALSE>>= 
+\end_layout
+
+\begin_layout Plain Layout
+
+cat (toLatex(sessionInfo()), file="SessionInfo")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@ 
+\end_layout
+
+\begin_layout Plain Layout
+
+<<make-zip-archive, echo=TRUE, INCLUDE=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+system (sprintf("zip %s.zip %s.Rnw %s.pdf SessionInfo %s", thisFileName, thisFileNa
+me, thisFileName, SaveRData))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+attach{attachment}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+attachm{ProgramFile
+\backslash
+
+\backslash
+Document.pdf
+\backslash
+
+\backslash
+SaveRData}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+cc{first attachment
+\backslash
+
+\backslash
+second
+\backslash
+
+\backslash
+3rd att}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:bibliography"
+
+\end_inset
+
+ 
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "WAC"
+options "plainnat"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
