@@ -10,7 +10,7 @@ if (!exists ("ReloadData")) {
   Project <- "DEEPWAVE"
   setwd ("~/RStudio/DEEPWAVE/WindUncertainty")
 }
-ReloadData <- TRUE   ##### TEMPORARY #######
+# ReloadData <- TRUE   ##### TEMPORARY #######
 
 @
 
@@ -368,13 +368,14 @@ signal with peak amplitude of 0.4~hPa or a random error of about
 be linked to the nature of the transducers used or to some effect
 originating in the pressure lines connecting the transducers to the
 ports. The specifications for the pressure transducer that measures
-ADIFR assert a standard uncertainty of about 0.03 hPa, and as sampled
+ADIFR assert a standard uncertainty of about 0.07 hPa. As sampled
 and digitized by the data system the resolution is about 0.002 hPa
-($\pm70\,$hPa for $2^{16}$ range digital encoding). Thus the white-noise
-spectrum indicates a random error about three times greater than expected
-from the transducer characteristics. This needs further investigation
-because it imposes an important limit on capability to measure low-intensity
-turbulence. 
+($\pm70\,$hPa for $2^{16}$ range digital encoding), which is
+comparable to the sensor resolution, so noise arising from digitation
+would be much less intense than the measured noise distribution. Thus the white-noise
+spectrum is consistent with a random error of about the
+specified uncertainty for the sensor.
+
 % \item GGVSPDB as plotted here was obtained by interpolating linearly between
 % 1-Hz measurements and then applying a low-pass filter with cutoff
 % frequency 1 Hz. Simple linear interpolation leads to a pronounced
@@ -426,7 +427,7 @@ from the GPS measurements should be trusted at these frequencies.
 are available; they were not present in the 25-Hz file I used.{]} 
 \end{enumerate}
 
-\subsection{Timing of measurements}
+\subsection{Timing of measurements\label{sub:Timing}}
 
 The different measurements entering the calculation
 of vertical wind should be sampled at the same time. That is particularly

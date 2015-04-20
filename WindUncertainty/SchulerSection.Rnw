@@ -21,7 +21,7 @@ if (!exists ("ReloadData")) {
 % <<calculate-pitch-correction>>=
 % read_chunk ("chunks/pitch-correction-function.R")
 % <<correct-pitch>>=
-r% 
+% 
 %@
 
 %\section{Schuler correction for pitch\label{sec:Schuler}}
@@ -289,7 +289,7 @@ frame with axes eastward, northward, and upward, here called the l-frame,
 and these errors will then need to be transformed to the aircraft
 reference frame to get errors in the measured quantities. The choice
 made here is to estimate the derivatives using Savitzky-Golay polynomials,
-as shown in Fig.~\ref{fig:Savitzky-Golay-estimates} . Savitzky-Golay
+as shown in Fig.~\ref{fig:sg-poly-smoothing}. Savitzky-Golay
 polynomials were chosen because they are computationally efficient,
 don't introduce a time shift, and can provide derivatives directly.
 A rather long averaging period of 1009 s, or about 1/5 of a Schuler

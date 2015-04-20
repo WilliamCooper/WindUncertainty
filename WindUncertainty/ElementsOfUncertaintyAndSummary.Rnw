@@ -390,7 +390,7 @@ be appropriate for random uncertainty of
 such long-term measurements while the bias should be
 reduced substantially, perhaps to 0.02\,m/s. For periods small compared to
 the Schuler period, the pitch error appears as a bias and there is a much
-smaller random error, evaluated in Sect.~\ref{sub:attitude-angles} to be
+smaller random error, evaluated in Sect.~\ref{sub:Attitude-angles} to be
 about 0.007$^{\circ}$ in pitch or about 0.03\,m/s in vertical wind. 
 This is the usual case for measurements of interest,
 so the bias and random errors are partitioned as appropriate for this
@@ -658,7 +658,7 @@ and instead replaces them with uncertainties arising from the coefficients
 formula to represent the calibration data. The uncertainty in the first coefficient,
 the main contributor to sideslip bias, is obtained from the standard deviation in the
 mean of results from the circle analysis, summarized in Sect.~\ref{sub:HWsummary}.
-For propagation to lateral horizontal wind, (\ref{eq:HWind}) indicates
+For propagation to lateral horizontal wind, (\ref{eq:horizWindeqs}) indicates
 that the result is approximately $\delta u_{lateral}=V\delta\beta$ where $V$
 is true airspeed TASX, with additional contributions from correlated
 errors involving $V$ that are small in comparison to that listed.
@@ -684,7 +684,7 @@ so a potential bias in QCF does not enter the lateral
 component of the horizontal wind but instead is replaced by possible bias in those
 coefficients, as discussed for element 2. The effect of a random error
 in QCF of 0.01~hPa for a typical value of QCF$\approx$100\,hPa is, 
-from (\ref{eq:BetaFunctionForm}), to introduce
+from (\ref{eq:betaFunctionForm}), to introduce
 an uncertainty in sideslip of about 0.01\% or, because typical values of sideslip
 are smaller in magnitude than 1$^{\circ}$, an error propagated to horizontal wind 
 smaller than 0.001~m/s. This contribution is therefore neglected.
@@ -849,7 +849,7 @@ so a potential bias in QC\_GP does not enter the lateral
 component of the horizontal wind but instead is replaced by possible bias in those
 coefficients, as discussed for element 2. The effect of a random error
 in QCF of 0.01~hPa for a typical value of QCF$\approx$100\,hPa is, 
-from (\ref{eq:BetaFunctionForm}), to introduce
+from (\ref{eq:betaFunctionForm}), to introduce
 an uncertainty in sideslip of about 0.01\% or, because typical values of sideslip
 are smaller in magnitude than 1$^{\circ}$, an error propagated to horizontal wind 
 smaller than 0.001~m/s. This contribution is therefore neglected.
@@ -864,7 +864,7 @@ the uncertainty associated with this measurement is much higher than that for th
 radome-based system. The mean difference between the two measurements of heading,
 averaged over flights, had a standard deviation of 0.17$^{\circ}$, so this may
 be a reasonable estimate of bias, as entered into the table.\footnote{Special processing,
-using a hybrid heading obtained by complementary filtering (cf.~Sect.~\ref{sec:comp-filter}) 
+using a hybrid heading obtained by complementary filtering (cf.~Sect.~\ref{sub:comp-filter}) 
 with CTHDG\_GP considered the "fast"  signal and THDG the "slow"  signal, with appropriate
 adjustment for the discontinuity at 360$^{\circ}$ and with exclusion of data during and
 for 1 min after turns, reduced the standard deviation of the difference in heading to

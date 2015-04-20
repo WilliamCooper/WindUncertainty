@@ -9,7 +9,9 @@ set_parent ("WindUncertainty.Rnw")
 
 \section{Introduction}
 
-Wind is the motion of the atmosphere relative to the Earth. Most reseearch
+\subsection{Overview}
+
+Wind is the motion of the atmosphere relative to the Earth. Most research
 aircraft have the capability to measure wind, and these measurements have
 many uses in research projects using aircraft. They help define the
 flow and so provide
@@ -66,6 +68,10 @@ The organization is as follows. Section \ref{sec:Components} describes the
 components of the wind-measuring
 system in more detail, with examples of the measurements and information on
 the specifications for the sensors involved. 
+Section~\ref{sec:CalProcedures} then describes how the measurements are
+monitored in routine use and the calibration procedures that are employed
+with the sensors. It also describes how some needed empirical relationships
+are obtained and checked.
 That section is followed by a summary of the uncertainty in wind
 measurements (Sect.~\ref{sec:Uncertainty-components}), with a tabulation of 
 individual error sources and many
@@ -115,3 +121,167 @@ fluxes, and notes some limitations of such measurements.
 % as needed. This document thus attempts to be ''reproducible research''
 % as that term is used by the author of knitr. References for knitr
 % and the analysis packages in R are included in the \nameref{sec:acknowledgements} and References at the end of this document.
+
+\subsection{The systems and equations\label{sub:General-comments}}
+
+Three wind-sensing systems are available for use on the GV:
+\begin{enumerate}
+\item The ``standard'' wind sensing system that uses pressure ports on
+the radome combined with airspeed measured using a pitot tube and
+ground-speed measured by an inertial reference unit and a global positioning
+system (GPS) receiver. 
+\item A gust-pod system consisting of a Rosemount 858 airflow sensor mounted
+under the wing combined with an inertial system co-located with the
+airflow sensor and linked to GPS measurements via a Kalman filter. 
+\item A laser air motion sensor (LAMS) described by \cite{SpulerEtAl2011} combined
+with its own IRU/GPS system. See also \cite{CooperEtAl2014}.
+\end{enumerate}
+All three also depend on a measurement of temperature and, for the first
+two, humidity which is used to correct for the influence of moisture
+on the specific heats and gas constant of moist air. 
+Those two also share dependence on the measurement of ambient pressure
+as delivered by static sources on the fuselage.
+Although the other measurement components differ, for each of these the
+measurement of wind involves the vector sum of two components, the
+motion of the air relative to the aircraft and the motion of the aircraft
+relative to the Earth. The former is the ``relative wind'' and is
+measured as a three-component vector having magnitude equal to the
+``true airspeed'' and angles relative to the aircraft reference
+frame characterized by the angle of attack and the sideslip angle.
+The angle of attack is considered positive if the relative wind is
+from below the aircraft, and the sideslip angle is considered positive
+if the relative wind is from the starboard side of the aircraft. The
+relative wind defined in the coordinate system of the aircraft (conventionally
+with $\hat{x^{\prime}}$ forward, $\hat{y^{\prime}}$ in the starboard
+direction, and $\hat{z^{\prime}}$ obtained from the cross product
+$\hat{x^{\prime}}\times\hat{y^{\prime}}$ and so approximately downward
+but oriented to align with the aircraft reference frame) must be transformed
+to an Earth-based reference system (conventionally with $\hat{x}$
+toward east, $\hat{y}$ toward north, and $\hat{z}$ upward) so that
+the components can be combined to yield the Earth-relative wind. This
+transformation is a function of the attitude angles of the aircraft
+(heading $\psi$, pitch $\theta$, and roll $\phi$), measured
+by an inertial reference unit in all three cases discussed here. Once
+in an Earth-based reference system, the relative wind vector is added
+to the vector representing the aircraft motion relative to the Earth
+to obtain the wind. The sources of the various measurements entering
+this processing sequence vary among the three systems and will be
+discussed separately below for each system.
+
+
+\subsubsection{The Relative Wind\label{sub:The-Relative-Wind}}
+
+In the standard aircraft coordinate system with $x$ forward, $y$
+starboard, and $z$ downward, the three corresponding components of
+the relative wind $\mathbf{v}$ (cf.~\cite{NCAR_OpenSky_TECH-NOTE-000-000-000-064}
+and \href{https://www.eol.ucar.edu/raf/Bulletins/bulletin23.html}{RAF Bulletin 23})
+are:
+
+\begin{equation}
+\mathbf{v=}\begin{pmatrix}u_{r}\\
+v_{r}\\
+w_{r}
+\end{pmatrix}=\begin{pmatrix}V^{*}\\
+V^{*}\thinspace\tan\beta\\
+V^{*}\thinspace\tan\alpha
+\end{pmatrix}\label{eq:relative wind}
+\end{equation}
+where, if $V$ is the true airspeed, $V^{*}=$ $V/\sqrt{1+\tan^{2}\alpha+\tan^{2}\beta}$
+is the component of true airspeed along the aircraft longitudinal
+($x$) axis, $\alpha$ is the angle of attack and $\beta$ the sideslip
+angle. The sign convention is such that the relative wind is positive
+when \emph{from }the direction of the axis for each component. (The
+magnitude of $\mathbf{v}$ is thus $V$ as required.) The
+relative wind is therefore determined from measurements of true airspeed,
+angle of attack, and sideslip angle.
+
+
+\subsubsection{Transformation to an Earth reference frame\label{sub:EarthRef}}
+
+The orientations of the aircraft, the gust pod, and the LAMS are measured
+by IRUs located respectively in the fuselage and in the pod itself.
+Each independently measures heading, pitch, and roll, so the calculations
+of wind from the three systems can be fully independent except that,
+because it is considered to have the smallest uncertainty, the true airspeed
+measured from the fuselage system is used also for the gust pod. 
+In each case, the IRU measurements and GPS ground-speed components are
+used to transform the measurements to the reference frame of the Earth.
+
+The required transformation is described by three rotation matrices,
+defined in \href{https://www.eol.ucar.edu/raf/Bulletins/bulletin23.html}{RAF Bulletin 23} Eqs. 2.5 and 2.6:\footnote{An additional correction is applied to account for the
+effect of the rotation rate of the aircraft on the measurements. This correction is
+needed when the reference unit for motion relative to the Earth, the IRU, is 
+separated from the measurement of relative wind on the radome or gust pod. For
+the gust pod, this is negligible because the IRU is co-located with the gust-measuring system. See the cited reference for details.}
+
+\[
+\mathbf{T_{1}}=\left(\begin{array}{ccc}
+1 & 0 & 0\\
+0 & \cos\phi & -\sin\phi\\
+0 & \sin\phi & \cos\phi
+\end{array}\right)
+\]
+
+
+\[
+\mathbf{T_{2}}=\left(\begin{array}{ccc}
+\cos\theta & 0 & \sin\theta\\
+0 & 1 & 0\\
+-\sin\theta & 0 & \cos\theta
+\end{array}\right)
+\]\label{eq:rotation-matrices}
+
+
+\[
+\mathbf{T_{3}}=\left(\begin{array}{ccc}
+\cos\psi & -\sin\psi & 0\\
+\sin\psi & \cos\psi & 0\\
+0 & 0 & 1
+\end{array}\right)
+\]
+
+
+where \{$\phi,\,\theta,\,\psi$\} are \{roll, pitch, heading\}.
+
+The transformation needs to be in the following order to conform to
+conventional definitions of the attitude angles: 
+\begin{enumerate}
+\item Rotate by $\mathbf{T_{1}}$ using the roll angle $\phi$ (ROLL or CROLL\_GP)
+to level the wings by a rotation about the x axis. 
+\item Rotate by $\mathbf{T_{2}}$ using the pitch angle $\theta$ (PITCH or CPITCH\_GP)
+to level the aircraft by a rotation about the y axis. 
+\item Rotate by $\mathbf{T_{3}}$ using the heading angle $\psi$ (THDG or CTHDG\_GP)
+to obtain components in a true-north reference frame. At this point,
+the relative-wind vector in an Earth-reference coordinate system is
+$\mathbf{v}_{r}=\mathbf{T_{3}}(\mathbf{T_{2}}(\mathbf{T_{1}}\mathbf{v}))$ where $\mathbf{v}$
+is given by (\ref{eq:relative wind}). 
+\end{enumerate}
+The measured ground-speeds (with components VNS, VEW, VSPD) then can be added to the
+relative wind to get the true Earth-relative wind. In the ``R''
+file associated with this document, the required transformations are
+coded to provide a processing option, but the RAF ``nimbus''
+routine ``gust.c'' provides the transformation as implemented in
+standard processing.
+
+The final equations, defining the Earth-relative wind $\mathbf{v}_{E}$
+in terms of the three wind variables \{WDx, WSx, WIx\} where x denotes
+the measuring system (radome, gust-pod, or LAMS) and subscripts $_x$ or $_y$ the respective
+east or north component of the wind, are:
+
+\begin{equation}
+\mathbf{v}_{E}=\mathbf{v}_{r}+\left(\begin{array}{c}
+-\mathrm{VNSx}\\
+-\mathrm{VEWx}\\
+\mathrm{VSPDx}
+\end{array}\right)\label{eq:vg}
+\end{equation}
+\begin{equation}
+\mathrm{WDx=\arctan2(v_{E,y},}v_{E,x})\label{eq:wd}
+\end{equation}
+\begin{equation}
+\mathrm{WSx=\sqrt{(v_{E,x}^{2}+v_{E,y}^{2})}}\label{eq:ws}
+\end{equation}
+\begin{equation}
+\mathrm{WIx=v_{E,z}}\label{eq:wi}
+\end{equation}
+

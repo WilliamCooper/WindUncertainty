@@ -141,14 +141,14 @@
 \begin{document}
 
 \title{Characterization of Uncertainty \\
- in Measurements of Wind\\
- from the NSF/NCAR Gulfstream V Research Aircraft}
+ in \\Measurements of Wind\\
+ from the \\NSF/NCAR Gulfstream V Research Aircraft}
 
 
-\author{Al Cooper, Dick Friesen, Matt Hayman, Jorgen Jensen, Don Lenschow, Allen Schanot, \\Scott Spuler, Jeff Stith\\(and, we hope, many others)}
+\author{Al Cooper, Dick Friesen, Matt Hayman, Jorgen Jensen, Don Lenschow, \\Pavel Romashkin, Allen Schanot, Scott Spuler, Jeff Stith, Cory Wolff\\(and, we hope, many others)}
 
 
-\date{\textcolor{red}{DRAFT} 4/6/2015}
+\date{\textcolor{red}{DRAFT} 4/19/2015}
 
 \maketitle
 \vfill\eject
@@ -173,6 +173,7 @@ thisFileName <- "WindUncertainty"
 
 <<A, child='Introduction.Rnw'>>=
 <<B, child='ComponentsOfWindSensingSystem.Rnw'>>=
+<<C, child='CalibrationProcedures.Rnw'>>=
 <<G, child='ElementsOfUncertaintyAndSummary.Rnw'>>=
 #<<C, child='SchulerSection.Rnw'>>=
 <<D, child='SensitivityCoefficients.Rnw'>>=
@@ -183,9 +184,10 @@ thisFileName <- "WindUncertainty"
 \appendix
 
 <<H, child='Conventions.Rnw'>>=
+<<I, child='Turbulence.Rnw'>>=
 @
 
-\section{Appendix: Reproducibility}
+\section{Appendix C: Reproducibility}
 
 This document is constructed in ways that support duplication of the
 study. The processing programs are incorporated into the same file
@@ -207,7 +209,7 @@ report is included in the 'zip' archive listed below.
 
 The data files used are also preserved in the NCAR High Performance
 Storage System (HPSS) in files that are available, and they can be
-provided via a request to \url{mailto:mailto:raf-dm@eol.ucar.edu}.
+provided via a request to \url{mailto:raf-dm@eol.ucar.edu}.
 The original files representing the data as produced by the NCAR Earth
 Observing Laboratory, Research Aviation Facility, were in netCDF format
 (cf.~\href{http://www.unidata.ucar.edu/software/netcdf/}{this URL}),
