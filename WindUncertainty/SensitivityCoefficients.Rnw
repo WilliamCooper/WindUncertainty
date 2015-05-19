@@ -189,11 +189,12 @@ The first fit was to the following simplified equation:
 \begin{equation}
 \alpha^{*}=c_{0}^{*}+c_{1}^{*}\frac{\Delta p_{\alpha}}{q}\label{eq:AOAsens1term}
 \end{equation}
+%%%% skip
 A fit to the data is shown in Fig.~\ref{fig:AOA-fit-and-plot} and
 tabulated in the following summary of the fit, which was produced
 by the ``R'' call at the top of the listing. AOAREFC is $\alpha^{*}$
-with correction to pitch as in Section \ref{sub:Schuler} and AQR=$\Delta p_{\alpha}/q$
-.
+with correction to pitch as in Section \ref{sub:Schuler} and AQR=$\Delta p_{\alpha}/q$ .
+%%%% endskip
 
 <<getData-AOA, include=TRUE>>=
 
@@ -347,11 +348,11 @@ capnF1b <- "The angle of attack determined from the simple fit to the pressure r
 
 @
 
-This fit gave coefficients $c_{0}^{*}$ and $c_{1}^{*}$ equal to 
-\Sexpr{format(round(cfr[1],3), nsmall=3)} and \Sexpr{round(cfr[2],3)}.
-The fit accounted for \Sexpr{round(100*summary(fmy)$r.squared, 1)}\%
-of the variance and had a residual standard error of \Sexpr{round(summary(fmy)$sigma, 2)}$^{\circ}$,
-so it represents the speed-run data well. In Fig.~\ref{fig:AOA-fit-and-plot},
+This fit gave coefficients $c_{0}^{*}$ and $c_{1}^{*}$ equal to%
+\Sexpr{format(round(cfr[1],3), nsmall=3)} and \Sexpr{round(cfr[2],3)}.%
+The fit accounted for \Sexpr{round(100*summary(fmy)$r.squared, 1)}\% of the variance and had a residual standard error of \Sexpr{round(summary(fmy)$sigma, 2)}$^{\circ}$, so it represents the speed-run data reasonably well.%
+%%%% skip
+In Fig.~\ref{fig:AOA-fit-and-plot},
 the thin gray line under the thick orange dashed line represents the
 uncertainty in the fit result and shows that the uncertainty in representing
 these data with this set of coefficients is negligible. The more significant
@@ -359,6 +360,7 @@ uncertainty, however, comes from the assumption that the vertical
 wind is zero for these periods of the speed runs. Therefore, additional
 studies will be used below for further evaluation of the uncertainty
 introduced by this assumption.
+%%%% endskip
 
 This calibration would be affected by a time difference between the
 IRU measurement of pitch and the data-system sampling of the pressures
@@ -483,10 +485,11 @@ in that way is that given in the RAF document on \href{https://drive.google.com/
 \begin{equation}
 \alpha=c_{0}^{\prime}+\frac{\Delta p_{\alpha}}{q}(c_{1}^{\prime}+c_{2}^{\prime}M)\label{eq:AOAstandard}
 \end{equation}
+%%%% skip
 with coefficients \{$c^{\prime}$\} = \{4.604, 18.67, 6.49\}. The
 last term provides some adjustment dependent on Mach number and corrects
 an offset often seen in vertical wind at low airspeed.
-
+%%%% endskip
 
 
 Figure~\ref{fig:plot-comparison-to-standard} shows the angle of
@@ -583,8 +586,7 @@ products and powers of these terms including terms multiplied by the
 basic pressure ratio already included in (\ref{eq:AOAsens1term}).
 None of these produced enough improvement over the single-term fit
 to warrant their inclusion; the best improvement in the residual standard
-error was about 2\%.%
-\footnote{Additional terms that did improve the fit significantly were those
+error was about 2\%.\footnote{Additional terms that did improve the fit significantly were those
 correlated with the terms in Eq.~\ref{eq:alphaWithwZero}, esp.~pitch,
 but including such terms is not consistent with finding a fit that
 would represent the angle-of-attack in conditions with non-zero vertical
@@ -596,8 +598,7 @@ wind. As an extreme example, inclusion of a term based on the right
 side of Eq.~\ref{eq:alphaWithwZero} leads to a perfect fit, but
 use of such a fit would ensure that all measurements of vertical wind
 would be zero. For this reason, pitch and vertical aircraft motion
-were excluded from the candidate terms in the fit.%
-}
+were excluded from the candidate terms in the fit.}
 
 <<switch-to-expanded-dataset, include=TRUE>>=
 
@@ -649,37 +650,32 @@ The results from the two-coefficient fit to the expanded data set, using\\
 \begin{equation}
 \alpha=c_{0}+c_{1}\frac{\Delta p_{\alpha}}{q}\,\,\,,\label{eq:AOArecommended}
 \end{equation}
-led to best-fit coefficients \{$c_{0},\, c_{1}$\} = \{\Sexpr{round(cf31,3)},
-\Sexpr{round(cf32,3)}\} and a standard error of \Sexpr{round(summary(fm)$sigma,2)}
+led to best-fit coefficients%
+\{$c_{0},\, c_{1}$\} = \{\Sexpr{round(cf31,3)}, \Sexpr{round(cf32,3)}\}%
+and a standard error of \Sexpr{round(summary(fm)$sigma,2)}%
 for 17,715 measurements. The small increase in standard error in comparison
 to the speed-run measurements is expected because this expanded data
 set includes regions more likely to have non-zero vertical wind, which
 contributes to this error. Expanding this fit to include a third coefficient
-as in (\ref{eq:AOAstandard}) resulted in negligible improvement (0.001$^{\circ}$)
-in the standard error, and introduction of a set of eight possible
+as in (\ref{eq:AOAstandard}) resulted in negligible improvement (0.001$^{\circ}$) in the standard error, and introduction of a set of eight possible
 dependencies while exploring for better fits only led to reduction
 in the the standard error by 0.003$^{\circ}$, so more complicated
-equations than (\ref{eq:AOArecommended}) do not appear to be needed.%
-\footnote{This simpler representation applies to the normal research flight
+equations than (\ref{eq:AOArecommended}) do not appear to be needed.\footnote{This simpler representation applies to the normal research flight
 levels of the DEEPWAVE project, levels above about 10,000 ft. Because
 expanded representations were needed in other projects to represent
 low-level flight data, and low levels are not included in this expended
 data set, it may be necessary to revisit this calibration with more
-terms if lower-level flight segments are to be analyzed.%
-} Another fit considered with this expanded data set was to set the
+terms if lower-level flight segments are to be analyzed.} Another fit considered with this expanded data set was to set the
 slope parameter to the value obtained from the speed-run data, \Sexpr{round(cfr[2], 3)},
 and then fit using the expanded data set to determine a value of the
 offset coefficient that minimized the mean vertical wind. That gave
-a value for the first coefficient of \Sexpr{round(summary(fmconst)$coefficients[1], 3)}
-and a standard error negligibly different from that for the two-coefficient
+a value for the first coefficient of \Sexpr{round(summary(fmconst)$coefficients[1], 3)} and a standard error negligibly different from that for the two-coefficient
 fit, so that is another indication that the speed-run dataset and
 the expanded dataset give consistent results. 
 
 The recommended calibration for DEEPWAVE, determined with correction
 of the pitch errors as discussed in Sect.~\ref{sub:Schuler}, is
-(\ref{eq:AOArecommended}) with these values for the coefficients:
-\{$c_{0},\, c_{1}$\} = \{\Sexpr{round(cf31,3)}, \Sexpr{round(cf32,3)}\}.
-
+(\ref{eq:AOArecommended}) with these values for the coefficients: \{$c_{0},\, c_{1}$\} = \{\Sexpr{round(cf31,3)}, \Sexpr{round(cf32,3)}\}.
 
 Evaluation of all the points in the expanded dataset using three fits,
 that from the expanded dataset, from the speed runs alone, 
@@ -688,15 +684,11 @@ fit discussed above, gave only very small differences in the results.
 In Fig.~\ref{fig:second-violin-plot} the values of angle-of-attack
 obtained using the fit to data from the expanded dataset are compared
 to those obtained using the fit to the speed-run dataset. 
-The angle-of-attack evaluated from the expanded-dataset coefficients
-resulted in values 
-\Sexpr{format(round(mean(Data$A3-Data$A1, na.rm=TRUE),3), nsmall=3)}%
-$\pm\Sexpr{format(round(sd(Data$A3-Data$A1, na.rm=TRUE),3), nsmall=3)}%
-^{\circ}$ larger than those from
-the speed-run coefficients and 
-\Sexpr{round(mean(Data$A3-Data$A3std, na.rm=TRUE),3)}%
-$\pm\Sexpr{round(sd(Data$A3-Data$A3std, na.rm=TRUE),3)}^{\circ}$ larger
-than those from the standard coefficients, so using any of these formulas
+The angle-of-attack evaluated from the expanded-dataset coefficients resulted in values%
+\Sexpr{format(round(mean(Data$A3-Data$A1, na.rm=TRUE),3), nsmall=3)} $\pm$\Sexpr{format(round(sd(Data$A3-Data$A1, na.rm=TRUE),3), nsmall=3)}$^{\circ}$%
+larger than those from the speed-run coefficients and%
+\Sexpr{round(mean(Data$A3-Data$A3std, na.rm=TRUE),3)}$\pm$\Sexpr{round(sd(Data$A3-Data$A3std, na.rm=TRUE),3)}$^{\circ}$%
+larger than those from the standard coefficients, so using any of these formulas
 would give about the same results.  
 
 % Still another determination of the
@@ -747,7 +739,7 @@ capnF1c <- "Comparison of angle of attack determined from (6) to the reference d
 
 
 
- % The best fit to the expanded dataset, keeping $c_1^{*}$ fixed as given in (\ref{eq:AOAsens1term}), was% the following equation:% % \begin{equation}% \alpha=c_{0}+\frac{\Delta p_{\alpha}}{q}(c_{1}^{*}+c_{1}M+c_{2}M^{2}+c_{3}M^{3})+c_{4}M\label{eq:BestFitAOAradome}% \end{equation}% with coefficients \{$c_{i}$\}=\{4.1079717, 82.6157340, -135.8737038,% 77.4028078, 0.5531502\} and $c_1^*$ =21.872829. The results are shown in the following figure, and a summary of the fit is listed also. The residual error in angle of attack was 0.11$^\circ$ for the 17,168 points used in the fit, and all terms in (\ref{eq:BestFitAOAradome}) tested as having high significance. (The variables listed as AQRMx are $\frac{\Delta p_{\alpha}}{q}M^x$ where $M$ is the Mach number.)
+% The best fit to the expanded dataset, keeping $c_1^{*}$ fixed as given in (\ref{eq:AOAsens1term}), was% the following equation:% % \begin{equation}% \alpha=c_{0}+\frac{\Delta p_{\alpha}}{q}(c_{1}^{*}+c_{1}M+c_{2}M^{2}+c_{3}M^{3})+c_{4}M\label{eq:BestFitAOAradome}% \end{equation}% with coefficients \{$c_{i}$\}=\{4.1079717, 82.6157340, -135.8737038,% 77.4028078, 0.5531502\} and $c_1^*$ =21.872829. The results are shown in the following figure, and a summary of the fit is listed also. The residual error in angle of attack was 0.11$^\circ$ for the 17,168 points used in the fit, and all terms in (\ref{eq:BestFitAOAradome}) tested as having high significance. (The variables listed as AQRMx are $\frac{\Delta p_{\alpha}}{q}M^x$ where $M$ is the Mach number.)
 
 The standard errors in the coefficients for the expanded dataset are
 respectively \Sexpr{round(summary(fm)$coefficients[1,2],4)} and \Sexpr{round(summary(fm)$coefficients[2,2],3)},
@@ -924,16 +916,12 @@ capnF3 <- "The sideslip attack determined from the fit, as a function of the ref
 
 @
 
-
-
 The results of this formula are compared to the reference data in
-Fig.~\ref{fig:AOA-gust-pod}. The best-fit coefficients were \{$b_{i}$\}
-= \{\Sexpr{round(cf3_GP[1],3)}, \Sexpr{format(round(cf3_GP[2],3),nsmall=3)},
-\Sexpr{round(cf3_GP[3],3)}, \Sexpr{format(round(cf3_GP[4],3),nsmall=3)}\}
-and the square of the correlation was \Sexpr{format(round(summary(fm_GP)$r.squared,3),nsmall=2)}
-with residual scatter (residual standard error) of \Sexpr{format(round(summary(fm_GP)$sigma,3),nsmall=2)}.
-The fit was thus even better than that obtained for the radome for
-these same speed runs.
+Fig.~\ref{fig:AOA-gust-pod}. The best-fit coefficients were \{$b_{i}$\}%
+= \{\Sexpr{round(cf3_GP[1],3)}, \Sexpr{format(round(cf3_GP[2],3),nsmall=3)}, \Sexpr{round(cf3_GP[3],3)}, \Sexpr{format(round(cf3_GP[4],3),nsmall=3)}\}%
+and the square of the correlation was \Sexpr{format(round(summary(fm_GP)$r.squared,3),nsmall=2)}%
+with residual scatter (residual standard error) of \Sexpr{format(round(summary(fm_GP)$sigma,3),nsmall=2)}$^{\circ}$. %
+The fit was thus even better than that obtained for the radome for these same speed runs.
 
 <<aoa-gp-all-flts, include=FALSE>>=
 
@@ -1012,11 +1000,13 @@ DataC <- DataS
 @
 
 As for the radome, an all-project fit was obtained for the gust pod. In this case, different flights were excluded: 2, 3, 4, 11, 15, 17, 18, 19, 23, 24, 25 and the flight period from 8:05--8:40UTC on flight 1. In most cases, this was because the CMIGITS IRU providing gust-pod measurements of pitch seemed to have larger than normal deviations that appeared suspicious, so it was thought preferable to fit without those periods of suspicious measurements. The fit summary is as follows:\label{aoa-coefficients-GP-all-flt}
+
 <<fit-summary-aoa-GP-all-flt, include=TRUE>>=
 
 SummarizeFit (fmGPallflt)
 
 @
+
 These coefficients \{\Sexpr{round(cfGPallflt[1], 3)}, \Sexpr{format(round(cfGPallflt[2], 3), nsmall=3)}, \Sexpr{round(cfGPallflt[3], 3)}, \Sexpr{round(cfGPallflt[4], 3)}\} may be preferable to the coefficients obtained above if it is desirable to minimize the all-project mean vertical wind for the gust-pod measurements.
 
 \subsection{Sideslip Angle\label{sub:calibration-SS}}
@@ -1034,7 +1024,7 @@ flown. The three sets of yaw maneuvers were at these times: 3:32:00--3:35:30,
 4:31:00--4:33:30, and 5:26:40--5:29:30 UTC.\footnote{Because the yaw maneuvers
 on rf11 (10:25:00 to 10:30:00) were flown less well, they were
 not combined with these new measurements, but it does not appear that
-the sideslip calibration has any significant dependence on altitude.}%
+the sideslip calibration has any significant dependence on altitude.} 
 In the case of yaw maneuvers, the calibration is based on the expectation
 that the horizontal wind remains constant. The first-order equations
 for the east and north components of the wind, $u$ and $v$, are:
@@ -1158,16 +1148,14 @@ capnF4 <- "As in the preceding figure but for the gust-pod system."
 
 @
 
-The best-fit coefficients were \{e\} = \{\Sexpr{format (round(cfs[1], 3), nsmall=3)},
-\Sexpr{round (cfs[2], 3)}\}, the squared correlation was \Sexpr{round (summary(sfm)$r.squared, 2)}
-and the residual standard error was \Sexpr{round (summary(sfm)$sigma, 2)},
+The best-fit coefficients%
+were \{e\} = \{\Sexpr{format (round(cfs[1], 3), nsmall=3)}, \Sexpr{round (cfs[2], 3)}\},%
+the squared correlation was \Sexpr{round (summary(sfm)$r.squared, 2)}%
+and the residual standard error was \Sexpr{round (summary(sfm)$sigma, 2)},%
 as listed above. The plotted measurements and this fit are shown in
 Fig.~\ref{fig:sideslip-fits}. 
 The sideslip offset that is represented by this term will be determined
 later by other means; cf. Section \prettyref{par:Offset-in-Sideslip}.)
-
-
-
 
 The standard calibration in use for the GV has coefficient $e_{1}$=21.155, so this fit has
 slope about 5\% greater than the standard values. These maneuvers were flown with special
@@ -1176,7 +1164,7 @@ The standard error of the fit, about 0.1$^{\circ}$, is likely much larger than t
 representing the values of sideslip via \eqref{eq:betaFunctionForm} because much of the 
 variability likely arises from real fluctuations in the horizontal wind, which would
 contribute this magnitude error for wind fluctuations of only about 0.4\,m/s. The respective uncertainties in the fit coefficients were about 0.005 and 0.17$^{\circ}$, the former
-leading to a possible bias error and the latter to an error of 0.17/22.3 or less than 1\%
+leading to a possible bias error and the latter to an error of 0.17/22.3 or less than 1\% 
 in the value of the sideslip. Measurements of sideslip are seldom larger than 0.2$^{\circ}$,
 so a fractional error of 1\% is not significant and will be neglected here. The bias in 
 sideslip is intertwined with possible bias in heading, so further study of this offset
@@ -1320,7 +1308,8 @@ DataV$B3 <-  cf4[1] + cf4[2]*DataV$B2 + cf4[3]*DataV$BxM + cf4[4]*DataV$B2**2 + 
 capn2 <-"True airspeed obtained from the gust pod, plotted against corresponding measurements from the conventional measurement system (TASX)" 
 
 @
-\begin{lyxcode}
+
+%\begin{lyxcode}
 
 
 <<plot-qp-fit, include=TRUE, fig.cap="The estimate of $q/p$ obtained from the right side of (\\ref{eq:TASfit}), determined entirely from measurements provided by the gust pod, plotted against the standard measurement obtained from QCXC/PSXC. The coefficients are listed in the text.", fig.height=4.5>>=
@@ -1331,7 +1320,8 @@ DataV$Vg <- TrueAirspeed (MachNumber (DataV$PS_GP, DataV$PS_GP*DataV$B3, DataV$E
 taserr <- sd(DataV$TASX-DataV$Vg, na.rm=TRUE) 
 
 @
-\end{lyxcode}
+%\end{lyxcode}
+
 The resulting fit is shown in Fig.~\ref{fig:plot-qp-fit}. With this
 result for $G^{*}$ from (\ref{eq:TASfit}), the true airspeed can then be obtained
 using the usual formula, with $G^{*}$ used in place of $q/p$:
@@ -1389,25 +1379,18 @@ Gust pod: Eq.~(\ref{eq:AOAGfunction}), coefficients\{$b_{i=0,3}$\}
 
 \subsubsection{Sideslip Angle\label{CalSSsummary}}
 \begin{hangparagraphs}
-Radome and gust pod: Eq.~(\ref{eq:betaFunctionForm}), coefficients
-\{$e_{0}$, $e_{1}$\} = \\
-\qquad{} \{\Sexpr{round(cfs[1],3)}, \Sexpr{round(cfs[2],3)}\}
-for the radome,%
-\footnote{However, see the revision of the first coefficient that follows in Section \ref{sec:HWind}. The value listed in the concluding summary of that section, 
-in Section \ref{sub:HWsummary}, 
-should supersede the value listed here.}%
-\\
-\qquad{} \{\Sexpr{round(cfs_GP[1],3)}, \Sexpr{round(cfs_GP[2],3)}\}
-for the gust pod.
+Radome and gust pod: Eq.~(\ref{eq:betaFunctionForm}), coefficients%
+\{$e_{0}$, $e_{1}$\} = \\%
+\qquad{} \{\Sexpr{round(cfs[1],3)}, \Sexpr{round(cfs[2],3)}\} for the radome,%
+\footnote{However, see the revision of the first coefficient that follows in Section \ref{sec:HWind}. The value listed in the concluding summary of that section, in Section \ref{sub:HWsummary}, should supersede the value listed here.} \\%
+\qquad{} \{\Sexpr{round(cfs_GP[1],3)}, \Sexpr{round(cfs_GP[2],3)}\} for the gust pod.%
 \end{hangparagraphs}
-
 
 \subsubsection{True Airspeed, Gust Pod}
 \begin{hangparagraphs}
-Equation (\ref{eq:TASformula}), with (\ref{eq:TASfit}) and coefficients
-\{$b_{i=0,7}$\} = \\
-\qquad{} \{\Sexpr{cf4[1]}, \Sexpr{cf4[2]},\inputencoding{latin1}{
-}\inputencoding{latin9}\Sexpr{cf4[3]}, \Sexpr{cf4[4]}, \Sexpr{cf4[5]},
-\Sexpr{cf4[6]}, \Sexpr{cf4[7]}, \Sexpr{cf4[8]}\}.\end{hangparagraphs}
+Equation (\ref{eq:TASformula}), with (\ref{eq:TASfit}) and coefficients%
+\{$b_{i=0,7}$\} = \\%
+\qquad{} \{\Sexpr{cf4[1]}, \Sexpr{cf4[2]}, \Sexpr{cf4[3]}, \Sexpr{cf4[4]}, \Sexpr{cf4[5]}, \Sexpr{cf4[6]}, \Sexpr{cf4[7]}, \Sexpr{cf4[8]}\}.%
+\end{hangparagraphs}
 
 % \end{document}

@@ -11,15 +11,11 @@ set_parent ("WindUncertainty.Rnw")
 
 \subsection{Overview}
 
-Wind is the motion of the atmosphere relative to the Earth. Most research
-aircraft have the capability to measure wind, and these measurements have
-many uses in research projects using aircraft. They help define the
-flow and so provide
-context for other measurements, and they are often used to study fluxes 
-of atmospheric constituents, turbulence, wave motions, cloud updrafts and 
-downdrafts, convergence and divergence, and many other topics. They can
-provide important information transferred to models for data assimilation or
-for validation tests of model results.
+Wind is the motion of the atmosphere relative to the Earth.
+Most research aircraft have the capability to measure wind, and these measurements have many uses in research projects using aircraft.
+They help define the flow and so provide context for other measurements, and they are often used to study fluxes of atmospheric constituents, turbulence, wave motions, cloud updrafts and downdrafts, convergence and divergence, and many other topics.
+They can provide important information transferred to models for data assimilation or for validation tests of model results.
+
 
 This report applies to the Gulfstream V research aircraft owned by the
 National Science Foundation and operated by the Research Aviation Facility
@@ -133,8 +129,8 @@ system (GPS) receiver.
 \item A gust-pod system consisting of a Rosemount 858 airflow sensor mounted
 under the wing combined with an inertial system co-located with the
 airflow sensor and linked to GPS measurements via a Kalman filter. 
-\item A laser air motion sensor (LAMS) described by \cite{SpulerEtAl2011} combined
-with its own IRU/GPS system. See also \cite{CooperEtAl2014}.
+\item A laser air motion sensor (LAMS) described by \cite{SpulerEtAl2011}%
+combined with its own IRU/GPS system. See also \cite{CooperEtAl2014}.
 \end{enumerate}
 All three also depend on a measurement of temperature and, for the first
 two, humidity which is used to correct for the influence of moisture
@@ -223,13 +219,13 @@ the gust pod, this is negligible because the IRU is co-located with the gust-mea
 \]
 
 
-\[
+\begin{equation}
 \mathbf{T_{2}}=\left(\begin{array}{ccc}
 \cos\theta & 0 & \sin\theta\\
 0 & 1 & 0\\
 -\sin\theta & 0 & \cos\theta
-\end{array}\right)
-\]\label{eq:rotation-matrices}
+\end{array}\right) \label{eq:rotation-matrices}
+\end{equation}
 
 
 \[

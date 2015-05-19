@@ -176,29 +176,25 @@ of the horizontal wind are $v_{x}$ and $v_{y}$, the components of
 the ground speed of the aircraft are
 
 \begin{eqnarray}
-\label{eq:dead-reckoning}
 \begin{split}
 v_{p,x} & = & V\sin\psi^{\prime}-v_{x}\\
 v_{p,y} & = & V\cos\psi^{\prime}-v_{y}
 \end{split}
+\label{eq:dead-reckoning}
 \end{eqnarray}
-and the difference between the motion of the aircraft expressed as \eqref{eq:dead-reckoning} and
-the ground-speed components measured by GPS ($v_{g,x},\, v_{g,y}$)
-is\\
+and the difference between the motion of the aircraft expressed as \eqref{eq:dead-reckoning} and the ground-speed components measured by GPS ($v_{g,x},\, v_{g,y}$) is\\
 \begin{eqnarray}
-\label{eq:v-errors}
 \begin{split}
 \delta v_{x} & = & V\sin\psi^{\prime}-v_{x}-v_{g,x}\\
 \delta v_{y} & = & V\cos\psi^{\prime}-v_{y}-v_{g,y}
-\end{split}~~~~~.
+\end{split}
+~~~~~.\label{eq:v-errors}
 \end{eqnarray}
-
 
 If error terms for true airspeed ($\delta V$) and for the adjusted heading angle ($\delta\psi^{\prime}$) are
 introduced so that $V=V_{m}+\delta V$ and $\psi^{\prime}=\psi_{m}^{\prime}+\delta\psi^{\prime}$ 
 where subscript $m$ refers to the measured quantity, and if it is assumed that the wind components \{$v_{x}$ and $v_{y}$\}
-are steady around the circles, then estimates for the four fit parameters
-\{$\delta V,\,\delta\psi^{\prime},\, v_{x},\, v_{y}$\} can be found
+are steady around the circles, then estimates for the four fit parameters \{$\delta V,\,\delta\psi^{\prime},\, v_{x},\, v_{y}$\} can be found
 by minimizing the errors given by \eqref{eq:v-errors}. 
 
 Once the average wind direction ($\lambda$) and wind speed ($v$) have been determined either
@@ -216,6 +212,7 @@ This equation is justified as follows. Because the relative wind transformed to 
 $-2\delta V$ when the aircraft changes from an upwind to a downwind flight direction, with the negative sign arising from the convention that wind direction is specified as the direction from which the wind blows. The error in true airspeed thus can be determined from the difference between wind measured while flying upwind and that measured while flying downwind. For other flight directions, this error projects to the wind direction as $-\delta V\cos(\psi^{\prime})$. Similarly, when flying crosswind the wind measurement is determined by the sum of the ground-speed component along the wind direction and the component of the relative wind lateral to the aircraft. If the wind is from the port side of the aircraft (e.g., for an east flight direction with wind from the north), a positive heading error leads to a relative wind component opposing the wind and so to a measurement error of $-V\delta\psi^{\prime}$. For wind from the starboard side of the aircraft, the sign reverses, and for other angles the error contribution is $-V\delta\psi^{\prime}\sin(\psi^{\prime})$. 
 
 Fitting to minimize the deviations expressed by \eqref{eq:delta-v-m} can then give estimates of the three fit parameters $\delta V$, $\delta\psi^{\prime}$, and $v$, or a fixed value can be used for $v$ as given by the mean of measurements or by a previous fit to \eqref{eq:v-errors}. These fits should give consistent results, but a fit to \eqref{eq:delta-v-m} is particularly illustrative because plots of the error as a function of flight direction relative to the wind clearly reveal the magnitude and source of the deviations. The expected pattern is shown in Fig.~\ref{fig:sine-plot}.
+
 <<sine-plot, echo=FALSE, include=TRUE, fig.cap="Illustration of the expected variation in measured wind speed with flight angle relative to the wind direction, for assumed errors of $\\delta V=1$ m/s in true airspeed and $\\delta\\psi^{\\prime}=0.3^{\\circ}$ in heading and for an assumed true wind speed of 10 m/s. The assumed true airspeed is 155 m/s. The red arrows show the differences in measured wind speed between 90 and 270$^{\\circ}$ directions and between 0 and 180$^{\\circ}$ directions.">>=
 
 Ang <- (1:1440)/4.
@@ -331,7 +328,7 @@ mwd2 <- mwd; mwdL2 <- mwdL; mwdR2 <- mwdR
 \begin{table}[H]
 \begin{centering}
 \begin{tabular}{cccccc}
-\toprule 
+\toprule%
  & $\lambda\,[^{\circ}]$ & $v$~{[}m/s{]} & $\delta V$~{[}m/s{]} & $\delta\psi^{\prime}\,[^{\circ}]$ & residual error {[}m/s{]}\tabularnewline
 \midrule
 \midrule 
@@ -1063,10 +1060,7 @@ roll angle for all three maneuvers so changes in roll also cannot be used
 to distinguish the contributions from heading offset and sideslip offset.
 
 One approximate test is to compare the sideslip measurement in left vs right
-turns. The measurements of sideslip%
-\footnote{The sensitivity coefficients as determined in Sect.~\ref{sub:calibration-SS}
-have been used to construct this figure.%
-} are shown in Fig.~\ref{fig:plotSS}. In the turns,
+turns. The measurements of sideslip\footnote{The sensitivity coefficients as determined in Sect.~\ref{sub:calibration-SS} have been used to construct this figure.} are shown in Fig.~\ref{fig:plotSS}. In the turns,
 some sideslip is introduced as the aircraft configuration remains
 slightly nose-up during the turn, and that sideslip should reverse
 sign by symmetry when the flight pattern changes from left-turn to right-turn
@@ -1308,8 +1302,8 @@ g
 The results obtained from analysis of the circle maneuvers are these:
  
 \begin{enumerate}
-\item The circle maneuvers indicate that the measured true airspeed (TASX) with current LAMS-based pressure corrections is accurate to within expected uncertainty. The fits indicate an error in true airspeed of 
-\Sexpr{round(mean(VerrMean),2)}$\pm$\Sexpr{round(sd(VerrMean)/sqrt(5),2)}\,m/s,
+\item The circle maneuvers indicate that the measured true airspeed (TASX) with current LAMS-based pressure corrections is accurate to within expected uncertainty. The fits indicate an error in true airspeed%
+of \Sexpr{round(mean(VerrMean),2)}$\pm$\Sexpr{round(sd(VerrMean)/sqrt(5),2)}\,m/s,%
 %0.2$\pm 0.3$\,m/s, 
 which is within the expected ($\pm$0.3\,m/s) uncertainty limits for TAS deduced using the LAMS calibration (\cite{CooperEtAl2014}). The uncertainty includes the calibrated value,
 so it appears better to make no adjustment to true airspeed.
@@ -1318,9 +1312,8 @@ It appears reasonable to consider that the bias in this measurement may be uncer
 about 0.03$^{\circ}$ because the mean offset is determined with this standard deviation from the combination of the available circle maneuvers and this is also the sensitivity to 0.05\,m/s vertical wind during the maneuvers.
 \item With the preceding sensitivity coefficients, an offset should be introduced to
 heading of magnitude \Sexpr{round (-mean(HerrMean)-cos((meanr1-meanr2)/2*pi/180)*dbm, 2)}$\pm$\Sexpr{round(sd(HerrMean)/sqrt(5),2)}$^{\circ}$. The evidence
-from the circle fits is that the combined bias associated with the heading and sideslip offsets is 
-\Sexpr{round(mean(HerrMean),2)}$\pm$\Sexpr{round(sd(HerrMean)/sqrt(5), 2)}$^{\circ}$.
-%0.02$\pm 0.09^{\circ}$, 
+from the circle fits is that the combined bias associated with the heading and sideslip offsets is \Sexpr{round(mean(HerrMean),2)}$\pm$\Sexpr{round(sd(HerrMean)/sqrt(5), 2)}$^{\circ}$.
+%0.02$\pm 0.09^{\circ}$, %
 The heading and sideslip offsets are coupled, so the two offsets indicated by the circle fits should be used together.
 \item The ground-speed measurements GGVEW and GGVNS from the Novatel GPS need to coincide with the inertial measurements. An assumed lag for pitch of 50~ms, along with no
 offset in GGVEW and GGVNS, was indicated by the comparison between the two directions

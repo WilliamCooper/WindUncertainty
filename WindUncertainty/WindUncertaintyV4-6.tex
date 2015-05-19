@@ -141,6 +141,7 @@
 % force a page break at the start of sections
 \let\stdsection\section
 \renewcommand\section{\newpage\stdsection}
+\newenvironment{DIFnomarkup}{}{}
 
 
 % workaround for a makeindex bug,
@@ -546,6 +547,7 @@ provide additional information on these measurements.
 % discussion of each measurement in Sect.~\ref{sub:The-radome-based-system}.\label{tab:Radome-system-measurements}}
 % \end{table}
 
+%\begin{DIFnomarkup}
 \begin{table}
 \begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.7cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
 \toprule 
@@ -638,6 +640,7 @@ for level flight\tabularnewline
 are used for the standard calculation of the wind. See the
 discussion of each measurement in the text of Sect.~\ref{sub:The-radome-based-system}.\label{tab:Radome-system-measurements}}
 \end{table}
+%\end{DIFnomarkup}
 
 
 \subsubsection{Attitude angles\label{sub:Attitude-angles}}

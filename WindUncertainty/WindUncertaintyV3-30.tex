@@ -118,6 +118,7 @@
 % force a page break at the start of sections
 \let\stdsection\section
 \renewcommand{\section}{\newpage\stdsection}
+\newenvironment{DIFnomarkup}{}{}
 
 
 % workaround for a makeindex bug,
@@ -444,6 +445,8 @@ provides a summary of the measurements used to determine the wind
 and the characteristics of the sensors used, and the \href{http://www.eol.ucar.edu/aircraft-instrumentation}{EOL instrument web pages}(cf.~\textquotedbl{}State
 Parameters\textquotedbl{}, \textquotedbl{}Wind\textquotedbl{}) provide
 additional information on these measurements. 
+
+%\begin{DIFnomarkup}
 \begin{table}
 \begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.5cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
 \toprule 
@@ -540,6 +543,7 @@ needed for TAS calc.\tabularnewline
 are used for the standard calculation of the wind. See further discussion
 of each measurement in Sect.~\ref{sub:The-radome-based-system}.\label{tab:Radome-system-measurements}}
 \end{table}
+%\end{DIFnomarkup}
 
 
 

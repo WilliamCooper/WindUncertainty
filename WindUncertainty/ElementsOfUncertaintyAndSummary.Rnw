@@ -1,36 +1,3 @@
-%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
-%% Do not edit unless you really know what you are doing.
-% \documentclass{article}
-% \usepackage{mathptmx}
-% \usepackage[T1]{fontenc}
-% \usepackage[latin9]{inputenc}
-% \usepackage{geometry}
-% \geometry{verbose}
-% \setcounter{secnumdepth}{2}
-% \setcounter{tocdepth}{2}
-% \setlength{\parskip}{\medskipamount}
-% \setlength{\parindent}{0pt}
-% \usepackage{booktabs}
-% \usepackage{amsmath}
-% \usepackage{amssymb}
-% \usepackage{graphicx}
-% \usepackage[unicode=true]
-%  {hyperref}
-% \usepackage{breakurl}
-% 
-% \makeatletter
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
-% %% Because html converters don't know tabularnewline
-% \providecommand{\tabularnewline}{\\}
-% 
-% \AtBeginDocument{
-%   \def\labelitemii{\(\rightarrow\)}
-% }
-% 
-% \makeatother
-% 
-% \begin{document}
 
 <<parent3, echo=FALSE>>=
 set_parent ("WindUncertainty.Rnw")
@@ -48,14 +15,14 @@ uncertainty by including these components:
 
 \begin{enumerate}
 
-\item{\underbar{A description of the measuring system.}} Section 2 of this report
+\item {\underbar{A description of the measuring system.}} Section 2 of this report
 serves this function by providing extensive discussion of each component
 contributing to the measurement of wind, and it discusses what is known
 about specifications for uncertainty associated with those components. 
 It also includes description of the algorithm leading to components of the
 measured wind, and it discusses the three independent systems available
 for measuring wind on the GV. 
-\item{\underbar{Tests and calibrations.}} Section 4 provides key information
+\item {\underbar{Tests and calibrations.}} Section 4 provides key information
 on how calibration maneuvers are used to determine the sensitivity of
 some of the measurements to components of the wind. This section on 
 calibration is key to the uncertainty analysis because to a large extent
@@ -67,12 +34,12 @@ limits associated with these measurements. These sections (3, 5, and 6)
 go somewhat beyond a conventional analysis of uncertainty in that there
 are some new developments discussed there and some unconventional ways
 of checking the measurements. 
-\item{\underbar{Discussion of the elemental contributions to uncertainty.}} This discussion will follow in this section, but first it appears useful
+\item {\underbar{Discussion of the elemental contributions to uncertainty.}} This discussion will follow in this section, but first it appears useful
 to provide a more general although incomplete discussion of what is expected
 from that detailed analysis. The standard tabulation of  elemental 
 sources of uncertainty then follows in subsections \ref{sub:vw-elements} and
 \ref{sub:hw-elements}.
-\item{\underbar{Summary and comprehensive estimate of uncertainty.}} This follows
+\item {\underbar{Summary and comprehensive estimate of uncertainty.}} This follows
 at the end of this section and presents the key conclusions of this study.
 \end{enumerate}
 
@@ -161,14 +128,10 @@ about 0.02$^{\circ}$. Section \ref{sub:Schuler} presents additional evidence fro
 that typical pitch errors are of about this magnitude. This is significantly smaller
 than the manufacturer's specified uncertainty for this instrument, $\pm 0.05^{\circ}$.
 
-This uncertainty in pitch is comparable to the estimated random uncertainty in angle-of-attack,
-for which the variance spectra discussed in Sect.~\ref{sub:Variance-spectra-for-W-components}
-suggest a random error of about 0.02$^{\circ}\simeq0.35$~mrad.%
-\footnote{DEEPWAVE flight 15, 3:40--3:55, spectrum for AKRD, compared to simulated
+This uncertainty in pitch is comparable to the estimated random uncertainty in angle-of-attack, for which the variance spectra discussed in Sect.~\ref{sub:Variance-spectra-for-W-components} suggest a random error of about 0.02$^{\circ}\simeq0.35$~mrad.\footnote{DEEPWAVE flight 15, 3:40--3:55, spectrum for AKRD, compared to simulated
 spectrum with random-noise amplitude of 0.07. As generated, this has
 mean of half the amplitude, so it corresponds to a standard deviation
-of .07/$\sqrt{12}\simeq0.02^{\circ}\simeq0.35$~mrad.%
-} The estimated uncertainties in angle-of-attack and pitch are thus
+of .07/$\sqrt{12}\simeq0.02^{\circ}\simeq0.35$~mrad.} The estimated uncertainties in angle-of-attack and pitch are thus
 comparable, and both influence the uncertainty in vertical wind. 
 
 The rough-estimate uncertainty in vertical wind (to be refined later)
@@ -236,7 +199,7 @@ for ADIFR. For BDIFR, an example is shown in Fig.~\ref{fig:bdifrSpectrum}.
 \includegraphics[width=0.9\textwidth]{BDIFRspectrum} 
 \par\end{centering}
 
-\protect\protect\caption{\label{fig:bdifrSpectrum}Variance spectrum for BDIFR for DEEPWAVE
+\protect\caption{\label{fig:bdifrSpectrum}Variance spectrum for BDIFR for DEEPWAVE
 flight 15, 3:40--3:55 UTC. The dashed orange lines indicate expected
 white-noise spectra for respective standard deviations of 0.1 and
 0.05~hPa. Units for $fP(f)$ are hPa$^{2}$ per logarithmic interval
@@ -251,10 +214,8 @@ frequency, the plotted line should increase linearly with frequency
 parallel to the orange dashed lines. Instead, the spectrum for BDIFR
 has smaller slope than this, looking perhaps as if the spectrum starts
 out at a point where a white-noise spectrum with standard deviation
-0.1~hPa would be appropriate, but then is filtered or otherwise smoothed%
-\footnote{perhaps by the response in the lines connecting the ports to the pressure
-sensors%
-} so that at the high-frequency limit the equivalent white-noise standard
+0.1~hPa would be appropriate, but then is filtered or otherwise smoothed\footnote{perhaps by the response in the lines connecting the ports to the pressure
+sensors } so that at the high-frequency limit the equivalent white-noise standard
 deviation would be 0.05~hPa. The spectrum for SSLIP looks similarly
 filtered, with an equivalent white-noise spectrum somewhere in the
 range of 0.02$^{\circ}$, similar to that characterizing AKRD. However, the
@@ -284,6 +245,7 @@ summarizes the results for the radome-based wind system.
 The following is a discussion of the individual
 elements in that table.
 
+%%%% skip
 \begin{table}
 \begin{tabular}{cccccc}
 \toprule 
@@ -312,10 +274,10 @@ elements in that table.
 \protect\caption{Elemental contributions to the uncertainty in measurement of vertical
 wind by the radome-based system. Entries '--' indicate negligible contribution to uncertainty.\label{tab:Elemental-w}}
 \end{table}
+%%%% endskip
 
 \begin{enumerate}
-\item \textbf{ADIFR: }See Sect.~\ref{sub:Airflow-angles} and Table~\ref{tab:Radome-system-measurements}.
-The uncertainty is assigned to bias because it is likely
+\item \textbf{ADIFR: }See Sect.~\ref{sub:Airflow-angles} and Table~\ref{tab:Radome-system-measurements}.  The uncertainty is assigned to bias because it is likely
 a calibration uncertainty and the resolution and stability are much
 smaller than this bias. However, a calibration bias in this measurement
 does not affect the final wind measurement because the procedure in
@@ -329,10 +291,8 @@ thought to be negligible, so the propagated error for ADIFR is listed
 as negligible. The next item considers the determination of sensitivity
 coefficient for angle of attack and is the dominant contribution to
 uncertainty in $w$ arising from the measurement of angle of attack.
-\item \textbf{AKRD coefficients:} The calibration procedure of Sect.~\ref{sub:radome-sensitivity}
-effectively removes the effects of possible biases in ADIFR and QCF
-and instead replaces them with uncertainties arising from the coefficients
-\{$c_{0},\, c_{1}$\} in (\ref{eq:AOArecommended}). The estimated
+\item \textbf{AKRD coefficients:} The calibration procedure of Sect.~\ref{sub:radome-sensitivity} effectively removes the effects of possible biases in ADIFR and QCF
+and instead replaces them with uncertainties arising from the coefficients \{$c_{0},\, c_{1}$\} in (\ref{eq:AOArecommended}). The estimated
 bias and random error are those obtained and discussed in that section
 using the estimated uncertainties in the coefficients in (\ref{eq:AOArecommended}).
 For propagation to vertical wind $w$, (\ref{eq:VWind}) indicates
@@ -351,8 +311,7 @@ uncertainty in angle of attack, but it introduces a bias arising from a
 possible calibration error. Fluctuations from the mean value are measured with
 uncertainty a factor of ten smaller than this bias. The assumed mean value of
 the vertical wind leading to this bias was $\pm$0.03\,m/s, which could 
-well be an over-estimate for the 
-large datasets used in Section~\ref{sub:radome-sensitivity}. 
+well be an over-estimate for the large datasets used in Section~\ref{sub:radome-sensitivity}. 
 \item \textbf{BDIFR:} The sideslip angle has negligible effect on the vertical
 wind as long as the roll angle is small, so for measurements made
 during straight-and-level flight this contribution to uncertainty
@@ -459,6 +418,7 @@ the measurement of vertical wind from the gust-pod system.
 The following is a discussion of the individual
 elements in that table.
 
+%%%% skip
 \begin{table}
 \begin{tabular}{cccccc}
 \toprule 
@@ -487,18 +447,17 @@ elements in that table.
 \protect\caption{Elemental contributions to the uncertainty in measurement of vertical
 wind using the gust pod. Entries '--' indicate negligible contribution to uncertainty.\label{tab:GP-Elemental-w}}
 \end{table}
+%%%% endskip
 
 \begin{enumerate}
-\item \textbf{ADIF\_GP: }See Sect.~\ref{sub:Airflow-angles} and Table~\ref{tab:Radome-system-measurements}.
-See the discussion related to the radome. The same transducers are used for
+\item \textbf{ADIF\_GP: }See Sect.~\ref{sub:Airflow-angles} and Table~\ref{tab:Radome-system-measurements}.  See the discussion related to the radome. The same transducers are used for
 the pressure measurements on the gust pod, although the configuration of
 ports is different. The next item considers the determination of sensitivity
 coefficient for angle of attack and is the dominant contribution to
 uncertainty in $w$ arising from the measurement of angle of attack.
 \item \textbf{AK\_GP coefficients:} The calibration procedure of Sect.~\ref{sub:gust-pod-aoa}
 effectively removes the effects of possible biases in ADIFR and QCF
-and instead replaces them with uncertainties arising from the fit coefficients
-\{$b_{0--3}$\} in (\ref{eq:AOAGfunction}). It was necessary to use
+and instead replaces them with uncertainties arising from the fit coefficients \{$b_{0--3}$\} in (\ref{eq:AOAGfunction}). It was necessary to use
 additional terms to obtain a good fit in this case, but the final result provided
 a very good representation of the data, as good as in the radome case.
 We have therefore used the same uncertainty estimate as for the radome,
@@ -540,8 +499,7 @@ two units was 0.06$^{\circ}$, so this is a reasonable estimate of the random err
 characterizes these measurements.\footnote{The standard deviation in the difference
 between two variables is actually $sqrt(2)\times\delta$ where $\delta$ is the
 standard deviation in each variable, so a better estimate is 0.04; this correction
-has not been made throughout this document.}%
-As for the radome, a true bias in this measurement (e.g., from misalignment at installation)
+has not been made throughout this document.} As for the radome, a true bias in this measurement (e.g., from misalignment at installation)
 has been subsumed by the calibration of item 2 so does not enter in this item. However,
 the remaining error on most flights has a slowly varying component (consistent with the
 long time period of the Schuler oscillation) and so appears as a bias for any measurement
@@ -595,6 +553,7 @@ Table \ref{tab:Elemental-h} lists the elemental contributions to uncertainty in
 the measurement of horizontal wind from the radome-based system. The following itemization
 discusses each element.
 
+%%%% skip
 \newcommand{\myparallel}{{\mkern3mu\vphantom{\perp}\vrule depth 0pt\mkern2mu\vrule depth 0pt\mkern3mu}}
 \begin{table}
 \begin{tabular}{cccccc}
@@ -632,9 +591,10 @@ those with subscript indicating parallel refer to the longitudinal component (al
 aircraft).
 \label{tab:Elemental-h}}
 \end{table}
+%%%% endskip
 
 \begin{enumerate}
-\item \textbf{BDIFR:} 
+\item \textbf{BDIFR:}
 The primary uncertainty in BDIFR is assigned to bias because it is likely
 a calibration uncertainty and the resolution and stability are much
 smaller than this bias. However, a calibration bias in this measurement
@@ -651,10 +611,10 @@ contributions therefore are listed as negligible in the table.
 The next item considers the determination of sensitivity
 coefficient for sideslip and is the dominant contribution to
 uncertainty in horizontal wind arising from the measurement of sideslip.
-\item \textbf{SSRD coefficients:} The calibration procedure of Sect.~\ref{sub:radome-sensitivity}
+\item \textbf{SSRD coefficients:}
+The calibration procedure of Sect.~\ref{sub:radome-sensitivity}
 effectively removes the effects of possible biases in BDIFR and QCF
-and instead replaces them with uncertainties arising from the coefficients
-\{$e_{0},\, e_{1}$\} in (\ref{eq:betaFunctionForm}) and the ability of the selected
+and instead replaces them with uncertainties arising from the coefficients \{$e_{0},\, e_{1}$\} in (\ref{eq:betaFunctionForm}) and the ability of the selected
 formula to represent the calibration data. The uncertainty in the first coefficient,
 the main contributor to sideslip bias, is obtained from the standard deviation in the
 mean of results from the circle analysis, summarized in Sect.~\ref{sub:HWsummary}.
@@ -665,12 +625,14 @@ errors involving $V$ that are small in comparison to that listed.
 A typical value for V is about 220\,m\,s$^{-1}$, leading to the
 listed elemental uncertainties in horizontal wind arising from uncertainty in
 SSRD. 
-\item \textbf{ADIFR: }See Sect.~\ref{sub:Airflow-angles} and Table~\ref{tab:Radome-system-measurements}.
+\item \textbf{ADIFR: }
+See Sect.~\ref{sub:Airflow-angles} and Table~\ref{tab:Radome-system-measurements}.
 The angle of attack has negligible effect on the horizontal
 wind as long as the roll angle is small, so for measurements made
 during straight-and-level flight this contribution to uncertainty
 in horizontal wind is negligible.
-\item \textbf{QCF:} The values listed are the characteristics of the transducer.
+\item \textbf{QCF:}
+The values listed are the characteristics of the transducer.
 Application of the calibration procedure based on comparison to the
 laser air motion sensor (\cite{CooperEtAl2014}) led to an estimated standard
 uncertainty of 0.1~m/s for steady flight conditions and 0.3~m/s for
@@ -679,8 +641,7 @@ the wind component in the direction of the longitudinal axis of the aircraft.
 For the lateral component, QCF affects the calculated sideslip SSRD, but as
 in the case of AKRD the procedure
 to determine sensitivity coefficients removes any effect of bias in
-QCF by calibration in terms of the coefficients \{$c_{0},\, c_{1}$\}
-so a potential bias in QCF does not enter the lateral 
+QCF by calibration in terms of the coefficients \{$c_{0},\, c_{1}$\} so a potential bias in QCF does not enter the lateral 
 component of the horizontal wind but instead is replaced by possible bias in those
 coefficients, as discussed for element 2. The effect of a random error
 in QCF of 0.01~hPa for a typical value of QCF$\approx$100\,hPa is, 
@@ -688,7 +649,8 @@ from (\ref{eq:betaFunctionForm}), to introduce
 an uncertainty in sideslip of about 0.01\% or, because typical values of sideslip
 are smaller in magnitude than 1$^{\circ}$, an error propagated to horizontal wind 
 smaller than 0.001~m/s. This contribution is therefore neglected.
-\item \textbf{HEADING:} The random error in heading can be evaluated by comparing
+\item \textbf{HEADING:}
+The random error in heading can be evaluated by comparing
 two duplicate IRUs, as was done for pitch. The two systems on the GV for DEEPWAVE
 differed in mean heading by about 0.45$^{\circ}$, evidently a result of an alignment
 error on installation. However, the standard deviation of the difference between the
@@ -696,16 +658,18 @@ two measurements was only 0.04$^{\circ}$, a value that indicates the systems may
 perform better than the manufacturer's specification (0.2$^{\circ}$) would indicate.
 The uncertainty in the bias evaluated from the circle-maneuver study of Sect.~XXX is about 0.09$^{\circ}$, so this will be used as the bias estimate while 0.04$^{\circ}$ is
 considered the random component of uncertainty in heading.
-\item \textbf{PITCH:} The contribution to uncertainty from the measurement of
+\item \textbf{PITCH:}
+The contribution to uncertainty from the measurement of
 pitch was discussed above in connection with measurement of the vertical
 wind. However, in the case of horizontal wind, for level flight with negligible
 roll an uncertainty in pitch makes negligible contribution to uncertainty in
 either component of the horizontal wind.
-\item \textbf{Horizontal Velocity Components of the Aircraft:} The 
-measurement of horizontal wind is the sum of the relative wind and the
+\item \textbf{Horizontal Velocity Components of the Aircraft:}
+The measurement of horizontal wind is the sum of the relative wind and the
 horizontal motion of the aircraft relative to the Earth, so uncertainty in
 this component enters directly into uncertainty in the measured wind components.
-\item \textbf{PSF:} The measured ambient pressure affects horizontal wind
+\item \textbf{PSF:}
+The measured ambient pressure affects horizontal wind
 only through the dependence of true airspeed TASX on PSF, as described
 in the document on \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{RAF processing algorithms},
 Section 4.7.1. Evaluation at typical values shows that the dependence
@@ -713,7 +677,8 @@ of the measured lateral component of the horizontal wind on uncertainty in this 
 For example, TASX for PSF=300\,hPa, QCF=80\,hPa, and ATX=$-40^{\circ}$C
 differs from that for PSF=300.1 by 0.03\,m\,s$^{-1}$ or about 0.01\%,
 so this would also be the percentage change in the lateral component of the relative wind. 
-\item \textbf{ATX:} Temperature is needed to calculate TASX, and other studies 
+\item \textbf{ATX:}
+Temperature is needed to calculate TASX, and other studies 
 (\cite{CooperEtAl2014}) indicate that the temperature uncertainty is about 0.3$^{\circ}$C, and
 this error will propagate to uncertainty in both components of the horizontal wind.
 Typical values of Mach number for the DEEPWAVE project were 0.8, for which a temperature
@@ -721,9 +686,9 @@ change of $+0.3^{\circ}$C led to an increase in true airspeed of about 0.16\,m/s
 The temperature error is likely a bias, so this difference also should be treated as
 a bias. The result is that the longitudinal component of the horizontal wind has an elemental
 contribution from temperature of 0.16\,m/s, while the lateral component (being small and
-having an error proportional to the error in TASX of about 0.16/240 or smaller than 0.1\%) 
-has negligible error from this source. 
-\item \textbf{PCOR:} The dynamic and static pressure measurements are corrected for the
+having an error proportional to the error in TASX of about 0.16/240 or smaller than 0.1\%) has negligible error from this source. 
+\item \textbf{PCOR:}
+The dynamic and static pressure measurements are corrected for the
 static defect at the pressure ports using the formulas developed in (\cite{CooperEtAl2014}).
 The uncertainty in the determination of the correction was estimated in that source as
 less than 0.3\,m/s. Here we use similar estimates of 0.2 (bias) and 0.1\,hPa (random error).
@@ -748,6 +713,7 @@ from each other and so may encounter slightly different wind conditions.
 \subsubsection{Gust-pod system}
 
 
+%%%% skip
 \begin{table}
 \begin{tabular}{cccccc}
 \toprule 
@@ -784,9 +750,10 @@ those with subscript indicating parallel refer to the longitudinal component (al
 aircraft).
 \label{tab:GP-Elemental-h}}
 \end{table}
+%%%% endskip
 
 \begin{enumerate}
-\item \textbf{BDIF\_GP:} 
+\item \textbf{BDIF\_GP:}
 The primary uncertainty in BDIF\_GP is assigned to bias because it is likely
 a calibration uncertainty and the resolution and stability are much
 smaller than this bias. However, a calibration bias in this measurement
@@ -802,10 +769,9 @@ wind, with even smaller contribution to the longitudinal wind. These
 contributions therefore are listed as negligible in the table.
 The next item considers the more uncertain determination of sensitivity
 coefficient for sideslip. 
-\item \textbf{SS\_GP coefficients:} The calibration procedure of Sect.~\ref{sub:radome-and-gust-pod-beta}
-effectively removes the effects of possible biases in BDIF\_GP and QC\_GP
-and instead replaces them with uncertainties arising from the coefficients
-\{$e_{0},\, e_{1}$\} in (\ref{eq:betaFunctionForm}) and the ability of the selected
+\item \textbf{SS\_GP coefficients:}
+The calibration procedure of Sect.~\ref{sub:radome-and-gust-pod-beta} effectively removes the effects of possible biases in BDIF\_GP and QC\_GP
+and instead replaces them with uncertainties arising from the coefficients \{$e_{0},\, e_{1}$\} in (\ref{eq:betaFunctionForm}) and the ability of the selected
 formula to represent the calibration data. For sideslip, the fit procedure used values
 of heading and ground speed components determined from the gust-pod IRU, but wind components
 determined from the radome system. This allowed better determination of sensitivity
@@ -831,12 +797,14 @@ Instead, it appears that there is some source of error affecting SS\_GP and that
 elemental uncertainty assigned to the random error arising from application of the SS\_GP
 calibration must be increased to 0.3$^{\circ}$ until this discrepancy between SSRD and
 SS\_GP can be resolved.
-\item \textbf{ADIFR: }See Sect.~\ref{sub:Airflow-angles} and Table~\ref{tab:Radome-system-measurements}.
+\item \textbf{ADIFR: }
+See Sect.~\ref{sub:Airflow-angles} and Table~\ref{tab:Radome-system-measurements}.
 The angle of attack has negligible effect on the horizontal
 wind as long as the roll angle is small, so for measurements made
 during straight-and-level flight this contribution to uncertainty
 in horizontal wind is negligible.
-\item \textbf{QCF and QC\_GP:} The values listed are the characteristics of the transducers.
+\item \textbf{QCF and QC\_GP:}
+The values listed are the characteristics of the transducers.
 Application of the calibration procedure based on comparison to the
 laser air motion sensor (\cite{CooperEtAl2014}) led to an estimated standard
 uncertainty of 0.1~m/s for steady flight conditions and 0.3~m/s for
@@ -844,8 +812,7 @@ fluctuating conditions, so this is used for the table entry pertaining to
 the wind component in the direction of the longitudinal axis of the aircraft. 
 For the lateral component, QC\_GP affects the calculated sideslip SS\_GP, but the procedure
 to determine sensitivity coefficients removes any effect of bias in
-QC\_GP by calibration in terms of the coefficients \{$c_{0},\, c_{1}$\}
-so a potential bias in QC\_GP does not enter the lateral 
+QC\_GP by calibration in terms of the coefficients \{$c_{0},\, c_{1}$\} so a potential bias in QC\_GP does not enter the lateral 
 component of the horizontal wind but instead is replaced by possible bias in those
 coefficients, as discussed for element 2. The effect of a random error
 in QCF of 0.01~hPa for a typical value of QCF$\approx$100\,hPa is, 
@@ -853,18 +820,18 @@ from (\ref{eq:betaFunctionForm}), to introduce
 an uncertainty in sideslip of about 0.01\% or, because typical values of sideslip
 are smaller in magnitude than 1$^{\circ}$, an error propagated to horizontal wind 
 smaller than 0.001~m/s. This contribution is therefore neglected.
-\item \textbf{HEADING (CTHDG\_GP):} The random error in heading can be evaluated by comparing
+\item \textbf{HEADING (CTHDG\_GP):}
+The random error in heading can be evaluated by comparing
 the two duplicate IRUs for the gust pod and the LAMS, as was done for pitch. In DEEPWAVE, 
 these two systems differed in mean heading by about 1.3$^{\circ}$, evidently a result of 
 being installed at different angles relative to the aircraft longitudinal axis.
 The standard deviation in the difference in heading measurements from the two systems,
-after excluding some additional flights (18, 22, 25) 
-where there appeared to be problems with the measurement, was 0.3$^{\circ}$, so
+after excluding some additional flights (18, 22, 25) where there appeared to be problems with the measurement, was 0.3$^{\circ}$, so
 the uncertainty associated with this measurement is much higher than that for the
 radome-based system. The mean difference between the two measurements of heading,
 averaged over flights, had a standard deviation of 0.17$^{\circ}$, so this may
 be a reasonable estimate of bias, as entered into the table.\footnote{Special processing,
-using a hybrid heading obtained by complementary filtering (cf.~Sect.~\ref{sub:comp-filter}) 
+using a hybrid heading obtained by complementary filtering (cf.~Sect.~\ref{sub:comp-filter}).
 with CTHDG\_GP considered the "fast"  signal and THDG the "slow"  signal, with appropriate
 adjustment for the discontinuity at 360$^{\circ}$ and with exclusion of data during and
 for 1 min after turns, reduced the standard deviation of the difference in heading to
@@ -876,13 +843,14 @@ wind from the gust pod significantly, at the expense of having the measurements 
 a reference measurement outside the instrument. If improvement in the measurement of
 horizontal wind from the gust pod becomes important, such processing can be
 used for special cases.}
-\item \textbf{PITCH:} The contribution to uncertainty from the measurement of
+\item \textbf{PITCH:}
+The contribution to uncertainty from the measurement of
 pitch was discussed above in connection with measurement of the vertical
 wind. However, in the case of horizontal wind, for level flight with negligible
 roll an uncertainty in pitch makes negligible contribution to uncertainty in
 either component of the horizontal wind.
-\item \textbf{Horizontal Velocity Components of the Aircraft:} The 
-measurement of horizontal wind is the sum of the relative wind and the
+\item \textbf{Horizontal Velocity Components of the Aircraft:}
+The measurement of horizontal wind is the sum of the relative wind and the
 horizontal motion of the aircraft relative to the Earth, so uncertainty in
 this component enters directly into uncertainty in the measured wind components. Comparison
 among the different measurements of velocity components of the aircraft (\{GGVEW, CVEW\_GP,
@@ -891,17 +859,22 @@ with good IRU operation (flights 5, 8--14, 16, 20--21, 23--24, 26) the standard
 deviations among these measurements are consistent with an uncertainty of 0.05\,m/s.
 This characterizes some combination of bias and random error, so to be conservative
 this value has been assigned to each in the table.
-\item \textbf{PSF:} This measurement has the same effect on the wind measurement from
+\item \textbf{PSF:}
+This measurement has the same effect on the wind measurement from
 the gust pod that it has on the measurement from the radome-based system because
 the same true airspeed measurement is used for both. See the discussion for the radome
 system that follows Table~\ref{tab:Elemental-h}.
-\item \textbf{ATX:} Temperature affects wind measured by the gust pod in the same way as
+\item \textbf{ATX:}
+Temperature affects wind measured by the gust pod in the same way as
 that measured by the radome-based system. See the discussion for the radome
 system that follows Table~\ref{tab:Elemental-h}.
-\item \textbf{PCOR:} The same correction to true airspeed is applied to wind
+\item \textbf{PCOR:}
+%%%% skip
+The same correction to true airspeed is applied to wind
 measured by the gust pod as that applied to measurements from the radome-based
 system. See the discussion for the radome
 system that follows Table~\ref{tab:Elemental-h}.
+%%%% endskip
 \end{enumerate}
 
 For the gust-pod system, the uncertainties in the two components of the horizontal wind 
@@ -925,6 +898,7 @@ measurements of the longitudinal component of the wind are the same for both sys
 This subsection summarizes the net uncertainty in wind measurements
 as developed in the earlier parts of this section. See Table~\ref{tab:Summary-of-uncertainty} for the key results.
 
+%%%% skip
 \begin{table}
 \noindent \begin{centering}
 \begin{minipage}[t]{1\columnwidth}%
@@ -956,6 +930,7 @@ measurement to get the listed performance. Not valid in turns.}\tabularnewline
 \par\end{centering}
 
 \end{table}
+%%%% endskip
 
 
 
@@ -1079,4 +1054,3 @@ of vertical wind from the gust pod provides a useful
 back-up to the conventional measurement.
 
 
-% \end{document}

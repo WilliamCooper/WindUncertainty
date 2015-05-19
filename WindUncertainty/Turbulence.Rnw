@@ -50,8 +50,7 @@ if (ReloadData) {
 \subsection{Scope of this appendix}
 
 Distributions showing variance vs.~frequency for measured vector components of the wind
-are needed to characterize turbulence.%
-\footnote{For wind, the variance spectrum has units of, e.g., m$^{2}$s$^{-2}$
+are needed to characterize turbulence.\footnote{For wind, the variance spectrum has units of, e.g., m$^{2}$s$^{-2}$
 per frequency interval which is energy per mass per frequency interval,
 so this is best interpreted as an energy spectrum, not a power spectrum
 (which would have units of (energy/time) per frequency interval or,
@@ -61,9 +60,7 @@ e.g., Watts/Hz instead of Joules/Hz for unit mass. For this reason,
 for the present application.} 
 This appendix discusses the high-rate measurements of wind on
 the NSF/NCAR GV and proposes new variables for use in studies of
-turbulence.\footnote{The
-tools for spectral analysis used here are discussed further in \citet{Cooper1994}.
-In particular, the ``all poles'' or ``maximum entropy'' method
+turbulence.\footnote{The tools for spectral analysis used here are discussed further in \citet{Cooper1994}.  In particular, the ``all poles'' or ``maximum entropy'' method
 of spectral analysis (cf.~\citet{Press:1992:NRC:148286}) will be
 the main method used for generating plots of the spectral density
 of variance from the measurements of wind. Because this is
@@ -404,7 +401,7 @@ proposed new variable that blends measurements from the gust-pod
 and radome systems, these steps were used:
 
 \begin{enumerate}
-\item{Develop a calibration for airspeed from the gust pod, similar
+\item Develop a calibration for airspeed from the gust pod, similar
 to that developed in Sect.~\ref{sub:GP-TAS}. There the fit was
 restricted to measurements at high flight levels because that was
 of primary interest to DEEPWAVE, but for measurements in the boundary
@@ -415,17 +412,17 @@ with conventionally measured true airspeed (TASF) above 130\,m/s
 and magnitude of the roll angle less than $5^{\circ}$ were used.
 A fit of \eqref{eq:TASfit} to these measurements then produced
 coefficients from which the ratio of dynamic to static pressure
-could be determined.}
-\item{As in Sect.~\ref{sub:GP-TAS}, this ratio of pressures then
+could be determined.
+\item As in Sect.~\ref{sub:GP-TAS}, this ratio of pressures then
 was used to calculate the true airspeed (TAS\_GP) in the standard
-way.}
-\item{This airspeed, with the other measurements from the gust pod,
+way.
+\item This airspeed, with the other measurements from the gust pod,
 was then used to recalculate the relative wind and then, as
 explained earlier in this document, the
 wind direction and magnitude and
 the various wind components including vartical and horizontal lateral
-and longitudinal components.}
-\item{Next, new wind variables were calculated, labeled with
+and longitudinal components.
+\item Next, new wind variables were calculated, labeled with
 suffix "M" for "merged", that combined each component of the
 measurements from the gust-pod and the radome systems, using the
 technique described in Sect.~\ref{sub:comp-filter}. For 50-Hz
@@ -437,7 +434,7 @@ Because the complementary-filter technique uses a cross-over
 between components at a frequency where both signals are thought
 to be valid and show high coherence and similar amplitudes, no
 phase shift or other spurious effect on the variance spectra at the
-cross-over frequency is expected.}
+cross-over frequency is expected.
 \end{enumerate}
 
 The result was that a variable TAS\_GP representing the true airspeed

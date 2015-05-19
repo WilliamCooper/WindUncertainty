@@ -5,6 +5,7 @@ set_parent ("WindUncertainty.Rnw")
 @
 
 % define format for exercises and examples:
+%%%% skip
 \newcount\exernumber \exernumber=1
 \newcount\examnumber \examnumber=1
 \def\beginexercise{\bigskip\goodbreak\hrule\nobreak\smallskip\nobreak\hrule\nobreak\bigskip\sl\nobreak
@@ -13,6 +14,7 @@ set_parent ("WindUncertainty.Rnw")
 \def\beginexample{\bigskip\goodbreak\nobreak\hrule\nobreak\smallskip\nobreak\hrule\nobreak\bigskip\sl\nobreak
 {\bf\noindent EXAMPLE \arabic{chapter}.\the\examnumber:\enspace}\advance\examnumber by 1}
 \def\endexample{\endexercise}
+%%%% endskip
 
 
 \section{Appendix: Conventions for uncertainty analysis}
@@ -251,7 +253,7 @@ distribution.
 \protect\caption{\emph{\label{fig:Student's t distribution}Confidence limits for the
 Student's t distribution.}}
 \end{figure}
- If the final number of degrees of freedom is larger than thirty,
+If the final number of degrees of freedom is larger than thirty,
 the range to select for the precision error limit in the result is
 easily determined by use of the estimated standard deviation in the
 result, the approximate 68\% confidence limit. Otherwise, it is necessary
@@ -261,7 +263,7 @@ formula provides an estimate:
 \begin{equation}
 n_{r}={\frac{{[\sum_{i}S_{Y,i}^{2}]^{2}}}{{\sum_{i}{S_{Y,i}^{4}}/n_{i}}}}\label{eq:WS}
 \end{equation}
- where n$_{r}$ is the number of degrees of freedom in the final result,
+where n$_{r}$ is the number of degrees of freedom in the final result,
 $S_{Y,i}$ is the standard deviation in $Y$ that would result from
 error source $i$ alone, and $n_{i}$ is the number of degrees of
 freedom in that source of uncertainty.
@@ -269,7 +271,8 @@ freedom in that source of uncertainty.
 The format advocated and followed here for an analysis of uncertainty
 includes these components:\\
  %
-\fbox{\begin{minipage}[t]{1\columnwidth}%
+\fbox{%
+\begin{minipage}[t]{1\columnwidth}%
 \begin{enumerate}
 \item \textit{Description of the measurement system with discussion of the
 limits within which the analysis to be presented is valid.} For example,
@@ -425,7 +428,7 @@ of which is a function of the measured quantities $\{x\}$:
 \begin{equation}
 Y_{m}=Y_{m}(x_{1},x_{2},\dots x_{L})~or~{\textbf{Y}}={\textbf{Y}}({\textbf{x}}).
 \end{equation}
- The mean values of $x_{\ell}$, $\overline{x_{\ell}}$, are then
+The mean values of $x_{\ell}$, $\overline{x_{\ell}}$, are then
 the ``best'' values for $x_{\ell}$ in the sense that they minimize
 the squares of the deviations from these best values. In the same
 sense, the ``best'' values for $Y_{m}$ are the values $Y_{m}(\overline{x_{1}},\overline{x_{2}},\dots\overline{x_{L}})$.\footnote{These values do not necessarily minimize the sum of the squared deviations
@@ -440,7 +443,7 @@ to deviations in $\{x\}$:
 \begin{equation}
 Y_{m}(x_{1},x_{2},\dots\,\,x_{L})=Y_{m}(\overline{x_{1}},\overline{x_{2}},\dots\,\,\overline{x_{L}})+\sum_{k=1}^{L}{\frac{{\partial Y_{m}(x_{1},x_{2},\dots\,\,x_{L})}}{{\partial x_{k}}}}\Bigr|_{\overline{x}}(x_{k}-\overline{x_{k}}).
 \end{equation}
- The variance in $Y_{m}$ is then obtained by averaging over the $N$
+The variance in $Y_{m}$ is then obtained by averaging over the $N$
 measurements, indicated by index $i$: 
 \begin{equation}
 V_{Y_{m}Y_{m}}={\frac{{1}}{{N}}}\sum_{i=1}^{N}\bigl(Y_{m}(\{x\}_{i})-Y_{m}(\{\overline{x}\})\bigr)^{2}
@@ -459,7 +462,7 @@ The matrix elements
 \begin{equation}
 H_{jk}^{-1}={\frac{{1}}{{N}}}\sum_{i=1}^{N}(x_{ji}-\overline{x_{j}})(x_{ki}-\overline{x_{k}})
 \end{equation}
- entering (\ref{eq:DerivedCoverianceMatrix}) are the variances and
+entering (\ref{eq:DerivedCoverianceMatrix}) are the variances and
 covariances of the measured quantities, so ${\textbf{H}}^{-1}$ is
 called the \textit{covariance matrix} or the \textit{error matrix.}
 If the relationship between $\{Y\}$ and $\{x\}$ is linear or is
@@ -473,11 +476,11 @@ V_{Y_{m}Y_{n}}=\langle(Y_{m}-\overline{Y_{m}})(Y_{n}-\overline{Y_{n}})\rangle
 \begin{equation}
 ~~~~~=\sum_{j=1}^{L}\sum_{k=1}^{L}{\frac{{\partial Y_{m}(x)}}{{\partial x_{j}}}}\Bigr|_{x=\overline{x}}{\frac{{\partial Y_{n}(x)}}{{\partial x_{k}}}}\Bigr|_{x=\overline{x}}H_{jk}^{-1}
 \end{equation}
- or, in matrix notation, 
+or, in matrix notation, 
 \begin{equation}
 V=T^{t}H^{-1}T\label{eq:refa}
 \end{equation}
- where $T_{mj}$ = $\partial Y_{m}/\partial x_{j}$ is the element
+where $T_{mj}$ = $\partial Y_{m}/\partial x_{j}$ is the element
 of the (column) matrix of derivatives of the derived quantity $Y_{m}$
 with respect to the measured quantity $x_{j}$ and the superscript
 $t$ denotes the transpose matrix. This general form is valid for
@@ -505,7 +508,7 @@ A thermistor R$_{t}$ measures the bath temperature via the voltage
 V2, and so provides a reference temperature to be added to the temperature
 difference measured by the thermocouple.}}
 \end{figure}
- The thermocouple junctions both produce voltage differences, dependent
+The thermocouple junctions both produce voltage differences, dependent
 respectively on the temperature $T$ and on the reference bath temperature
 $T_{ref}$. The reason for using this arrangement is that both the
 wires leading to the instrument measuring the voltage $V$ are then
@@ -530,7 +533,7 @@ $Y_{1}$ and $Y_{2}$, which often are almost linear relationships:
 \begin{equation}
 T_{2}=Y_{2}(V_{2})=a_{2}V_{2}.
 \end{equation}
- Then the first two fundamental quantities affecting the measurement,
+Then the first two fundamental quantities affecting the measurement,
 in the earlier notation, are $x_{1}=V_{1}$ and $x_{2}=V_{2}$.
 
 If $V_{1}$ and $V_{2}$ are measured by the same voltmeter, part
@@ -559,28 +562,30 @@ error matrix for the random component of the uncertainty is
 \begin{equation}
 H_{r}^{-1}=\left(\begin{matrix}S_{1}^{2}\end{matrix}\right)
 \end{equation}
- and the bias component is 
+and the bias component is 
 \begin{equation}
 H_{s}^{-1}=\left(\begin{matrix}(B_{1}^{2}\end{matrix}\right)
 \end{equation}
- when expressed in terms of the fundamental quantities $x_{1}$, $x_{2}$,
+when expressed in terms of the fundamental quantities $x_{1}$, $x_{2}$,
 and $x_{3}$ representing the two measurements and the unmeasured
 difference between $T_{ref}$ and $T_{2}$.
 
 The sum of these matrices can be used in (\ref{eq:refa}) to evaluate
 the variance in the measured temperature: 
 \begin{equation}
-V_{TT}=\begin{pmatrix}a_{1}\end{pmatrix}\begin{pmatrix}S_{1}^{2}+B_{1}^{2}\end{pmatrix}\begin{pmatrix}a_{1}\cr a_{2}\cr1\cr\end{pmatrix}
+V_{TT}=\begin{pmatrix}a_{1}\end{pmatrix}\begin{pmatrix}S_{1}^{2}+B_{1}^{2}\end{pmatrix}\begin{pmatrix}a_{1}\cr a_{2}\cr 1\cr
+\end{pmatrix}
 \end{equation}
 \begin{equation}
 ~~~~~=a_{1}^{2}S_{1}^{2}+a_{2}^{2}S_{2}^{2}+(a_{1}B_{1}+a_{2}B_{2})^{2}+B_{3}^{2}.
 \end{equation}
- The first two terms show that the random contributions add to the
+The first two terms show that the random contributions add to the
 net variance in quadrature, as expected for independent error sources.
 The next term shows that the bias contributions, however, add linearly.
 This results because a bias error affects measurements of $\Delta T$
 and $T_{2}$ in the same way, so the error enters the final result
-additively. \endexample
+additively.
+\endexample
 \htmlrule
 
 
@@ -673,7 +678,7 @@ occurring events is
 \begin{equation}
 N(t)=N_{0}e^{-t/\tau}
 \end{equation}
- where $N(t)$ is the number of events per time interval that occur
+where $N(t)$ is the number of events per time interval that occur
 at time t, $N_{0}$ is the total number of events, $t$ is the time,
 and $\tau$ is a time constant characterizing the process. For this
 distribution, the mean time is $\tau$, the median time is $\tau$ln(2),
@@ -686,12 +691,12 @@ from
 \begin{equation}
 \sigma=\Bigl[{\textrm{lim}}_{N\rightarrow\infty}\bigl({\frac{{1}}{{N}}}\sum_{i=1}^{N}(x_{i}-\mu)^{2}\bigr)\Bigr]^{\frac{{1}}{{2}}}.
 \end{equation}
- For a sample of measurements, the conventional estimate $s$ of the
+For a sample of measurements, the conventional estimate $s$ of the
 population standard deviation $\sigma$ is 
 \begin{equation}
 s=\Bigl[{\frac{{1}}{{N-1}}}\sum_{i=1}^{N}(x_{i}-\overline{x})^{2}\Bigr]^{\frac{{1}}{{2}}}.
 \end{equation}
- The \textit{variance} is the average of the squares of the deviations,
+The \textit{variance} is the average of the squares of the deviations,
 or the square of the standard deviation.
 
 If $x_{j}$ is a possible observation, the observed fraction of observations
@@ -702,16 +707,16 @@ then
 \begin{equation}
 \Phi(x_{j})={\textrm{lim}}_{N\rightarrow\infty}P(x_{j}).
 \end{equation}
- The preceding quantities can then be expressed in terms of the distribution
+The preceding quantities can then be expressed in terms of the distribution
 function; for example, the mean is 
 \begin{equation}
 \mu=\sum_{j=1}^{N}x_{j}\Phi(x_{j})
 \end{equation}
- and the variance is 
+and the variance is 
 \begin{equation}
 \sigma^{2}=\sum_{j=1}^{N}(x_{j}-\mu)^{2}\Phi(x_{j})=\Bigl(\sum_{j=1}^{N}x_{j}^{2}\Phi(x_{j})\Bigr)-\mu^{2}=\langle x^{2}\rangle-\mu^{2}.
 \end{equation}
- The extensions to continuous distribution functions are these: 
+The extensions to continuous distribution functions are these: 
 \begin{equation}
 \sum_{j}P(x_{j})\rightarrow\int P(x)dx
 \end{equation}
@@ -721,12 +726,12 @@ function; for example, the mean is
 \begin{equation}
 \sigma^{2}=\int_{-\infty}^{\infty}(x-\mu)^{2}\Phi(x)dx.
 \end{equation}
- Similarly, the expectation value for any function $f$ of measurable
+Similarly, the expectation value for any function $f$ of measurable
 characteristics $x$ is 
 \begin{equation}
 \langle f(x)\rangle=\int f(x)\Phi(x)dx
 \end{equation}
- where $x$ can be a set of variables and the multidimensional integration
+where $x$ can be a set of variables and the multidimensional integration
 must then cover all possible values of $x$.
 
 Other characteristics sometimes cited are the \textit{probable error},

@@ -211,7 +211,9 @@ which has the solution:\\
 \begin{equation}
 \delta v_{n}=V_{n}\cos(\omega t+\zeta_{n})\label{eq:delta-vn-solution}
 \end{equation}
+%%%% skip
 where $\omega=\sqrt{g/R_{e}}\simeq0.00124$ is the Schuler angular
+%%%% endskip
 velocity. The error in the north component of the velocity therefore
 oscillates with the Schuler period and a phase $\zeta_{n}$. Integrating
 in time gives\\
@@ -333,13 +335,11 @@ coordinate axes are local-east, local-north, and upward, the preceding
 subsection showed that the pitch and roll errors are related, via (\ref{eq:delta-theta})
 and (\ref{eq:delta-phi}), to the time-derivatives of the errors in
 horizontal velocity. Pitch and roll as used in these equations will
-be the respective errors in platform alignment%
-\footnote{The inertial system used is a strap-down system, so there is no actual
+be the respective errors in platform alignment \footnote{The inertial system used is a strap-down system, so there is no actual
 motion of the ``platform''. Instead, from measured rotations and
 accelerations, the system calculates the expected orientation if there
 were a true stabilized platform. The errors referenced here are those
-relative to that calculated platform orientation.%
-} in the north-south and east-west directions, so these angles must
+relative to that calculated platform orientation.} in the north-south and east-west directions, so these angles must
 be transformed to account for the orientation of the aircraft when
 it is not flying straight-and-level to the north. Coordinates in the
 body or $b$-frame of the aircraft are obtained from those in the
@@ -367,7 +367,7 @@ R_{l}^{b}=\begin{bmatrix}\cos\psi\cos\phi+\sin\psi\sin\phi\sin\theta & -\sin\psi
 \cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi & -\sin\psi\sin\phi-\cos\psi\sin\theta\sin\phi & \cos\theta\cos\phi
 \end{bmatrix}\label{eq:transform-l-to-b}
 \end{equation}
- If the roll and pitch angles are small,
+If the roll and pitch angles are small,
 
 \begin{eqnarray}
 \mathbf{b^{(b)}=}R_{l}^{b}\mathbf{b^{(l)}} & \approx & \left[\begin{array}{ccc}
@@ -519,6 +519,7 @@ upwind and downwind) are listed before and after the turn, but excluding
 the turn, to represent approximately overlapping flight segments where
 it would be expected that the vertical wind would be the same. 
 
+%%%% skip
 \begin{minipage}[t]{1\columnwidth}%
 \hskip1in%
 \begin{tabular}{|c|c|c|}
@@ -538,6 +539,7 @@ it would be expected that the vertical wind would be the same.
 \hline 
 \end{tabular}%
 \end{minipage}
+%%%% endskip
 
 
 
@@ -623,10 +625,8 @@ The difference between average vertical wind measurements for each
 pair of legs was calculated before and after applying the pitch-correction 
 algorithm developed in this subsection.
 The measurements were in good agreement without any pitch correction,
-with an average absolute value of the difference between opposing legs of 
-\Sexpr{round(mean(abs(wid[rr])),2)}\,m\,s$^{-1}$. The pitch correction kept the averages quite small and  
-improved the agreement, reducing the mean value of the difference to 
-\Sexpr{round(mean(abs(widc[rr])), 2)}\,m\,s$^{-1}$. More significant that this reduction
+with an average absolute value of the difference between opposing legs of \Sexpr{round(mean(abs(wid[rr])),2)}\,m\,s$^{-1}$. The pitch correction kept the averages quite small and  
+improved the agreement, reducing the mean value of the difference to \Sexpr{round(mean(abs(widc[rr])), 2)}\,m\,s$^{-1}$. More significant that this reduction
 is that the values were so small even before correction. This is
 a good indicator of the low uncertainty of the pitch measurement even without correction. A course-reversal difference of 0.1\,m\,s$^{-1}$ would result from a pitch error 
 of less than 0.015$^{\circ}$, so this suggests that the inertial system is
@@ -736,6 +736,7 @@ print (sprintf ("mean pitch correction %f st. dev. %f", mean (pcav, na.rm=TRUE),
 \bottomrule
 \end{tabular}
 \par\end{centering}
+
 \protect\caption{The average vertical wind for each flight, before and after
 application of the pitch-correction algorithm developed in this subsection.
 The data restriction applied was that the true airspeed be above 130\,m/s,

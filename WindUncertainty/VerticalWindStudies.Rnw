@@ -37,6 +37,7 @@ correct the measurement of pitch.
 There are several independent measurements of the vertical motion
 of the aircraft:
 
+%%%% skip
 \noindent \begin{center}
 \begin{tabular}{|c|c|}
 \hline 
@@ -55,7 +56,9 @@ CVSPD\_LAMS  & CMIGITS IRU, LAMS pod\tabularnewline
 \hline 
 \end{tabular}
 \par\end{center}
+%%%% endskip
 
+%%%% skip
 The standard vertical wind calculation depends on a measurement of vertical
 motion of the aircraft. Past projects have used one of VSPD (from the IRU), VSPD\_A, VSPD\_G
 or GGVSPD (from GPS, the first two alternate names for the value
@@ -68,6 +71,7 @@ on the gust pod or LAMS, additional vertical-velocity measurements
 are provided by their pod-mounted IRUs, respectively CVSPD\_GP and
 CVSPD\_LAMS. Changing roll of the aircraft can cause these measurements
 to differ from the fuselage-based measurements.
+%%%% endskip
 
 Because VSPD as provided by the Honeywell IRU 
 is controlled against the known instability of IRU
@@ -95,13 +99,16 @@ high-frequency measurements. It seems worthwhile to explore a similar
 approach for the vertical wind, to see if there is an advantage to
 a variable that is provided by an analogous complementary filter.
 
+%%%% skip
 Some of the following refers to a variable GGVSPDB, a highest-resolution
 version of GGVSPD. GGVSPDB was used in this evaluation to ensure that
 the reduced resolution in GGVSPD did not influence the variance spectra,
 but GGVSPD is the usual variable used in wind calculation. It has
 sufficient resolution for that purpose, and there appears to be no
 advantage to using the higher-resolution variable.
+%%%% endskip
 
+%%%% skip
 In standard processing, two vertical-wind variables are produced from the radome-based
 system, WI and WIC. These are called, respectively, ``Wind Vector,
 Vertical Gust Component'' and ``GPS-Corrected Wind Vector, Vertical
@@ -120,6 +127,7 @@ use the IRU at all except for the attitude angles need to determine
 the relative wind (the same for both). These calculations employ the
 nimbus function ``gust'', which implements the algorithm described
 in Sect.~\ref{sub:General-comments}.
+%%%% endskip
 
 In addition, the Honeywell IRU provides a measurement of vertical acceleration.
 In a special calculation, this was integrated to get velocity and
@@ -150,7 +158,7 @@ were not a problem.
 \includegraphics[width=0.9\textwidth]{VSPDspectraDW16} 
 \par\end{centering}
 
-\protect\protect\caption{\label{fig:Variance-spectra-VSPD}Variance spectra {[}units: m$^{2}$s$^{-2}$,
+\protect\caption{\label{fig:Variance-spectra-VSPD}Variance spectra {[}units: m$^{2}$s$^{-2}$,
 density functions per logarithmic interval in frequency expressed
 in Hz{]} for various components entering vertical-wind calculations.
 Data are from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC. The thick blue trace
@@ -167,15 +175,13 @@ was 0.0005, with results smoothed in 50 bins
 in the logarithm of frequency. Total variance is 1.36\,m$^2$s$^{-2}$.}
 \end{figure}
 
-
 Figure \ref{fig:Variance-spectra-VSPD} shows variance spectra calculated
 for the entire 6-h period, for a number of measurements entering the
 vertical-wind
 calculations.\footnote{This plot is an exception to the goals of "reproducible
 analysis" explained in the introduction and Appendix B. The calculations used
 an external spectral-analysis program, not R code, and the specific data are not
-part of the data archive for the document.}%
-The thick blue trace shows the spectrum for the standard
+part of the data archive for the document.} The thick blue trace shows the spectrum for the standard
 vertical wind
 measurement WIC, which has a pronounced broad peak near 10 km wavelength,
 a relatively small inertial subrange extending only to about 2 km,
@@ -271,12 +277,10 @@ above:
 % \includegraphics[width=0.9\textwidth]{WIxpectra} 
 % \par\end{centering}
 % 
-% \protect\protect\caption{\label{fig:WIWICcomparison}Variance spectra for vertical-wind variables
+% \protect\caption{\label{fig:WIWICcomparison}Variance spectra for vertical-wind variables
 % WI and WIC, from DEEPWAVE flight 16, 4 July 2014, 6:30:00--12:30:00. }
 % \end{figure}
 % 
-
-
 Exclude the variable WI from future data archives. VSPD,
 on which WI is based, has problems at both high and low frequency.
 Providing this variable could lead to the mistaken expectation that this
@@ -321,7 +325,8 @@ relative-wind spectrum but not to the net measurement of vertical wind.
 %the aircraft probably produces more of the measured
 %vertical component of the relative
 %wind than does the real wind, while
-At intermediate frequency (near 0.1 Hz) the aircraft %perhaps
+At intermediate frequency (near 0.1 Hz) the aircraft
+%perhaps
 responds to the vertical wind so as to move out-of-phase with it,
 exaggerating the measured vertical component of the relative wind.
 There is a transition in phase from being above 180$^{\circ}$ to
@@ -340,7 +345,7 @@ near zero at 0.5 Hz.
 \includegraphics[width=0.9\textwidth]{WIXHR1} 
 \par\end{centering}
 
-\protect\protect\caption{\label{fig:WIXHR1}Variance spectra for the vertical wind (here, WIX)
+\protect\caption{\label{fig:WIXHR1}Variance spectra for the vertical wind (here, WIX)
 and for the contributions to it made by the relative wind (GUSTW)
 and the aircraft motion (GGVSPDB). Also shown for comparison is the
 spectrum for the IRU-provided aircraft motion (VSPD, dashed line).
@@ -407,7 +412,7 @@ evident in Fig.~\ref{fig:AltOscillationFMS}.
 \includegraphics[width=0.8\textwidth]{GGALTB} 
 \par\end{centering}
 
-\protect\protect\caption{\label{fig:AltOscillationFMS}The GPS-measured altitude [m] during a flight
+\protect\caption{\label{fig:AltOscillationFMS}The GPS-measured altitude [m] during a flight
 segment in very smooth air. Data from DEEPWAVE flight 15, 3:40:00 to
 3:45:00 UTC, variable GGALTB.}
 \end{figure}
@@ -524,7 +529,7 @@ vertical motion of the aircraft.
 \includegraphics[width=0.8\textwidth]{PitchManeuvers} 
 \par\end{centering}
 
-\protect\protect\caption{\label{fig:pitchManeuvers}Vertical wind measured during pitch maneuvers.
+\protect\caption{\label{fig:pitchManeuvers}Vertical wind measured during pitch maneuvers.
 The variable VSPDX (which is GGVSPDB interpolated, filtered, and shifted)
 shows the vertical motion imposed on the aircraft, and WIX shows the
 resulting measurement of vertical wind. }
