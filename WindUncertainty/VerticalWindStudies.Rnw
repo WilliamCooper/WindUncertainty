@@ -18,15 +18,7 @@ if (!exists ("ReloadData")) {
 
 \subsection{Overview}
 
-The preceding sections provided extensive information on how vertical
-wind is measured and how the radome-based system is calibrated. Here,
-three additional topics not covered well there are discussed to complement
-those earlier discussions. The sections here deal with the choice and
-quality of the variable characterizing the vertical motion of the 
-aircraft, some issues related to the relative timing of the
-measurements entering the calculation of vertical wind, and a proposed
-method for using detection of the Schuler oscillation of the IRU to
-correct the measurement of pitch.
+The preceding sections provided extensive information on how vertical wind is measured and how the radome-based system is calibrated. Here, three additional topics not covered well there are discussed to complement those earlier discussions. The sections here deal with the choice and quality of the variable characterizing the vertical motion of the aircraft,\index{rate of climb}\index{velocity!aircraft!vertical}\index{speed of aircraft!vertical} some issues related to the relative timing\index{timing of measurements} of the measurements entering the calculation of vertical wind, and a proposed method for using detection of the Schuler\index{Schuler oscillation|see {oscillation, Schuler}}\index{oscillation!Schuler} oscillation of the IRU\index{inertial reference unit} to correct the measurement of pitch.\index{pitch!correction} 
 
 
 \subsection{The vertical velocity of the aircraft\label{sec:VerticalVelocity}}
@@ -34,244 +26,113 @@ correct the measurement of pitch.
 
 \subsubsection{Available measurements}
 
-There are several independent measurements of the vertical motion
-of the aircraft:
+There are several independent measurements of the vertical motion of the aircraft:\index{velocity!aircraft!available measurements}\sindex[var]{VSPD}\sindex[var]{VSPD_A=vertical motion of the aircraft as provided by the avionic  system@VSPD\_A=vertical motion of the aircraft as provided by the avionic system}\sindex[var]{GGVSPD}\sindex[var]{CVSPD_GP@CVSPD\_GP}\sindex[var]{CVSPD_LAMS@CVSPD\_LAMS}\sindex[var]{VSPD_G=alternate name used for VSPD_A in some projects@VSPD\_G=alternate name used for VSPD\_A in some projects}\sindex[var]{WP3=obsolete vertical-motion variable calculated using baro-inertial updating}\index{baro-inertial updating} 
 
-%%%% skip
 \noindent \begin{center}
 \begin{tabular}{|c|c|}
 \hline 
-\textbf{Variable}  & \textbf{Source}\tabularnewline
+\textbf{Variable}  &
+\textbf{Source}\tabularnewline
 \hline 
 \hline 
-VSPD  & Honeywell IRU\tabularnewline
+VSPD  &
+Honeywell IRU\tabularnewline
 \hline 
-VSPD\_A  & Avionics system (Honeywell IRU)\tabularnewline
+VSPD\_A  &
+Avionics system (Honeywell IRU)\tabularnewline
 \hline 
-GGVSPD  & GPS receiver, possibly with OmniSTAR corrections\tabularnewline
+GGVSPD  &
+GPS receiver, possibly with OmniSTAR corrections\tabularnewline
 \hline 
-CVSPD\_GP  & CMIGITS IRU, gust pod\tabularnewline
+CVSPD\_GP  &
+CMIGITS IRU, gust pod\tabularnewline
 \hline 
-CVSPD\_LAMS  & CMIGITS IRU, LAMS pod\tabularnewline
+CVSPD\_LAMS  &
+CMIGITS IRU, LAMS pod\tabularnewline
 \hline 
 \end{tabular}
 \par\end{center}
-%%%% endskip
 
-%%%% skip
-The standard vertical wind calculation depends on a measurement of vertical
-motion of the aircraft. Past projects have used one of VSPD (from the IRU), VSPD\_A, VSPD\_G
-or GGVSPD (from GPS, the first two alternate names for the value
-provided by the avionics package) or, 
-much earlier, WP3 from a baro-inertial
-update loop using VSPD. Baro-inertial updating is no longer used because
-the Honeywell IRU that now provides VSPD already incorporates such updating.
-For the systems based
-on the gust pod or LAMS, additional vertical-velocity measurements
-are provided by their pod-mounted IRUs, respectively CVSPD\_GP and
-CVSPD\_LAMS. Changing roll of the aircraft can cause these measurements
-to differ from the fuselage-based measurements.
-%%%% endskip
+In standard processing, the nimbus subroutine ``gust''\index{nimbus!gust.c}\index{gust.c}
+calculates wind via the algorithm described in Sect.~\ref{sub:General-comments}.
+The standard vertical wind calculation depends on a measurement of
+vertical motion of the aircraft. Past projects have used one of VSPD
+(from the IRU), VSPD\_A, VSPD\_G or GGVSPD (from GPS, the first two
+alternate names for the value provided by the avionics package) or,
+much earlier, WP3 from a baro-inertial update loop using VSPD. Baro-inertial
+updating is no longer used because the Honeywell IRU that now provides
+VSPD already incorporates such updating. For the systems based on
+the gust pod or LAMS, additional vertical-velocity measurements are
+provided by their pod-mounted IRUs, respectively CVSPD\_GP and CVSPD\_LAMS.
+Changing roll of the aircraft can cause these measurements to differ
+from the fuselage-based measurements.
 
-Because VSPD as provided by the Honeywell IRU 
-is controlled against the known instability of IRU
-measurements in the vertical by updating to a reference value provided
-by pressure altitude, it has some drawbacks. Pressure altitude
-is not really a measure of altitude but of pressure, so the reference
-altitude can be biased. Also, the IRU-imposed baro-inertial
-loop has unknown response characteristics and uncertainty, and the
-value provided by the IRU has inherent filtering. The
-advantage of an IRU variable over a GPS measurement has been, until
-recently, better response at high frequency at the expense of absolute
-accuracy. GPS measurements have now improved, esp.~with OmniSTAR,
-so it is worth considering what variable or combination of variables
-should be used in the calculation of vertical wind. 
+Because the measurement VSPD provided by the Honeywell IRU is controlled against the known instability of IRU measurements in the vertical by updating to a reference value provided by pressure altitude,\index{baro-inertial updating} it has some drawbacks. Pressure altitude (cf.~the RAF Technical Note on \href{https://drive.google.com/open?id=0B1kIUH45ca5Ab2Z6cld1M1cydjA&authuser=0}{Processing Algorithms}, Sect.~3.3) is not a measure of altitude but rather of pressure, so the reference altitude can be biased for flight lets where altitude changes on a constant-pressure surface. Also, the characteristics of the IRU-imposed baro-inertial loop are proprietary to the manufacturer and so have unknown response characteristics and uncertainty, and the value provided by the IRU\index{filter!IRU} has inherent filtering. The advantage of an IRU variable over a GPS\index{Global Positioning System} measurement has been, until recently, better response at high frequency at the expense of absolute accuracy. GPS measurements have now improved, esp.~with OmniSTAR,\index{OmniSTAR} so it is worth considering what variable or combination of variables should be used in the calculation of vertical wind. 
 
-For horizontal
-wind, the standard solution in use since the early 1990s has been
-a complementary-filter solution (discussed in Sect.~\ref{sub:comp-filter},
-where the difference between IRU and
-GPS measurements is low-pass filtered and the result is added to the
-IRU measurement. This preserves the high-frequency response of the
-IRU measurement but causes the low-frequency components to match the
-GPS measurements, thus providing both absolute accuracy and valid
-high-frequency measurements. It seems worthwhile to explore a similar
-approach for the vertical wind, to see if there is an advantage to
-a variable that is provided by an analogous complementary filter.
+For horizontal wind, the standard solution in use since the early 1990s has been a complementary-filter solution\index{filter!complementary} (discussed in Sect.~\ref{sub:comp-filter}), where the difference between IRU and GPS measurements is low-pass filtered and the result is added to the IRU measurement. This preserves the high-frequency response of the IRU measurement but causes the low-frequency components to match the GPS measurements, thus providing both absolute accuracy and valid high-frequency measurements. It seems worthwhile to explore a similar approach for the vertical wind, to see if there is an advantage to a variable that is provided by an analogous complementary filter. 
 
-%%%% skip
-Some of the following refers to a variable GGVSPDB, a highest-resolution
-version of GGVSPD. GGVSPDB was used in this evaluation to ensure that
-the reduced resolution in GGVSPD did not influence the variance spectra,
-but GGVSPD is the usual variable used in wind calculation. It has
-sufficient resolution for that purpose, and there appears to be no
-advantage to using the higher-resolution variable.
-%%%% endskip
+In the course of the study discussed here, an additional variable
+GGVSPDB\sindex[var]{GGVSPDB=high-resolution version of GGVSPD} was
+sometimes used. That variable is a higher-resolution version of GGVSPD,
+but there appeared to be no advantage to using that variable, so GGVSPD
+is used in the analysis presented here. It has sufficient resolution,
+so there appears to be no advantage to using the higher-resolution
+variable.
 
-%%%% skip
-In standard processing, two vertical-wind variables are produced from the radome-based
-system, WI and WIC. These are called, respectively, ``Wind Vector,
-Vertical Gust Component'' and ``GPS-Corrected Wind Vector, Vertical
-Gust Component''. They are calculated by adding the relative wind
-measured by the radome system to the vertical motion of the aircraft,
-either VSPD (WI) or GGVSPD (WIC). The former is directly from the
-Honeywell IRU; the latter is produced by the GPS receiver and may
-benefit from OmniSTAR accuracy (flagged by GGQUAL equal to 5).
+In standard processing, two vertical-wind variables are produced from
+the radome-based system, WI\sindex[var]{WI=vertical wind calculated using VSPD {[}m/s{]}}
+and WIC\sindex[var]{WIC=vertical wind calculated using GGVSPD {[}m/s{]}}.
+In archived data files, these are called, respectively, ``Wind Vector, Vertical Gust Component''
+and ``GPS-Corrected Wind Vector, Vertical Gust Component''. They
+are calculated by adding the relative wind measured by the radome
+system to the vertical motion of the aircraft, the latter from either VSPD (WI) or
+GGVSPD (WIC). The former is directly from the Honeywell IRU; the latter
+is produced by the GPS receiver and may benefit from OmniSTAR accuracy
+(flagged by GGQUAL\sindex[var]{GGQUAL=variable indicating GPS quality of measurement; 5 if OmniSTAR} equal to 5).%
+\footnote{In addition, the Honeywell\index{IRU!Honeywell} IRU provides a measurement of vertical acceleration. In a special calculation, this was integrated to get velocity and the result compared to VSPD. The results of the integration and the variance spectrum of that result were quite similar to VSPD, provided that a feedback loop was used to avoid exponentially growing errors from positive feedback, so there is no advantage to using that integrated acceleration in place of VSPD. (It was hoped that some of the filtering imposed on VSPD could be avoided.)}%
+\footnote{The names are not really appropriate and may therefore be changed in the future, but they
+appear in many past datasets. Neither is the gust component; both
+are the full vertical wind including relative wind and aircraft motion.
+Also, WIC is not GPS-corrected, it is completely based on the GPS
+and does not use the IRU at all except for the attitude angles needed
+to determine the relative wind (the same for both).}
 
-The names are not really appropriate and should be changed, but they appear
-in many past datasets. Neither is the gust component;
-both are the full vertical wind including relative wind and 
-aircraft motion. Also, WIC
-is not GPS-corrected, it is completely based on the GPS and does not
-use the IRU at all except for the attitude angles need to determine
-the relative wind (the same for both). These calculations employ the
-nimbus function ``gust'', which implements the algorithm described
-in Sect.~\ref{sub:General-comments}.
-%%%% endskip
-
-In addition, the Honeywell IRU provides a measurement of vertical acceleration.
-In a special calculation, this was integrated to get velocity and
-the result compared to VSPD. The results of the integration and the
-variance spectrum of that result were 
-quite similar to VSPD,
-provided that a feedback loop was used to avoid exponentially growing
-errors from positive feedback, so there is no advantage to using
-that integrated acceleration in place of VSPD. (It was hoped that
-some of the filtering imposed on VSPD could be avoided.)
 
 
 \subsubsection{Variance spectra for components affecting the vertical wind\label{sub:Variance-spectra-for-W-components}}
 
-For evaluation of these measurements of aircraft velocity, it is useful
-to compare the variance spectra among them and to evaluate the contribution made to the vertical wind.
-For this purpose, one flight from DEEPWAVE, RF16 (4 July 2014) was
-used because it provided a good example of relatively intense and
-prolonged vertical motion, with the core 6 h period of the flight
-from 6:30:00 -- 12:30:00 having a standard deviation in vertical wind
-of 1.0\,m/s. Much of the variation in vertical wind was from waves,
-so the field was not fully developed turbulence, but the signals to
-be resolved had enough intensity that noise floors on the measurements
-were not a problem. 
+\index{variance spectrum!vertical wind components}
+For evaluation of these measurements of aircraft velocity, it is useful to compare the variance spectra to evaluate the contribution each makes to the vertical wind. For this purpose, one flight from DEEPWAVE\index{DEEPWAVE!flight 16}, RF16 (4 July 2014), was used because it provided a good example of relatively intense and prolonged vertical motion, with the core 6 h period of the flight from 6:30:00 -- 12:30:00~UTC having a standard deviation in vertical wind of 1.0\,m/s. Much of the variation in vertical wind was from waves, so the field was not fully developed turbulence, but the signals to be resolved had enough intensity that noise floors on the measurements were not a problem. 
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=0.9\textwidth]{VSPDspectraDW16} 
+\includegraphics[width=0.9\textwidth]{28_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_VSPDspectraDW16.pdf}  
 \par\end{centering}
 
-\protect\caption{\label{fig:Variance-spectra-VSPD}Variance spectra {[}units: m$^{2}$s$^{-2}$,
-density functions per logarithmic interval in frequency expressed
-in Hz{]} for various components entering vertical-wind calculations.
-Data are from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC. The thick blue trace
-is that for the vertical wind variable WIC; others show either measurements
-of the aircraft vertical motion (VSPD, GGVSPD)
-or, as GUSTW, the relative-wind contribution to WIC.
-The green diagonal lines show the slope expected for an inertial
-subrange; the thicker green line labeled ``!0$^{-4}$'' corresponds
-to the spectrum expected for an eddy dissipation rate of $1\times10^{-4}$\,m$^{2}$s$^{-3}$.
-Other green reference lines are displaced by an order of magnitude
-in eddy dissipation rate. The calculations are based on the all-poles or maximum-entropy
-method, with 100 poles; cf.~\citet{Press:1992:NRC:148286}. The resolution used
-was 0.0005, with results smoothed in 50 bins
-in the logarithm of frequency. Total variance is 1.36\,m$^2$s$^{-2}$.}
+\protect\caption{\label{fig:Variance-spectra-VSPD}Variance spectra {[}units: m$^{2}$s$^{-2}$, density functions per logarithmic interval in frequency expressed in Hz{]} for various components entering vertical-wind calculations. Data are from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC. The thick blue trace is that for the vertical wind variable WIC; others show either measurements of the aircraft vertical motion (VSPD, GGVSPD) or, as GUSTW, the relative-wind contribution to WIC. The green diagonal lines show the slope expected for an inertial subrange; the thicker green line labeled ``!0$^{-4}$'' corresponds to the spectrum expected for an eddy dissipation rate of $1\times10^{-4}$\,m$^{2}$s$^{-3}$. Other green reference lines are displaced by an order of magnitude in eddy dissipation rate. The calculations are based on the all-poles or maximum-entropy method, with 100 poles; cf.~\citet{Press:1992:NRC:148286}. The resolution used was 0.0005, with results smoothed in 50 bins in the logarithm of frequency. Total variance is 1.36\,m$^{2}$s$^{-2}$.} 
 \end{figure}
 
-Figure \ref{fig:Variance-spectra-VSPD} shows variance spectra calculated
-for the entire 6-h period, for a number of measurements entering the
-vertical-wind
-calculations.\footnote{This plot is an exception to the goals of "reproducible
-analysis" explained in the introduction and Appendix B. The calculations used
-an external spectral-analysis program, not R code, and the specific data are not
-part of the data archive for the document.} The thick blue trace shows the spectrum for the standard
-vertical wind
-measurement WIC, which has a pronounced broad peak near 10 km wavelength,
-a relatively small inertial subrange extending only to about 2 km,
-and (after smoothing in 50 logarithmic intervals across the range
-of the plot) uncertainty estimates that range from about 5\% at the
-lowest frequencies to <1\% at the highest frequencies.
+Figure \ref{fig:Variance-spectra-VSPD}\index{variance spectrum!vertical wind components} shows variance spectra calculated for the entire 6-h period, for a number of measurements entering the vertical-wind calculations.\footnote{This plot is an exception to the goals of \textquotedbl{}reproducible analysis\textquotedbl{} explained in the introduction and in Appendix C. The calculations used an external spectral-analysis program, not R code, and the specific data are not part of the data archive for the document. See Appendix B for more information on the method used to calculate these variance spectra.}The thick blue trace shows the spectrum for the standard vertical wind measurement WIC, which has a pronounced broad peak near 10 km wavelength, a relatively small inertial subrange extending only to about 2 km, and (after smoothing in 50 logarithmic intervals across the range of the plot) uncertainty estimates that range from about 5\% at the lowest frequencies to <1\% at the highest frequencies. 
 
-The two measures of vertical aircraft motion, GGVSPD (from the GPS receiver)
-and VSPD (from the inertial reference unit), have important differences in
-their properties. At high frequency, VSPD (orange line) decreases rapidly
-with increasing frequency, so it makes negligible contribution to the
-vertical wind (WI) at frequencies above 1 Hz. In contrast, GGVSPD (red line) 
-does not show a similar steep drop in variance until after about 2 Hz,
-and it continues to make an important contribution to WIC over the 
-frequency range from about 0.3 to 3\,Hz. The absence of spectral
-variance above about 0.3\,Hz in VSPD appears to be the result of
-internal filtering of this signal in the inertial unit, and indeed
-some limited information on the properties of the signals does indicate
-filtering at about this frequency. Because the aircraft motion clearly
-has components in this frequency range (based on the feel of the
-ride in turbulence),
-it appears that WI should not be used for frequencies above about 0.3\,Hz.
+The two measures of vertical aircraft motion, GGVSPD\sindex[var]{GGVSPD} (from the GPS receiver) and VSPD\sindex[var]{VSPD} (from the inertial reference unit), have important differences in their properties. At high frequency, VSPD (orange line) decreases rapidly with increasing frequency, so it makes negligible contribution to the vertical wind (WI) at frequencies above 1 Hz. In contrast, GGVSPD (red line) does not show a similar steep drop in variance until after about 2 Hz, and it continues to make an important contribution to WIC over the frequency range from about 0.3 to 3\,Hz. The absence of spectral variance above about 0.3\,Hz in VSPD appears to be the result of internal filtering of this signal in the inertial unit, and indeed some limited information on the properties of the signals does indicate filtering at about this frequency. Because the aircraft motion clearly has components in this frequency range (based on the feel of the ride in turbulence), it appears that WI\index{WI!recommendation against use} should not be used for frequencies above about 0.3\,Hz, because part of the high-frequency signal is missing from this variable. It may be removed from future data archives.
 
-The inertial-system variable VSPD is also subject to pressure damping,
-and this may account for the difference between GGVSPD and VSPD at
-long wavelength. The aircraft normally flies with reference to the
-pressure altitude, so in a region of varying altitude at a given
-pressure there are fluctuations in the aircraft geometric altitude (red
-line) not reflected in the pressure altitude (orange line). Both contribute
-in ways that result in essentially the same spectral variance for
-frequencies below 0.3 Hz, as shown by the near coincidence of the
-blue and cyan lines, so the difference is not significant. Here also,
-though, the red line representing the GPS measurement is a better
-measure of how the vertical wind should be affected, because the
-pressure-damped orange line will not show real vertical motion of
-the aircraft as it remains on a pressure surface.
+As discussed above, the inertial-system variable VSPD is also subject to pressure damping, and this may account for the difference between GGVSPD and VSPD at long wavelength. The aircraft normally flies with reference to pressure altitude, so in a region of varying altitude at a given pressure there are fluctuations in the aircraft geometric altitude (red line) not reflected in the pressure altitude (orange line). Both contribute in ways that result in essentially the same spectral variance for frequencies below 0.3 Hz, as shown by the near coincidence of the blue and cyan lines.
 
-For these reasons, WIC is the preferable variable to use for
-vertical wind. This also answers the question posed earlier regarding
-the possibility of using a combination of measurements from inertial and 
-GPS systems to obtain better frequency response. The IRU measurements
-turn out to have poorer frequency response and lead to apparent
-biases for frequencies around 1\,Hz, so this is not a useful
-combination. Instead, it appears best to use the GPS-provided
-measurement of vertical aircraft speed directly without further modification.
+For these reasons, WIC\index{WIC!recommended variable}\sindex[var]{WIC!recommendation} is the preferable variable to use for vertical wind. This also answers the question posed earlier regarding the possibility of using a combination of measurements from inertial and GPS systems to obtain better frequency response. The IRU measurements have poorer frequency response and lead to apparent biases for frequencies around 1\,Hz, so this is not a useful combination. Instead, it appears best to use the GPS-provided measurement of vertical aircraft speed directly without further modification. 
 
-There is still some reason for concern about the spectral response
-of GGVSPD at frequencies around 0.5--1\,Hz, because there is no
-evidence that the GPS is providing valid response at this high rate.
-The unit used provides measurements at 5\,Hz and these measurements
-are interpolated and filtered to higher frequency, so the cut-off
-apparent in Fig.~\ref{fig:Variance-spectra-VSPD} is a result of
-that sampling and may remove a real signal at higher frequency.
-This topic will be reconsidered in the next section when variance
-spectra for the horizontal wind are examined.
+There is still some reason for concern about the spectral response of GGVSPD at frequencies around 0.5--1\,Hz, because there is no evidence that the GPS is providing valid response at this high rate.\index{variance spectrum!concern re GPS variable GGVSPD} The GPS unit provided measurements at 5\,Hz and these measurements were interpolated and filtered to higher frequency, so the cut-off apparent in Fig.~\ref{fig:Variance-spectra-VSPD} is a result of that sampling and could not provide useful measurements above the Nyquist frequency of 2.5~Hz. This topic will be reconsidered in Appendix B, where variance spectra in more turbulent regions are examined. 
 
-The black trace (labeled GUSTW) is the vertical component of the
-relative wind, calculated as in Sect.~\ref{sub:The-Relative-Wind}. 
-The sum of GUSTW and GGVSPD determines WIC, and the
-alternate measure of vertical wind WI is the sum of GUSTW and VSPD from
-the inertial reference unit. 
-GUSTW has higher spectral variance than WIC for frequencies below
-0.3\,Hz, so at these frequencies the aircraft motion tends to 
-counter the relative wind and reduced the measured variance.
-This would be the case, for example, if there were negligible
-vertical wind and the relative wind arose entirely from the
-vertical motion of the aircraft. On the other hand, for
-frequencies around about 0.5\,Hz the spectral variance in the
-vertical wind exceeds that in the relative wind 
-so the aircraft responds approximately in phase with the vertical gusts.
+The black trace (labeled GUSTW) is the vertical component of the relative wind, calculated as in Sect.~\ref{sub:The-Relative-Wind}. The sum of GUSTW\sindex[var]{GUSTW=special-use variable representing the relative wind {[}m/s{]}} and GGVSPD determines WIC, and the alternate measure of vertical wind WI is the sum of GUSTW and VSPD from the inertial reference unit. GUSTW has higher spectral variance than WIC for frequencies below 0.3\,Hz, so at these frequencies the aircraft motion tends to counter the relative wind and reduce the measured variance. This results in close correspondence of the gust-component GUSTW and the vertical aircraft motion GGVSPD from about 0.07--0.2~Hz, resulting in a vertical wind WIC that is much smaller than either of these contributing components. On the other hand, for frequencies around about 0.5\,Hz the spectral variance in the vertical wind exceeds that in the relative wind, showing that the aircraft responds to the vertical gusts only partially and about in phase at this frequency. 
 
-The high-frequency variance spectrum has a slope differing 
-a small amount from the expected -5/3 spectrum, and that is 
-cause for some concern, but the turbulence in this region was not
-very well developed or consistent so this is probably not
-cause for alarm. Very good agreement with expectations has been
-seen in cases of boundary-layer measurements where well-developed
-turbulence at small scales is expected, but in those cases the
-intensity of turbulence at small scales was greater also. This is
-reason to continue to be suspicious of the response around
-0.5--1\,Hz. 
+The high-frequency variance spectrum has a slope differing a small amount from the expected -5/3 spectrum, and that is cause for some concern, but the turbulence in this region was not very well developed or consistent. Very good agreement with expectations has been seen in cases of boundary-layer measurements where well-developed turbulence at small scales is expected, but in those cases the turbulence at small scales was also more intense. This and the absence of a valid measurement of aircraft response above 2.5\,Hz are reasons to continue to be suspicious of the response around 0.5--1\,Hz, but additional variance spectra presented in Appendix B appear to conform to the expected -5/3 slope  better than this example does. %The gust-pod spectrum actually looks better, closer to -5/3 and% lying a little lower in spectral variance. 
 %The gust-pod spectrum actually looks better, closer to -5/3 and
 % lying a little lower in spectral variance.
 
-Some of the relative magnitudes shown in Fig.~\ref{fig:Variance-spectra-VSPD}
-may change for different intensities of turbulence. However, some
-tentative conclusions seem indicated by this figure and the discussion
-above: 
-\begin{enumerate}
-\item 
+The key conclusions reached from this study of the vertical aircraft velocity are that WI, based on VSPD, is an inferior measurement that should not be used and that GGVSPD is the best available measure of aircraft vertical motion and should be the basis for wind calculations.
+
+%Although some of the relative magnitudes shown in Fig.~\ref{fig:Variance-spectra-VSPD} may change for different intensities of turbulence, some tentative conclusions seem indicated by this figure and the discussion above:  
+%\begin{enumerate}
+%\item  
 % \begin{figure}
 % \noindent \begin{centering}
 % \includegraphics[width=0.9\textwidth]{WIxpectra} 
@@ -281,17 +142,7 @@ above:
 % WI and WIC, from DEEPWAVE flight 16, 4 July 2014, 6:30:00--12:30:00. }
 % \end{figure}
 % 
-Exclude the variable WI from future data archives. VSPD,
-on which WI is based, has problems at both high and low frequency.
-Providing this variable could lead to the mistaken expectation that this
-is the uncorrected version of WIC, while the two variables actually use
-different and independent measurements of the vertical motion of the
-aircraft. The argument for using a variable
-based on VSPD has been that this formerly represented the high-frequency contribution
-better than a GPS variable. That is not the case any longer, because
-GPS measurements have improved greatly and the presently
-available IRU-provided measurements
-are obviously filtered at high frequency. 
+%The variable WI\index{WI!recommendation against use}\sindex[var]{WI} should be excluded from future data archives. VSPD\index{VSPD!recommendation against use}, on which WI is based, has problems at both high and low frequency. Providing this variable could lead to the mistaken expectation that this is the uncorrected version of WIC, while the two variables actually use different and independent measurements of the vertical motion of the aircraft. The argument for using a variable based on VSPD has been that this formerly represented the high-frequency contribution better than a GPS variable. That is not the case any longer, because GPS measurements have improved greatly and the presently available IRU-provided measurements are obviously filtered at high frequency. 
 % Fig.~XXX shows that, while
 % the variance spectra of WI and WIC are reasonably similar, the WI
 % spectrum is above that for WIC for frequencies from about 0.007--0.3
@@ -305,81 +156,29 @@ are obviously filtered at high frequency.
 % near unity and phase near zero, through this range. This needs further
 % investigation unless the variable WI is no longer produced. 
 
-\item VSPD does not have better frequency response than GGVSPDB at high
-frequency, as might be expected; the reverse is the case, possibly
-because of filters imposed on VSPD in the inertial unit itself. This
-argues for direct use of GGVSPDB in the vertical-wind calculation,
-at least when OmniSTAR corrections are available. 
-\item The relative-wind variance spectrum shows higher variance than
-does that of the vertical wind,
-indicating that the contribution from aircraft motion counters the
-relative-wind contribution at all but the highest frequencies. The
-variable GGVSPDB is close to 180$^{\circ}$ out-of-phase with the
-relative wind (GUSTW in Fig.~\ref{fig:Variance-spectra-VSPD}) for
-frequencies smaller than 0.2\,Hz. At low frequency, 
-the aircraft is flown to maintain altitude and so to counter
-any vertical wind, so these altitude adjustments and any other
-adjustments made while maintaining altitude contribute to the
-relative-wind spectrum but not to the net measurement of vertical wind.
+%\item VSPD does not have better frequency response than GGVSPD\sindex[var]{GGVSPD}  at high frequency, as might be expected; the reverse is the case, possibly because of filters imposed on VSPD in the inertial unit itself. This argues for direct use of GGVSPD in the vertical-wind calculation, at least when OmniSTAR\index{OmniSTAR} corrections are available.  
+%\item The relative-wind variance spectrum shows higher variance than does that of the vertical wind, indicating that the contribution from aircraft motion counters the relative-wind contribution at all but the highest frequencies. The variable GGVSPD is close to 180$^{\circ}$ out-of-phase with the relative wind (GUSTW in Fig.~\ref{fig:Variance-spectra-VSPD}) for frequencies smaller than 0.2\,Hz. At low frequency, the aircraft is flown to maintain altitude and so to counter any vertical wind, so these altitude adjustments and any other adjustments made while maintaining altitude contribute to the relative-wind spectrum but not to the net measurement of vertical wind. 
 %the motion of
 %the aircraft probably produces more of the measured
 %vertical component of the relative
 %wind than does the real wind, while
-At intermediate frequency (near 0.1 Hz) the aircraft
+% At intermediate frequency (near 0.1 Hz) the aircraft 
 %perhaps
-responds to the vertical wind so as to move out-of-phase with it,
-exaggerating the measured vertical component of the relative wind.
-There is a transition in phase from being above 180$^{\circ}$ to
-being below 180$^{\circ}$ as the frequency increases through 0.05\,Hz,
-perhaps representing a transition from where the pilots or autopilot
-cause motions that produce the relative-wind vertical component to
-where the vertical wind causes the aircraft response. 
-\item At high frequency (>0.3 Hz), the gust component dominates over the
-aircraft response, the coherence between them falls to values between
-0.1--0.5, and the phase relationship becomes variable before settling
-near zero at 0.5 Hz. 
-\end{enumerate}
+%responds to the vertical wind so as to move out-of-phase with it, exaggerating the measured vertical component of the relative wind. There is a transition in phase from being above 180$^{\circ}$ to being below 180$^{\circ}$ as the frequency increases through 0.05\,Hz, perhaps representing a transition from where the pilots or autopilot cause motions that produce the relative-wind vertical component to where the vertical wind causes the aircraft response.  
+%\item At high frequency (>0.3 Hz), the gust component dominates over the aircraft response, the coherence between them falls to values between 0.1--0.5, and the phase relationship becomes variable before settling near zero at 0.5 Hz.  
+%\end{enumerate}
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=0.9\textwidth]{WIXHR1} 
+\includegraphics[width=0.9\textwidth]{29_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_WIXHR1.png}  
 \par\end{centering}
 
-\protect\caption{\label{fig:WIXHR1}Variance spectra for the vertical wind (here, WIX)
-and for the contributions to it made by the relative wind (GUSTW)
-and the aircraft motion (GGVSPDB). Also shown for comparison is the
-spectrum for the IRU-provided aircraft motion (VSPD, dashed line).
-Data from DEEPWAVE flight 15, 3:40:00--3:55:00.}
+\protect\caption{\label{fig:WIXHR1}Variance spectra for the vertical wind (here, WIX) and for the contributions to it made by the relative wind (GUSTW) and the aircraft motion (GGVSPDB, essentially the same as GGVSPD). Also shown for comparison is the spectrum for the IRU-provided aircraft motion (VSPD, dashed line). Data from DEEPWAVE flight 15, 3:40:00--3:55:00.} 
 \end{figure}
 
-An example where there was very low turbulence is shown in 
-Fig.~\ref{fig:WIXHR1}. The intensity of vertical-wind fluctuations
-was quite small for this flight segment, with a standard deviation
-in vertical wind of only about 0.2 m/s. Some features of this plot
-are explained below: 
+An example\index{variance spectrum!low-turbulence case}\index{DEEPWAVE!flight 15} where there was very low turbulence is shown in Fig.~\ref{fig:WIXHR1}.\sindex[var]{WIX=vertical wind recalculated with pitch correction {[}m/s{]}} The intensity of vertical-wind fluctuations was quite small for this flight segment, with a standard deviation in vertical wind of only about 0.2 m/s. Some features of this plot are explained below:  
 \begin{enumerate}
-\item The measured vertical wind at high frequency (>1\,Hz) is a white-noise
-spectrum with intensity that can be matched by generating a random-noise
-signal with peak amplitude of 0.15--0.2 m/s, which would lead to a
-random error of about (0.15--0.2)/$\sqrt{12}\simeq0.05$~m/s. The
-noise is dominated by the relative-wind contribution; there is essentially
-no contribution at these frequencies from the motion of the aircraft.
-The noise arises almost entirely from the angle-of-attack contribution
-to the relative wind, and specifically from the measurements ``ADIFR''
-and ``QCR'', which exhibit noise spectra for frequencies above 1~Hz.
-In ADIFR, the noise is at a level that would arise from a white-noise
-signal with peak amplitude of 0.4~hPa or a random error of about
-0.1~hPa. Similar noise is present in both QCR and QCF, so it may
-be linked to the nature of the transducers used or to some effect
-originating in the pressure lines connecting the transducers to the
-ports. The specifications for the pressure transducer that measures
-ADIFR assert a standard uncertainty of about 0.07 hPa. As sampled
-and digitized by the data system the resolution is about 0.002 hPa
-($\pm70\,$hPa for $2^{16}$ range digital encoding), which is
-comparable to the sensor resolution, so noise arising from digitation
-would be much less intense than the measured noise distribution. Thus the white-noise
-spectrum is consistent with a random error of about the
-specified uncertainty for the sensor.
+\item The measured vertical wind at high frequency (>1\,Hz) is a white-noise spectrum\index{variance spectrum!white noise} with intensity that can be matched by generating a random-noise signal with peak amplitude of 0.15--0.2 m/s, which would lead to a random error of about (0.15--0.2)/$\sqrt{12}\simeq0.05$~m/s. The noise\index{variance spectrum!noise in} is dominated by the relative-wind contribution; there is essentially no contribution at these frequencies from the motion of the aircraft. The noise arises almost entirely from the angle-of-attack contribution to the relative wind, and specifically from the measurements ``ADIFR'' and ``QCF'', which exhibit noise spectra\index{ADIFR!noise limit}\index{QCF!noise limit} for frequencies above 1~Hz. In ADIFR, the noise is at a level that would arise from a white-noise signal with peak amplitude of 0.4~hPa or a random error of about 0.1~hPa.\footnote{This was verified by simulation.} Similar noise is present in both QCR\sindex[var]{QCR} and QCF\sindex[var]{QCF}, but QCF has additional problems at high frequency as discussed in Appendix B; this may arise from the long pressure lines used with the transducer for QCF. The specifications for the pressure transducer that measures ADIFR assert a standard uncertainty of about 0.07 hPa. As sampled and digitized by the data system the resolution is about 0.002 hPa ($\pm70\,$hPa for $2^{16}$ range digital encoding), which is comparable to the sensor resolution, so noise arising from digitation would be much less intense than the measured noise distribution. Thus the white-noise spectrum is consistent with a random error of about the specified uncertainty for the sensor, but this is not the result of digital truncation. 
 
 % \item GGVSPDB as plotted here was obtained by interpolating linearly between
 % 1-Hz measurements and then applying a low-pass filter with cutoff
@@ -399,154 +198,82 @@ specified uncertainty for the sensor.
 % from aircraft motion at these frequencies. It falls below even filtered
 % GGVSPDB, though, so it probably doesn't represent any real signal
 % at frequency above about 1 Hz. 
-\item The relative-wind contribution (GUSTW) and the aircraft-motion contribution
-(GGVSPDB) both have peaks at about 0.05\,Hz, with canceling contributions
-so that no peak occurs at that frequency in the resulting vertical
-wind. This peak arises from the autopilot controlling the aircraft,
-which has a noticeable oscillation about the set altitude with a period
-of about 15--20~s. A regular oscillation with this period is quite
-evident in Fig.~\ref{fig:AltOscillationFMS}. 
+\item The relative-wind contribution (GUSTW) and the aircraft-motion contribution (GGVSPD) both have peaks at about 0.05\,Hz, with canceling contributions so that no peak occurs at that frequency in the resulting vertical wind. These peaks arise from a basic dynamical flight mode of an aircraft called a phugoid,\index{phugoid} in which altitude, airspeed, and pitch all undergo oscillations that are tracked by the flight management system (FMS) of the aircraft \sindex[var]{FMS=flight management system} but are not completely removed by it. The angle of attack also oscillates but with smaller amplitude. A regular oscillation with this period is quite evident in Fig.~\ref{fig:phugoid-plot}\index{oscillation!in aircraft altitude} and is especially visible in calm flight conditions where it also manifests itself in small oscillating adjustments by the FMS to the throttle positions. A properly operating wind sensing system should remove this motion from the measured vertical wind, and indeed that is the case for the example shown.
 
-\begin{figure}
-\noindent \begin{centering}
-\includegraphics[width=0.8\textwidth]{GGALTB} 
-\par\end{centering}
+<<phugoid-plot, fig.cap="Coupled variations in pitch, altitude, and airspeed for a segment of flight in smooth air from DEEPWAVE flight 15, 3:40:00--3:45:00~UTC, an illustration of normal variations in flight conditions. GGALT = aircraft altitude; PITCH = pitch angle; AKRD = angle of attack; TAS = true airspeed.", include=TRUE, fig.width=5, fig.height=4, fig.align="center">>=
 
-\protect\caption{\label{fig:AltOscillationFMS}The GPS-measured altitude [m] during a flight
-segment in very smooth air. Data from DEEPWAVE flight 15, 3:40:00 to
-3:45:00 UTC, variable GGALTB.}
-\end{figure}
+DPH <- getNetCDF(sprintf("%sDEEPWAVE/DEEPWAVErf15.nc", DataDirectory ()),
+                 c("GGALT", "PITCH", "AKRD", "TASF"))
+op <- par (mar=c(2,4,1,1)+0.1)
+r <- setRange (DPH$Time, 34000,34500)
+layout(matrix(1:3, ncol = 1), widths = 1,  heights = c(5,5,6))
+plotWAC (DPH[r, c("Time", "GGALT")], ylab="GGALT [m]")
+plotWAC (DPH[r, c("Time", "PITCH", "AKRD")], ylim=c(2.5, 3.5), ylab="PITCH [deg.]")
+op <- par (mar=c(5,4,1,1)+0.1)
+plotWAC (DPH[r, c("Time", "TASF")], ylab="TAS [m/s]")
+op <- par (mfrow=c(1,1), mar=c(5,5,2,2)+0.1)  # reset
 
-\item The disagreement between VSPD and GGVSPDB even at low frequency is
-another indication that the IRU-provided value (VSPD) should not be
-used, because the GPS-measured value at low frequency is surely a
-better measurement than is possible from the IRU. (OmniSTAR corrections
-were present throughout this flight.) 
-\item The difference between WIC and GUSTW near 0.3~Hz, seen also as a
-possible effect in Fig.~\ref{fig:Variance-spectra-VSPD}, indicates
-that both the relative wind and the aircraft motion are making contributions
-that add at these frequencies. The spectrum of vertical wind here
-may be suspect because it is not clear if the amplitude of this contribution
-from the GPS measurements should be trusted at these frequencies.
-{[}XXX exploration of high-frequency GGVSPDB might be useful if such
-are available; they were not present in the 25-Hz file I used.{]} 
+@
+
+%\begin{figure}
+%\noindent \begin{centering}
+%\includegraphics[width=0.8\textwidth]{30_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_GGALTB.png}  
+%\par\end{centering}
+%
+%\protect\caption{\label{fig:AltOscillationFMS}The GPS-measured altitude {[}m{]} during a flight segment in very smooth air. Data from DEEPWAVE flight 15, 3:40:00 to 3:45:00 UTC, variable GGALTB.} 
+%\end{figure}
+
+\item The disagreement between VSPD and GGVSPD even at low frequency is another indication that the IRU-provided value (VSPD) should not be used, because the GPS-measured value at low frequency is surely a better measurement than is possible from the IRU. (OmniSTAR\index{OmniSTAR} corrections were present throughout this flight.)  
+\item The difference between WIC and GUSTW near 0.3~Hz, seen also as a possible effect in Fig.~\ref{fig:Variance-spectra-VSPD}, indicates that both the relative wind and the aircraft motion are making contributions that add at these frequencies. The spectrum of vertical wind here may be suspect because it is not clear if the amplitude of this contribution from the GPS measurements should be trusted at these frequencies. 
 \end{enumerate}
 
 \subsection{Timing of measurements\label{sub:Timing}}
 
-The different measurements entering the calculation
-of vertical wind should be sampled at the same time. That is particularly
-difficult in the case of samples from the inertial reference system
-and GPS because they produce sample streams according to their own
-timing and not in response to requests from the aircraft data system.
-The variables involved in calculating the vertical wind are: 
+\index{timing of measurements}
+The different measurements entering the calculation of vertical wind should be sampled at the same time. That is particularly difficult in the case of samples from the inertial reference unit and GPS because they produce sample streams according to their own timing and not in response to requests from the aircraft data system. The variables involved in calculating the vertical wind are:  
 \begin{itemize}
-\item Angle of attack, from transducers attached to radome ports via lines
-that can introduce small lags. No lag is currently used in processing. 
-\item Pitch, from the IRU, transferred to the aircraft data system after
-some delay that must be removed in processing. The standard processing
-has a ``delay'' of -60~ms; i.e., the measurement is advanced in
-time by 80 ms so as to apply to a time later than when it is received.
-It is hard to understand how this is justified. 
-\item Other attitude angles (heading and roll), which enter in minor ways
-if the aircraft is not flying a straight-and-level course. The timing
-of these can probably be neglected for calculations of vertical wind,
-but the standard variables are also given a time lag of -60 ms. 
-\item True airspeed, measured using the pitot-tube measurement of dynamic
-pressure, used also with a measurement of temperature. While no lag
-is assumed for dynamic pressure, the reference total temperature for
-DEEPWAVE is RTHR1 (tentatively), and a time lag of -1~s is used for
-this measurement. (No lag is assumed for RTRL, another candidate for
-the reference temperature.) 
-\item The vertical speed of the aircraft, taken for the preferred vertical
-wind variable from GGVSPDB, the variable produced by the Novatel GPS
-receiver employing OmniSTAR corrections when possible. This variable
-is only sampled at a rate of 5 Hz, and no time lag is used in processing. 
+\item Angle of attack, from transducers attached to radome ports via lines that can introduce small lags. No lag is currently used in processing.\index{attack!angle of!timing} The specifications for the transducer used indicate that it will introduce a lag of about 21\,ms and has a response time of 50\,ms.  
+\item Pitch\index{pitch!timing} measured by the IRU is transferred to the aircraft data system after some delay that must be removed in processing. Standard processing has used a delay of -60~ms; i.e., before use the measurement is moved in time so as to apply to a time \emph{earlier} than when it was received.
+\item Other attitude angles (heading and roll), which enter in minor ways if the aircraft is not flying a straight-and-level course. The timing of these can probably be neglected for calculations of vertical wind, but the standard variables are also given a time lag of -60~ms.  
+\item True airspeed, measured using the pitot-tube measurement of dynamic pressure, used also with a measurement of temperature. While conventionally no lag is assumed for dynamic pressure, the sensor specifications indicate that a 21\,ms lag should be present and the pressure lines probably introduce an additional lag. The reference total temperature for DEEPWAVE\index{DEEPWAVE!reference temperature} is RTRL, for which no time lag is assumed. Although this sensor has slow (ca.~1~s) response, this does not have an important effect on vertical wind because the airspeed enters as a multiplicative factor so effects of even a few percent have no significant effect on the vertical wind.
+\item The vertical speed of the aircraft, taken for the preferred vertical wind variable from GGVSPD, the variable produced by the Novatel GPS receiver employing OmniSTAR corrections when possible. This variable is only sampled at a rate of 5 Hz, and no time lag is used in processing. The aircraft shows little motion at high frequency, as discussed in Sect.~\ref{sub:Variance-spectra-for-W-components}, so small adjustments in GGVSPD are not needed.
+
 \end{itemize}
-It is useful to try to determine appropriate lags from the data and
-from appropriate maneuvers. For example, in pitch maneuvers (in which
-the pitch is alternately increased and decreased with typically a
-10-s period) if the timing of measurements of pitch and angle-of-attack
-are not matched or if the measurement of vertical speed of the aircraft
-is not timed correctly there will be a residual measured vertical
-wind, so these maneuvers are particularly stringent tests of relative
-timing of the signals.
+It is useful to try to determine appropriate lags from the data and from appropriate maneuvers. For example, in pitch maneuvers (in which the pitch is alternately increased and decreased with typically a 10-s period) if the timing of measurements of pitch and angle of attack are not matched or if the measurement of vertical speed of the aircraft is not timed correctly there will be a residual measured vertical wind, so these maneuvers are particularly stringent tests of the relative timing of the signals. 
 
-An approximate formula for the vertical wind $w$ is\\
- 
+An approximate formula for the vertical wind\index{wind!vertical!first-order equation} $w$ (cf.~\eqref{eq:VWind}) is
 \begin{equation}
-w=V\sin(\alpha-\theta)+w_{p}\label{eq:Weq}
+w=V\sin(\alpha-\theta)+w_{p}\label{eq:Weq} 
 \end{equation}
-where $V$ is true airspeed, $\alpha$ is angle-of-attack, $\theta$
-is pitch and $w_{p}$ is the vertical velocity of the aircraft. This
-equation can be used to adjust relative timing among the signals to
-minimize the variance in vertical wind during the pitch maneuvers.
-A good example is that from DEEPWAVE flight 15, 3:15--3:18 UTC. As
-initially processed using standard processing at the time of DEEPWAVE,
-the standard deviation in vertical wind through the pitch maneuvers
-was 0.4~m/s while the variance in vertical motion of the aircraft
-was 5.6~m/s. A long-standing criterion for acceptable pitch maneuvers
-is for less than 10\% of the imposed velocity to enter the vertical
-wind, so by this criterion the test was successful. However, a plot
-of the vertical wind shows a clear match to the imposed velocity,
-so it is worthwhile to see if better results are possible.
+where $V$ is true airspeed, $\alpha$ is angle of attack, $\theta$ is pitch and $w_{p}$ is the vertical velocity of the aircraft. This equation can be used to adjust relative timing among the signals to minimize the variance in vertical wind during the pitch maneuvers. A good example is that from DEEPWAVE\index{DEEPWAVE!flight 15} flight 15, 3:15--3:18 UTC. As initially processed using standard processing at the time of DEEPWAVE, the standard deviation in vertical wind through the pitch maneuvers was 0.4~m/s while the variance in vertical motion of the aircraft was 5.6~m/s. A long-standing criterion used by NCAR/RAF to check for acceptable pitch maneuvers is for less than 10\% of the imposed velocity to enter the vertical wind, so by this criterion the test was successful. However, a plot of the vertical wind shows a clear match to the imposed velocity, so it is worthwhile to see if better results are possible.\footnote{Speed runs have been used to determine the sensitivity coefficients for determining $\alpha$ from the measured pressure differences on the radome, so the sensitivity coefficients should not be adjusted on the basis of the pitch maneuvers.}
 
-Speed runs have been used to determine the sensitivity coefficients
-for determining $\alpha$ from the measured pressure differences on
-the radome, so the sensitivity coefficients should not be adjusted
-on the basis of the pitch maneuvers. The relative timing of the measurements
-entering Eq.~\ref{eq:Weq}, however, can be adjusted to determine
-if the residual vertical wind can be reduced. The sensors producing
-$V$ and $\alpha$ are located close together and are processed in
-the standard manner by the data acquisition system, so these can be
-assumed to determine the reference time except for possible delays
-introduced by pressure lines. However, the other variables
-$\theta$ and $w_{p}$ are determined by independent systems and may
-have timing offsets from the standard measurements, so these are the
-variables whose lags are explored here.
+The relative timing of the measurements entering Eq.~\ref{eq:Weq} can be adjusted to determine if the residual vertical wind can be reduced. 
+For the purpose of this study, to avoid the phase lag produced by filters at the high-frequency limit, Savitzky-Golay filtering was used for GGVSPD (measuring $w_p$) with 4th-order polynomials applied over 25-measurement intervals to smooth the original measurements, which are only available at a frequency of 5~Hz. 
+The sensors producing $V$ and $\alpha$ are located close together and are processed in the standard manner by the data acquisition system, so these can be assumed to determine the reference time except for possible delays introduced by pressure lines. However, the other variables $\theta$ and $w_{p}$ are determined by independent systems and may have timing offsets from the standard measurements, so these are the variables whose lags are explored here. 
+For the purpose of this study, to avoid the phase lag produced by filters at the high-frequency limit, Savitzky-Golay filtering was used for GGVSPD with 4th-order polynomials applied over 25-measurement intervals to smooth the original measurements. 
 
-The approach was to shift the measurements forward or backward in
-time and, using Eq.~\ref{eq:Weq}, recalculate the vertical wind.
-The best result obtained in this way was to shift PITCH forward 0.04~s
-and shift GGVSPDB backward 0.04~s. Almost as good was to shift PITCH
-forward 0.08~s and shift GGVSPDB backward 0.04~s. This reset the
-assumed lag in PITCH to zero while imposing a small lag of -0.04~s
-in GGVSPDB. For the purpose of this study, to avoid the phase lag
-produced by filters at the high-frequency limit, Savitzky-Golay filtering
-was used for GGVSPDB with 4th-order polynomials applied over 25-measurement
-intervals to smooth the original measurements. The resulting standard
-deviation in WIX was 0.22~m/s, vs 0.23 with no shift in GGVSPDB,
-so it may be preferable to leave the assumed lag for GGVSPDB at zero
-to avoid the awkwardness of advancing the measurement in time.
+The timing of the measurement of pitch ($\theta$) relative to that of angle of attack ($\alpha$) is the most important. The lowest standard deviation in vertical wind resulted from shifting the measured pitch ($\theta$) forward in time by 60~ms; i.e., removing the -60~ms delay previously imposed. With this shift in pitch, 
+the best shift in GGVSPD ($w_p$) was -40~ms, but the standard deviation was almost as small for no shift (0.23~m/s with no shift vs 0.22 for the shifted values).
+Therefore, because negative shifts are not physical and there is little high-frequency variation in $w_p$, it appears best not to impose any no time shifts on these measurements. The IRU specifications state that a delay of "up to" 60~ms should be expected, but this result suggests that either this is a upper limit not characteristic of measurements at the time being analyzed here or else there is a compensating delay in the measurements of angle-of-attack.
+The latter seems plausible because the known transducer characteristics lead to a delay of 21~ms, a response time of 50~ms, and some likely delay arising from the length of the pressure lines.
 
-With the assumed time lag in PITCH removed, the resulting
-measurement of vertical wind during the pitch maneuver is shown
-in Fig.~\ref{fig:pitchManeuvers}. The standard deviation
-in measured wind through the pitch maneuvers is only 4\% of the imposed
-vertical motion of the aircraft. 
+With the assumed time lag in PITCH removed, the resulting measurement of vertical wind during the pitch maneuver is shown in Fig.~\ref{fig:pitchManeuvers}. The standard deviation in measured wind through the pitch maneuvers is only 4\% of the imposed vertical motion of the aircraft, vs.~about 7\% for the unshifted measurements. Furthermore, 
+there is little signal in the resulting measurements of vertical wind that corresponds to the imposed vertical motion or variations in pitch, and the measured standard deviation in vertical wind is about the same as that for measurements just before and just after the pitch maneuvers. It thus appears that the measuring system is able to remove the effects of the pitch maneuvers with essentially undetectable residual. The suggested conclusion is that the assumed delay in pitch should be reset to zero for processing and no delay should be used with GGVSPD. 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=0.8\textwidth]{PitchManeuvers} 
+\includegraphics[width=0.8\textwidth]{31_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PitchManeuvers.png}  
 \par\end{centering}
 
-\protect\caption{\label{fig:pitchManeuvers}Vertical wind measured during pitch maneuvers.
-The variable VSPDX (which is GGVSPDB interpolated, filtered, and shifted)
-shows the vertical motion imposed on the aircraft, and WIX shows the
-resulting measurement of vertical wind. }
+\protect\caption{\label{fig:pitchManeuvers}Vertical wind measured during pitch maneuvers. The variable VSPDX (which is GGVSPD interpolated, filtered, and shifted) shows the vertical motion imposed on the aircraft, and WIX shows the resulting measurement of vertical wind. } 
 \end{figure}
 
 
-There is little signal corresponding to the imposed vertical
-motion or variations in pitch, and the measured standard deviation
-in vertical wind is about the same as that for measurements just before
-and just after the pitch maneuvers. It thus appears that the measuring
-system is able to remove the effects of the pitch maneuvers with essentially
-undetectable residual.
 
 \subsection{Correcting pitch for the Schuler oscillation\label{sub:Schuler}}
 
 <<E3, child='SchulerSection.Rnw'>>=
 @
+
 % \subsubsection{Unresolved Questions}
 % \begin{enumerate}
 % \item To obtain the result shown in Fig.~\ref{fig:pitchManeuvers}, it

@@ -182,20 +182,20 @@ thisFileName <- "WindUncertainty"
 
 @
 
-<<A, child='IntroductionN.Rnw'>>=
-<<B, child='ComponentsOfWindSensingSystemN.Rnw'>>=
-<<C, child='CalibrationProceduresN.Rnw'>>=
-<<G, child='ElementsOfUncertaintyAndSummaryN.Rnw'>>=
+<<A, child='Introduction.Rnw'>>=
+<<B, child='ComponentsOfWindSensingSystem.Rnw'>>=
+<<C, child='CalibrationProcedures.Rnw'>>=
+<<G, child='ElementsOfUncertaintyAndSummary.Rnw'>>=
 #<<C, child='SchulerSection.Rnw'>>=
-<<D, child='SensitivityCoefficientsN.Rnw'>>=
-<<E, child='VerticalWindStudiesN.Rnw'>>=
-<<F, child='HorizontalWindStudiesN.Rnw'>>=
+<<D, child='SensitivityCoefficients.Rnw'>>=
+<<E, child='VerticalWindStudies.Rnw'>>=
+<<F, child='HorizontalWindStudies.Rnw'>>=
 @
 
 \appendix
 
-<<H, child='ConventionsN.Rnw'>>=
-<<I, child='TurbulenceN.Rnw'>>=
+<<H, child='Conventions.Rnw'>>=
+<<I, child='Turbulence.Rnw'>>=
 @
 
 \section{Reproducibility}
