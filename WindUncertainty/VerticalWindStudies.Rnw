@@ -178,7 +178,7 @@ The key conclusions reached from this study of the vertical aircraft velocity ar
 
 An example\index{variance spectrum!low-turbulence case}\index{DEEPWAVE!flight 15} where there was very low turbulence is shown in Fig.~\ref{fig:WIXHR1}.\sindex[var]{WIX=vertical wind recalculated with pitch correction {[}m/s{]}} The intensity of vertical-wind fluctuations was quite small for this flight segment, with a standard deviation in vertical wind of only about 0.2 m/s. Some features of this plot are explained below:  
 \begin{enumerate}
-\item The measured vertical wind at high frequency (>1\,Hz) is a white-noise spectrum\index{variance spectrum!white noise} with intensity that can be matched by generating a random-noise signal with peak amplitude of 0.15--0.2 m/s, which would lead to a random error of about (0.15--0.2)/$\sqrt{12}\simeq0.05$~m/s. The noise\index{variance spectrum!noise in} is dominated by the relative-wind contribution; there is essentially no contribution at these frequencies from the motion of the aircraft. The noise arises almost entirely from the angle-of-attack contribution to the relative wind, and specifically from the measurements ``ADIFR'' and ``QCF'', which exhibit noise spectra\index{ADIFR!noise limit}\index{QCF!noise limit} for frequencies above 1~Hz. In ADIFR, the noise is at a level that would arise from a white-noise signal with peak amplitude of 0.4~hPa or a random error of about 0.1~hPa.\footnote{This was verified by simulation.} Similar noise is present in both QCR\sindex[var]{QCR} and QCF\sindex[var]{QCF}, but QCF has additional problems at high frequency as discussed in Appendix B; this may arise from the long pressure lines used with the transducer for QCF. The specifications for the pressure transducer that measures ADIFR assert a standard uncertainty of about 0.07 hPa. As sampled and digitized by the data system the resolution is about 0.002 hPa ($\pm70\,$hPa for $2^{16}$ range digital encoding), which is comparable to the sensor resolution, so noise arising from digitation would be much less intense than the measured noise distribution. Thus the white-noise spectrum is consistent with a random error of about the specified uncertainty for the sensor, but this is not the result of digital truncation. 
+\item The measured vertical wind at high frequency (>1\,Hz) is a white-noise spectrum\index{variance spectrum!white noise} with intensity that can be matched by generating a random-noise signal with peak amplitude of 0.15--0.2 m/s, which would lead to a random error of about (0.15--0.2)/$\sqrt{12}\simeq0.05$~m/s. The noise\index{variance spectrum!noise in} is dominated by the relative-wind contribution; there is essentially no contribution at these frequencies from the motion of the aircraft. The noise arises almost entirely from the angle-of-attack contribution to the relative wind, and specifically from the measurements ``ADIFR'' and ``QCF'', which exhibit noise spectra\index{ADIFR!noise limit}\index{QCF!noise limit} for frequencies above 1~Hz. In ADIFR, the noise is at a level that would arise from a white-noise signal with peak amplitude of 0.4~hPa or a random error of about 0.1~hPa.\footnote{This was verified by simulation.} \label{page:ADIFRnoise}Similar noise is present in both QCR\sindex[var]{QCR} and QCF\sindex[var]{QCF}, but QCF has additional problems at high frequency as discussed in Appendix B; this may arise from the long pressure lines used with the transducer for QCF. The specifications for the pressure transducer that measures ADIFR assert a standard uncertainty of about 0.07 hPa. As sampled and digitized by the data system the resolution is about 0.002 hPa ($\pm70\,$hPa for $2^{16}$ range digital encoding), which is comparable to the sensor resolution, so noise arising from digitation would be much less intense than the measured noise distribution. Thus the white-noise spectrum is consistent with a random error of about the specified uncertainty for the sensor, but this is not the result of digital truncation. 
 
 % \item GGVSPDB as plotted here was obtained by interpolating linearly between
 % 1-Hz measurements and then applying a low-pass filter with cutoff
@@ -232,40 +232,130 @@ op <- par (mfrow=c(1,1), mar=c(5,5,2,2)+0.1)  # reset
 \index{timing of measurements}
 The different measurements entering the calculation of vertical wind should be sampled at the same time. That is particularly difficult in the case of samples from the inertial reference unit and GPS because they produce sample streams according to their own timing and not in response to requests from the aircraft data system. The variables involved in calculating the vertical wind are:  
 \begin{itemize}
-\item Angle of attack, from transducers attached to radome ports via lines that can introduce small lags. No lag is currently used in processing.\index{attack!angle of!timing} The specifications for the transducer used indicate that it will introduce a lag of about 21\,ms and has a response time of 50\,ms.  
-\item Pitch\index{pitch!timing} measured by the IRU is transferred to the aircraft data system after some delay that must be removed in processing. Standard processing has used a delay of -60~ms; i.e., before use the measurement is moved in time so as to apply to a time \emph{earlier} than when it was received.
-\item Other attitude angles (heading and roll), which enter in minor ways if the aircraft is not flying a straight-and-level course. The timing of these can probably be neglected for calculations of vertical wind, but the standard variables are also given a time lag of -60~ms.  
-\item True airspeed, measured using the pitot-tube measurement of dynamic pressure, used also with a measurement of temperature. While conventionally no lag is assumed for dynamic pressure, the sensor specifications indicate that a 21\,ms lag should be present and the pressure lines probably introduce an additional lag. The reference total temperature for DEEPWAVE\index{DEEPWAVE!reference temperature} is RTRL, for which no time lag is assumed. Although this sensor has slow (ca.~1~s) response, this does not have an important effect on vertical wind because the airspeed enters as a multiplicative factor so effects of even a few percent have no significant effect on the vertical wind.
+\item Angle of attack (AKRD), measured using transducers attached to small ports in the radome. No lag is used in processing.\index{attack!angle of!timing} The specifications for the transducer indicate that it will introduce a lag of about 21\,ms and has a response time of 50\,ms. However, the sensing ports are located about 4.4~m ahead of the primary IRU, which would lead to angle-of-attack measurements leading measurements from the IRU by about 20\,ms. 
+An additional delay can be caused by the pressure line connecting the radome pressure ports to the transducer than measures the pressure difference, but
+evaluations presented in Appendix B indicate that this delay is only a few ms. Therefore, the best assumption appears to be to use zero lag for AKRD.
+\item Pitch\index{pitch!timing} measured by the IRU is transferred to the aircraft data system after some delay that must be removed in processing. Standard processing has used a delay of $-60$~ms; i.e., the measurement is moved in time so as to apply to a time \emph{earlier} than when it was received. However, the IRU specs list this as a maximum delay but indicate that the actual delay may be much smaller.
+\item Other attitude angles (heading and roll), which enter in minor ways if the aircraft is not flying a straight-and-level course. The timing of these can probably be neglected for calculations of vertical wind, but the standard variables are also given a time lag of $-60$~ms. As for pitch, this is a maximum value and actual delays may be much smaller.
+\item True airspeed, measured using the pitot-tube measurement of dynamic pressure, used also with a measurement of temperature. While conventionally no lag is assumed for dynamic pressure, the sensor specifications indicate that a 21\,ms lag should be present. The pitot port is located about 3~m ahead of the IRU, so the resulting time difference of about 14\,ms partially compensates for this delay. In addition,
+the analysis summarized in Appendix B suggests that the relatively long pressure lines involved in the measurement of dynamic pressure might introduce a
+lag that varies from 28~ms at total pressure of 1000~hPa to 38~ms at a total pressure of 100~hPa. Therefore an appropriate delay time for dynamic pressure is approximately $-40$~ms. The calculation of dynamic pressure is also dependent on the measured total temperature (RTRL for DEEPWAVE),\index{DEEPWAVE!reference temperature} for which no time lag is assumed. Although this sensor has slow (ca.~1~s) response, this does not have an important effect on vertical wind because the airspeed enters as a multiplicative factor so effects of even a few percent have no significant effect on the vertical wind.
 \item The vertical speed of the aircraft, taken for the preferred vertical wind variable from GGVSPD, the variable produced by the Novatel GPS receiver employing OmniSTAR corrections when possible. This variable is only sampled at a rate of 5 Hz, and no time lag is used in processing. The aircraft shows little motion at high frequency, as discussed in Sect.~\ref{sub:Variance-spectra-for-W-components}, so small adjustments in GGVSPD are not needed.
 
 \end{itemize}
-It is useful to try to determine appropriate lags from the data and from appropriate maneuvers. For example, in pitch maneuvers (in which the pitch is alternately increased and decreased with typically a 10-s period) if the timing of measurements of pitch and angle of attack are not matched or if the measurement of vertical speed of the aircraft is not timed correctly there will be a residual measured vertical wind, so these maneuvers are particularly stringent tests of the relative timing of the signals. 
+It is useful to try to determine appropriate lags from the data and from appropriate maneuvers. For example, in pitch maneuvers (in which the pitch is alternately increased and decreased with typically a 10-s period) if the timing of measurements of pitch and angle of attack are not matched or if the measurement of vertical speed of the aircraft is not timed correctly there will be a residual measured vertical wind, so these maneuvers are particularly stringent tests of the relative timing of the signals.
 
+<<calculate-pitch-correction-3>>=
+read_chunk ("chunks/pitch-correction-function.R")
+<<correct-pitch>>=
+@
+
+<<pitch-time-shift, include=FALSE>>=
+VarNames <- c("GGALT","LATC", "LONC", "PSXC", "QCXC",
+              "WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
+              "ADIFR", "AKRD", "SSLIP", "PITCH",
+              "ROLL", "THDG", "BDIFR", "EWX", "GGALT",
+              "WIC", "ATX", "GGVSPD", "QCF", "PSF")
+STM <- 42530; ETM <- 42830
+if (ReloadData) {
+  Ddelay <- getNetCDF(sprintf("%s%s/DWrf15AllCirclesHR.nc", DataDirectory(), Project),
+                    VarNames, 
+                    #c("TASX", "PITCH", "AKRD", "GGVSPD", "WIC", "ADIFR", "QCF"), 
+                    Start=STM-2000, End=ETM+2000)
+# Ddelay$AKRD <- 4.468+21.481*Ddelay$ADIFR/Ddelay$QCF
+# Ddelay$AKRD <- 4.437+21.193*Ddelay$ADIFR/Ddelay$QCF
+# Ddelay$GGVSPD <- Ddelay$GGVSPD*0.98
+# Ddelay$PITCH <- Ddelay$PITCH * 1.00
+# Ddelay$AKRD <- Ddelay$AKRD * 1.00
+  Ddelay$PITCH <- Ddelay$PITCH - CorrectPitch(Ddelay)
+  save (Ddelay, file="DataFrames/VWdelay.Rdata")
+} else {
+  load (file="DataFrames/VWdelay.Rdata")
+}
+Ddelay$WIX <- Ddelay$TASX*sin((Ddelay$AKRD-Ddelay$PITCH)*pi/180)+Ddelay$GGVSPD
+print (sprintf ("n=0, rms=%f", sd(Ddelay$WIC[setRange(Ddelay$Time, STM, ETM)], na.rm=TRUE)))
+NL <- length (Ddelay$PITCH)
+for (n in 1:5) {
+  PITCHD <- c(Ddelay$PITCH[(1+n):NL],rep(Ddelay$PITCH[NL],n))
+  WIX <- Ddelay$TASX*sin((Ddelay$AKRD-PITCHD)*pi/180)+Ddelay$GGVSPD
+  if (n == 1) {
+    Ddelay$WID  <-  WIX
+    PITCHB <- PITCHD
+  }
+  print(sprintf ("n=%d, rms=%f", n, sd(WIX[setRange(Ddelay$Time, STM,ETM)], na.rm=TRUE)))
+  PITCHD <- c(rep(Ddelay$PITCH[1],n), Ddelay$PITCH[1:(NL-n)])
+  WIX <- Ddelay$TASX*sin((Ddelay$AKRD-PITCHD)*pi/180)+Ddelay$GGVSPD
+  print(sprintf ("n=-%d, rms=%f", n, sd(WIX[setRange(Ddelay$Time, STM,ETM)], na.rm=TRUE)))
+
+}
+#### not sensitive to small shifts in TASX: comment test
+# for (n in 1:5) {
+#   TASXD <- c(Ddelay$TASX[(1+n):NL],rep(Ddelay$TASX[NL],n))
+#   WIX <- TASXD*sin((Ddelay$AKRD-PITCHB)*pi/180)+Ddelay$GGVSPD
+# #   if (n == 1) {
+# #     Ddelay$WID  <-  WIX
+# #     PITCHB <- PITCHD
+# #   }
+#   print(sprintf ("n=%d, rms=%f", n, sd(WIX[setRange(Ddelay$Time, STM,ETM)], na.rm=TRUE)))
+#   TASXD <- c(rep(Ddelay$TASX[1],n), Ddelay$TASX[1:(NL-n)])
+#   WIX <- TASXD*sin((Ddelay$AKRD-PITCHB)*pi/180)+Ddelay$GGVSPD
+#   print(sprintf ("n=-%d, rms=%f", n, sd(WIX[setRange(Ddelay$Time, STM,ETM)], na.rm=TRUE)))
+# 
+# }
+# smooth result
+Dtau <- 125
+# Ddelay$WIX <- signal::filter (signal::butter(3, 2/Dtau), Ddelay$WIX)
+# Ddelay$WID <- signal::filter (signal::butter(3, 2/Dtau), Ddelay$WID)
+Ddelay$WIX <- Ddelay$WID
+
+#plotWAC(Ddelay[setRange(Ddelay$Time, STM,ETM), c("Time", "GGVSPD", "WIX", "WID", "WIF")])
+# try also shifting GGVSPD:
+for (n in 1:5) {
+  GGVSPDD <- c(Ddelay$GGVSPD[(1+n):NL],rep(Ddelay$GGVSPD[NL],n))
+  WIX <- Ddelay$TASX*sin((Ddelay$AKRD-PITCHB)*pi/180)+GGVSPDD
+  print(sprintf ("n=%d, rms=%f", n, sd(WIX[setRange(Ddelay$Time, STM,ETM)], na.rm=TRUE)))
+  GGVSPDD <- c(rep(Ddelay$GGVSPD[1],n), Ddelay$GGVSPD[1:(NL-n)])
+  WIX <- Ddelay$TASX*sin((Ddelay$AKRD-PITCHB)*pi/180)+GGVSPDD
+  if (n == 1) {Ddelay$WIG <- WIX}
+  print(sprintf ("n=-%d, rms=%f", n, sd(WIX[setRange(Ddelay$Time, STM,ETM)], na.rm=TRUE)))
+
+}
+
+@
 An approximate formula for the vertical wind\index{wind!vertical!first-order equation} $w$ (cf.~\eqref{eq:VWind}) is
 \begin{equation}
 w=V\sin(\alpha-\theta)+w_{p}\label{eq:Weq} 
 \end{equation}
-where $V$ is true airspeed, $\alpha$ is angle of attack, $\theta$ is pitch and $w_{p}$ is the vertical velocity of the aircraft. This equation can be used to adjust relative timing among the signals to minimize the variance in vertical wind during the pitch maneuvers. A good example is that from DEEPWAVE\index{DEEPWAVE!flight 15} flight 15, 3:15--3:18 UTC. As initially processed using standard processing at the time of DEEPWAVE, the standard deviation in vertical wind through the pitch maneuvers was 0.4~m/s while the variance in vertical motion of the aircraft was 5.6~m/s. A long-standing criterion used by NCAR/RAF to check for acceptable pitch maneuvers is for less than 10\% of the imposed velocity to enter the vertical wind, so by this criterion the test was successful. However, a plot of the vertical wind shows a clear match to the imposed velocity, so it is worthwhile to see if better results are possible.\footnote{Speed runs have been used to determine the sensitivity coefficients for determining $\alpha$ from the measured pressure differences on the radome, so the sensitivity coefficients should not be adjusted on the basis of the pitch maneuvers.}
+where $V$ is true airspeed, $\alpha$ is angle of attack, $\theta$ is pitch and $w_{p}$ is the vertical velocity of the aircraft. This equation can be used to adjust relative timing among the signals to minimize the variance in vertical wind during the pitch maneuvers. A good example is that from DEEPWAVE\index{DEEPWAVE!flight 15} flight 15, 4:25:30--4:28:30 UTC. As initially processed using standard processing at the time of DEEPWAVE, the standard deviation in vertical wind through the pitch maneuvers was 0.4~m/s while the variance in vertical motion of the aircraft was 5.6~m/s. A long-standing criterion used by NCAR/RAF to check for acceptable pitch maneuvers is for less than 10\% of the imposed velocity to enter the vertical wind, so by this criterion the test was successful. However, a plot of the vertical wind shows a clear match to the imposed velocity, so it is worthwhile to see if better results are possible.\footnote{Speed runs have been used to determine the sensitivity coefficients for determining $\alpha$ from the measured pressure differences on the radome, so the sensitivity coefficients should not be adjusted on the basis of the pitch maneuvers.}
 
 The relative timing of the measurements entering Eq.~\ref{eq:Weq} can be adjusted to determine if the residual vertical wind can be reduced. 
-For the purpose of this study, to avoid the phase lag produced by filters at the high-frequency limit, Savitzky-Golay filtering was used for GGVSPD (measuring $w_p$) with 4th-order polynomials applied over 25-measurement intervals to smooth the original measurements, which are only available at a frequency of 5~Hz. 
-The sensors producing $V$ and $\alpha$ are located close together and are processed in the standard manner by the data acquisition system, so these can be assumed to determine the reference time except for possible delays introduced by pressure lines. However, the other variables $\theta$ and $w_{p}$ are determined by independent systems and may have timing offsets from the standard measurements, so these are the variables whose lags are explored here. 
-For the purpose of this study, to avoid the phase lag produced by filters at the high-frequency limit, Savitzky-Golay filtering was used for GGVSPD with 4th-order polynomials applied over 25-measurement intervals to smooth the original measurements. 
+The sensors producing $V$ and $\alpha$ are located close together and are processed in the standard manner by the data acquisition system, so with the delays listed above these can be assumed to determine the reference time.
+However, the other variables $\theta$ and $w_{p}$ are determined by independent systems and may have timing offsets from the standard measurements, so these are the variables whose lags are explored here. 
+To avoid possible phase lags produced by filters at the high-frequency limit, Savitzky-Golay filtering was used for GGVSPD (measuring $w_p$) with 4th-order polynomials applied over 25-measurement intervals to smooth the original measurements, which are only available at a frequency of 5~Hz. 
+<<plot-shifted-vertical-wind, include=TRUE, fig.cap="Vertical wind measured during pitch maneuvers. The variable GGVSPD is the vertical speed imposed on the aircraft during the pitch maneuver, and WIX shows the resulting measurement of vertical wind after introducing the 40\\,ms time shift discussed in the text. The dashed orange lines denote limits of $\\pm$0.5\\,m/s. Data from DEEPWAVE flight 15.", fig.height=3.5>>=
+plotWAC(Ddelay[setRange(Ddelay$Time, STM,ETM), c("Time", "GGVSPD", "WIX")], 
+        ylab='W [m/s]', legend.position='topright')
+Ddelay$Z1 <- Ddelay$PITCH-Ddelay$PITCH+0.5
+lineWAC(Ddelay$Time[setRange(Ddelay$Time, STM,ETM)], Ddelay$Z1[setRange(Ddelay$Time, STM,ETM)], lty=2, col='darkorange')
+Ddelay$Z2 <- Ddelay$PITCH-Ddelay$PITCH-0.5
+lineWAC(Ddelay$Time[setRange(Ddelay$Time, STM,ETM)], Ddelay$Z2[setRange(Ddelay$Time, STM,ETM)], lty=2, col='darkorange')
 
-The timing of the measurement of pitch ($\theta$) relative to that of angle of attack ($\alpha$) is the most important. The lowest standard deviation in vertical wind resulted from shifting the measured pitch ($\theta$) forward in time by 60~ms; i.e., removing the -60~ms delay previously imposed. With this shift in pitch, 
-the best shift in GGVSPD ($w_p$) was -40~ms, but the standard deviation was almost as small for no shift (0.23~m/s with no shift vs 0.22 for the shifted values).
-Therefore, because negative shifts are not physical and there is little high-frequency variation in $w_p$, it appears best not to impose any no time shifts on these measurements. The IRU specifications state that a delay of "up to" 60~ms should be expected, but this result suggests that either this is a upper limit not characteristic of measurements at the time being analyzed here or else there is a compensating delay in the measurements of angle-of-attack.
-The latter seems plausible because the known transducer characteristics lead to a delay of 21~ms, a response time of 50~ms, and some likely delay arising from the length of the pressure lines.
+@
+The timing of the measurement of pitch ($\theta$) relative to that of angle of attack ($\alpha$) is the most important. The lowest standard deviation in vertical wind resulted from shifting the measured pitch ($\theta$) forward in time by 40~ms; i.e., changing the assumed delay to be -20\,ms instead of -60~ms delay. With this shift in pitch, 
+the best shift in GGVSPD ($w_p$) was about -20~ms, with little difference in standard deviation for shifts from 0 to -40~ms.
+The suggested recommendation then is to change the delay in PITCH from -60 to -20\,ms and impose no shift on GGVSPD.
+%Therefore, because negative shifts are not physical and there is little high-frequency variation in $w_p$, it appears best not to impose any no time shifts on these measurements. The IRU specifications state that a delay of "up to" 60~ms should be expected, but this result suggests that either this is a upper limit not characteristic of measurements at the time being analyzed here or else there is a compensating delay in the measurements of angle-of-attack.
+%The latter seems plausible because the known transducer characteristics lead to a delay of 21~ms, a response time of 50~ms, and some likely delay arising from the length of the pressure lines.
 
-With the assumed time lag in PITCH removed, the resulting measurement of vertical wind during the pitch maneuver is shown in Fig.~\ref{fig:pitchManeuvers}. The standard deviation in measured wind through the pitch maneuvers is only 4\% of the imposed vertical motion of the aircraft, vs.~about 7\% for the unshifted measurements. Furthermore, 
-there is little signal in the resulting measurements of vertical wind that corresponds to the imposed vertical motion or variations in pitch, and the measured standard deviation in vertical wind is about the same as that for measurements just before and just after the pitch maneuvers. It thus appears that the measuring system is able to remove the effects of the pitch maneuvers with essentially undetectable residual. The suggested conclusion is that the assumed delay in pitch should be reset to zero for processing and no delay should be used with GGVSPD. 
-\begin{figure}
-\noindent \begin{centering}
-\includegraphics[width=0.8\textwidth]{31_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PitchManeuvers.png}  
-\par\end{centering}
-
-\protect\caption{\label{fig:pitchManeuvers}Vertical wind measured during pitch maneuvers. The variable VSPDX (which is GGVSPD interpolated, filtered, and shifted) shows the vertical motion imposed on the aircraft, and WIX shows the resulting measurement of vertical wind. } 
-\end{figure}
+With the assumed time lag in PITCH removed, the resulting measurement of vertical wind during the pitch maneuver is shown in Fig.~\ref{fig:plot-shifted-vertical-wind}. The standard deviation in measured wind through the pitch maneuvers is only 4\% of the imposed vertical motion of the aircraft, and
+there is little signal in the resulting measurements of vertical wind that corresponds to the imposed vertical motion or variations in pitch. The measured standard deviation in vertical wind is about the same as that for measurements just before and just after the pitch maneuvers. It thus appears that the measuring system is able to remove the effects of the pitch maneuvers with essentially undetectable residual. 
+% \begin{figure}
+% \noindent \begin{centering}
+% \includegraphics[width=0.8\textwidth]{31_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PitchManeuvers.png}  
+% \par\end{centering}
+% 
+% \protect\caption{\label{fig:pitchManeuvers}Vertical wind measured during pitch maneuvers. The variable VSPDX (which is GGVSPD interpolated, filtered, and shifted) shows the vertical motion imposed on the aircraft, and WIX shows the resulting measurement of vertical wind. } 
+% \end{figure}
 
 
 

@@ -120,7 +120,7 @@ plotTrack (D[r, ], .Spacing=2, xc=NA)    ##xc=NA is flag for drifting plot
 @
 
 \index{maneuver!circle}
-During the DEEPWAVE\index{DEEPWAVE} project, several circle patterns\index{maneuver!circle!plotted track} were flown to check the wind measurements. In these maneuvers, a constant roll angle was maintained so that the flight track drifted with the wind. That drift alone provides a measurement of mean horizontal wind that is dependent only on the measurement of position from the GPS. The first example used here is from DEEPWAVE\index{DEEPWAVE!flight 15} flight 15, 3:38:30--3:54:30 UTC, during which two circles were flown with left roll and then two with right roll, as shown in Fig.~\ref{fig:circle-tracks}. 
+During the DEEPWAVE\index{DEEPWAVE} project, several circle patterns\index{maneuver!circle!plotted track} were flown to check the wind measurements. In these maneuvers, a constant roll angle was maintained so that the flight track drifted with the wind. That drift alone provides a measurement of mean horizontal wind that is dependent only on the measurement of position from the GPS. If the true wind is steady over the course of the flight pattern, the measured wind should also be steady, but that measured wind results from varying contributions from airspeed and from heading and sideslip as the heading changes, so variations in the measured wind will have characteristic patterns indicating the nature of any errors present. An example from DEEPWAVE\index{DEEPWAVE!flight 15} flight 15, 3:38:30--3:54:30 UTC, with two circles flown with left roll and then two with right roll, is shown in Fig.~\ref{fig:circle-tracks}. 
 % \noindent 
 % \begin{figure}[btp]
 % \begin{centering}
@@ -966,7 +966,7 @@ One approximate test is to compare the sideslip measurement in left vs right tur
 Ds <- D[r, ]
 DL <- DL1; DR <- DR1
 Capn <- "Sideslip measured durning the circle maneuvers, first turning left (3:40:00 -- 3:45:00) and then turning right (3:47:30 -- 3:53:30). Mean values for these segments are indicated by dashed orange lines."
-Z <- plotWAC(Ds$Time, Ds$SS, ylab="Sideslip")
+plotWAC(Ds$Time, Ds$SS, ylab="Sideslip")
 yrm <- mean (Ds$SS, na.rm=TRUE)
 lines(c(Ds$Time[1], Ds$Time[length(Ds$Time)]), c(yrm, yrm), col='red', lty=2, lwd=4)
 yrL <- mean(DL$SS, na.rm=TRUE)
@@ -997,7 +997,7 @@ This is not useful in straight flight where the roll is near zero, but it provid
 \delta\beta=\beta_{m}-\beta^{*}\,\,.\label{eq:predicted-error-in-sideslip} 
 \end{equation}
 
-<<sideslip-error-histogram, fig.cap="Distribution of measurements of sideslip error determined from (\\ref{eq:predicted-error-in-sideslip}) for all measurements in turns from the three circle maneuvers.", include=TRUE, echo=FALSE>>=
+<<sideslip-error-histogram, fig.cap="Distribution of measurements of sideslip error determined from (\\ref{eq:predicted-error-in-sideslip}) for all measurements in turns from the three circle maneuvers. Each point in the histogram is the calculated error using one of the 1-Hz measurem3nts from the circle maneuvers.", include=TRUE, echo=FALSE, fig.height=3.5>>=
 
 DX <- rbind (Dc1, Dc2, Dc3)
 dstar <- DX$PITCH - DX$AKRD * cos (DX$ROLL*pi/180) - DX$GGVSPD/DX$TASX
@@ -1186,32 +1186,142 @@ The heading and sideslip offsets are coupled, so the two offsets indicated by th
 \item The results are consistent with no time offset in the GPS measurements of ground speed (GGVEW and GGVNS). 
 \end{enumerate}
 
-
+\vfill\eject
 
 
 
 \subsection{The complementary filter\label{sub:comp-filter}}
 
-Wind measurements combine a measurement of relative wind with a measurement \index{filter!complementary}\index{wind!horizontal!correction for IRU errors in ground speed} of aircraft motion to determine the air motion relative to the ground. The aircraft motion is measured independently by an IRU and also by a GPS receiver. These have complementary strengths: The IRU provides very good information on short-term motion but drifts with a characteristic period of more than an hour, while the GPS provides good absolute accuracy but sometimes is unable to receive the GPS signals and (except in differential-GPS mode) can have short-term errors that make short segments of the track look jagged. To take advantage of the strengths of each, a complementary-filter calculation was developed and implemented in the 1980s. This section provides documentation of a procedure that has been in use for many years. 
+\subsubsection{Use in past projects}
 
-To combine these measurements, a low-pass filter,\sindex[lis]{Fl@$F_{L}$=low-pass filter applied to GPS ground-speed measurements}\sindex[lis]{Fh@$F_{H}$=high-pass filter applied to IRU ground-speed measurements} $F_{L}(\{\mathrm{GVNS,GVEW\}})$, is applied to the GPS measurements of ground speed, \{GVNS,GVEW\}, which are assumed to be valid for frequencies at or lower than the cutoff frequency\sindex[lis]{fc@$f_{c}$=cutoff frequency for filters used for complementary filtering} $f_{c}$ of the filter. Then the complementary high-pass filter, denoted ($1-F_{L}$)($\{\mathrm{VNS,VEW\}}$), is applied to the IRU measurements of ground speed, \{VNS,VEW\}, which are assumed valid for frequencies at or higher than $f_{c}$. Ideally, the transition frequency would be selected where the GPS errors (increasing with frequency) are equal to the IRU errors (decreasing with frequency). The filter used hirtorically was a three-pole Butterworth low-pass filter, coded following the algorithm described in \citet{Bozic1980}, p. 49. This has now been changed to use the Butterworth filter coefficients given by the R routine 'butter' for the corresponding filter function. The digital filter used is recursive, not centered, to permit calculation during a single pass through the data. If the cutoff frequency lies where both the GPS and INS measurements are valid and are almost the same, then the detailed characteristics of the filter in the transition region (e.g., phase shift) do not matter because the complementary filters have cancelling effects when applied to the same signal. The transition frequency $f_{c}$ was chosen to be (1/600) Hz (but this value can be overridden via the ``defaults'' file). The Butterworth filter was chosen because it provides flat response away from the transition. The resulting variables for aircraft motion, \{VNSC,VEWC\},\sindex[var]{VEWC}\sindex[var]{VEWC} are then each the sum of two filtered signals, calculated as described in the following box:\index{filter!complementary!algorithm}\\ 
+Wind measurements combine a measurement of relative wind with a measurement \index{filter!complementary}\index{wind!horizontal!correction for IRU errors in ground speed} of aircraft motion to determine the air motion relative to the ground. The aircraft motion is measured independently by an IRU and also by a GPS receiver. These have complementary strengths: The IRU provides very good information on short-term motion but drifts with a characteristic period of more than an hour, while the GPS provides good absolute accuracy but sometimes is unable to receive the GPS signals and (except in differential-GPS mode) can have short-term errors that make short segments of the track look jagged. To take advantage of the strengths of each, a complementary-filter calculation was developed and implemented in the 1980s. This section provides documentation of a procedure that has been in use for many years and also describes proposed changes to that procedure.
+
+To combine these measurements, a low-pass filter,\sindex[lis]{Fl@$F_{L}$=low-pass filter applied to GPS ground-speed measurements}\sindex[lis]{Fh@$F_{H}$=high-pass filter applied to IRU ground-speed measurements} $F_{L}(\{\mathrm{GGVNS,GGVEW\}})$, is applied to the GPS measurements of ground speed, \{GGVNS,GGVEW\}, which are assumed to be valid for frequencies at or lower than the cutoff frequency\sindex[lis]{fc@$f_{c}$=cutoff frequency for filters used for complementary filtering} $f_{c}$ of the filter. Then the complementary high-pass filter, denoted ($1-F_{L}$)($\{\mathrm{VNS,VEW\}}$), is applied to the IRU measurements of ground speed, \{VNS,VEW\}, which are assumed valid for frequencies at or higher than $f_{c}$. Ideally, the transition frequency would be selected where the GPS errors (increasing with frequency) are equal to the IRU errors (decreasing with frequency). The filter used historically was a three-pole Butterworth low-pass filter, coded following the algorithm described in \citet{Bozic1980}, p. 49. 
+
+
+<<ButterworthFilter,echo=TRUE>>=
+ButterworthFilter <- function (x, tau=600.) {
+  # input x is the unfiltered signal
+  # output is the low-pass-filtered input
+  # tau determines the cutoff
+  a <- 2.*pi/tau
+  c <- a*1.5**0.5
+  s <- sin(c)
+  c <- cos(c)
+  a2 <- a*exp(-a/2.)*(c+(1./3.)**0.5*s)
+  a3 <- 2.*exp(-a/2.)*c
+  a4 <- exp (-a)
+  zf <- vector (mode="numeric", length=5)
+  xf <- vector (mode="numeric", length=length(x))
+  for (i in 1:length(x)) {  # look for way to replace w/ vectors
+    if (!is.na(x[i])) {
+      zf[2] <- -a*x[i] + a2*zf[5] + a3*zf[3] -a4*zf[4]
+      zf[1] <- a*x[i] + a4*zf[1]
+      zf[4] <- zf[3]
+      zf[3] <- zf[2]
+      zf[5] <- x[i]
+      xf[i] <- zf[1] + zf[2]
+    } else {
+      xf[i] <- NA
+    }
+  }
+  return (xf)
+}
+
+@
+
+%
+%In 2014 this was changed to use the Butterworth filter coefficients given by the R routine 'butter' for the corresponding filter function, because it was found that the previous digital filter introduced a mean shift in the measurements. 
+The digital filter used is recursive, not centered, to permit calculation during a single pass through the data. If the cutoff frequency lies where both the GPS and INS measurements are valid and are almost the same, then the detailed characteristics of the filter in the transition region (e.g., phase shift) do not matter because the complementary filters have cancelling effects when applied to the same signal. The transition frequency $f_{c}$ was chosen to be (1/600) Hz (but this value can be overridden via the ``defaults'' file). The Butterworth filter was chosen because it provides flat response away from the transition. The resulting variables for aircraft motion, \{VNSC,VEWC\},\sindex[var]{VEWC}\sindex[var]{VEWC} are then each the sum of two filtered signals, calculated as described in the following box:\index{filter!complementary!algorithm}\\ 
  %
 \fbox{% 
 \begin{minipage}[t]{0.95\textwidth}% 
-VEW = IRU-measured east component of the aircraft ground speed\\  VNS = IRU-measured north component of the aircraft ground speed\\  GVEW = GPS-measured east component of the aircraft ground speed\\  GVNS = GPS-measured north component of the aircraft ground speed\\  $F_{L}()$ = three-pole Butterworth low-pass recursive digital filter\\ 
+VEW = IRU-measured east component of the aircraft ground speed\\  VNS = IRU-measured north component of the aircraft ground speed\\  GGVEW = GPS-measured east component of the aircraft ground speed\\  GGVNS = GPS-measured north component of the aircraft ground speed\\  $F_{L}()$ = three-pole Butterworth low-pass recursive digital filter\\ 
  \\
  \rule[0.5ex]{1\linewidth}{1pt} 
 
 \[
-\{\mathrm{VNSC}\}=\{\mathrm{VNS}\}+F_{L}(\mathrm{\{GVNS\}-\{\mathrm{VNS\}})}
+\{\mathrm{VNSC}\}=\{\mathrm{VNS}\}+F_{L}(\mathrm{\{GGVNS\}-\{\mathrm{VNS\}})}
 \]
 \[
-\{\mathrm{VEWC}\}=\{\mathrm{VEW\}+}F_{L}(\mathrm{\{GVEW\}-\{\mathrm{VEW}\})}
+\{\mathrm{VEWC}\}=\{\mathrm{VEW\}+}F_{L}(\mathrm{\{GGVEW\}-\{\mathrm{VEW}\})}
 \]
 %
 \end{minipage}}
 
 This is straightforward and effective when both sets of measurements (IRU and GPS) are available. The approach in use becomes more complicated when the GPS signals are lost, as sometimes happens in sharp turns. Then some means is needed to avoid sudden discontinuities in velocity (and hence wind speed), which would introduce spurious effects into variance spectra and other properties dependent on a continuously valid measurement of wind. To extrapolate measurements through periods when the GPS measurements are not available, a fit is determined to the difference between the best-estimate variables \{VNSC, VEWC\}\sindex[var]{VNSC}\sindex[var]{VEWC} and the IRU variables \{VNS,VEW\}\sindex[var]{VNS}\sindex[var]{VEW} for the period before GPS reception was lost, and that fit is used to extrapolate through periods when GPS reception is not available. The procedure is described in section 3.4 of \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{this document on processing algorithms}. 
+
+\subsubsection{Recommended changes}
+
+Because current measurements provided by GPS are so much better than when the filter was introduced, it also seems appropriate to reconsider the response time used for the filter or even if the filter is still needed. A problem has also been found with the filter function, shown below. For these reasons, the use of the complementary filter is revisited in the remainder of this section.
+
+The cutoff frequency should be selected to lie in a region where the signals are matched. Figure \ref{fig:FFTVEW} shows an example of the variance spectra for GGVEW and VEW from a level segment of GV boundary-layer flight. The two spectra
+are essentially identical for most frequencies, with some deviation around 0.4~Hz. The coherence between these two signals, shown in Fig.~\ref{fig:coherence-plot}, indicates near-unity coherence for frequencies below 0.1\,Hz, and the corresponding phase through this region (not shown) is also near zero, so an appropriate choice is a frequency in the upper part of this range but still far enough below 0.1\,Hz that the transition region for the filter does not have significant residual transmission at that frequency.
+
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=\maxwidth]{FFTVEW}
+\par\end{centering}
+\protect\caption{Variance spectra for the eastward component of aircraft motion as measured by GPS (GGVEW) and for the corresponding measurement from the IRU (VEW). Data are from IDEAS flight 6 on 13 Oct 2013, 20:03:30--20:11:50 UTC. FFT spectral analysis was used, with 50\,Hz measurements, combining segments of 8192 points, and the resulting spectra were smoothed by averaging in 75 bins equally spaced in the logarithm of the frequency.\label{fig:FFTVEW}} 
+\end{figure}
+
+<<coherence-plot, include=TRUE, fig.cap="Coherence between the measurements GGVEW and VEW (cf.~Fig.~\\ref{fig:FFTVEW}) as a function of frequency.", fig.height=3.5>>=
+
+load(file="DataFrames/Coherence.Rdata")
+## note re data:
+## the coherence measurements were printed from Xanadu/otto, written to a CSV file,
+## imported to R, and saved to the above file to make this plot.
+plotWAC(Coherence$F, Coherence$Coh, log='x', xlab='Frequency [Hz]', ylab='Coherence', col='blue', lwd=2)
+
+@
+
+Figure~\ref{fig:CF-response} shows the frequency response of the filter that was used. The amplitude of the signal transmitted by the digital filter was measured by applying filters with varying cutoff frequencies to a sine-wave time series, so these are measured rather than theoretical characteristics. 
+Two problems are evident in this figure. 
+First, the amplitude of the response at low frequency is not unity but about 
+11\% larger, leading to a bias when this filter is used. 
+When used as a complementary filter, this does not introduce an error as long as the two values being filtered are the same, but if they are not (e.g., as a result of Schuler oscillation in VEW) about 11\% of that difference is transmitted by the filter. 
+Second, the cut-off frequency differs from that prescribed, occurring at a frequency about 60\% higher than expected. 
+This suggests that the filter being used should be replaced by another filter, such as for example the Butterworth filter provided by the R package "signal", which was used to construct the response curve shown as the blue line in Fig.~\ref{fig:CF-response}.
+
+<<CF-response, include=TRUE, fig.cap="Amplitude of the signal transmitted by two low-pass filters, shown as a function of the ratio of the frequency $f$ to the cutoff frequency $f_c$. The blue line is the Butterworth third-order filter provided by the 'signal' package in R, and the red line is the filter previously used for processing.", fig.height=3.5, cache=TRUE>>=
+
+# x <- runif (100000)
+# y <- ButterworthFilter (x, 150)
+# P1 <- spectrum(y)
+# y <- signal::filter (signal::butter (3, 2/110), x)
+# P2 <- spectrum(y)
+# plot(P1$freq, P1$spec, log='xy', pch=20)
+# points (P2$freq, P2$spec, pch=20, col='blue')
+# df1 <- data.frame(F=P1$spec, P=log10(P1$freq))
+# BF1 <- binStats(df1, 25, -3, -1)
+# plot (BF1$xc, BF1$ybar)
+# df2 <- data.frame(F=P2$spec, P=log10(P2$freq))
+# BF2 <- binStats(df2, 25, -3, -1)
+# # plot (BF1$xc, BF1$ybar, pch=20, log='y')
+# points (BF2$xc, BF2$ybar, pch=20, col='blue')
+T <- 100
+nm <- 2^.5 / 2
+x <- sin(2*pi*seq(1,50000)/T)
+L <- 100
+it <- 1:L
+r1 <- rep(0, L)
+r2 <- rep (0,L)
+for (t in it) {
+  y <- signal::filter (signal::butter (3, 2/(t*10)), x)
+  r1[t] <- sd(y) / nm
+  y <- ButterworthFilter (x, t*10)
+  r2[t] <- sd(y) / nm
+}
+plotWAC(it*10/T, r1, type='l', ylim=c(0.,1.2), log='x', 
+        ylab='transmitted amplitude', xlab=expression('f / f'[c]))
+lines(it*10/T, r2, type='l', col='red')
+lines(c(1,1), c(0,1.2), lty=2, lwd=2, col='darkorange')
+
+@
+
+A good choice for the cutoff frequency is thus $f_c=0.04$\,Hz. This gives low transmission at frequencies where the coherence decreases yet provides good response to changes like that expected from the Schuler oscillation. The approach suggested for future calculation of variables like VEWC is then to apply this new filter as before. When calculating wind, the GPS measurements alone appear to be good candidates also, but new variables like VEWC  will likely be the best choice.
+
+% plan: show var. spec. e.g. from WINTER #6 leg, with coherence; argue for small tau.
 
 % The following provides more documentation of the fit procedure used to determine the Schuler oscillation. The errors are assumed to result primarily from this oscillation, so the three-term fit is of the form\index{oscillation!Schuler!angular velocity} $\delta x=h_{1}+h_{2}\sin(\Omega_{Sch}t)+h_{3}\cos(\Omega_{Sch}t)$ , where $\Omega_{Sch}$ is the angular frequency of the Schuler oscillation (taken to be $2\pi/(5067\,s))$ and $t$ is the time since the start of the flight. A separate fit is used for each component of the velocity and each component of the position (discussed below under LATC and LONC). The fit matrix used to determine these coefficients is updated each time step but the accumulated fit factors decay exponentially with about 30-min decay constant, so the terms used to determine the fit are exponentially weighted over the period of valid data with a time constant that decays exponentially into the past with a characteristic time of 30 min. This is long enough to determine a significant portion of the Schuler oscillation but short enough to emphasize recent measurements of the correction. The procedures for accumulating the matrices for the fit are as follows:\\ 
 %  \\
