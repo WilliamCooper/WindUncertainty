@@ -104,7 +104,7 @@ SQ1e <- TE1e^2+TE2e^2+TE3e^2+TE4e^2+TE5e^2+TE6e^2+TE7e^2+TE8e^2
 @
 
 \begin{table}
-\protect\caption{Elemental contributions to the uncertainty in measurement of vertical
+\protect\caption[Elemental contributions to the uncertainty in measurement of vertical wind provided by the radome-based system.]{Elemental contributions to the uncertainty in measurement of vertical
 wind provided by the radome-based system. Separate estimates of systematic error (bias) and random error (which is reduced by averaging measurements) are listed, and Type-A uncertainty estimates are accompanied by an estimate of the degrees of freedom (DOF) when it is smaller than 50. The last two columns represent how the tabulated uncertainties propagate to estimates of bias and random error in the measurement of vertical wind ($w$). All entries pertain to 1-Hz measurements. Entries '--' indicate negligible
 contribution to uncertainty. See Appendix A for discussion of the meaning of 'Type A' and 'Type B' evaluations of uncertainty.\label{tab:Elemental-w}}
 \vskip0.1truein
@@ -239,7 +239,8 @@ For the gust pod\index{gust pod}\index{system!gust pod} system, many of the unce
 Table~\ref{tab:GP-Elemental-w} lists the elemental contributions to uncertainty\index{uncertainty!elemental sources!table}\index{wind!vertical!uncertainty} in the measurement of vertical wind from the gust-pod system. The following is a discussion of the individual elements in that table.\sindex[var]{AK_GP=angle of attack determined using the gust pod [deg]@AK\_GP=angle of attack determined using the gust pod {[}deg{]}} 
 
 \begin{table}
-\protect\caption{Elemental contributions to the uncertainty in measurement of vertical
+\protect\caption[Elemental contributions to the uncertainty in measurement of vertical
+wind using the gust pod.]{Elemental contributions to the uncertainty in measurement of vertical
 wind using the gust pod. See Table~\ref{tab:Elemental-w} for explanation of entries.\label{tab:GP-Elemental-w}}
 \vskip0.1truein
 \begin{tabular}{ccccccc}
@@ -367,7 +368,8 @@ Table \ref{tab:Elemental-h} lists the elemental contributions to uncertainty\ind
 
  
 \begin{table}
-\protect\caption{Elemental contributions to the uncertainty in measurement of horizontal
+\protect\caption[Elemental contributions to the uncertainty in measurement of horizontal
+wind by the radome-based system.]{Elemental contributions to the uncertainty in measurement of horizontal
 wind by the radome-based system. Entries '--' indicate negligible
 contribution to uncertainty. Entries with subscript $\perp$ refer
 to the lateral component of the horizontal wind, and those with subscript
@@ -524,8 +526,9 @@ The net uncertainty in the lateral (longitudinal) component of the horizontal wi
 
 \index{uncertainty!elemental sources}\index{gust pod}
 \begin{table}
-\protect\caption{Elemental contributions to the uncertainty in measurement of horizontal
-wind from the gust pod.. Entries '--' indicate negligible contribution
+\protect\caption[Elemental contributions to the uncertainty in measurement of horizontal
+wind from the gust pod.]{Elemental contributions to the uncertainty in measurement of horizontal
+wind from the gust pod. Entries '--' indicate negligible contribution
 to uncertainty. Entries with subscript $\perp$ refer to the lateral
 component of the horizontal wind, and those with subscript indicating parallel
  refer to the longitudinal component (along the axis of the
@@ -789,7 +792,7 @@ The first three lines \ref{tab:Summary-of-uncertainty} claim that wind can be me
 \begin{table}
 \noindent \centering{}%
 \begin{minipage}[t]{1\columnwidth}%
-\protect\caption{Summary of uncertainty for measurements of wind from the GV. Where there are two
+\protect\caption[Summary of uncertainty for measurements of wind from the GV.]{Summary of uncertainty for measurements of wind from the GV. Where there are two
 entries horizontal wind components, the first is the component lateral
 to the axis of the aircraft and the second the component parallel to the
 axis of the aircraft.\label{tab:Summary-of-uncertainty}}
@@ -915,7 +918,7 @@ DataC[!Valid, ] <- NA
 
 @
 
-<<WICWIGdiff, echo=FALSE, warning=FALSE, include=TRUE, fig.cap="Histogram of the differences between the vertical wind measured by the radome-based system (WIC) and that measured by the gust-pod system (WI\\_GP) for all 1-Hz measurements from the DEEPWAVE project where the absolute value of the roll was less than 5$^{\\circ}$, flight speed was above 130~m/s, and flight altitude was FL350 (35,000~ft) or above. The density shows the fraction of points per unit interval in the difference WIC-WI\\_GP. There were a total of about 280,000 measurements used for this plot, but some flights and flight periods were excluded where it appeared, from comparison to other IRUs, that the pitch measurement from the gust-pod system was of degraded quality.", fig.height=4, cache=TRUE>>=
+<<WICWIGdiff, echo=FALSE, warning=FALSE, include=TRUE, fig.scap="Histogram of the differences between the vertical wind measured by the radome-based system and that measured by the gust-pod system.", fig.cap="Histogram of the differences between the vertical wind measured by the radome-based system (WIC) and that measured by the gust-pod system (WI\\_GP) for all 1-Hz measurements from the DEEPWAVE project where the absolute value of the roll was less than 5$^{\\circ}$, flight speed was above 130~m/s, and flight altitude was FL350 (35,000~ft) or above. The density shows the fraction of points per unit interval in the difference WIC-WI\\_GP. There were a total of about 280,000 measurements used for this plot, but some flights and flight periods were excluded where it appeared, from comparison to other IRUs, that the pitch measurement from the gust-pod system was of degraded quality.", fig.height=4, cache=TRUE>>=
 
 #hist(DataC$WIX-DataC$WI_GP, freq=FALSE, xlim=c(-2,2), breaks=100, main='All-Project (excluding obviously bad data)', xlab='WIC-WI_GP [m/s]')
 ggplot(data=DataC, aes(WIC-WI_GP)) + geom_histogram(aes(y=..density..), binwidth=0.04, fill=I("lightyellow"), col=I("black"))+xlim(-2.,2.)+geom_density (col='red')+theme_WAC()

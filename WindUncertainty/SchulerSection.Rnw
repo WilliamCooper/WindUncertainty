@@ -286,7 +286,7 @@ figcapP2="Errors in pitch and roll determined from the measured errors in ground
 
 @
 
-<<processing-2, fig.height=5.5, fig.cap=figcapP2, include=TRUE>>=
+<<processing-2, fig.height=5.5, fig.scap="Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft.", fig.cap=figcapP2, include=TRUE>>=
 
 # deal with missing values:
 D <- D[!is.na (D$Time), ]
@@ -518,7 +518,7 @@ print (sprintf ("mean pitch correction %f st. dev. %f", mean (pcav, na.rm=TRUE),
 \end{tabular}
 \par\end{centering}
 
-\protect\caption{The average vertical wind for each flight, before and after application of the pitch-correction algorithm developed in this subsection. The data restriction applied was that the true airspeed be above 130\,m/s, absolute value of the roll less than $5^{\circ}$, and the flight level above 25,000\,ft (to emphasize normal research measurement conditions in the DEEPWAVE project). Flights 6, 7, and 15 are also missing, as explained in the text.\label{tab:vw-by-flight}} 
+\protect\caption[The average vertical wind for each flight, before and after application of the pitch-correction algorithm.]{The average vertical wind for each flight, before and after application of the pitch-correction algorithm developed in this subsection. The data restriction applied was that the true airspeed be above 130\,m/s, absolute value of the roll less than $5^{\circ}$, and the flight level above 25,000\,ft (to emphasize normal research measurement conditions in the DEEPWAVE project). Flights 6, 7, and 15 are also missing, as explained in the text.\label{tab:vw-by-flight}} 
 \end{table}
 
 \par\end{center}

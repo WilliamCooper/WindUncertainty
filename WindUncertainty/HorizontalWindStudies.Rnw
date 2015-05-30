@@ -108,7 +108,7 @@ read_chunk ("chunks/getGGshift-function.R")
 
 \subsubsection{Data Used}
 
-<<circle-tracks, fig.cap="An example of circle flight pattern, from DEEPWAVE flight 15, 3:38:30--3:54:30 UTC. Left side: normal flight track referenced to ground coordinates; right side, flight track plotted in a Lagrangian reference frame drifting with the horizontal wind.", include=TRUE, fig.width=3.>>=
+<<circle-tracks, fig.scap="An example of the circle flight pattern.", fig.cap="An example of the circle flight pattern, from DEEPWAVE flight 15, 3:38:30--3:54:30 UTC. Left side: normal flight track referenced to ground coordinates; right side, flight track plotted in a Lagrangian reference frame drifting with the horizontal wind.", include=TRUE, fig.width=3.>>=
 
 r <- setRange (D$Time, 33830,35430)
 library(maps)
@@ -170,7 +170,7 @@ This equation is justified as follows. Because the relative wind transformed to 
 
 Fitting to minimize the deviations expressed by \eqref{eq:delta-v-m} can then \sindex[lis]{v@$v$=wind speed (relative to the Earth)} give estimates of the three fit parameters $\delta V$, $\delta\psi^{\prime}$, and $v$, or a fixed value can be used for $v$ as given by the mean of measurements or by a previous fit to \eqref{eq:v-errors}. These fits to \eqref{eq:v-errors} or \eqref{eq:delta-v-m} should give consistent results, but a fit to \eqref{eq:delta-v-m} is particularly illustrative because plots of the error as a function of flight direction relative to the wind clearly reveal the magnitude and source of the deviations. The expected pattern is shown in Fig.~\ref{fig:sine-plot}. 
 
-<<sine-plot, echo=FALSE, include=TRUE, fig.cap="Illustration of the expected variation in measured wind speed with flight angle relative to the wind direction, for assumed errors of $\\delta V=1$ m/s in true airspeed and $\\delta\\psi^{\\prime}=0.3^{\\circ}$ in heading and for an assumed true wind speed of 10 m/s. The assumed true airspeed is 155 m/s. The red arrows show the differences in measured wind speed between 90 and 270$^{\\circ}$ directions and between 0 and 180$^{\\circ}$ directions.">>=
+<<sine-plot, echo=FALSE, include=TRUE, fig.scap="Illustration of the expected variation in measured wind speed with flight angle relative to the wind direction, for assumed errors in airspeed and heading.", fig.cap="Illustration of the expected variation in measured wind speed with flight angle relative to the wind direction, for assumed errors of $\\delta V=1$ m/s in true airspeed and $\\delta\\psi^{\\prime}=0.3^{\\circ}$ in heading and for an assumed true wind speed of 10 m/s. The assumed true airspeed is 155 m/s. The red arrows show the differences in measured wind speed between 90 and 270$^{\\circ}$ directions and between 0 and 180$^{\\circ}$ directions.">>=
 
 Ang <- (1:1440)/4.
 A1 <- -1.
@@ -238,7 +238,7 @@ From the definitions \eqref{eq:v-errors}, the mean wind can be found by adjustin
 \end{tabular}
 \par\end{centering}
 
-\protect\caption{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the first circle maneuver from DEEPWAVE flight 15, 3:38:30--3:56:30 UTC, at an altitude of about 4.1 km (13,500 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GSmin}}
+\protect\caption[The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the first circle maneuver from DEEPWAVE flight 15.]{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the first circle maneuver from DEEPWAVE flight 15, 3:38:30--3:56:30 UTC, at an altitude of about 4.1 km (13,500 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GSmin}}
 \end{table}
 
 \par\end{center}
@@ -286,7 +286,7 @@ mwd2 <- mwd; mwdL2 <- mwdL; mwdR2 <- mwdR
 \end{tabular}
 \par\end{centering}
 
-\protect\caption{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the second circle maneuver from DEEPWAVE flight 15, 4:35:00--4:53:00 UTC, at an altitude of about 6.1 km (20,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GS2min}}
+\protect\caption[The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the second circle maneuver from DEEPWAVE flight 15.]{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the second circle maneuver from DEEPWAVE flight 15, 4:35:00--4:53:00 UTC, at an altitude of about 6.1 km (20,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GS2min}}
 \end{table}
 
 \par\end{center}
@@ -317,7 +317,7 @@ mwd3 <- mwd; mwdL3 <- mwdL; mwdR3 <- mwdR
 \end{tabular}
 \par\end{centering}
 
-\protect\caption{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the third circle maneuver from DEEPWAVE flight 15, 5:30:30--5:53:00 UTC, at an altitude of about 9.1 km (30,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GS3min}}
+\protect\caption[The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the third circle maneuver from DEEPWAVE flight 15.]{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the third circle maneuver from DEEPWAVE flight 15, 5:30:30--5:53:00 UTC, at an altitude of about 9.1 km (30,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GS3min}}
 \end{table}
 
 \par\end{center}
@@ -616,7 +616,7 @@ Figures \ref{fig:first-circles}--\ref{fig:third-circles} show the mean measureme
 \index{maneuver!circle!plotted wind-speed variations}
 
 
-<<first-circles, fig.lp="fig:", fig.cap="Measured wind speed from the left-turn and right-turn circles in the circle pattern shown in Fig.\\ \\ref{fig:circle-tracks}, as a function of $\\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \\eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\\ref{tab:Circlemin}.",fig.width=5.0, fig.height=3.5, echo=FALSE, hold=FALSE, include=TRUE, warning=FALSE>>=
+<<first-circles, fig.lp="fig:", fig.scap="Measured wind speed from the left-turn and right-turn circles in the circle pattern shown in Fig.\\ \\ref{fig:circle-tracks}, as a function of the difference between the adjusted heading and the mean wind direction.", fig.cap="Measured wind speed from the left-turn and right-turn circles in the circle pattern shown in Fig.\\ \\ref{fig:circle-tracks}, as a function of $\\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \\eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\\ref{tab:Circlemin}.",fig.width=5.0, fig.height=3.5, echo=FALSE, hold=FALSE, include=TRUE, warning=FALSE>>=
 
 ## get fits 
 Dc <- Dc1; DL <- DL1; DR <- DR1
@@ -625,7 +625,7 @@ ymin=16; ymax=20.5
 source ("chunks/plotWSvsAngle.R")
 
 
-<<second-circles, fig.lp="fig:", fig.cap="Measured wind speed from the left-turn and right-turn circles in the second circle pattern as a function of $\\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \\eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\\ref{tab:Circle2min}.",fig.width=5.0, fig.height=3.5, echo=FALSE, hold=FALSE, include=TRUE, warning=FALSE>>=
+<<second-circles, fig.lp="fig:", fig.scap="Measured wind speed from the left-turn and right-turn circles in the second circle pattern as a function of the difference between the adjusted heading and the mean wind direction.", fig.cap="Measured wind speed from the left-turn and right-turn circles in the second circle pattern as a function of $\\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \\eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\\ref{tab:Circle2min}.",fig.width=5.0, fig.height=3.5, echo=FALSE, hold=FALSE, include=TRUE, warning=FALSE>>=
 
 ## get fits 
 Dc <- Dc2; DL <- DL2; DR <- DR2
@@ -633,7 +633,7 @@ cfcircleC <- cfcircle2[1:3];cfcircleL <- cfcircle2[4:6]; cfcircleR <- cfcircle2[
 ymin = 20; ymax=24
 source ("chunks/plotWSvsAngle.R")
 
-<<third-circles, fig.lp="fig:", fig.cap="Measured wind speed from the left-turn and right-turn circles in the third circle pattern  as a function of $\\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \\eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\\ref{tab:Circle3min}.",fig.width=5.0, fig.height=3.5, echo=FALSE, hold=FALSE, include=TRUE, warning=FALSE>>=
+<<third-circles, fig.lp="fig:", fig.scap="Measured wind speed from the left-turn and right-turn circles in the third circle pattern as a function of the difference between the adjusted heading and the mean wind direction.", fig.cap="Measured wind speed from the left-turn and right-turn circles in the third circle pattern  as a function of $\\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \\eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\\ref{tab:Circle3min}.",fig.width=5.0, fig.height=3.5, echo=FALSE, hold=FALSE, include=TRUE, warning=FALSE>>=
  
 Dc <- Dc3; DL <- DL3; DR <- DR3
 cfcircleC <- cfcircle3[1:3];cfcircleL <- cfcircle3[4:6]; cfcircleR <- cfcircle3[7:9]
@@ -961,7 +961,7 @@ where $\phi$ is the roll angle and $\delta\psi$ and $\delta\beta$ are the offset
 One approximate test is to compare the sideslip measurement in left vs right turns. The measurements of sideslip angle\footnote{The sensitivity coefficients as determined in Sect.~\ref{sub:calibration-SS} have been used to construct this figure.} are shown in Fig.~\ref{fig:plotSS}. In the turns, some sideslip is introduced as the aircraft configuration remains slightly nose-up during the turn, and by symmetry that sideslip angle should reverse sign when the flight pattern changes from left-turn to right-turn circles. That figure shows that this is approximately characteristic of the measurements, but examination of the pitch and roll angles show small variations so it is useful to obtain a better estimate.
 
 
-<<plotSS, fig.lp="fig:", fig.cap = "Measurement of sideslip during the first circle maneuver from DEEPWAVE flight 15, with left-turn circles from 3:40:00 -- 3:46:00 UTC, followed by a straight segment and then right-turn circles 3:47:30 -- 3:53:40 UTC.", fig.width=5, fig.height=4, echo=FALSE, include=TRUE>>=
+<<plotSS, fig.lp="fig:", fig.scap="Measurement of sideslip during the first circle maneuver from DEEPWAVE fight 15.", fig.cap = "Measurement of sideslip during the first circle maneuver from DEEPWAVE flight 15, with left-turn circles from 3:40:00 -- 3:46:00 UTC, followed by a straight segment and then right-turn circles 3:47:30 -- 3:53:40 UTC.", fig.width=5, fig.height=4, echo=FALSE, include=TRUE>>=
 
 Ds <- D[r, ]
 DL <- DL1; DR <- DR1
@@ -997,7 +997,7 @@ This is not useful in straight flight where the roll is near zero, but it provid
 \delta\beta=\beta_{m}-\beta^{*}\,\,.\label{eq:predicted-error-in-sideslip} 
 \end{equation}
 
-<<sideslip-error-histogram, fig.cap="Distribution of measurements of sideslip error determined from (\\ref{eq:predicted-error-in-sideslip}) for all measurements in turns from the three circle maneuvers. Each point in the histogram is the calculated error using one of the 1-Hz measurem3nts from the circle maneuvers.", include=TRUE, echo=FALSE, fig.height=3.5>>=
+<<sideslip-error-histogram, fig.scap="Distribution of measurements of sideslip error determined from (\\ref{eq:predicted-error-in-sideslip}) for all measurements in turns from the three circle maneuvers.", fig.cap="Distribution of measurements of sideslip error determined from (\\ref{eq:predicted-error-in-sideslip}) for all measurements in turns from the three circle maneuvers. Each point in the histogram is the calculated error using one of the 1-Hz measurements from the circle maneuvers.", include=TRUE, echo=FALSE, fig.height=3.5>>=
 
 DX <- rbind (Dc1, Dc2, Dc3)
 dstar <- DX$PITCH - DX$AKRD * cos (DX$ROLL*pi/180) - DX$GGVSPD/DX$TASX
@@ -1262,7 +1262,7 @@ are essentially identical for most frequencies, with some deviation around 0.4~H
 \noindent \begin{centering}
 \includegraphics[width=\maxwidth]{FFTVEW}
 \par\end{centering}
-\protect\caption{Variance spectra for the eastward component of aircraft motion as measured by GPS (GGVEW) and for the corresponding measurement from the IRU (VEW). Data are from IDEAS flight 6 on 13 Oct 2013, 20:03:30--20:11:50 UTC. FFT spectral analysis was used, with 50\,Hz measurements, combining segments of 8192 points, and the resulting spectra were smoothed by averaging in 75 bins equally spaced in the logarithm of the frequency.\label{fig:FFTVEW}} 
+\protect\caption[Variance spectra for the eastward component of aircraft motion as measured by GPS and by IRU.]{Variance spectra for the eastward component of aircraft motion as measured by GPS (GGVEW) and for the corresponding measurement from the IRU (VEW). Data are from IDEAS flight 6 on 13 Oct 2013, 20:03:30--20:11:50 UTC. FFT spectral analysis was used, with 50\,Hz measurements, combining segments of 8192 points, and the resulting spectra were smoothed by averaging in 75 bins equally spaced in the logarithm of the frequency.\label{fig:FFTVEW}} 
 \end{figure}
 
 <<coherence-plot, include=TRUE, fig.cap="Coherence between the measurements GGVEW and VEW (cf.~Fig.~\\ref{fig:FFTVEW}) as a function of frequency.", fig.height=3.5>>=

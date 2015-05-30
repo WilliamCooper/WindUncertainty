@@ -257,7 +257,7 @@ plotWAC (DE[, c("Time", "TASX")], ylab='True Airspeed [m/s]')
 
 The measurements of pressures and the true airspeed calculated from these \index{example of measurements!pressure}\index{example of measurements!airspeed} measurements are shown in Fig.~\ref{fig:radome-plot-pressures} for the same period as in the preceding figure. Corrections have been applied to the pressure measurements according to the calibration determined from LAMS measurements, as described by \citet{CooperEtAl2014}; these corrections vary with flight conditions but normally are smaller than a few hPa so are not evident in these plots. They are nevertheless crucial to reducing the uncertainty in the true airspeed to about 0.3\,m\,s$^{-1}$, as shown in that reference. 
 
-<<radome-plot-airflow-angles, include=TRUE, fig.cap="The pressure differences measured on the radome (ADIFR and BDIFR, respectively between the vertically separated ports and the horizontally separated ports) and the resulting airflow angles AKRD (angle of attack) and SSRD (sideslip angle). Data from DEEPWAVE flight 16.">>=
+<<radome-plot-airflow-angles, include=TRUE, fig.cap="The pressure differences measured on the radome (ADIFR and BDIFR, respectively between the vertically separated ports and the horizontally separated ports) and the resulting airflow angles AKRD (angle of attack) and SSRD (sideslip angle). Data from DEEPWAVE flight 16.", fig.scap="Pressure differences measured on the radome (ADIFR and BDIFR)">>=
 
 op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:2, ncol = 1), widths = 1,  heights = c(5,6))
@@ -270,7 +270,7 @@ plotWAC (DE[, c("Time", "AKRD", "SSRD")], ylab='AOA and sideslip angles [deg.]',
 
 Figure~\ref{fig:radome-plot-airflow-angles} shows the measurements\index{example of measurements!dynamic pressure}\index{example of measurements!angle of attack}\index{example of measurements!sideslip} of differential pressure at the radome and the resulting angle of attack and sideslip angle calculated from those pressure differences. The calculation is described in Section 4 of this document. Fluctuations in sideslip angle are seldom more than a fraction of a degree, while there can be several-degree fluctuations in the angle of attack. The gradual decrease in angle of attack is a result of the change in fuel load on the aircraft, which requires a smaller angle of attack to keep the aircraft level as the weight becomes smaller. 
 
-<<radome-plot-groundspeed, include=TRUE, fig.cap="Top two panels: Ground-speed components as measured by the IRU and GPS, and (red lines) the difference between the two measurements multiplied by a factor of 100. Bottom panel: Aircraft vertical speed as measured by the IRU (with built-in damping to the pressure altitude) and by the GPS unit. Data from DEEPWAVE flight 16.">>=
+<<radome-plot-groundspeed, include=TRUE, fig.cap="{Top two panels: Ground-speed components as measured by the IRU and GPS, and (red lines) the difference between the two measurements multiplied by a factor of 100. Bottom panel: Aircraft vertical speed as measured by the IRU (with built-in damping to the pressure altitude) and by the GPS unit. Data from DEEPWAVE flight 16.}", fig.scap="Ground-speed components measured by the IRU and GPS and vertical wind, DEEPWAVE flight 16.">>=
 
 op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:3, ncol = 1), widths = 1,  heights = c(5,5,6))
@@ -407,7 +407,7 @@ plot(DE$WIC[v], DE$WI_GP[v], type='p', pch=20, col='blue', xlab="WIC [m/s]", yla
 lines(c(-10,10), c(-10,10), lwd=3, lty=2, col='darkorange')
 sdWICmWIG <- sd(DE$WIC[v]-DE$WI_GP[v], na.rm=TRUE)
 
-<<hw-gp-vs-std, include=TRUE, fig.cap="Comparison of horizontal wind direction (top panel) and horizontal wind speed (bottom panel) as determined from the gust pod and from the conventional radome-based system, for measurements where the true airspeed is greater than 130 m/s (to exclude periods of possible flap deployment). Only measurements considered valid are plotted for the gust pod; the restrictions where the gust-pod measurement is flagged as missing and therefore is not plotted here are: altitude (GGALT) > 5000 m, absolute value of roll (ROLL) < 5$^{\\circ}$. This causes exclusion of some measurements near the start and end of the flight and during turns.">>=
+<<hw-gp-vs-std, include=TRUE, fig.scap="Horizontal wind direction and speed from the gust pod and from the conventional radome-based system.",fig.cap="Comparison of horizontal wind direction (top panel) and horizontal wind speed (bottom panel) as determined from the gust pod and from the conventional radome-based system, for measurements where the true airspeed is greater than 130 m/s (to exclude periods of possible flap deployment). Only measurements considered valid are plotted for the gust pod; the restrictions where the gust-pod measurement is flagged as missing and therefore is not plotted here are: altitude (GGALT) > 5000 m, absolute value of roll (ROLL) < 5$^{\\circ}$. This causes exclusion of some measurements near the start and end of the flight and during turns.">>=
 
 op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:2, ncol = 1), widths = 1,  heights = c(5,6))
@@ -657,7 +657,7 @@ The laser air-motion sensor (LAMS)\index{laser air-motion sensor} is still under
 \noindent \begin{centering}%
 \includegraphics[width=0.9\columnwidth]{amt-2014-0031-f01-r}%
 %\includegraphics[width=120mm]{amt-2014-0031-f01}%
-\caption{Diagram of the LAMS. Light generated by the laser in the cabin is transmitted by optical fibers to a~wing pod, where it is transmitted in a beam that has a~focal point well ahead of the aircraft (farther ahead than suggested by this not-to-scale diagram). The light backscattered from aerosol particles in the focal region is collected by the lens, and a circulator mixes a~portion of the transmitted signal with the returned signal. The resulting signal, with interference patterns that measure the Doppler shift of the backscattered light, is returned via optical fiber to the cabin for digitization. Also illustrated in this figure are the approximate locations of the static pressure ports and the fuselage pitot tube used by the research data system to measure static and dynamic pressures. This figure appears in Applied Optics in the article by \citet{SpulerEtAl2011} and is used here with permission from the Optical Society of America.\label{fig:LAMSschematic}}%
+\caption[Diagram showing the LAMS as operated on the GV.]{Diagram of the LAMS. Light generated by the laser in the cabin is transmitted by optical fibers to a~wing pod, where it is transmitted in a beam that has a~focal point well ahead of the aircraft (farther ahead than suggested by this not-to-scale diagram). The light backscattered from aerosol particles in the focal region is collected by the lens, and a circulator mixes a~portion of the transmitted signal with the returned signal. The resulting signal, with interference patterns that measure the Doppler shift of the backscattered light, is returned via optical fiber to the cabin for digitization. Also illustrated in this figure are the approximate locations of the static pressure ports and the fuselage pitot tube used by the research data system to measure static and dynamic pressures. This figure appears in Applied Optics in the article by \citet{SpulerEtAl2011} and is used here with permission from the Optical Society of America.\label{fig:LAMSschematic}}%
 \end{centering}%
 \end{figure}%
 \begin{figure}%
@@ -708,7 +708,8 @@ $0^{\circ}$  &
 \bottomrule
 \end{tabular}
 \par\end{center}%
-\end{minipage}\protect\caption{Designations and ideal orientations of LAMS beams for installation
+\end{minipage}
+\protect\caption[Designations and ideal orientations of LAMS beams for installation on the GV.]{Designations and ideal orientations of LAMS beams for installation
 on the GV. $\theta_{L}$ is the angle from the longitudinal axis of
 the aircraft to the beam, and $\phi_{L}$ is the azimuthal angle of
 rotation about the longitudinal axis relative to the downward (aircraft-axis)
@@ -772,14 +773,14 @@ The telescope beam measurement system was developed in house to provide position
 \noindent \begin{centering}
 \includegraphics[width=10cm]{17_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_BeamPointing_ReceiverDiagram-r.png}  
 \par\end{centering}
-\protect\caption{\label{fig:TelescopePointingRX}Diagram of the receiver system. The invisible infared beam enters the beam expander which amplifies the angle of the beam relative to the telescope optic axis, and is then focused onto an IR card. The IR card fluoresces at a visible wavelength and that light is reimaged onto a CCD.} 
+\protect\caption[Diagram of the LAMS receiver system]{\label{fig:TelescopePointingRX}Diagram of the receiver system. The invisible infared beam enters the beam expander which amplifies the angle of the beam relative to the telescope optic axis, and is then focused onto an IR card. The IR card fluoresces at a visible wavelength and that light is reimaged onto a CCD.} 
 \end{figure}
 
 \begin{figure}
 \noindent \begin{centering}
 \includegraphics[width=10cm]{18_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_BeamPointingCollection-r.png}  
 \par\end{centering}
-\protect\caption{\label{fig:TelescopePictures}Photographs of the telescope angle measurement system in the RAF optics lab. View of the setup from behind the LAMS pod (top left), the receiver system (bottom left), LAMS mounted in the telescope mount (right).} 
+\protect\caption[Photographs of the telescope angle measurement system.]{\label{fig:TelescopePictures}Photographs of the telescope angle measurement system in the RAF optics lab. View of the setup from behind the LAMS pod (top left), the receiver system (bottom left), LAMS mounted in the telescope mount (right).} 
 \end{figure}
 
 With the IR card at the back focus of the optical system, the beam image is position independent. Its location in this plane is dictated solely by the angle of the input beam. Even though each beam is slightly translated relative to its counterparts, we can still perform accurate angle measurements. 

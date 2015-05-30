@@ -77,6 +77,7 @@
 \usepackage{splitidx}
 \makeindex
 \usepackage{graphicx}
+\graphicspath{ {figure/} }
 \usepackage{esint}
 \usepackage[authoryear]{natbib}
 \PassOptionsToPackage{normalem}{ulem}
@@ -198,6 +199,7 @@
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 
+\pagenumbering{gobble}
 \title{Characterization of Uncertainty \\
  in \\Measurements of Wind\\
  from the \\NSF/NCAR Gulfstream V Research Aircraft}
@@ -206,16 +208,56 @@
 \author{W. A. Cooper, R. B. Friesen, M. Hayman, J. B. Jensen, D. H. Lenschow, \\P. Romashkin, A. J. Schanot, S. M. Spuler, J. Stith, C. Wolff\\(and, we hope,  others)}
 
 
-\date{\textcolor{red}{DRAFT} 5/19/2015}
-
+\date{\textcolor{red}{DRAFT} 5/29/2015}
+\thispagestyle{empty}
 \maketitle
 \vfill{}
 \eject%
+\pagenumbering{roman}
+
+
+\begin{abstract}
+
+This technical note presents an analysis of uncertainty for measurements
+of wind from the Gulfstream V research aircraft operated by the National
+Center for Atmospheric Research for the National Science Foundation,
+with emphasis on measurements made in the DEEPWAVE field project in
+2014. It begins with a description of the instruments used to make
+the needed measurements and the algorithms used for calculation of
+wind. Three systems are described, the primary system in depth, a
+new system based on a gust pod in lesser detail, and a laser air motion
+sensor in preliminary fashion because the latter is still under development.
+In addition to specifying the characteristics of the component measurements
+and propagating their uncertainty to the final measurement of wind,
+the document presents detailed information on how the measurements
+are calibrated in terms of airflow, are processed to incorporate corrections,
+and are checked with flight maneuvers. The results are presented in
+terms of standard uncertainties where possible, so if for example
+coverage intended to match 95\% confidence intervals is desired the
+values quoted should be doubled. The net uncertainty in the standard
+measurement of vertical wind is 0.12~m\,s$^{-1}$, and a correction
+procedure for removing the Schuler oscillation in pitch is developed
+that with special processing can reduce this value. For the standard
+measurement of horizontal wind, the estimated standard uncertainty
+is about 0.4~m\,s$^{-1}$ for each component of the vector wind.
+These estimates are supported by itemized lists of the sources of
+error and how the associated uncertainty has been measured. The report
+also offers some suggestions regarding methods to improve the measurements,
+focused on the horizontal wind where the weakest measurement is that
+of heading. Appendices to the report discuss the conventions used
+for characterization of uncertainty and the high-rate (25~Hz) measurements
+used to characterize turbulence. Finally, the last appendix discusses
+how the analysis programs and data are preserved in ways that address
+reproducibility of the analysis, so that others can duplicate these
+results.
+\end{abstract}
 \tableofcontents{}
 \vfill{}
 \eject
-
-
+\listoffigures
+\listoftables
+\newpage
+\pagenumbering{arabic}
 
 %% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
 
@@ -562,7 +604,7 @@ The measurements of pressures and the true airspeed calculated from these \index
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\maxwidth]{figure/radome-plot-airflow-angles-1} \caption[The pressure differences measured on the radome (ADIFR and BDIFR, respectively between the vertically separated ports and the horizontally separated ports) and the resulting airflow angles AKRD (angle of attack) and SSRD (sideslip angle)]{The pressure differences measured on the radome (ADIFR and BDIFR, respectively between the vertically separated ports and the horizontally separated ports) and the resulting airflow angles AKRD (angle of attack) and SSRD (sideslip angle). Data from DEEPWAVE flight 16.}\label{fig:radome-plot-airflow-angles}
+\includegraphics[width=\maxwidth]{figure/radome-plot-airflow-angles-1} \caption[Pressure differences measured on the radome (ADIFR and BDIFR)]{The pressure differences measured on the radome (ADIFR and BDIFR, respectively between the vertically separated ports and the horizontally separated ports) and the resulting airflow angles AKRD (angle of attack) and SSRD (sideslip angle). Data from DEEPWAVE flight 16.}\label{fig:radome-plot-airflow-angles}
 \end{figure}
 
 
@@ -572,7 +614,7 @@ Figure~\ref{fig:radome-plot-airflow-angles} shows the measurements\index{example
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\maxwidth]{figure/radome-plot-groundspeed-1} \caption[Top two panels]{Top two panels: Ground-speed components as measured by the IRU and GPS, and (red lines) the difference between the two measurements multiplied by a factor of 100. Bottom panel: Aircraft vertical speed as measured by the IRU (with built-in damping to the pressure altitude) and by the GPS unit. Data from DEEPWAVE flight 16.}\label{fig:radome-plot-groundspeed}
+\includegraphics[width=\maxwidth]{figure/radome-plot-groundspeed-1} \caption[Ground-speed components measured by the IRU and GPS and vertical wind, DEEPWAVE flight 16.]{{Top two panels: Ground-speed components as measured by the IRU and GPS, and (red lines) the difference between the two measurements multiplied by a factor of 100. Bottom panel: Aircraft vertical speed as measured by the IRU (with built-in damping to the pressure altitude) and by the GPS unit. Data from DEEPWAVE flight 16.}}\label{fig:radome-plot-groundspeed}
 \end{figure}
 
 
@@ -696,7 +738,7 @@ A new calibration is developed in Section \ref{sec:Calibrations}. On the basis o
 \end{knitrout}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\maxwidth]{figure/hw-gp-vs-std-1} \caption[Comparison of horizontal wind direction (top panel) and horizontal wind speed (bottom panel) as determined from the gust pod and from the conventional radome-based system, for measurements where the true airspeed is greater than 130 m/s (to exclude periods of possible flap deployment)]{Comparison of horizontal wind direction (top panel) and horizontal wind speed (bottom panel) as determined from the gust pod and from the conventional radome-based system, for measurements where the true airspeed is greater than 130 m/s (to exclude periods of possible flap deployment). Only measurements considered valid are plotted for the gust pod; the restrictions where the gust-pod measurement is flagged as missing and therefore is not plotted here are: altitude (GGALT) > 5000 m, absolute value of roll (ROLL) < 5$^{\circ}$. This causes exclusion of some measurements near the start and end of the flight and during turns.}\label{fig:hw-gp-vs-std}
+\includegraphics[width=\maxwidth]{figure/hw-gp-vs-std-1} \caption[Horizontal wind direction and speed from the gust pod and from the conventional radome-based system.]{Comparison of horizontal wind direction (top panel) and horizontal wind speed (bottom panel) as determined from the gust pod and from the conventional radome-based system, for measurements where the true airspeed is greater than 130 m/s (to exclude periods of possible flap deployment). Only measurements considered valid are plotted for the gust pod; the restrictions where the gust-pod measurement is flagged as missing and therefore is not plotted here are: altitude (GGALT) > 5000 m, absolute value of roll (ROLL) < 5$^{\circ}$. This causes exclusion of some measurements near the start and end of the flight and during turns.}\label{fig:hw-gp-vs-std}
 \end{figure}
 
 
@@ -938,7 +980,7 @@ The laser air-motion sensor (LAMS)\index{laser air-motion sensor} is still under
 \noindent \begin{centering}%
 \includegraphics[width=0.9\columnwidth]{amt-2014-0031-f01-r}%
 %\includegraphics[width=120mm]{amt-2014-0031-f01}%
-\caption{Diagram of the LAMS. Light generated by the laser in the cabin is transmitted by optical fibers to a~wing pod, where it is transmitted in a beam that has a~focal point well ahead of the aircraft (farther ahead than suggested by this not-to-scale diagram). The light backscattered from aerosol particles in the focal region is collected by the lens, and a circulator mixes a~portion of the transmitted signal with the returned signal. The resulting signal, with interference patterns that measure the Doppler shift of the backscattered light, is returned via optical fiber to the cabin for digitization. Also illustrated in this figure are the approximate locations of the static pressure ports and the fuselage pitot tube used by the research data system to measure static and dynamic pressures. This figure appears in Applied Optics in the article by \citet{SpulerEtAl2011} and is used here with permission from the Optical Society of America.\label{fig:LAMSschematic}}%
+\caption[Diagram showing the LAMS as operated on the GV.]{Diagram of the LAMS. Light generated by the laser in the cabin is transmitted by optical fibers to a~wing pod, where it is transmitted in a beam that has a~focal point well ahead of the aircraft (farther ahead than suggested by this not-to-scale diagram). The light backscattered from aerosol particles in the focal region is collected by the lens, and a circulator mixes a~portion of the transmitted signal with the returned signal. The resulting signal, with interference patterns that measure the Doppler shift of the backscattered light, is returned via optical fiber to the cabin for digitization. Also illustrated in this figure are the approximate locations of the static pressure ports and the fuselage pitot tube used by the research data system to measure static and dynamic pressures. This figure appears in Applied Optics in the article by \citet{SpulerEtAl2011} and is used here with permission from the Optical Society of America.\label{fig:LAMSschematic}}%
 \end{centering}%
 \end{figure}%
 \begin{figure}%
@@ -989,7 +1031,8 @@ $0^{\circ}$  &
 \bottomrule
 \end{tabular}
 \par\end{center}%
-\end{minipage}\protect\caption{Designations and ideal orientations of LAMS beams for installation
+\end{minipage}
+\protect\caption[Designations and ideal orientations of LAMS beams for installation on the GV.]{Designations and ideal orientations of LAMS beams for installation
 on the GV. $\theta_{L}$ is the angle from the longitudinal axis of
 the aircraft to the beam, and $\phi_{L}$ is the azimuthal angle of
 rotation about the longitudinal axis relative to the downward (aircraft-axis)
@@ -1053,14 +1096,14 @@ The telescope beam measurement system was developed in house to provide position
 \noindent \begin{centering}
 \includegraphics[width=10cm]{17_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_BeamPointing_ReceiverDiagram-r.png}  
 \par\end{centering}
-\protect\caption{\label{fig:TelescopePointingRX}Diagram of the receiver system. The invisible infared beam enters the beam expander which amplifies the angle of the beam relative to the telescope optic axis, and is then focused onto an IR card. The IR card fluoresces at a visible wavelength and that light is reimaged onto a CCD.} 
+\protect\caption[Diagram of the LAMS receiver system]{\label{fig:TelescopePointingRX}Diagram of the receiver system. The invisible infared beam enters the beam expander which amplifies the angle of the beam relative to the telescope optic axis, and is then focused onto an IR card. The IR card fluoresces at a visible wavelength and that light is reimaged onto a CCD.} 
 \end{figure}
 
 \begin{figure}
 \noindent \begin{centering}
 \includegraphics[width=10cm]{18_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_BeamPointingCollection-r.png}  
 \par\end{centering}
-\protect\caption{\label{fig:TelescopePictures}Photographs of the telescope angle measurement system in the RAF optics lab. View of the setup from behind the LAMS pod (top left), the receiver system (bottom left), LAMS mounted in the telescope mount (right).} 
+\protect\caption[Photographs of the telescope angle measurement system.]{\label{fig:TelescopePictures}Photographs of the telescope angle measurement system in the RAF optics lab. View of the setup from behind the LAMS pod (top left), the receiver system (bottom left), LAMS mounted in the telescope mount (right).} 
 \end{figure}
 
 With the IR card at the back focus of the optical system, the beam image is position independent. Its location in this plane is dictated solely by the angle of the input beam. Even though each beam is slightly translated relative to its counterparts, we can still perform accurate angle measurements. 
@@ -1567,7 +1610,7 @@ Table~\ref{tab:Elemental-w} summarizes the results for the radome-based wind sys
 
 
 \begin{table}
-\protect\caption{Elemental contributions to the uncertainty in measurement of vertical
+\protect\caption[Elemental contributions to the uncertainty in measurement of vertical wind provided by the radome-based system.]{Elemental contributions to the uncertainty in measurement of vertical
 wind provided by the radome-based system. Separate estimates of systematic error (bias) and random error (which is reduced by averaging measurements) are listed, and Type-A uncertainty estimates are accompanied by an estimate of the degrees of freedom (DOF) when it is smaller than 50. The last two columns represent how the tabulated uncertainties propagate to estimates of bias and random error in the measurement of vertical wind ($w$). All entries pertain to 1-Hz measurements. Entries '--' indicate negligible
 contribution to uncertainty. See Appendix A for discussion of the meaning of 'Type A' and 'Type B' evaluations of uncertainty.\label{tab:Elemental-w}}
 \vskip0.1truein
@@ -1702,7 +1745,8 @@ For the gust pod\index{gust pod}\index{system!gust pod} system, many of the unce
 Table~\ref{tab:GP-Elemental-w} lists the elemental contributions to uncertainty\index{uncertainty!elemental sources!table}\index{wind!vertical!uncertainty} in the measurement of vertical wind from the gust-pod system. The following is a discussion of the individual elements in that table.\sindex[var]{AK_GP=angle of attack determined using the gust pod [deg]@AK\_GP=angle of attack determined using the gust pod {[}deg{]}} 
 
 \begin{table}
-\protect\caption{Elemental contributions to the uncertainty in measurement of vertical
+\protect\caption[Elemental contributions to the uncertainty in measurement of vertical
+wind using the gust pod.]{Elemental contributions to the uncertainty in measurement of vertical
 wind using the gust pod. See Table~\ref{tab:Elemental-w} for explanation of entries.\label{tab:GP-Elemental-w}}
 \vskip0.1truein
 \begin{tabular}{ccccccc}
@@ -1830,7 +1874,8 @@ Table \ref{tab:Elemental-h} lists the elemental contributions to uncertainty\ind
 
  
 \begin{table}
-\protect\caption{Elemental contributions to the uncertainty in measurement of horizontal
+\protect\caption[Elemental contributions to the uncertainty in measurement of horizontal
+wind by the radome-based system.]{Elemental contributions to the uncertainty in measurement of horizontal
 wind by the radome-based system. Entries '--' indicate negligible
 contribution to uncertainty. Entries with subscript $\perp$ refer
 to the lateral component of the horizontal wind, and those with subscript
@@ -1987,8 +2032,9 @@ The net uncertainty in the lateral (longitudinal) component of the horizontal wi
 
 \index{uncertainty!elemental sources}\index{gust pod}
 \begin{table}
-\protect\caption{Elemental contributions to the uncertainty in measurement of horizontal
-wind from the gust pod.. Entries '--' indicate negligible contribution
+\protect\caption[Elemental contributions to the uncertainty in measurement of horizontal
+wind from the gust pod.]{Elemental contributions to the uncertainty in measurement of horizontal
+wind from the gust pod. Entries '--' indicate negligible contribution
 to uncertainty. Entries with subscript $\perp$ refer to the lateral
 component of the horizontal wind, and those with subscript indicating parallel
  refer to the longitudinal component (along the axis of the
@@ -2252,7 +2298,7 @@ The first three lines \ref{tab:Summary-of-uncertainty} claim that wind can be me
 \begin{table}
 \noindent \centering{}%
 \begin{minipage}[t]{1\columnwidth}%
-\protect\caption{Summary of uncertainty for measurements of wind from the GV. Where there are two
+\protect\caption[Summary of uncertainty for measurements of wind from the GV.]{Summary of uncertainty for measurements of wind from the GV. Where there are two
 entries horizontal wind components, the first is the component lateral
 to the axis of the aircraft and the second the component parallel to the
 axis of the aircraft.\label{tab:Summary-of-uncertainty}}
@@ -2324,7 +2370,7 @@ The straightforward way to improve the measurements from the gust pod would be t
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\maxwidth]{figure/WICWIGdiff-1} \caption[Histogram of the differences between the vertical wind measured by the radome-based system (WIC) and that measured by the gust-pod system (WI\_GP) for all 1-Hz measurements from the DEEPWAVE project where the absolute value of the roll was less than 5]{Histogram of the differences between the vertical wind measured by the radome-based system (WIC) and that measured by the gust-pod system (WI\_GP) for all 1-Hz measurements from the DEEPWAVE project where the absolute value of the roll was less than 5$^{\circ}$, flight speed was above 130~m/s, and flight altitude was FL350 (35,000~ft) or above. The density shows the fraction of points per unit interval in the difference WIC-WI\_GP. There were a total of about 280,000 measurements used for this plot, but some flights and flight periods were excluded where it appeared, from comparison to other IRUs, that the pitch measurement from the gust-pod system was of degraded quality.}\label{fig:WICWIGdiff}
+\includegraphics[width=\maxwidth]{figure/WICWIGdiff-1} \caption[Histogram of the differences between the vertical wind measured by the radome-based system and that measured by the gust-pod system.]{Histogram of the differences between the vertical wind measured by the radome-based system (WIC) and that measured by the gust-pod system (WI\_GP) for all 1-Hz measurements from the DEEPWAVE project where the absolute value of the roll was less than 5$^{\circ}$, flight speed was above 130~m/s, and flight altitude was FL350 (35,000~ft) or above. The density shows the fraction of points per unit interval in the difference WIC-WI\_GP. There were a total of about 280,000 measurements used for this plot, but some flights and flight periods were excluded where it appeared, from comparison to other IRUs, that the pitch measurement from the gust-pod system was of degraded quality.}\label{fig:WICWIGdiff}
 \end{figure}
 
 
@@ -2494,7 +2540,7 @@ Figure~\ref{fig:plot-comparison-to-standard} shows the angle of attack\index{att
 
 }
 
-\caption[The angle of attack determined from the simple fit to the pressure ratio from the radome, as a function of the angle of attack predicted for zero vertical wind from the formula in the text (blue shapes), and the corresponding distribution that would result from using the standard calibration (green shapes)]{The angle of attack determined from the simple fit to the pressure ratio from the radome, as a function of the angle of attack predicted for zero vertical wind from the formula in the text (blue shapes), and the corresponding distribution that would result from using the standard calibration (green shapes). The shapes show the distributions for measurements in centered bins at (1/3)-degree increments in the predicted angle of attack. The dashed orange line is the best fit to the speed-run measurements.}\label{fig:plot-comparison-to-standard}
+\caption[Angle of attack determined from the simple fit to the pressure ratio from the radome.]{The angle of attack determined from the simple fit to the pressure ratio from the radome, as a function of the angle of attack predicted for zero vertical wind from the formula in the text (blue shapes), and the corresponding distribution that would result from using the standard calibration (green shapes). The shapes show the distributions for measurements in centered bins at (1/3)-degree increments in the predicted angle of attack. The dashed orange line is the best fit to the speed-run measurements.}\label{fig:plot-comparison-to-standard}
 \end{figure}
 
 
@@ -2642,7 +2688,7 @@ A similar approach was taken for the gust pod, but with variables translated to 
 
 }
 
-\caption{For the gust pod, the angle of attack determined from the fit as a function of the reference angle provided by (\ref{eq:AOAeq}), for the combined four speed runs. Compare to Fig.~\ref{fig:AOA-fit-and-plot}, the corresponding plot for the radome.}\label{fig:AOA-gust-pod}
+\caption[For the gust pod, the angle of attack determined from the fit as a function of the reference angle, for the combined four speed runs.]{For the gust pod, the angle of attack determined from the fit as a function of the reference angle provided by (\ref{eq:AOAeq}), for the combined four speed runs. Compare to Fig.~\ref{fig:AOA-fit-and-plot}, the corresponding plot for the radome.}\label{fig:AOA-gust-pod}
 \end{figure}
 
 
@@ -2726,7 +2772,7 @@ where $\Delta p_{\beta}$ is the pressure difference between horizontally separat
 
 }
 
-\caption{The sideslip attack determined from the fit, as a function of the reference angle provided by Equation (\ref{eq:beta-equation}), for the combination of data from all three yaw maneuvers listed in the text. The gray area underlying the dashed orange line denotes the standard-uncertainty range for the fit.}\label{fig:sideslip-fits}
+\caption[Sideslip angle determined from the fit, for the combination of data from all three yaw maneuvers listed in the text.]{The sideslip angle determined from the fit, as a function of the reference angle provided by Equation (\ref{eq:beta-equation}), for the combination of data from all three yaw maneuvers listed in the text. The gray area underlying the dashed orange line denotes the standard-uncertainty range for the fit.}\label{fig:sideslip-fits}
 \end{figure}
 
 
@@ -2834,7 +2880,7 @@ This complexity in the equation was needed to obtain a good fit (with residual e
 
 }
 
-\caption{The estimate of $q/p$ obtained from the right side of (\ref{eq:TASfit}), determined entirely from measurements provided by the gust pod, plotted against the standard measurement obtained from QCXC/PSXC. The coefficients are listed in the text.}\label{fig:plot-qp-fit}
+\caption[The estimate of $q/p$ obtained from the right side of (\ref{eq:TASfit}), determined entirely from measurements provided by the gust pod, plotted against the standard measurement obtained from QCXC/PSXC.]{The estimate of $q/p$ obtained from the right side of (\ref{eq:TASfit}), determined entirely from measurements provided by the gust pod, plotted against the standard measurement obtained from QCXC/PSXC. The coefficients are listed in the text.}\label{fig:plot-qp-fit}
 \end{figure}
 
 
@@ -2995,7 +3041,7 @@ For evaluation of these measurements of aircraft velocity, it is useful to compa
 \includegraphics[width=0.9\textwidth]{28_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_VSPDspectraDW16.pdf}  
 \par\end{centering}
 
-\protect\caption{\label{fig:Variance-spectra-VSPD}Variance spectra {[}units: m$^{2}$s$^{-2}$, density functions per logarithmic interval in frequency expressed in Hz{]} for various components entering vertical-wind calculations. Data are from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC. The thick blue trace is that for the vertical wind variable WIC; others show either measurements of the aircraft vertical motion (VSPD, GGVSPD) or, as GUSTW, the relative-wind contribution to WIC. The green diagonal lines show the slope expected for an inertial subrange; the thicker green line labeled ``!0$^{-4}$'' corresponds to the spectrum expected for an eddy dissipation rate of $1\times10^{-4}$\,m$^{2}$s$^{-3}$. Other green reference lines are displaced by an order of magnitude in eddy dissipation rate. The calculations are based on the all-poles or maximum-entropy method, with 100 poles; cf.~\citet{Press:1992:NRC:148286}. The resolution used was 0.0005, with results smoothed in 50 bins in the logarithm of frequency. Total variance is 1.36\,m$^{2}$s$^{-2}$.} 
+\protect\caption[Variance spectra for various components entering vertical-wind calculations.]{\label{fig:Variance-spectra-VSPD}Variance spectra {[}units: m$^{2}$s$^{-2}$, density functions per logarithmic interval in frequency expressed in Hz{]} for various components entering vertical-wind calculations. Data are from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC. The thick blue trace is that for the vertical wind variable WIC; others show either measurements of the aircraft vertical motion (VSPD, GGVSPD) or, as GUSTW, the relative-wind contribution to WIC. The green diagonal lines show the slope expected for an inertial subrange; the thicker green line labeled ``!0$^{-4}$'' corresponds to the spectrum expected for an eddy dissipation rate of $1\times10^{-4}$\,m$^{2}$s$^{-3}$. Other green reference lines are displaced by an order of magnitude in eddy dissipation rate. The calculations are based on the all-poles or maximum-entropy method, with 100 poles; cf.~\citet{Press:1992:NRC:148286}. The resolution used was 0.0005, with results smoothed in 50 bins in the logarithm of frequency. Total variance is 1.36\,m$^{2}$s$^{-2}$.} 
 \end{figure}
 
 Figure \ref{fig:Variance-spectra-VSPD}\index{variance spectrum!vertical wind components} shows variance spectra calculated for the entire 6-h period, for a number of measurements entering the vertical-wind calculations.\footnote{This plot is an exception to the goals of \textquotedbl{}reproducible analysis\textquotedbl{} explained in the introduction and in Appendix C. The calculations used an external spectral-analysis program, not R code, and the specific data are not part of the data archive for the document. See Appendix B for more information on the method used to calculate these variance spectra.}The thick blue trace shows the spectrum for the standard vertical wind measurement WIC, which has a pronounced broad peak near 10 km wavelength, a relatively small inertial subrange extending only to about 2 km, and (after smoothing in 50 logarithmic intervals across the range of the plot) uncertainty estimates that range from about 5\% at the lowest frequencies to <1\% at the highest frequencies. 
@@ -3059,7 +3105,7 @@ The key conclusions reached from this study of the vertical aircraft velocity ar
 \includegraphics[width=0.9\textwidth]{29_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_WIXHR1.png}  
 \par\end{centering}
 
-\protect\caption{\label{fig:WIXHR1}Variance spectra for the vertical wind (here, WIX) and for the contributions to it made by the relative wind (GUSTW) and the aircraft motion (GGVSPDB, essentially the same as GGVSPD). Also shown for comparison is the spectrum for the IRU-provided aircraft motion (VSPD, dashed line). Data from DEEPWAVE flight 15, 3:40:00--3:55:00.} 
+\protect\caption[Variance spectra for the vertical wind and for the contributions made by the relative wind and the aircraft motion.]{\label{fig:WIXHR1}Variance spectra for the vertical wind (here, WIX) and for the contributions to it made by the relative wind (GUSTW) and the aircraft motion (GGVSPDB, essentially the same as GGVSPD). Also shown for comparison is the spectrum for the IRU-provided aircraft motion (VSPD, dashed line). Data from DEEPWAVE flight 15, 3:40:00--3:55:00.} 
 \end{figure}
 
 An example\index{variance spectrum!low-turbulence case}\index{DEEPWAVE!flight 15} where there was very low turbulence is shown in Fig.~\ref{fig:WIXHR1}.\sindex[var]{WIX=vertical wind recalculated with pitch correction {[}m/s{]}} The intensity of vertical-wind fluctuations was quite small for this flight segment, with a standard deviation in vertical wind of only about 0.2 m/s. Some features of this plot are explained below:  
@@ -3097,7 +3143,7 @@ An example\index{variance spectrum!low-turbulence case}\index{DEEPWAVE!flight 15
 
 }
 
-\caption[Coupled variations in pitch, altitude, and airspeed for a segment of flight in smooth air from DEEPWAVE flight 15, 3]{Coupled variations in pitch, altitude, and airspeed for a segment of flight in smooth air from DEEPWAVE flight 15, 3:40:00--3:45:00~UTC, an illustration of normal variations in flight conditions. GGALT = aircraft altitude; PITCH = pitch angle; AKRD = angle of attack; TAS = true airspeed.}\label{fig:phugoid-plot}
+\caption[Coupled variations in pitch, altitude, and airspeed for a segment of flight in smooth air, illustrating normal variations in flight conditions.]{Coupled variations in pitch, altitude, and airspeed for a segment of flight in smooth air from DEEPWAVE flight 15, 3:40:00--3:45:00~UTC, an illustration of normal variations in flight conditions. GGALT = aircraft altitude; PITCH = pitch angle; AKRD = angle of attack; TAS = true airspeed.}\label{fig:phugoid-plot}
 \end{figure}
 
 
@@ -3405,7 +3451,7 @@ The research flights have frequent changes in heading, with mixing of the roll a
 
 }
 
-\caption{Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft. The orange line labeled 'Full Xfm' uses (\ref{eq:b-vector-in-b-frame}) and (\ref{eq:pitch-error-wo-approx}), while the blue line uses the approximate result (\ref{eq:final-answer}). The limits $\pm$0.03 correspond to roll angle of $\pm 30^{\circ}$ after division by 1000, so the regions with vertical black lines are ones with significant roll.}\label{fig:processing-2}
+\caption[Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft.]{Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft. The orange line labeled 'Full Xfm' uses (\ref{eq:b-vector-in-b-frame}) and (\ref{eq:pitch-error-wo-approx}), while the blue line uses the approximate result (\ref{eq:final-answer}). The limits $\pm$0.03 correspond to roll angle of $\pm 30^{\circ}$ after division by 1000, so the regions with vertical black lines are ones with significant roll.}\label{fig:processing-2}
 \end{figure}
 
 
@@ -3512,7 +3558,7 @@ Table\ \ref{tab:vw-by-flight} lists the mean vertical wind with and without pitc
 \end{tabular}
 \par\end{centering}
 
-\protect\caption{The average vertical wind for each flight, before and after application of the pitch-correction algorithm developed in this subsection. The data restriction applied was that the true airspeed be above 130\,m/s, absolute value of the roll less than $5^{\circ}$, and the flight level above 25,000\,ft (to emphasize normal research measurement conditions in the DEEPWAVE project). Flights 6, 7, and 15 are also missing, as explained in the text.\label{tab:vw-by-flight}} 
+\protect\caption[The average vertical wind for each flight, before and after application of the pitch-correction algorithm.]{The average vertical wind for each flight, before and after application of the pitch-correction algorithm developed in this subsection. The data restriction applied was that the true airspeed be above 130\,m/s, absolute value of the roll less than $5^{\circ}$, and the flight level above 25,000\,ft (to emphasize normal research measurement conditions in the DEEPWAVE project). Flights 6, 7, and 15 are also missing, as explained in the text.\label{tab:vw-by-flight}} 
 \end{table}
 
 \par\end{center}
@@ -3563,7 +3609,7 @@ The correction procedure developed here is not applied in normal processing of d
 
 }
 
-\caption[An example of circle flight pattern, from DEEPWAVE flight 15, 3]{An example of circle flight pattern, from DEEPWAVE flight 15, 3:38:30--3:54:30 UTC. Left side: normal flight track referenced to ground coordinates; right side, flight track plotted in a Lagrangian reference frame drifting with the horizontal wind.}\label{fig:circle-tracks}
+\caption[An example of the circle flight pattern.]{An example of the circle flight pattern, from DEEPWAVE flight 15, 3:38:30--3:54:30 UTC. Left side: normal flight track referenced to ground coordinates; right side, flight track plotted in a Lagrangian reference frame drifting with the horizontal wind.}\label{fig:circle-tracks}
 \end{figure}
 
 
@@ -3627,7 +3673,7 @@ Fitting to minimize the deviations expressed by \eqref{eq:delta-v-m} can then \s
 
 }
 
-\caption{Illustration of the expected variation in measured wind speed with flight angle relative to the wind direction, for assumed errors of $\delta V=1$ m/s in true airspeed and $\delta\psi^{\prime}=0.3^{\circ}$ in heading and for an assumed true wind speed of 10 m/s. The assumed true airspeed is 155 m/s. The red arrows show the differences in measured wind speed between 90 and 270$^{\circ}$ directions and between 0 and 180$^{\circ}$ directions.}\label{fig:sine-plot}
+\caption[Illustration of the expected variation in measured wind speed with flight angle relative to the wind direction, for assumed errors in airspeed and heading.]{Illustration of the expected variation in measured wind speed with flight angle relative to the wind direction, for assumed errors of $\delta V=1$ m/s in true airspeed and $\delta\psi^{\prime}=0.3^{\circ}$ in heading and for an assumed true wind speed of 10 m/s. The assumed true airspeed is 155 m/s. The red arrows show the differences in measured wind speed between 90 and 270$^{\circ}$ directions and between 0 and 180$^{\circ}$ directions.}\label{fig:sine-plot}
 \end{figure}
 
 
@@ -3655,7 +3701,7 @@ From the definitions \eqref{eq:v-errors}, the mean wind can be found by adjustin
 \end{tabular}
 \par\end{centering}
 
-\protect\caption{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the first circle maneuver from DEEPWAVE flight 15, 3:38:30--3:56:30 UTC, at an altitude of about 4.1 km (13,500 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GSmin}}
+\protect\caption[The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the first circle maneuver from DEEPWAVE flight 15.]{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the first circle maneuver from DEEPWAVE flight 15, 3:38:30--3:56:30 UTC, at an altitude of about 4.1 km (13,500 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GSmin}}
 \end{table}
 
 \par\end{center}
@@ -3709,7 +3755,7 @@ The fits thus support the low uncertainty limit claimed for airspeed but suggest
 \end{tabular}
 \par\end{centering}
 
-\protect\caption{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the second circle maneuver from DEEPWAVE flight 15, 4:35:00--4:53:00 UTC, at an altitude of about 6.1 km (20,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GS2min}}
+\protect\caption[The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the second circle maneuver from DEEPWAVE flight 15.]{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the second circle maneuver from DEEPWAVE flight 15, 4:35:00--4:53:00 UTC, at an altitude of about 6.1 km (20,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GS2min}}
 \end{table}
 
 \par\end{center}
@@ -3732,7 +3778,7 @@ The fits thus support the low uncertainty limit claimed for airspeed but suggest
 \end{tabular}
 \par\end{centering}
 
-\protect\caption{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the third circle maneuver from DEEPWAVE flight 15, 5:30:30--5:53:00 UTC, at an altitude of about 9.1 km (30,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GS3min}}
+\protect\caption[The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the third circle maneuver from DEEPWAVE flight 15.]{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the third circle maneuver from DEEPWAVE flight 15, 5:30:30--5:53:00 UTC, at an altitude of about 9.1 km (30,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GS3min}}
 \end{table}
 
 \par\end{center}
@@ -3832,7 +3878,7 @@ Figures \ref{fig:first-circles}--\ref{fig:third-circles} show the mean measureme
 
 }
 
-\caption{Measured wind speed from the left-turn and right-turn circles in the circle pattern shown in Fig.\ \ref{fig:circle-tracks}, as a function of $\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\ref{tab:Circlemin}.}\label{fig:first-circles}
+\caption[Measured wind speed from the left-turn and right-turn circles in the circle pattern shown in Fig.\ \ref{fig:circle-tracks}, as a function of the difference between the adjusted heading and the mean wind direction.]{Measured wind speed from the left-turn and right-turn circles in the circle pattern shown in Fig.\ \ref{fig:circle-tracks}, as a function of $\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\ref{tab:Circlemin}.}\label{fig:first-circles}
 \end{figure}
 
 
@@ -3844,7 +3890,7 @@ Figures \ref{fig:first-circles}--\ref{fig:third-circles} show the mean measureme
 
 }
 
-\caption{Measured wind speed from the left-turn and right-turn circles in the second circle pattern as a function of $\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\ref{tab:Circle2min}.}\label{fig:second-circles}
+\caption[Measured wind speed from the left-turn and right-turn circles in the second circle pattern as a function of the difference between the adjusted heading and the mean wind direction.]{Measured wind speed from the left-turn and right-turn circles in the second circle pattern as a function of $\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\ref{tab:Circle2min}.}\label{fig:second-circles}
 \end{figure}
 
 
@@ -3856,7 +3902,7 @@ Figures \ref{fig:first-circles}--\ref{fig:third-circles} show the mean measureme
 
 }
 
-\caption{Measured wind speed from the left-turn and right-turn circles in the third circle pattern  as a function of $\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\ref{tab:Circle3min}.}\label{fig:third-circles}
+\caption[Measured wind speed from the left-turn and right-turn circles in the third circle pattern as a function of the difference between the adjusted heading and the mean wind direction.]{Measured wind speed from the left-turn and right-turn circles in the third circle pattern  as a function of $\xi$, the difference between the adjusted heading and the mean wind direction. Orange lines are the results of fitting \eqref{eq:delta-v-m} to the measurements, with results as listed in Table~\ref{tab:Circle3min}.}\label{fig:third-circles}
 \end{figure}
 
 
@@ -4004,7 +4050,7 @@ One approximate test is to compare the sideslip measurement in left vs right tur
 
 }
 
-\caption[Measurement of sideslip during the first circle maneuver from DEEPWAVE flight 15, with left-turn circles from 3]{Measurement of sideslip during the first circle maneuver from DEEPWAVE flight 15, with left-turn circles from 3:40:00 -- 3:46:00 UTC, followed by a straight segment and then right-turn circles 3:47:30 -- 3:53:40 UTC.}\label{fig:plotSS}
+\caption[Measurement of sideslip during the first circle maneuver from DEEPWAVE fight 15.]{Measurement of sideslip during the first circle maneuver from DEEPWAVE flight 15, with left-turn circles from 3:40:00 -- 3:46:00 UTC, followed by a straight segment and then right-turn circles 3:47:30 -- 3:53:40 UTC.}\label{fig:plotSS}
 \end{figure}
 
 
@@ -4040,7 +4086,7 @@ This is not useful in straight flight where the roll is near zero, but it provid
 
 }
 
-\caption{Distribution of measurements of sideslip error determined from (\ref{eq:predicted-error-in-sideslip}) for all measurements in turns from the three circle maneuvers. Each point in the histogram is the calculated error using one of the 1-Hz measurem3nts from the circle maneuvers.}\label{fig:sideslip-error-histogram}
+\caption[Distribution of measurements of sideslip error determined from (\ref{eq:predicted-error-in-sideslip}) for all measurements in turns from the three circle maneuvers.]{Distribution of measurements of sideslip error determined from (\ref{eq:predicted-error-in-sideslip}) for all measurements in turns from the three circle maneuvers. Each point in the histogram is the calculated error using one of the 1-Hz measurements from the circle maneuvers.}\label{fig:sideslip-error-histogram}
 \end{figure}
 
 
@@ -4205,7 +4251,7 @@ are essentially identical for most frequencies, with some deviation around 0.4~H
 \noindent \begin{centering}
 \includegraphics[width=\maxwidth]{FFTVEW}
 \par\end{centering}
-\protect\caption{Variance spectra for the eastward component of aircraft motion as measured by GPS (GGVEW) and for the corresponding measurement from the IRU (VEW). Data are from IDEAS flight 6 on 13 Oct 2013, 20:03:30--20:11:50 UTC. FFT spectral analysis was used, with 50\,Hz measurements, combining segments of 8192 points, and the resulting spectra were smoothed by averaging in 75 bins equally spaced in the logarithm of the frequency.\label{fig:FFTVEW}} 
+\protect\caption[Variance spectra for the eastward component of aircraft motion as measured by GPS and by IRU.]{Variance spectra for the eastward component of aircraft motion as measured by GPS (GGVEW) and for the corresponding measurement from the IRU (VEW). Data are from IDEAS flight 6 on 13 Oct 2013, 20:03:30--20:11:50 UTC. FFT spectral analysis was used, with 50\,Hz measurements, combining segments of 8192 points, and the resulting spectra were smoothed by averaging in 75 bins equally spaced in the logarithm of the frequency.\label{fig:FFTVEW}} 
 \end{figure}
 
 \begin{knitrout}\footnotesize
@@ -4334,7 +4380,7 @@ Many different measures are used to characterize measurement error, often making
 \includegraphics[width=11cm]{47_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_A-figure1.png}  
 \par\end{centering}
 
-\protect\caption{\emph{\label{fig:IllustrationOfTerms}Illustration of the separate effects of bias errors and random errors. The true population mean is $\mu$, but an instrument is used that has a bias $b$ and measures with random error (in each observation) $\sigma$. The resulting estimate of the mean, obtained from $\overline{x}$, is in error because of the separate contributions of the bias error $b$ and the random error in the measurement of the mean, in this case $(\overline{x}-a)$. The precision of the instrument is $\sigma$, so the estimated random error in the mean is $\sigma/{N}^{1/2}$. The actual error in an experiment is the difference between the true value $\mu$ and the measured value $\overline{x}$. The histogram represents a frequency distribution measured in a particular experiment, with mean shown as the solid line labeled $\overline{x}$. In a large number of observations, it would be expected that the results would tend toward the smooth dashed curve with mean $a=\mu+b$. The measured standard deviation is $s$, but the limiting value for a large number of measurements is expected to be $\sigma$.} } 
+\protect\caption[Illustration of the separate effects of bias errors and random errors.]{\emph{\label{fig:IllustrationOfTerms}Illustration of the separate effects of bias errors and random errors. The true population mean is $\mu$, but an instrument is used that has a bias $b$ and measures with random error (in each observation) $\sigma$. The resulting estimate of the mean, obtained from $\overline{x}$, is in error because of the separate contributions of the bias error $b$ and the random error in the measurement of the mean, in this case $(\overline{x}-a)$. The precision of the instrument is $\sigma$, so the estimated random error in the mean is $\sigma/{N}^{1/2}$. The actual error in an experiment is the difference between the true value $\mu$ and the measured value $\overline{x}$. The histogram represents a frequency distribution measured in a particular experiment, with mean shown as the solid line labeled $\overline{x}$. In a large number of observations, it would be expected that the results would tend toward the smooth dashed curve with mean $a=\mu+b$. The measured standard deviation is $s$, but the limiting value for a large number of measurements is expected to be $\sigma$.} } 
 
 
 \end{figure}
@@ -4762,7 +4808,7 @@ Because this all involves the same approaches documented in the body of this rep
 \includegraphics[height=0.4\textheight]{56_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_MEMPlot3Comp.png}  
 \par\end{centering}
 
-\protect\protect\protect\caption{\label{fig:AppxB-3Comp}Variance spectra for the three components of the wind represented by UXM (longitudinal component as recalculated by combining the gust-pod true airspeed and the radome-based true airspeed, as discussed in the text), VYC (the conventional lateral component of the horizontal wind), and WIC (the conventional measurement of vertical wind). The two lateral combonents (VYC and WIC) have been multiplied by 0.75 to make them comparable to the longitudinal component in relation to the indicated reference lines for eddy dissipation rate (green lines), which are shown with magnitudes applicable to the longitudinal component. Data from HCRTEST flight 3, 24 Nov.\ 2014.} 
+\protect\caption[Variance spectra for the three components of the wind.]{\label{fig:AppxB-3Comp}Variance spectra for the three components of the wind represented by UXM (longitudinal component as recalculated by combining the gust-pod true airspeed and the radome-based true airspeed, as discussed in the text), VYC (the conventional lateral component of the horizontal wind), and WIC (the conventional measurement of vertical wind). The two lateral combonents (VYC and WIC) have been multiplied by 0.75 to make them comparable to the longitudinal component in relation to the indicated reference lines for eddy dissipation rate (green lines), which are shown with magnitudes applicable to the longitudinal component. Data from HCRTEST flight 3, 24 Nov.\ 2014.} 
 \end{figure}
 
 The result is shown in Fig.~\ref{fig:AppxB-3Comp}, where the longitudinal component of the horizontal wind is calculated as described above by combining measurements from the gust-pod and the radome-based systems. The lateral components have been scaled by a factor of 3/4 because the variance spectra for longitudinal and lateral components are expected to be in the ratio 3:4 in an inertial subrange (e.g., \citet{batchelor1953theory}) so this adjustment should make the spectra coincide. From 1--10\,Hz all indeed appear consistent with an \index{eddy dissipation rate}eddy dissipation rate of about $5\times10^{-4}$~m$^{2}$s$^{-3}$. 

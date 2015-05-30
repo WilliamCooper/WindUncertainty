@@ -28,6 +28,7 @@
 \usepackage{splitidx}
 \makeindex
 \usepackage{graphicx}
+\graphicspath{ {figure/} }
 \usepackage{esint}
 \usepackage[authoryear]{natbib}
 \PassOptionsToPackage{normalem}{ulem}
@@ -149,6 +150,7 @@
 
 \begin{document}
 
+\pagenumbering{gobble}
 \title{Characterization of Uncertainty \\
  in \\Measurements of Wind\\
  from the \\NSF/NCAR Gulfstream V Research Aircraft}
@@ -157,14 +159,13 @@
 \author{W. A. Cooper, R. B. Friesen, M. Hayman, J. B. Jensen, D. H. Lenschow, \\P. Romashkin, A. J. Schanot, S. M. Spuler, J. Stith, C. Wolff\\(and, we hope,  others)}
 
 
-\date{\textcolor{red}{DRAFT} 5/19/2015}
-
+\date{\textcolor{red}{DRAFT} 5/29/2015}
+\thispagestyle{empty}
 \maketitle
 \vfill{}
 \eject%
-\tableofcontents{}
-\vfill{}
-\eject
+\pagenumbering{roman}
+
 <<prelude, echo=FALSE, include=FALSE>>=
 ReloadData = FALSE    # if TRUE read data from original files; 
                       # if FALSE use saved data instead
@@ -181,7 +182,48 @@ Project <- "DEEPWAVE"
 thisFileName <- "WindUncertainty"
 
 @
+\begin{abstract}
 
+This technical note presents an analysis of uncertainty for measurements
+of wind from the Gulfstream V research aircraft operated by the National
+Center for Atmospheric Research for the National Science Foundation,
+with emphasis on measurements made in the DEEPWAVE field project in
+2014. It begins with a description of the instruments used to make
+the needed measurements and the algorithms used for calculation of
+wind. Three systems are described, the primary system in depth, a
+new system based on a gust pod in lesser detail, and a laser air motion
+sensor in preliminary fashion because the latter is still under development.
+In addition to specifying the characteristics of the component measurements
+and propagating their uncertainty to the final measurement of wind,
+the document presents detailed information on how the measurements
+are calibrated in terms of airflow, are processed to incorporate corrections,
+and are checked with flight maneuvers. The results are presented in
+terms of standard uncertainties where possible, so if for example
+coverage intended to match 95\% confidence intervals is desired the
+values quoted should be doubled. The net uncertainty in the standard
+measurement of vertical wind is 0.12~m\,s$^{-1}$, and a correction
+procedure for removing the Schuler oscillation in pitch is developed
+that with special processing can reduce this value. For the standard
+measurement of horizontal wind, the estimated standard uncertainty
+is about 0.4~m\,s$^{-1}$ for each component of the vector wind.
+These estimates are supported by itemized lists of the sources of
+error and how the associated uncertainty has been measured. The report
+also offers some suggestions regarding methods to improve the measurements,
+focused on the horizontal wind where the weakest measurement is that
+of heading. Appendices to the report discuss the conventions used
+for characterization of uncertainty and the high-rate (25~Hz) measurements
+used to characterize turbulence. Finally, the last appendix discusses
+how the analysis programs and data are preserved in ways that address
+reproducibility of the analysis, so that others can duplicate these
+results.
+\end{abstract}
+\tableofcontents{}
+\vfill{}
+\eject
+\listoffigures
+\listoftables
+\newpage
+\pagenumbering{arabic}
 <<A, child='Introduction.Rnw'>>=
 <<B, child='ComponentsOfWindSensingSystem.Rnw'>>=
 <<C, child='CalibrationProcedures.Rnw'>>=
