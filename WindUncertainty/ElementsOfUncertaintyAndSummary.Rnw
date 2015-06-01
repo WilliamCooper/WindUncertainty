@@ -863,56 +863,61 @@ The straightforward way to improve the measurements from the gust pod would be t
 <<WICWIGcalc, include=FALSE, cache=TRUE>>=
 
 Project <- "DEEPWAVE"
-for (i in 1:26) {
-  fname = sprintf("%s%s/%srf%02d.nc", DataDirectory(), Project, Project, i)
-  DW <- getNetCDF (fname, standardVariables (c("CTHDG_GP", "CVEW_GP", "CVNS_GP",
-                                               "ADIF_GP", "QC_GP", "PS_GP", "WI_GP",
-                                               "CPITCH_GP", "CROLL_GP", "CVSPD_GP",
-                                               "LAT", "GGVEW", "GGVNS", "VEW", "VNS",
-                                               "PITCH", "ROLL", "THDG")), F=i)
-  if (i == 16) {DW16 <- DW}
-  DW$AQR_GP <- DW$ADIF_GP / DW$QC_GP
-  DW$MACHG <- MachNumber (DW$PS_GP, DW$QC_GP)
-  DW$AQRM_GP <- DW$AQR_GP * DW$MACHG
-  DW$RR_GP <- DW$QC_GP / DW$PS_GP
-  PC <- CorrectPitch (DW)
-  DW$WIX <- DW$WIC + DW$TASX * PC * pi/180
-  Valid <- DW$TASX > 130
-  DW$AOAREF_GP <- DW$CPITCH_GP - (DW$CVSPD_GP/DW$TASX)*180/pi
-  # Valid[DW$GGALT/0.3048 < 35000] <- FALSE
-  Valid[DW$GGALT/0.3048 < 5000] <- FALSE
-  Valid[abs(DW$CROLL_GP) > 5] <- FALSE
-  if (i == 23) {    ## exclude bad period?
-    Valid[setRange(DW$Time, 95000, 103000)] <- FALSE
+if (ReloadData) {
+  for (i in 1:26) {
+    fname = sprintf("%s%s/%srf%02d.nc", DataDirectory(), Project, Project, i)
+    DW <- getNetCDF (fname, standardVariables (c("CTHDG_GP", "CVEW_GP", "CVNS_GP",
+                                                 "ADIF_GP", "QC_GP", "PS_GP", "WI_GP",
+                                                 "CPITCH_GP", "CROLL_GP", "CVSPD_GP",
+                                                 "LAT", "GGVEW", "GGVNS", "VEW", "VNS",
+                                                 "PITCH", "ROLL", "THDG")), F=i)
+    if (i == 16) {DW16 <- DW}
+    DW$AQR_GP <- DW$ADIF_GP / DW$QC_GP
+    DW$MACHG <- MachNumber (DW$PS_GP, DW$QC_GP)
+    DW$AQRM_GP <- DW$AQR_GP * DW$MACHG
+    DW$RR_GP <- DW$QC_GP / DW$PS_GP
+    PC <- CorrectPitch (DW)
+    DW$WIX <- DW$WIC + DW$TASX * PC * pi/180
+    Valid <- DW$TASX > 130
+    DW$AOAREF_GP <- DW$CPITCH_GP - (DW$CVSPD_GP/DW$TASX)*180/pi
+    # Valid[DW$GGALT/0.3048 < 35000] <- FALSE
+    Valid[DW$GGALT/0.3048 < 5000] <- FALSE
+    Valid[abs(DW$CROLL_GP) > 5] <- FALSE
+    if (i == 23) {    ## exclude bad period?
+      Valid[setRange(DW$Time, 95000, 103000)] <- FALSE
+    }
+    if (i == 1) {
+      DataC <- DW[Valid, ]
+    } else {
+      DataC <- rbind (DataC, DW[Valid, ])
+    }
   }
-  if (i == 1) {
-    DataC <- DW[Valid, ]
-  } else {
-    DataC <- rbind (DataC, DW[Valid, ])
+  DataC <- transferAttributes (DataC, DW16)
+  DataS <- DataC
+  excl <- c(1:4,15,17:19,23:25)
+  excl <- c(2:4,11,15,17:19,23:25)
+  for (i in excl) {
+    DataC <- DataC[DataC$RF != i, ]
   }
+  ## eliminate flight 1 805--840
+  DataC[(DataC$RF == 1) & ((DataC$Time > as.POSIXct("2014-06-06 08:05:00", tz='UTC')) &
+                           (DataC$Time > as.POSIXct("2014-06-06 08:40:00", tz='UTC'))),] <- NA
+  fmGPallflt <- lm(AOAREF_GP ~ AQR_GP + AQRM_GP + RR_GP, data=DataC)
+  coefficients(fmGPallflt)
+  cfGPallflt <- coefficients (fmGPallflt)
+  DataC <- DataS
+  DataC$AOAGP <- cfGPallflt[1] + cfGPallflt[2] * DataC$AQR_GP + cfGPallflt[3] * DataC$AQRM_GP + cfGPallflt[4] * DataC$RR_GP
+  excl <- c(2:4,11,15,17:19,23:25)
+  for (i in excl) {
+    DataC <- DataC[DataC$RF != i, ]
+  }
+  ## eliminate flight 1 805--840
+  DataC[(DataC$RF == 1) & ((DataC$Time > as.POSIXct("2014-06-06 08:05:00", tz='UTC')) &
+                           (DataC$Time > as.POSIXct("2014-06-06 08:40:00", tz='UTC'))),] <- NA
+  save(DataC, file='DataFrames/Sect4WICvsWIG.Rdata')  
+} else {
+  load(file='DataFrames/Sect4WICvsWIG.Rdata')
 }
-# DataC <- transferAttributes (DataC, DW16)
-DataS <- DataC
-excl <- c(1:4,15,17:19,23:25)
-excl <- c(2:4,11,15,17:19,23:25)
-for (i in excl) {
-  DataC <- DataC[DataC$RF != i, ]
-}
-## eliminate flight 1 805--840
-DataC[(DataC$RF == 1) & ((DataC$Time > as.POSIXct("2014-06-06 08:05:00", tz='UTC'))
-                         & (DataC$Time > as.POSIXct("2014-06-06 08:40:00", tz='UTC'))),] <- NA
-fmGPallflt <- lm(AOAREF_GP ~ AQR_GP + AQRM_GP + RR_GP, data=DataC)
-coefficients(fmGPallflt)
-cfGPallflt <- coefficients (fmGPallflt)
-DataC <- DataS
-DataC$AOAGP <- cfGPallflt[1] + cfGPallflt[2] * DataC$AQR_GP + cfGPallflt[3] * DataC$AQRM_GP + cfGPallflt[4] * DataC$RR_GP
-excl <- c(2:4,11,15,17:19,23:25)
-for (i in excl) {
-  DataC <- DataC[DataC$RF != i, ]
-}
-## eliminate flight 1 805--840
-DataC[(DataC$RF == 1) & ((DataC$Time > as.POSIXct("2014-06-06 08:05:00", tz='UTC'))
-                         & (DataC$Time > as.POSIXct("2014-06-06 08:40:00", tz='UTC'))),] <- NA
 Valid <- !is.na(DataC$GGALT) & DataC$GGALT > 35000*.3048
 DataC[!Valid, ] <- NA
 

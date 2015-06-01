@@ -114,18 +114,6 @@ correction to pitch as in Section \ref{sub:Schuler} and AQR=$\Delta p_{\alpha}/q
 
 <<getData-AOA, include=TRUE>>=
 
-transferAttributes <- function (dsub, d) {
-  ds <- dsub
-  for (nm in names (ds)) {
-    var <- sprintf ("d$%s", nm)
-    A <- attributes (eval (parse (text=var)))
-    A$dim <- NULL
-    A$class <- NULL
-    var2 <- sprintf ("ds$%s", nm)
-    attributes (ds[,nm]) <- A
-  }
-  return(ds)
-}
 Flight <- "rf15"        # this was the flight with cal maneuvers
 fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
 VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",

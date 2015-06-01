@@ -205,10 +205,10 @@
  from the \\NSF/NCAR Gulfstream V Research Aircraft}
 
 
-\author{W. A. Cooper, R. B. Friesen, M. Hayman, J. B. Jensen, D. H. Lenschow, \\P. Romashkin, A. J. Schanot, S. M. Spuler, J. Stith, C. Wolff\\(and, we hope,  others)}
+\author{W. A. Cooper, R. B. Friesen, M. Hayman, J. B. Jensen, D. H. Lenschow, \\P. A. Romashkin, A. J. Schanot, S. M. Spuler, J. L. Stith, C. Wolff}
 
 
-\date{\textcolor{red}{DRAFT} 5/29/2015}
+\date{\textcolor{red}{DRAFT} 6/1/2015}
 \thispagestyle{empty}
 \maketitle
 \vfill{}
@@ -4817,6 +4817,19 @@ The conclusion from this appendix is that the lateral components of the wind mea
 
 \section{Reproducibility}
 
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{Project:}}} & WindUncertainty\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Archive package:}}} & WindUncertainty.zip\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Contains:}}} & attachment list below\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Program:}}} & WindUncertainty.Rnw\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Original Data:}}} & /scr/raf\_data/\{ProjectName\}/ [accessed May 2015] \tabularnewline
+\textsf{\textsc{\textcolor{blue}{DataFrame Archive:}}} & NCAR HPSS\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Git:}}} & https://github.com/WilliamCooper/WindUncertainty.git\tabularnewline
+\end{tabular}
+
+\attachm{WindUncertainty.Rnw\\WindUncertainty.pdf\\chunks/*\\SessionInfo\\Ranadu\_2.1-15-5-29.tar.gz}
+
 \index{reproducibility of this document}This document is constructed in ways that support duplication of the
 study. The processing programs are incorporated into the same file
 that generates this document, using principles and techniques described
@@ -4847,10 +4860,15 @@ change after reprocessing so a separate archive is maintained for
 this document. The data files in this archive represent R data.frames\index{R!data.frame}
 and are preserved as binary-format 'Rdata' files via R 'save' commands.
 The code in the GitHub archive has appropriate 'load' commands to
-ingest these data files from a subdirectory named 'Data' but this
+ingest these data files from a subdirectory named 'DataFrames' but this
 is not part of the GitHub repository because it is too large to be
 appropriate there. To reproduce this research, those data files have
 to be transferred separately from the NCAR HPSS to the 'Data' directory. 
+There is a logical switch in the program named "ReloadData" that, if set true,
+causes the program to reload all the data files from the original netCDF
+files, so this is best left false to use the 'DataFrames' archive unless
+all the original files are first downloaded to appropriate locations. As
+corrections are made to the project archives, these netCDF files may change.
 
 Extensive use has been made of attributes\index{attrobites!variables}\index{attribute!data.frame} assigned to the data.frames
 and the variables in those data.frames. All the attributes from the
@@ -4863,39 +4881,18 @@ documentation of what data were used. Key information like the processing
 date, the program version, and the selection of primary variables
 is thus preserved.
 
-\begin{tabular}{ll}
-\textsf{\textsc{\textcolor{blue}{Project:}}} & WindUncertainty\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Archive package:}}} & WindUncertainty.zip\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Contains:}}} & attachment list below\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Program:}}} & WindUncertainty.Rnw\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Original Data:}}} & /scr/raf\_data/HCRTEST/ \tabularnewline
-\textsf{\textsc{\textcolor{blue}{Git:}}} & https://github.com/WilliamCooper/WindUncertainty.git\tabularnewline
-\end{tabular}
 
-\attachm{WindUncertainty.Rnw\\WindUncertainty.pdf\\chunks/*\\SessionInfo\\Ranadu\_2.1-15-3-8.tar.gz}
 
 
 \section*{Acknowledgments}
 \label{sec:acknowledgements}
 
-The analyses reported here were mostly performed using R%
-\footnote{R Core Team (2014). R: A language and environment for statistical
-computing. R Foundation for Statistical Computing, Vienna, Austria.
-URL http://www.R-project.org/.%
-}\citet{Rlanguage}, with RStudio%
-\footnote{RStudio (2012). RStudio: Integrated development environment for R
-(Version 0.98.879) {[}Computer software{]}. Boston, MA. Available
-from http://www.rstudio.org/%
-} \citet{RStudio2012} and knitr%
-\footnote{Xie, Y. (2013), ``knitr: A general-purpose package for dynamic report
-generation in R. R package version 1.3,'' Version 1.6 was used for
-this work. See also Xie, Y (2014), ``Dynamic documents with R and
-knitr,'' CRC Press, Chapman and Hall, 190 pp.%
-} \citet{Xie2014a,Xie2014b}. Substantial use also was made of the
-ggplot2 package%
-\footnote{H. Wickham. ggplot2: elegant graphics for data analysis. Springer, 
-New York, 2009. %
-} \citet{wickham2009} for R.
+The research aircraft discussed in this report, often called "HIAPER," was the result of an extensive effort both within and outside of NCAR, and especially at the National Science Foundation. Everyone at the Research Aviation Facility contributed, and additional key contributions were made by Krista Laursen, who led the HIAPER Project Office that oversaw this initial development, and Jim Huning and Cliff Jacobs at the NSF, whose contributions pervade the system as it exists today. The staff of the UCAR Contracts Office made essential contributions through negotiation and oversight. Chris Webster's development and maintenance of the software used for data processing over this entire cycle was also crucial. The technical staff of the NCAR Earth Observing Laboratory were involved in all stages of the development and operation of this research platform, and the project management staff, operations staff, and computing and data management groups of that Laboratory conducted the projects that produced the data used in this report. Without all these contributions, the measurements characterized in this report would not have been available to the community.
+
+To maintain focus and avoid even greater length, this technical report does not acknowlege the many contributions made to measurement science related to wind measurement by other research groups, but their work has influenced our approaches and thinking significantly. We especially acknowledge the advances and related work at the University of Wyoming, the German Aerospace Center (DLR), the Facility for Airborne Atmospheric Measurements (FAAM), as well as much published literature originating from NASA and other aeronautical groups, all of which have had important influences on our approach to these measurements.
+
+Almost all of the analyses reported here were performed using R (\citet{Rlanguage}), with RStudio  \citet{RStudio2012} and knitr (\citet{Xie2014a,Xie2014b}). The
+"ggplot2" package (\citet{wickham2009}) was used for many of the figures. The effort to make these results reproducible benefited greatly by the work represented in these analysis tools, especially that provided by Y. Xie. The book by C. Gandrud (\citet{Gandrud2014}) also had a strong influence on our approach to this report.
 
 \bibliographystyle{plainnat}
 \label{sec:bibliography}
