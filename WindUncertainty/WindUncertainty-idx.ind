@@ -266,7 +266,7 @@
       \subsubitem tests, \hyperpage{100}
     \subitem correction to, \hyperpage{47}
     \subitem errors, \hyperpage{40}
-    \subitem intercomparison, \hyperpage{49}
+    \subitem inter-comparison, \hyperpage{49}
     \subitem timing, \hyperpage{91}
     \subitem uncertainty, \hyperpage{46}, \hyperpage{53}
       \subsubitem gust pod, \hyperpage{57}
@@ -280,9 +280,8 @@
       \subsubitem corrected, \hyperpage{80}
       \subsubitem corrections, \hyperpage{8}
       \subsubitem gust pod, \hyperpage{19}, \hyperpage{80}
-      \subsubitem imcertainty, \hyperpage{53}
       \subsubitem uncertainty, \hyperpage{8}, \hyperpage{46}, 
-		\hyperpage{50}, \hyperpage{57}
+		\hyperpage{50}, \hyperpage{53}, \hyperpage{57}
     \subitem correction, \hyperpage{54}, \hyperpage{58}
     \subitem dynamic, \hyperpage{8}, \hyperpage{41}, \hyperpage{54}
       \subsubitem corrected, \hyperpage{80}
@@ -490,7 +489,7 @@
       \subsubitem lateral, \hyperpage{54}
     \subitem vertical, \hyperpage{5}
       \subsubitem first-order equation, \hyperpage{92}
-      \subsubitem intercomparison, \hyperpage{62}
+      \subsubitem inter-comparison, \hyperpage{62}
       \subsubitem net uncertainty, \hyperpage{47}, \hyperpage{50}
       \subsubitem potential for improvement, \hyperpage{60}
       \subsubitem uncertainty, \hyperpage{48}
