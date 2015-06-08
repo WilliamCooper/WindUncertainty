@@ -139,7 +139,7 @@
 \indexentry{EOL web pages, instruments|hyperpage}{6}
 \indexentry[var]{ATX=ambient temperature {[}deg C{]}|hyperpage}{6}
 \indexentry[var]{DPX=dew point {[}deg C{]}|hyperpage}{6}
-\indexentry[var]{HARCO=manufacturer of the primary temperature sensor on the GV. This is not an acronum.|hyperpage}{6}
+\indexentry[var]{HARCO=manufacturer of the primary temperature sensor on the GV. This is not an acronym.|hyperpage}{6}
 \indexentry{angle!attitude|hyperpage}{6}
 \indexentry{roll|hyperpage}{6}
 \indexentry{pitch|hyperpage}{6}
@@ -344,7 +344,7 @@
 \indexentry{filter!Kalman|hyperpage}{49}
 \indexentry{Schuler oscillation|hyperindexformat{\see {oscillation, Schuler}}}{49}
 \indexentry{DEEPWAVE!missing data|hyperpage}{49}
-\indexentry{pitch!intercomparison|hyperpage}{49}
+\indexentry{pitch!inter-comparison|hyperpage}{49}
 \indexentry{speed of aircraft!vertical|hyperpage}{50}
 \indexentry{pressure!ambient!uncertainty|hyperpage}{50}
 \indexentry{temperature!uncertainty|hyperpage}{50}
@@ -369,7 +369,7 @@
 \indexentry{speed of aircraft!ground speed!uncertainty|hyperpage}{53}
 \indexentry{wind!relative|hyperpage}{53}
 \indexentry[var]{PSF|hyperpage}{53}
-\indexentry{pressure!ambient!imcertainty|hyperpage}{53}
+\indexentry{pressure!ambient!uncertainty|hyperpage}{53}
 \indexentry[var]{TASF|hyperpage}{53}
 \indexentry[var]{ATX|hyperpage}{53}
 \indexentry{temperature!uncertainty|hyperpage}{53}
@@ -422,7 +422,7 @@
 \indexentry{uncertainty!vertical wind!gust pod|hyperpage}{60}
 \indexentry{uncertainty!horizontal wind!gust pod|hyperpage}{60}
 \indexentry{gust pod!limitations|hyperpage}{60}
-\indexentry{wind!vertical!intercomparison|hyperpage}{62}
+\indexentry{wind!vertical!inter-comparison|hyperpage}{62}
 \indexentry{wind!relative|hyperpage}{63}
 \indexentry{attack!angle of|hyperpage}{63}
 \indexentry{sideslip|hyperpage}{63}

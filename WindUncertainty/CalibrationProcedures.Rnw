@@ -31,7 +31,7 @@ The pressures on the GV for the measurements ADIFR, BDIFR, QCR, QCF, and PSF (cf
 
 The calibration cart consists of a Ruska Digital Control Unit/Pressure Gauge (model 7010), a vacuum pump and pressure pump, and a data-system interface. The various systems are sealed off for the leak check and then the calibrations are performed. (The static ports and radome ports are sealed off with tape. For the static-pressure calibration the calibrator is attached by a "T" at the transducer. For the radome ports the calibrator is attached to the drain lines and the ports are sealed with tape. For QCF the pressure line is connected to the nose of the pitot itself.)
 
-A set of calibration pressures are provided by the Ruska controller which has a resolution of 0.067 hpa, and the results are read out and recorded on the GV data system. For ADIFR and BDIFR the calibration pressures are $\pm$50, 40, 25, 10, 0 hPa; for QCF and QCR, 0 to 200 hPa in increments of 25 hPa; and for PSF, 150, 200, 300, ..., 900, 1025 hPa.
+A set of calibration pressures are provided by the Ruska controller which has a resolution of 0.067 hPa, and the results are read out and recorded on the GV data system. For ADIFR and BDIFR the calibration pressures are $\pm$50, 40, 25, 10, 0 hPa; for QCF and QCR, 0 to 200 hPa in increments of 25 hPa; and for PSF, 150, 200, 300, ..., 900, 1025 hPa.
 
 The Ruska manual gives "precision" values for the controller that translate to about 0.02~hPa for the range used for ADIFR, BDIFR, QCF, and QCR and 0.2~hPa for the range used for PSF. %007\% or 0.02 hPa for the range 1-4.9 psi (69 to 338 hpa) that is used for ADIFR, BDIFR, QCF, 
 %, and QCR, and 0.003\% or 0.007% FS; for the range 5 - 100 psi (345 to 6900 hpa), PSF, 

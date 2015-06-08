@@ -60,7 +60,7 @@ The primary measurement of wind on the GV \index{wind!measurement!standard syste
 % discussion of each measurement in Sect.~\ref{sub:The-radome-based-system}.\label{tab:Radome-system-measurements}}
 % \end{table}
 \sindex[var]{ATX=ambient temperature {[}deg C{]}}\sindex[var]{DPX=dew point {[}deg C{]}}
-\sindex[var]{HARCO=manufacturer of the primary temperature sensor on the GV. This is not an acronum.}
+\sindex[var]{HARCO=manufacturer of the primary temperature sensor on the GV. This is not an acronym.}
 \begin{table}
 \begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.7cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
 \toprule 
@@ -138,7 +138,7 @@ $-80$ to +40$^{\circ}$C, anti-iced &
 0.3$^{\circ}$ &
 needed for true airspeed\tabularnewline
 \midrule 
-dewpoint
+dew point
 
 (DPX) &
 Buck Research 1011C &
@@ -209,7 +209,7 @@ A measurement of temperature\index{temperature} is needed to calculate the wind 
 
 \subsubsection{Humidity (dew point)\label{sub:dewpoint}}
 
-The calculation of true \index{dew point}\index{humidity, effect of}airspeed from measured dynamic and static pressure involves the specific heats and gas constant for air, and this can depart from dry-air values when water vapor is present in significant amounts. This correction is usually insignificant for dew-point temperatures below about -20$^{\circ}$C. The equations used are those in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{the document on processing algorithms}. The correction to true airspeed is approximately a factor of (1+0.3$q_{h}$) where $q_{h}$ is the dimensionless specific humidity,\sindex[sym]{qh@$q_h$=specific humidity} typically about 0.01 at 10$^{\circ}$C dewpoint and 700~hPa pressure. In this case the correction to airspeed, typically 150~m/s at this altitude, is about 0.45~m/s, so the correction is not negligible but is relatively insensitive to uncertainty in the measured humidity. The dewpoint measurements become more uncertain than listed here at the low end of this range, but the humidity correction is insignificant there. Those measurements are likely better than listed here for the upper range, in level flight, but lags and overshooting introduce errors when conditions are changing rapidly as in climbs or descents. 
+The calculation of true \index{dew point}\index{humidity, effect of}airspeed from measured dynamic and static pressure involves the specific heats and gas constant for air, and this can depart from dry-air values when water vapor is present in significant amounts. This correction is usually insignificant for dew-point temperatures below about -20$^{\circ}$C. The equations used are those in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{the document on processing algorithms}. The correction to true airspeed is approximately a factor of (1+0.3$q_{h}$) where $q_{h}$ is the dimensionless specific humidity,\sindex[sym]{qh@$q_h$=specific humidity} typically about 0.01 at 10$^{\circ}$C dew point and 700~hPa pressure. In this case the correction to airspeed, typically 150~m/s at this altitude, is about 0.45~m/s, so the correction is not negligible but is relatively insensitive to uncertainty in the measured humidity. The dew point measurements become more uncertain than listed here at the low end of this range, but the humidity correction is insignificant there. Those measurements are likely better than listed here for the upper range, in level flight, but lags and overshooting introduce errors when conditions are changing rapidly as in climbs or descents. 
 
 \subsubsection{Examples of measurements}
 
@@ -669,7 +669,7 @@ The laser air-motion sensor (LAMS)\index{laser air-motion sensor} is still under
 \label{fig:LAMS-4Beam}\index{LAMS!photograph}%
 \end{centering}%
 \end{figure}%
-The system consists of one, three or four fiber-based laser beams focused ahead of the aircraft and a collection system to detect the Doppler shift in light backscattered from aerosols. The transmitter optical components are mounted in an underwing pod, similar to that used for the gust pod, and like the gust pod the system incorporates a compact \sindex[var]{SDN500=model of IRU used with the gust pod}\index{IRU!LAMS}\index{IRU!SDN500}Systron Donner SDN500 GPS/INS MEMS Tactical Grade navigation system (henceforth called the SDN500 IRU) to measure the attitude angles and ground speed of the pod. Early measurements from this system have been used to determine corrections to the pressure measurements, and those serve an important role in reducing uncertainty in the wind measurements, as described in \citet{CooperEtAl2014} and later in this report. 
+The system consists of one, three or four fiber-based laser beams focused ahead of the aircraft and a collection system to detect the Doppler shift in light backscattered from aerosols. The transmitter optical components are mounted in an under-wing pod, similar to that used for the gust pod, and like the gust pod the system incorporates a compact \sindex[var]{SDN500=model of IRU used with the gust pod}\index{IRU!LAMS}\index{IRU!SDN500}Systron Donner SDN500 GPS/INS MEMS Tactical Grade navigation system (henceforth called the SDN500 IRU) to measure the attitude angles and ground speed of the pod. Early measurements from this system have been used to determine corrections to the pressure measurements, and those serve an important role in reducing uncertainty in the wind measurements, as described in \citet{CooperEtAl2014} and later in this report. 
 
 LAMS hardware supports up to four \index{LAMS!4-beam configuration} beams, with three pointing $35^{\circ}$ off the forward direction and separated by $120^{\circ}$ in the azimuthal direction. The fourth beam is directed forward from the LAMS unit. The LAMS\index{LAMS!in DEEPWAVE} channel designations changed after DEEPWAVE (summer 2014) when it was decided the instrument would benefit from having a lower noise channel for forward pointing measurements (the laser/detector on channel 4 had lower signal-to-noise ratio than the other three channels). Table \ref{tab:BeamConfig} summarizes the labels and pointing angles of each beam for both up to and after DEEPWAVE. Note the number designation refers to the laser, detector, and data processing channels. The letter designation is associated with the exit window on the LAMS head. The pointing angles reported here are ideal. The angle $\theta$ is measured relative to the forward direction of the LAMS pod (approximately the angle between the beam and $\hat{x^{\prime}}$) and the angle $\phi$ is the rotation angle about $\hat{x^{\prime}}$ relative to the $\hat{z^{\prime}}$ axis. This geometry is designed for GV installation where the LAMS pod is installed on the left wing, outboard pylon, outboard position. The pointing geometry relative to the aircraft may change based on the installation configuration on the C-130 (to be determined on ARISTO in fall 2015) where the LAMS optical fiber are routed to the aircraft right wing. 
 
@@ -774,7 +774,7 @@ The telescope beam measurement system was developed in house to provide position
 \noindent \begin{centering}
 \includegraphics[width=10cm]{BeamPointing_ReceiverDiagram}  
 \par\end{centering}
-\protect\caption[Diagram of the LAMS receiver system]{\label{fig:TelescopePointingRX}Diagram of the receiver system. The invisible infared beam enters the beam expander which amplifies the angle of the beam relative to the telescope optic axis, and is then focused onto an IR card. The IR card fluoresces at a visible wavelength and that light is reimaged onto a CCD.} 
+\protect\caption[Diagram of the LAMS receiver system]{\label{fig:TelescopePointingRX}Diagram of the receiver system. The invisible infrared beam enters the beam expander which amplifies the angle of the beam relative to the telescope optic axis, and is then focused onto an IR card. The IR card fluoresces at a visible wavelength and that light is reimaged onto a CCD.} 
 \end{figure}
 
 \begin{figure}
