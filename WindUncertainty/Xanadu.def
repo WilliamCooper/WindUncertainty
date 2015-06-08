@@ -1,0 +1,4 @@
+XANDATA=/home/cooperw/RStudio/DEEPWAVE/WindUncertainty
+XANFILE=./R-toXanadu
+START_XAN= 93000
+END_XAN=94500

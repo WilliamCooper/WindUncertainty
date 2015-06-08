@@ -1,0 +1,127 @@
+\begin{thebibliography}{16}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Batchelor(1953)]{batchelor1953theory}
+G.K. Batchelor.
+\newblock \emph{The Theory of Homogeneous Turbulence}.
+\newblock Cambridge Science Classics. Cambridge University Press, 1953.
+\newblock ISBN 9780521041171.
+\newblock URL \url{http://books.google.com/books?id=POG-LSUgYckC}.
+
+\bibitem[Bozic(1980)]{Bozic1980}
+S.~M. Bozic.
+\newblock \emph{Digital and Kalman filtering: An introduction to discrete-time
+  filtering and optimum linear estimation}.
+\newblock John Wiley and Sons, New York, NY, USA, 1980.
+\newblock ISBN 978-0713134100.
+
+\bibitem[Cooper(1994)]{Cooper1994}
+W.~A. Cooper.
+\newblock {Dispersion of smoke plumes from the oil fires of Kuwait}.
+\newblock NCAR technical note NCAR/TN-402+STR, Mesoscale and Microscale
+  Meteorology Division, NCAR, Boulder, CO, USA, jan 1994.
+\newblock URL
+  \url{http://nldr.library.ucar.edu/repository/collections/TECH-NOTE-000-000-000-217}.
+
+\bibitem[Cooper et~al.(2014)Cooper, Spuler, Spowart, Lenschow, and
+  Friesen]{CooperEtAl2014}
+W.~A. Cooper, S.~M. Spuler, M.~Spowart, D.~H. Lenschow, and R.~B. Friesen.
+\newblock Calibrating airborne measurements of airspeed, pressure and
+  temperature using a doppler laser air-motion sensor.
+\newblock \emph{Atmospheric Measurement Techniques}, 7\penalty0 (9):\penalty0
+  3215--3231, 2014.
+\newblock \doi{10.5194/amt-7-3215-2014}.
+\newblock URL \url{http://www.atmos-meas-tech.net/7/3215/2014/}.
+
+\bibitem[Gandrud(2014)]{Gandrud2014}
+C.~Gandrud.
+\newblock \emph{Reproducible Research with R and RStudio}.
+\newblock CRC Press, Boca Raton, FL, USA, 2014.
+\newblock ISBN 13:978-1-4665-7284-3.
+
+\bibitem[Iberall(1950)]{Iberall1950}
+A.~S. Iberall.
+\newblock \emph{J. Res. Natn. Bur. Stand.}, \penalty0 (45):\penalty0 85--108,
+  1950.
+\newblock \doi{10.6028/jres.045.008}.
+\newblock URL
+  \url{http://nvlpubs.nist.gov/nistpubs/jres/045/jresv45n1p85_A1b.pdf}.
+
+\bibitem[Lenschow(1972)]{NCAR_OpenSky_TECH-NOTE-000-000-000-064}
+D.~H. Lenschow.
+\newblock {The measurement of air velocity and temperature using the NCAR
+  Buffalo Aircraft Measuring System}.
+\newblock Technical report, 1972.
+\newblock URL
+  \url{http://nldr.library.ucar.edu/repository/collections/TECH-NOTE-000-000-000-064}.
+
+\bibitem[Lenschow and Spyers-Duran(1989)]{Bulletin23}
+D.~H. Lenschow and P.~Spyers-Duran.
+\newblock {Measurement techniques: air motion sensing}.
+\newblock Technical report, 1989.
+\newblock URL \url{https://www.eol.ucar.edu/raf/Bulletins/bulletin23.html}.
+
+\bibitem[Press et~al.(1992)Press, Teukolsky, Vetterling, and
+  Flannery]{Press:1992:NRC:148286}
+W.~H. Press, S.~A. Teukolsky, W.~T. Vetterling, and B.~P. Flannery.
+\newblock \emph{Numerical Recipes in C (2nd Ed.): The Art of Scientific
+  Computing}.
+\newblock Cambridge University Press, New York, NY, USA, 1992.
+\newblock ISBN 0-521-43108-5.
+
+\bibitem[{{R Core Team}}(2013)]{Rlanguage}
+{{R Core Team}}.
+\newblock \emph{{R: A language and environment for statistical computing}}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria, 2013.
+\newblock URL \url{http://www.R-project.org}.
+
+\bibitem[RStudio(2009)]{RStudio2012}
+RStudio.
+\newblock \emph{RStudio: Integrated development environment for R (Version
+  0.98.879)}, 2009.
+\newblock URL \url{http://www.rstudio.org}.
+
+\bibitem[Schuler({1923})]{Schuler1923}
+M.~Schuler.
+\newblock {The perturbation of pendulum and gyroscope instruments by
+  acceleration of the vehicle}.
+\newblock \emph{{Physik. Z.}}, {24}\penalty0 ({16}):\penalty0 {344--357},
+  {1923}.
+\newblock URL \url{{http://www.webcitation.org/6JBR8WNRq}}.
+
+\bibitem[Spuler et~al.({2011})Spuler, Richter, Spowart, and
+  Rieken]{SpulerEtAl2011}
+S.~M. Spuler, D.~Richter, M.~P. Spowart, and K.~Rieken.
+\newblock {Optical fiber-based laser remote sensor for airborne measurement of
+  wind velocity and turbulence}.
+\newblock \emph{{Appl. Optics}}, {50}\penalty0 ({6}):\penalty0 {842--851}, {FEB
+  20} {2011}.
+\newblock ISSN {1559-128X}.
+\newblock \doi{10.1364/AO.50.000842}.
+
+\bibitem[Wickham(2009)]{wickham2009}
+H.~Wickham.
+\newblock \emph{ggplot2: elegant graphics for data analysis}.
+\newblock Springer New York, 2009.
+\newblock ISBN 978-0-387-98140-6.
+\newblock URL \url{http://had.co.nz/ggplot2/book}.
+
+\bibitem[Xie(2013)]{Xie2014a}
+Y.~Xie.
+\newblock \emph{Dynamic Documents with {R} and knitr}.
+\newblock Chapman and Hall/CRC, Boca Raton, Florida, 2013.
+\newblock URL \url{http://yihui.name/knitr/}.
+\newblock ISBN 978-1482203530.
+
+\bibitem[Xie(2014)]{Xie2014b}
+Y.~Xie.
+\newblock \emph{knitr: A general-purpose package for dynamic report generation
+  in R}, 2014.
+\newblock URL \url{http://yihui.name/knitr/}.
+\newblock R package version 1.6.
+
+\end{thebibliography}

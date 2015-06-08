@@ -886,7 +886,7 @@ rmsgs <- (sum((gs-vs)**2)/length(gs))**0.5
 % between values at 0 and 180$^{\circ}$corresponds to $2\delta V$,
 % while the difference from $90$ to 270$^{\circ}$ represents $2V\delta\psi$. 
 
-<<sine-cosine-plot, fig.lp="fig:", fig.cap="Predicted dependence of measured wind speed on direction of flight relative to the wind direction, for assumed errors of $\\delta V=1$ m/s and $\\delta\\psi=0.3^{\\circ}$.", fig.width=5.0, fig.height=4,echo=FALSE, hold=FALSE, include=TRUE, eval=FALSE>>=
+<<sine-cosine-plot, fig.lp="fig:", fig.cap="Predicted dependence of measured wind speed (WS) on direction of flight relative to the wind direction (WD), for assumed errors of $\\delta V=1$ m/s and $\\delta\\psi=0.3^{\\circ}$.", fig.width=5.0, fig.height=4,echo=FALSE, hold=FALSE, include=TRUE, eval=FALSE>>=
 A1 <- 1.
 A2 <- mtas*0.3*pi/180.
 AngI <- (1:1440)/4.
@@ -947,7 +947,7 @@ lines(c(0.,360.),c(bestWS-A2,bestWS-A2), col='darkgreen',lty=2,lwd=0.7)
 % However, there is a complication in regard to heading that needs further exploration, so the next section will discuss that complication before offering a concluding assessment regarding uncertainty. 
 % 
 
-\paragraph{Offset in sideslip angle\label{par:Offset-in-Sideslip}}
+\subsubsection{Offset in sideslip angle\label{sub:Offset-in-Sideslip}}
 
 In the preceding, the error $\delta\psi^{\prime}$ was discussed as an error in adjusted heading, but that adjustment includes the sideslip angle so the error could also be one in sideslip angle. These errors are difficult to separate, and normal sideslip calibration (Sect.~\ref{sub:calibration-SS}) even with reverse-heading maneuvers does not provide a separation. 
 
@@ -1173,7 +1173,7 @@ g
 The results obtained from analysis of the circle maneuvers are these:\index{maneuver!circle!summary of results} 
  
 \begin{enumerate}
-\item The circle maneuvers indicate that the measured true airspeed (TASF) with current LAMS-based pressure corrections is accurate to within expected uncertainty. The fits indicate an error in true airspeed 
+\item The circle maneuvers indicate that the measured true airspeed (TASF)\sindex[var]{TASF} with current LAMS-based pressure corrections is accurate to within expected uncertainty. The fits indicate an error in true airspeed 
 of \Sexpr{round(mean(VerrMean),2)}$\pm$\Sexpr{round(sd(VerrMean)/sqrt(5),2)}\,m/s,% 
 %0.2$\pm 0.3$\,m/s, 
 which is within the expected ($\pm$0.3\,m/s) uncertainty limits for TAS deduced using the LAMS calibration (\citet{CooperEtAl2014}). The uncertainty range covers the calibrated value, so it appears better to make no adjustment to true airspeed.  
@@ -1262,7 +1262,7 @@ are essentially identical for most frequencies, with some deviation around 0.4~H
 \noindent \begin{centering}
 \includegraphics[width=\maxwidth]{FFTVEW}
 \par\end{centering}
-\protect\caption[Variance spectra for the eastward component of aircraft motion as measured by GPS and by IRU.]{Variance spectra for the eastward component of aircraft motion as measured by GPS (GGVEW) and for the corresponding measurement from the IRU (VEW). Data are from IDEAS flight 6 on 13 Oct 2013, 20:03:30--20:11:50 UTC. FFT spectral analysis was used, with 50\,Hz measurements, combining segments of 8192 points, and the resulting spectra were smoothed by averaging in 75 bins equally spaced in the logarithm of the frequency.\label{fig:FFTVEW}} 
+\protect\caption[Variance spectra for the eastward component of aircraft motion as measured by GPS and by IRU.]{Variance spectra for the eastward component of aircraft motion as measured by GPS (GGVEW) and for the corresponding measurement from the IRU (VEW). Data are from IDEAS-IV-GV flight 6 on 13 Oct 2013, 20:03:30--20:11:50 UTC. FFT spectral analysis was used, with 50\,Hz measurements, combining segments of 8192 points, and the resulting spectra were smoothed by averaging in 75 bins equally spaced in the logarithm of the frequency.\label{fig:FFTVEW}} 
 \end{figure}
 
 <<coherence-plot, include=TRUE, fig.cap="Coherence between the measurements GGVEW and VEW (cf.~Fig.~\\ref{fig:FFTVEW}) as a function of frequency.", fig.height=3.5>>=
