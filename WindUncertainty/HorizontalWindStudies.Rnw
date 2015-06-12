@@ -134,9 +134,9 @@ During the DEEPWAVE\index{DEEPWAVE} project, several circle patterns\index{maneu
 
 \subsubsection{Constraints arising from the assumption that the wind is steady}
 
-The circle maneuver is a stringent test of the wind measurements because, in steady conditions, the measured wind should remain constant around the circles. From the patterns of deviations with orientation in the turn, it is possible to detect an error in true airspeed or an offset in heading or sideslip angle. A time offset in measured \index{ground speed!time offset}ground speed from the GPS relative to the IRU can also be detected because it produces a deduced heading offset that changes sign when left-turn and right-turn circles are compared. 
+The circle maneuver is a stringent test of the wind measurements because, in steady conditions, the measured wind should remain constant around the circles. From the patterns of deviations with orientation in the turn, it is possible to detect an error in airspeed or an offset in heading or sideslip angle. A time offset in measured \index{ground speed!time offset}ground speed from the GPS relative to the IRU can also be detected because it produces a deduced heading offset that changes sign when left-turn and right-turn circles are compared. 
 
-For these patterns, the wind should be relatively steady and non-turbulent and the roll angle should be constant. For this flight segment, the left-turn circles had a roll angle of \Sexpr{round(meanr1,2)}$\pm$\Sexpr{round(sdr1,2)}$^{\circ}$ and the right-turn circles had roll angle \Sexpr{round(meanr2,2)}$\pm$\Sexpr{round(sdr2,2)}$^{\circ}$, while the mean true airspeed for these circles was \Sexpr{round(meanv,1)}$\pm$\Sexpr{round(sdv,1)}~m/s. Most of the standard deviation in true airspeed arose from the normal fluctuations created by the flight management system, as discussed in Sect.~\ref{sub:Variance-spectra-for-W-components} (cf.~Fig.~\ref{fig:phugoid-plot}). The steadiness of these measurements indicates that this maneuver was flown with good precision and symmetrically, so the following is is a good illustration of what can be learned from this maneuver. 
+For these patterns, the wind should be relatively steady and non-turbulent and the roll angle should be constant. For this flight segment, the left-turn circles had a roll angle of \Sexpr{round(meanr1,2)}$\pm$\Sexpr{round(sdr1,2)}$^{\circ}$ and the right-turn circles had roll angle \Sexpr{round(meanr2,2)}$\pm$\Sexpr{round(sdr2,2)}$^{\circ}$, while the mean airspeed for these circles was \Sexpr{round(meanv,1)}$\pm$\Sexpr{round(sdv,1)}~m/s. Most of the standard deviation in airspeed arose from the normal fluctuations created by the flight management system, as discussed in Sect.~\ref{sub:Variance-spectra-for-W-components} (cf.~Fig.~\ref{fig:phugoid-plot}). The steadiness of these measurements indicates that this maneuver was flown with good precision and symmetrically, so the following is is a good illustration of what can be learned from this maneuver. 
 
 \subsubsection{Basic equations}
 
@@ -157,20 +157,20 @@ and the difference between the motion of the aircraft expressed as \eqref{eq:dea
 ~~~~~.\label{eq:v-errors} 
 \end{eqnarray}
 
-If error terms for true airspeed ($\delta V$) and for the adjusted heading angle ($\delta\psi^{\prime}$) are introduced so that the true values are $V=V_{m}+\delta V$ and $\psi^{\prime}=\psi_{m}^{\prime}+\delta\psi^{\prime}$ where subscript $m$ refers to the measured quantity, and if it is assumed that the wind components \{$v_{x}$ and $v_{y}$\} are steady around the circles, then estimates for the four fit parameters \{$\delta V,\,\delta\psi^{\prime},\,v_{x},\,v_{y}$\} can be found by minimizing the errors given by \eqref{eq:v-errors}. 
+If error terms for airspeed ($\delta V$) and for the adjusted heading angle ($\delta\psi^{\prime}$) are introduced so that the true values are $V=V_{m}+\delta V$ and $\psi^{\prime}=\psi_{m}^{\prime}+\delta\psi^{\prime}$ where subscript $m$ refers to the measured quantity, and if it is assumed that the wind components \{$v_{x}$ and $v_{y}$\} are steady around the circles, then estimates for the four fit parameters \{$\delta V,\,\delta\psi^{\prime},\,v_{x},\,v_{y}$\} can be found by minimizing the errors given by \eqref{eq:v-errors}. 
 
-Once the average wind direction ($\lambda$) and wind speed ($v$) have been determined either by the above fit or from the mean of measurements around the circles,\footnote{With equal weighting for measurements with all orientations relative to the wind, averaging measurements should give correct values even if there are errors in the individual terms} the error $\delta v_{m}$ in the measurement of wind speed ($v_{m}$) can be expressed as\\ 
+Once the average wind direction ($\lambda_w$) and wind speed ($v$) have been determined either by the above fit or from the mean of measurements around the circles,\footnote{With equal weighting for measurements with all orientations relative to the wind, averaging measurements should give correct values even if there are errors in the individual terms} the error $\delta v_{m}$ in the measurement of wind speed ($v_{m}$) can be expressed as\\ 
 \begin{equation}
 \delta v_{m}=v_{m}-v=-\delta V\cos\xi-V\delta\psi^{\prime}\sin\xi\label{eq:delta-v-m} 
 \end{equation}
 \sindex[lis]{xi@$\xi$=angle between the relative wind and Earth-referenced wind}%
-where $\xi=\psi^{\prime}-\lambda$ is the angle between the relative wind (in the direction $\psi^{\prime}$ which is the heading adjusted for the roll angle by components from the sideslip angle and angle of attack) and the direction of the wind relative to the Earth ($\lambda$). 
+where $\xi=\psi^{\prime}-\lambda_w$ is the angle between the relative wind (in the direction $\psi^{\prime}$ which is the heading adjusted for the roll angle by components from the sideslip angle and angle of attack) and the direction of the wind relative to the Earth ($\lambda_w$). 
 
-This equation is justified as follows. Because the relative wind transformed to an Earth reference frame is added to the ground-speed vector to find the wind, an error $\delta V$ in true airspeed leads to an error of the same magnitude in the component of measured wind along the longitudinal axis of the aircraft. The measured wind therefore changes by $-2\delta V$ when the aircraft changes from an upwind to a downwind flight direction, with the negative sign arising from the convention that wind direction is specified as the direction from which the wind blows. The error in true airspeed thus can be determined from the difference between wind measured while flying upwind and that measured while flying downwind. For other flight directions, this error projects to the wind direction as $-\delta V\cos\xi$. Similarly, when flying crosswind the wind measurement is determined by the sum of the ground-speed component along the wind direction and the component of the relative wind lateral to the aircraft. If the wind is from the port side of the aircraft (e.g., for an east flight direction with wind from the north), a positive heading error leads to a relative wind component opposing the wind and so to a measurement error of $-V\delta\psi^{\prime}$. For wind from the starboard side of the aircraft, the sign reverses, and for other angles the error contribution is $-V\delta\psi^{\prime}\sin\xi$. 
+This equation is justified as follows. Because the relative wind transformed to an Earth reference frame is added to the ground-speed vector to find the wind, an error $\delta V$ in airspeed leads to an error of the same magnitude in the component of measured wind along the longitudinal axis of the aircraft. The measured wind therefore changes by $-2\delta V$ when the aircraft changes from an upwind to a downwind flight direction, with the negative sign arising from the convention that wind direction is specified as the direction from which the wind blows. The error in airspeed thus can be determined from the difference between wind measured while flying upwind and that measured while flying downwind. For other flight directions, this error projects to the wind direction as $-\delta V\cos\xi$. Similarly, when flying crosswind the wind measurement is determined by the sum of the ground-speed component along the wind direction and the component of the relative wind lateral to the aircraft. If the wind is from the port side of the aircraft (e.g., for an east flight direction with wind from the north), a positive heading error leads to a relative wind component opposing the wind and so to a measurement error of $-V\delta\psi^{\prime}$. For wind from the starboard side of the aircraft, the sign reverses, and for other angles the error contribution is $-V\delta\psi^{\prime}\sin\xi$. 
 
 Fitting to minimize the deviations expressed by \eqref{eq:delta-v-m} can then \sindex[lis]{v@$v$=wind speed (relative to the Earth)} give estimates of the three fit parameters $\delta V$, $\delta\psi^{\prime}$, and $v$, or a fixed value can be used for $v$ as given by the mean of measurements or by a previous fit to \eqref{eq:v-errors}. These fits to \eqref{eq:v-errors} or \eqref{eq:delta-v-m} should give consistent results, but a fit to \eqref{eq:delta-v-m} is particularly illustrative because plots of the error as a function of flight direction relative to the wind clearly reveal the magnitude and source of the deviations. The expected pattern is shown in Fig.~\ref{fig:sine-plot}. 
 
-<<sine-plot, echo=FALSE, include=TRUE, fig.scap="Illustration of the expected variation in measured wind speed with flight angle relative to the wind direction, for assumed errors in airspeed and heading.", fig.cap="Illustration of the expected variation in measured wind speed with flight angle relative to the wind direction, for assumed errors of $\\delta V=1$ m/s in true airspeed and $\\delta\\psi^{\\prime}=0.3^{\\circ}$ in heading and for an assumed true wind speed of 10 m/s. The assumed true airspeed is 155 m/s. The red arrows show the differences in measured wind speed between 90 and 270$^{\\circ}$ directions and between 0 and 180$^{\\circ}$ directions.">>=
+<<sine-plot, echo=FALSE, include=TRUE, fig.scap="Illustration of the expected variation in measured wind speed with flight angle relative to the wind direction, for assumed errors in airspeed and heading.", fig.cap="Illustration of the expected variation in measured wind speed with flight angle relative to the wind direction, for assumed errors of $\\delta V=1$ m/s in airspeed and $\\delta\\psi^{\\prime}=0.3^{\\circ}$ in heading and for an assumed true wind speed of 10 m/s. The assumed airspeed is 155 m/s. The red arrows show the differences in measured wind speed between 90 and 270$^{\\circ}$ directions and between 0 and 180$^{\\circ}$ directions.">>=
 
 Ang <- (1:1440)/4.
 A1 <- -1.
@@ -220,13 +220,13 @@ mwd1 <- mwd; mwdL1 <- mwdL; mwdR1 <- mwdR
 
 \subsubsection{Finding the wind from the GPS ground track}
 
-From the definitions \eqref{eq:v-errors}, the mean wind can be found by adjusting the fit parameters $v_{x}$, $v_{y}$, $\delta V$ and $\delta\psi$ to minimize the error measure $\chi^{2}=\sum(\delta v_{x}^{2}+\delta v_{y}^{2})$. The results, with wind converted to wind direction $\lambda$ and wind speed $v$, are shown in Table~\ref{tab:GSmin} for the full circle maneuver and also separately for the right-turn circles and left-turn circles. 
+From the definitions \eqref{eq:v-errors}, the mean wind can be found by adjusting the fit parameters $v_{x}$, $v_{y}$, $\delta V$ and $\delta\psi$ to minimize the error measure $\chi^{2}=\sum(\delta v_{x}^{2}+\delta v_{y}^{2})$. The results, with wind converted to wind direction $\lambda_w$ and wind speed $v$, are shown in Table~\ref{tab:GSmin} for the full circle maneuver and also separately for the right-turn circles and left-turn circles. 
 
 \begin{center}
 \begin{table}[H] 
 \begin{centering}
 \begin{tabular}{cccccc}
-\toprule   & $\lambda\,[^{\circ}]$  & $v$~{[}m/s{]}  & $\delta V$~{[}m/s{]}  & $\delta\psi^{\prime}\,[^{\circ}]$  & residual error {[}m/s{]}\tabularnewline 
+\toprule   & $\lambda_w\,[^{\circ}]$  & $v$~{[}m/s{]}  & $\delta V$~{[}m/s{]}  & $\delta\psi^{\prime}\,[^{\circ}]$  & residual error {[}m/s{]}\tabularnewline 
 \midrule 
 \midrule  all turns & \Sexpr{format(round(bestWD,1), nsmall=1)} & \Sexpr{round(bestWS,1)} & \Sexpr{round(bestFit[1],1)} & \Sexpr{format(round(bestFit[4],2), nsmall=2)} & \Sexpr{format(round(rms,1), nsmall=1)}\tabularnewline 
 \midrule  mean of measurements & \Sexpr{format(round(mwd,1), nsmall=1)} & \Sexpr{format(round(mws,1), nsmall=1)} &  &  & \tabularnewline 
@@ -274,7 +274,7 @@ mwd2 <- mwd; mwdL2 <- mwdL; mwdR2 <- mwdR
 \begin{centering}
 \begin{tabular}{cccccc}
 \toprule% 
- & $\lambda\,[^{\circ}]$  & $v$~{[}m/s{]}  & $\delta V$~{[}m/s{]}  & $\delta\psi^{\prime}\,[^{\circ}]$  & residual error {[}m/s{]}\tabularnewline 
+ & $\lambda_w\,[^{\circ}]$  & $v$~{[}m/s{]}  & $\delta V$~{[}m/s{]}  & $\delta\psi^{\prime}\,[^{\circ}]$  & residual error {[}m/s{]}\tabularnewline 
 \midrule 
 \midrule  all turns & \Sexpr{format(round(bestWD,1), nsmall=1)} & \Sexpr{round(bestWS,1)} & \Sexpr{round(bestFit[1],1)} & \Sexpr{format(round(bestFit[4],2), nsmall=2)} & \Sexpr{format(round(rms,1), nsmall=1)}\tabularnewline 
 \midrule  mean of measurements & \Sexpr{format(round(mwd,1), nsmall=1)} & \Sexpr{format(round(mws,1), nsmall=1)} &  &  & \tabularnewline 
@@ -305,7 +305,7 @@ mwd3 <- mwd; mwdL3 <- mwdL; mwdR3 <- mwdR
 \begin{table}[H] 
 \begin{centering}
 \begin{tabular}{cccccc}
-\toprule   & $\lambda\,[^{\circ}]$  & $v$~{[}m/s{]}  & $\delta V$~{[}m/s{]}  & $\delta\psi^{\prime}\,[^{\circ}]$  & residual error {[}m/s{]}\tabularnewline 
+\toprule   & $\lambda_w\,[^{\circ}]$  & $v$~{[}m/s{]}  & $\delta V$~{[}m/s{]}  & $\delta\psi^{\prime}\,[^{\circ}]$  & residual error {[}m/s{]}\tabularnewline 
 \midrule 
 \midrule  all turns & \Sexpr{format(round(bestWD,1), nsmall=1)} & \Sexpr{round(bestWS,1)} & \Sexpr{round(bestFit[1],1)} & \Sexpr{format(round(bestFit[4],2), nsmall=2)} & \Sexpr{format(round(rms,1), nsmall=1)}\tabularnewline 
 \midrule  mean of measurements & \Sexpr{format(round(mwd,1), nsmall=1)} & \Sexpr{format(round(mws,1), nsmall=1)} &  &  & \tabularnewline 
@@ -339,7 +339,7 @@ Dc1 <- Dc; DL1 <- DL; DR1 <- DR
 \subsubsection{Minimizing the variation in measured wind speed in circle maneuvers\label{WS-var-circles}}
 
 \index{maneuver!circle!sinusoidal fit}
-The fit results in Tables~\ref{tab:GSmin}--\ref{tab:GS3min} and also the mean measurements of the wind in those tables provide reference angles for the wind direction, so those angles can be used in fits that minimize \eqref{eq:delta-v-m}. Because there is significant variation among the circles, the tabulated values for fitted values for the appropriate set (all turns, left turns, or right turns) will be used as the value of $\lambda$ when fitting. An appropriate error function to minimize to find values for the parameters $\delta V$, $\delta\psi^{\prime}$, and $v$ in \eqref{eq:delta-v-m} is $\chi_{2}^{2}=\sum{\delta v_{m}^{2}}$. 
+The fit results in Tables~\ref{tab:GSmin}--\ref{tab:GS3min} and also the mean measurements of the wind in those tables provide reference angles for the wind direction, so those angles can be used in fits that minimize \eqref{eq:delta-v-m}. Because there is significant variation among the circles, the tabulated values for fitted values for the appropriate set (all turns, left turns, or right turns) will be used as the value of $\lambda_w$ when fitting. An appropriate error function to minimize to find values for the parameters $\delta V$, $\delta\psi^{\prime}$, and $v$ in \eqref{eq:delta-v-m} is $\chi_{2}^{2}=\sum{\delta v_{m}^{2}}$. 
 
 Tables \ref{tab:Circlemin}--\ref{tab:Circle3min} show the fit results for the three circles: 
 
@@ -696,7 +696,7 @@ g
 % \par\end{center}
 % 
 % The error in heading shown in Table\ \ref{tab:GSmin} approximately reverses sign for right-turn vs left-turn circles. This error would arise if there is a timing error between the measurement of heading and that of ground speed, here obtained from the GPS system (variables GGVEW and GGVNS) of about 0.46\,s, because the turn rate in these turns is about 1.8$^{\circ}$/s so the
-% indicated errors of about 1.5$^{\circ}$ suggest that, for both turn directions, advancing the GPS ground-speed measurements by about 0.8\,s would remove the errors from all the circles. Fitting to minimize the standard error of the fits gave a minimum chisquare for a shift of \Sexpr{nbest} samples or \Sexpr{nbest}$\times$40 = \Sexpr{40*nbest}\,ms, as shown in Table\ \ref{tab:GSminShift}. With this shift, the indicated errors in heading are all quite small and consistent with expected errors in heading (<0.05$^{\circ}$. The residual error for the right-turn circles, 0.3\,m/s, is also very good; variations of this magnitude were present in the wind field and hence in TAS, so this is as low as could be expected.
+% indicated errors of about 1.5$^{\circ}$ suggest that, for both turn directions, advancing the GPS ground-speed measurements by about 0.8\,s would remove the errors from all the circles. Fitting to minimize the residual standard deviation of the fits gave a minimum chisquare for a shift of \Sexpr{nbest} samples or \Sexpr{nbest}$\times$40 = \Sexpr{40*nbest}\,ms, as shown in Table\ \ref{tab:GSminShift}. With this shift, the indicated errors in heading are all quite small and consistent with expected errors in heading (<0.05$^{\circ}$. The residual error for the right-turn circles, 0.3\,m/s, is also very good; variations of this magnitude were present in the wind field and hence in TAS, so this is as low as could be expected.
 
 
 <<plotGSRMS2, echo=FALSE, include=FALSE, eval=FALSE>>=
@@ -988,7 +988,7 @@ A better approach is to take into account the influence of all angles on vertica
 \begin{equation}
 u_{z}=w_{p}+V(\sin\phi\tan\beta+\cos\phi\tan\alpha-\sin\theta)\label{eq:vwind-eq-for-SS} 
 \end{equation}
-where $w_{p}$ is the vertical motion of the aircraft, $V$ its true airspeed, $\phi$ the roll angle, $\beta$ the sideslip angle, $\alpha$ the angle of attack, and $\theta$ the pitch angle. If it is assumed that the vertical wind is zero, in the circle maneuver this equation predicts that the sideslip angle will be $\beta^{*}$ given by\\ 
+where $w_{p}$ is the vertical motion of the aircraft, $V$ is airspeed, $\phi$ the roll angle, $\beta$ the sideslip angle, $\alpha$ the angle of attack, and $\theta$ the pitch angle. If it is assumed that the vertical wind is zero, in the circle maneuver this equation predicts that the sideslip angle will be $\beta^{*}$ given by\\ 
 \begin{equation}
 \beta^{*}\approx\frac{\theta-\alpha\cos\phi-(w_{p}/V)}{\sin\phi}\,\,\,.\label{eq:beta-from-other-measurements} 
 \end{equation}
@@ -1014,7 +1014,7 @@ print (sprintf ("mean error in sideslip: %.3f +/-%.3f", dbm, dbsdm))
 
 Measurements of this estimate of the sideslip error are shown in Fig.~\ref{fig:sideslip-error-histogram}. The mean error is \Sexpr{round(dbm, 3)}$^{\circ}$, which  should be subtracted from the sideslip measurements,\footnote{The value is the measurement error so the required correction is the negative of that value.} 
 % This result differs from the indication from Fig.\ \ref{fig:plotSS}, where no offset was required. The uncertainty in the estimated mean of this result is very low, and this result is more general because it uses measured values of the pitch, so this value will be used to correct the sideslip offset. 
-This indicates that the sideslip sensitivity coefficients should be modified from those initially found in Sect.~\ref{sub:radome-and-gust-pod-beta} to these revised values: \{$e_{0}$,\, $e_{1}$\} = \{\Sexpr{round(cfs[1]-dbm, 3)}, \Sexpr{round(cfs[2], 3)}\}. Because this result is dependent on the vertical wind being zero, an uncertainty of at least 0.03$^{\circ}$ should be assigned to the first coefficient to recognize that the vertical wind might typically be $\pm$0.05\,m/s in a region such as this.% %msrmt 0.1, but biased/unreliable in high-bank turn? 
+This indicates that the sideslip sensitivity coefficients should be modified from those initially found in Sect.~\ref{sub:radome-and-gust-pod-beta} to these revised values:\label{page:SSoffset} \{$e_{0}$,\, $e_{1}$\} = \{\Sexpr{round(cfs[1]-dbm, 3)}, \Sexpr{round(cfs[2], 3)}\}. Because this result is dependent on the vertical wind being zero, an uncertainty of at least 0.03$^{\circ}$ should be assigned to the first coefficient to recognize that the vertical wind might typically be $\pm$0.05\,m/s in a region such as this.% %msrmt 0.1, but biased/unreliable in high-bank turn? 
 
 %This result was obtained from files where a heading offset of -0.08$^{\circ}$ had been imposed. 
 The results of the circle analyses thus point to a combined error from heading and sideslip angle of \index{heading!offset in}\index{sideslip!offset in}%
@@ -1173,10 +1173,10 @@ g
 The results obtained from analysis of the circle maneuvers are these:\index{maneuver!circle!summary of results} 
  
 \begin{enumerate}
-\item The circle maneuvers indicate that the measured true airspeed (TASF)\sindex[var]{TASF} with current LAMS-based pressure corrections is accurate to within expected uncertainty. The fits indicate an error in true airspeed 
+\item The circle maneuvers indicate that the measured airspeed (TASF)\sindex[var]{TASF} with current LAMS-based pressure corrections is accurate to within expected uncertainty. The fits indicate an error in airspeed 
 of \Sexpr{round(mean(VerrMean),2)}$\pm$\Sexpr{round(sd(VerrMean)/sqrt(5),2)}\,m/s,% 
 %0.2$\pm 0.3$\,m/s, 
-which is within the expected ($\pm$0.3\,m/s) uncertainty limits for TAS deduced using the LAMS calibration (\citet{CooperEtAl2014}). The uncertainty range covers the calibrated value, so it appears better to make no adjustment to true airspeed.  
+which is within the expected ($\pm$0.3\,m/s) uncertainty limits for TAS deduced using the LAMS calibration (\citet{CooperEtAl2014}). The uncertainty range covers the calibrated value, so it appears better to make no adjustment to airspeed.  
 \item The indicated error in sideslip is \Sexpr{round(dbm,3)}$^{\circ}$, so the first sensitivity coefficient should be reduced by this amount. That leads to sensitivity coefficients for the radome of  \{\Sexpr{round(cfs[1]-dbm, 3)}, \Sexpr{format(round(cfs[2],3), nsmall=3)}\}. Cf.\ the discussion in Section\ \ref{sec:Calibrations} and the summary section \ref{CalSSsummary} at the end of that section. It appears reasonable to consider that the bias in this measurement may be uncertain by about 0.03$^{\circ}$ because the mean offset is determined with this standard deviation from the combination of the available circle maneuvers and this is also the sensitivity to 0.05\,m/s vertical wind during the maneuvers. 
 \item With the preceding sensitivity coefficients, an offset should be introduced to heading of magnitude 
 \Sexpr{round (-mean(HerrMean)+cos((meanr1-meanr2)/2*pi/180)*dbm, 2)}$\pm$\Sexpr{round(sd(HerrMean)/sqrt(5),2)}$^{\circ}$. 

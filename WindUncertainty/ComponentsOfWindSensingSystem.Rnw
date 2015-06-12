@@ -20,7 +20,7 @@ if (!exists ("ReloadData")) {
 
 \subsubsection{Overview}
 
-The primary measurement of wind on the GV \index{wind!measurement!standard system} is that based on measurement of true airspeed via a pitot tube\index{pitot tube}, airflow angles\index{angle!airflow} via pressure differences measured on the nose \index{radome}radome, attitude angles\index{angle!attitude} measured by an \index{inertial reference unit}inertial reference unit, and \index{speed of aircraft!ground speed}ground-speed\index{ground speed} components measured by the same inertial reference unit and also by a Global Positioning System\index{Global Positioning System} receiver. A cursory description of this system was provided by \citet{CooperEtAl2014}. A more extensive description will be provided here. Table~\ref{tab:Radome-system-measurements} provides a summary of the measurements used to determine the wind and the characteristics of the sensors\index{sensors!table}\index{sensors!characteristics} used, and the \index{EOL web pages, instruments}\href{http://www.eol.ucar.edu/aircraft-instrumentation}{EOL instrument web pages} (cf.~\textquotedbl{}State Parameters\textquotedbl{}, \textquotedbl{}Wind\textquotedbl{}) provide additional information on these measurements.  
+The primary measurement of wind on the GV \index{wind!measurement!standard system} is that based on measurement of airspeed via a pitot tube\index{pitot tube}, airflow angles\index{angle!airflow} via pressure differences measured on the nose \index{radome}radome, attitude angles\index{angle!attitude} measured by an \index{inertial reference unit}inertial reference unit, and \index{speed of aircraft!ground speed}ground-speed\index{ground speed} components measured by the same inertial reference unit and also by a Global Positioning System\index{Global Positioning System} receiver. A cursory description of this system was provided by \citet{CooperEtAl2014}. A more extensive description will be provided here. Table~\ref{tab:Radome-system-measurements} provides a summary of the measurements used to determine the wind and the characteristics of the sensors\index{sensors!table}\index{sensors!characteristics} used, and the \index{EOL web pages, instruments}\href{http://www.eol.ucar.edu/aircraft-instrumentation}{EOL instrument web pages} (cf.~\textquotedbl{}State Parameters\textquotedbl{}, \textquotedbl{}Wind\textquotedbl{}) provide additional information on these measurements.  
 
 % \begin{table}
 % \begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.5cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
@@ -136,7 +136,7 @@ temperature (ATX) &
 HARCO 100009-1 &
 $-80$ to +40$^{\circ}$C, anti-iced &
 0.3$^{\circ}$ &
-needed for true airspeed\tabularnewline
+needed for airspeed\tabularnewline
 \midrule 
 dew point
 
@@ -205,11 +205,11 @@ unit is a Novatel OEMV differential GPS unit (L1/L2) with OmniSTAR\index{OmniSTA
 
 \subsubsection{Temperature\label{sub:Temperature}}
 
-A measurement of temperature\index{temperature} is needed to calculate the wind because the conversion from dynamic pressure to true airspeed involves the temperature, as documented in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{this document on processing algorithms}.\index{processing algorithms} The measurements of temperature were checked against expectations for height-vs-pressure changes from the hydrostatic equation by \citet{CooperEtAl2014}, with the result that the measurements were validated to an uncertainty\index{temperature!uncertainty} of about 0.3$^{\circ}$C. Documentation of the temperature uncertainty will be presented in more detail in a separate document. 
+A measurement of temperature\index{temperature} is needed to calculate the wind because the conversion from dynamic pressure to airspeed involves the temperature, as documented in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{this document on processing algorithms}.\index{processing algorithms} The measurements of temperature were checked against expectations for height-vs-pressure changes from the hydrostatic equation by \citet{CooperEtAl2014}, with the result that the measurements were validated to an uncertainty\index{temperature!uncertainty} of about 0.3$^{\circ}$C. Documentation of the temperature uncertainty will be presented in more detail in a separate document. 
 
 \subsubsection{Humidity (dew point)\label{sub:dewpoint}}
 
-The calculation of true \index{dew point}\index{humidity, effect of}airspeed from measured dynamic and static pressure involves the specific heats and gas constant for air, and this can depart from dry-air values when water vapor is present in significant amounts. This correction is usually insignificant for dew-point temperatures below about -20$^{\circ}$C. The equations used are those in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{the document on processing algorithms}. The correction to true airspeed is approximately a factor of (1+0.3$q_{h}$) where $q_{h}$ is the dimensionless specific humidity,\sindex[sym]{qh@$q_h$=specific humidity} typically about 0.01 at 10$^{\circ}$C dew point and 700~hPa pressure. In this case the correction to airspeed, typically 150~m/s at this altitude, is about 0.45~m/s, so the correction is not negligible but is relatively insensitive to uncertainty in the measured humidity. The dew point measurements become more uncertain than listed here at the low end of this range, but the humidity correction is insignificant there. Those measurements are likely better than listed here for the upper range, in level flight, but lags and overshooting introduce errors when conditions are changing rapidly as in climbs or descents. 
+The calculation of true \index{dew point}\index{humidity, effect of}airspeed from measured dynamic and static pressure involves the specific heats and gas constant for air, and this can depart from dry-air values when water vapor is present in significant amounts. This correction is usually insignificant for dew-point temperatures below about -20$^{\circ}$C. The equations used are those in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{the document on processing algorithms}. The correction to airspeed is approximately a factor of (1+0.3$q_{h}$) where $q_{h}$ is the dimensionless specific humidity,\sindex[sym]{qh@$q_h$=specific humidity} typically about 0.01 at 10$^{\circ}$C dew point and 700~hPa pressure. In this case the correction to airspeed, typically 150~m/s at this altitude, is about 0.45~m/s, so the correction is not negligible but is relatively insensitive to uncertainty in the measured humidity. The dew point measurements become more uncertain than listed here at the low end of this range, but the humidity correction is insignificant there. Those measurements are likely better than listed here for the upper range, in level flight, but lags and overshooting introduce errors when conditions are changing rapidly as in climbs or descents. 
 
 \subsubsection{Examples of measurements}
 
@@ -243,7 +243,7 @@ plotWAC (DE[, c("Time", "THDG", "THDG_IRS2", "CTHDG_GP")], legend.position="bott
 
 Typical measurements \index{example of measurements!attitude angles}\sindex[var]{UTC=Coordinated Universal Time} of the attitude angles are shown in Fig.~\ref{fig:radome-plot-angles}. The large difference in pitch is a result of the gust pod being installed in a canister below the wing where it points downward by several degrees relative to the aircraft longitudinal axis. (The pods were designed this way to provide better approaching airflow for cloud-imaging probes and other sampling from the airstream.) There is also a significant difference in heading and in roll for similar reasons. 
 
-<<radome-plot-pressures, include=TRUE, fig.cap="The measurements of dynamic pressure (QCF and, after correction QCFC), ambient pressure (PSF and corrected PSFC) and the resulting true airspeed TASX. Data from DEEPWAVE flight 16.">>=
+<<radome-plot-pressures, include=TRUE, fig.cap="The measurements of dynamic pressure (QCF and, after correction QCFC), ambient pressure (PSF and corrected PSFC) and the resulting airspeed TASX. Data from DEEPWAVE flight 16.">>=
 
 op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:3, ncol = 1), widths = 1,  heights = c(5,5,6))
@@ -256,7 +256,7 @@ plotWAC (DE[, c("Time", "TASX")], ylab='True Airspeed [m/s]')
 
 @
 
-The measurements of pressures and the true airspeed calculated from these \index{example of measurements!pressure}\index{example of measurements!airspeed} measurements are shown in Fig.~\ref{fig:radome-plot-pressures} for the same period as in the preceding figure.\sindex[var]{TASX=primary true airspeed} Corrections have been applied to the pressure measurements according to the calibration determined from LAMS measurements, as described by \citet{CooperEtAl2014}; these corrections vary with flight conditions but normally are smaller than a few hPa so are not evident in these plots. They are nevertheless crucial to reducing the uncertainty in the true airspeed to about 0.3\,m\,s$^{-1}$, as shown in that reference. 
+The measurements of pressures and the airspeed calculated from these \index{example of measurements!pressure}\index{example of measurements!airspeed} measurements are shown in Fig.~\ref{fig:radome-plot-pressures} for the same period as in the preceding figure.\sindex[var]{TASX=primary airspeed} Corrections have been applied to the pressure measurements according to the calibration determined from LAMS measurements, as described by \citet{CooperEtAl2014}; these corrections vary with flight conditions but normally are smaller than a few hPa so are not evident in these plots. They are nevertheless crucial to reducing the uncertainty in the airspeed to about 0.3\,m\,s$^{-1}$, as shown in that reference. 
 
 <<radome-plot-airflow-angles, include=TRUE, fig.cap="The pressure differences measured on the radome (ADIFR and BDIFR, respectively between the vertically separated ports and the horizontally separated ports) and the resulting airflow angles AKRD (angle of attack) and SSRD (sideslip angle). Data from DEEPWAVE flight 16.", fig.scap="Pressure differences measured on the radome (ADIFR and BDIFR)">>=
 
@@ -357,7 +357,7 @@ The C-MIGITS \index{angle!attitude!gust pod}\index{gust pod!components} IRU unit
 
 \subsubsection{Ambient or static pressure}
 
-Ambient pressure (variable PS\_GP) is measured by a digital transducer with \index{pressure!ambient!gust pod}\index{gust pod!components} low uncertainty, as listed in Table~\ref{tab:Gust-pod-measurements}. However, the Rosemount 858 probe is located under the wing in a location where there is significant airflow distortion, so these measurements often differ from the measurements from the static buttons on the fuselage by 10--20\,hPa and significant corrections are needed if these measurements are to be used for pressure measurements. With the gust-pod, the use of this measurement is as a reference for the differential measurement of dynamic pressure because the dynamic-pressure transducer is connected between the total-pressure port on the front of the 858 probe and the static ports. No calibration has been determined that would make this measurement useful as a measure of true ambient pressure, although that could be done by fitting to match the standard static pressure. In the absence of such a correction, PS\_GP should not be considered an alternate measurement of ambient pressure. The use of this measurement to determine an alternate measure of true airspeed will be discussed in Section~\ref{sub:GP-TAS}. 
+Ambient pressure (variable PS\_GP) is measured by a digital transducer with \index{pressure!ambient!gust pod}\index{gust pod!components} low uncertainty, as listed in Table~\ref{tab:Gust-pod-measurements}. However, the Rosemount 858 probe is located under the wing in a location where there is significant airflow distortion, so these measurements often differ from the measurements from the static buttons on the fuselage by 10--20\,hPa and significant corrections are needed if these measurements are to be used for pressure measurements. With the gust-pod, the use of this measurement is as a reference for the differential measurement of dynamic pressure because the dynamic-pressure transducer is connected between the total-pressure port on the front of the 858 probe and the static ports. No calibration has been determined that would make this measurement useful as a measure of true ambient pressure, although that could be done by fitting to match the standard static pressure. In the absence of such a correction, PS\_GP should not be considered an alternate measurement of ambient pressure. The use of this measurement to determine an alternate measure of airspeed will be discussed in Section~\ref{sub:GP-TAS}. 
 
 
 \subsubsection{Dynamic pressure}
@@ -408,7 +408,7 @@ plot(DE$WIC[v], DE$WI_GP[v], type='p', pch=20, col='blue', xlab="WIC [m/s]", yla
 lines(c(-10,10), c(-10,10), lwd=3, lty=2, col='darkorange')
 sdWICmWIG <- sd(DE$WIC[v]-DE$WI_GP[v], na.rm=TRUE)
 
-<<hw-gp-vs-std, include=TRUE, fig.scap="Horizontal wind direction and speed from the gust pod and from the conventional radome-based system.",fig.cap="Comparison of horizontal wind direction (top panel) and horizontal wind speed (bottom panel) as determined from the gust pod and from the conventional radome-based system, for measurements where the true airspeed is greater than 130 m/s (to exclude periods of possible flap deployment). Only measurements considered valid are plotted for the gust pod; the restrictions where the gust-pod measurement is flagged as missing and therefore is not plotted here are: altitude (GGALT) > 5000 m, absolute value of roll (ROLL) < 5$^{\\circ}$. This causes exclusion of some measurements near the start and end of the flight and during turns.">>=
+<<hw-gp-vs-std, include=TRUE, fig.scap="Horizontal wind direction and speed from the gust pod and from the conventional radome-based system.",fig.cap="Comparison of horizontal wind direction (top panel) and horizontal wind speed (bottom panel) as determined from the gust pod and from the conventional radome-based system, for measurements where the airspeed is greater than 130 m/s (to exclude periods of possible flap deployment). Only measurements considered valid are plotted for the gust pod; the restrictions where the gust-pod measurement is flagged as missing and therefore is not plotted here are: altitude (GGALT) > 5000 m, absolute value of roll (ROLL) < 5$^{\\circ}$. This causes exclusion of some measurements near the start and end of the flight and during turns.">>=
 
 op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:2, ncol = 1), widths = 1,  heights = c(5,6))
@@ -671,7 +671,7 @@ The laser air-motion sensor (LAMS)\index{laser air-motion sensor} is still under
 \end{figure}%
 The system consists of one, three or four fiber-based laser beams focused ahead of the aircraft and a collection system to detect the Doppler shift in light backscattered from aerosols. The transmitter optical components are mounted in an under-wing pod, similar to that used for the gust pod, and like the gust pod the system incorporates a compact \sindex[var]{SDN500=model of IRU used with the gust pod}\index{IRU!LAMS}\index{IRU!SDN500}Systron Donner SDN500 GPS/INS MEMS Tactical Grade navigation system (henceforth called the SDN500 IRU) to measure the attitude angles and ground speed of the pod. Early measurements from this system have been used to determine corrections to the pressure measurements, and those serve an important role in reducing uncertainty in the wind measurements, as described in \citet{CooperEtAl2014} and later in this report. 
 
-LAMS hardware supports up to four \index{LAMS!4-beam configuration} beams, with three pointing $35^{\circ}$ off the forward direction and separated by $120^{\circ}$ in the azimuthal direction. The fourth beam is directed forward from the LAMS unit. The LAMS\index{LAMS!in DEEPWAVE} channel designations changed after DEEPWAVE (summer 2014) when it was decided the instrument would benefit from having a lower noise channel for forward pointing measurements (the laser/detector on channel 4 had lower signal-to-noise ratio than the other three channels). Table \ref{tab:BeamConfig} summarizes the labels and pointing angles of each beam for both up to and after DEEPWAVE. Note the number designation refers to the laser, detector, and data processing channels. The letter designation is associated with the exit window on the LAMS head. The pointing angles reported here are ideal. The angle $\theta$ is measured relative to the forward direction of the LAMS pod (approximately the angle between the beam and $\hat{x^{\prime}}$) and the angle $\phi$ is the rotation angle about $\hat{x^{\prime}}$ relative to the $\hat{z^{\prime}}$ axis. This geometry is designed for GV installation where the LAMS pod is installed on the left wing, outboard pylon, outboard position. The pointing geometry relative to the aircraft may change based on the installation configuration on the C-130 (to be determined on ARISTO in fall 2015) where the LAMS optical fiber are routed to the aircraft right wing. 
+LAMS hardware supports up to four \index{LAMS!4-beam configuration} beams, with three pointing $35^{\circ}$ off the forward direction and separated by $120^{\circ}$ in the azimuthal direction. The fourth beam is directed forward from the LAMS unit. The LAMS\index{LAMS!in DEEPWAVE} channel designations changed after DEEPWAVE (summer 2014) when it was decided the instrument would benefit from having a lower noise channel for forward pointing measurements (the laser/detector on channel 4 had lower signal-to-noise ratio than the other three channels). Table \ref{tab:BeamConfig} summarizes the labels and pointing angles of each beam for both up to and after DEEPWAVE. The number designation refers to the laser, detector, and data processing channels, and the letter designation is associated with the exit window on the LAMS head. The pointing angles reported here are target values; measured values are given below. The angle $\theta_L$ is measured relative to the forward direction of the LAMS pod (approximately the angle between the beam and $\hat{x^{\prime}}$) and the angle $\phi_L$ is the rotation angle about $\hat{x^{\prime}}$ relative to the $\hat{z^{\prime}}$ axis. This geometry is designed for GV installation where the LAMS pod is installed on the left wing, outboard pylon, outboard position.\footnote{The pointing geometry relative to the aircraft may change based on the installation configuration on the C-130 (to be determined in fall 2015) where the LAMS optical fibers are routed to the aircraft right wing.}
 
 \begin{table}
 \begin{minipage}[t]{0.93\columnwidth}%
@@ -719,23 +719,14 @@ direction, with positive values to starboard. In particular, beam
 aircraft.\label{tab:BeamConfig}\index{LAMS!pointing angles}}
 \end{table}
 
-During IDEAS-4-GV, the LAMS beams\index{LAMS!focal distance} were focused approximately 15 m from the LAMS exit ports on the pod. After this flight program, concerns were raised about the aircraft causing flow distortion in the LAMS sample \index{LAMS!airflow distortion} volumes, and the beam focus was moved to 20 m from the exit port. In both cases the sample volume is approximately 2 m long. 
+During the test program IDEAS-4-GV (Instrument Development and Education in Airborne Science Phase 4) in Sept-Oct 2013,\sindex[var]{IDEAS-4-GV=Instrument Development and Education in Airborne Science Phase 4} the LAMS beams\index{LAMS!focal distance} were focused approximately 15 m from the LAMS exit ports on the pod. After this flight program, concerns were raised about the aircraft causing flow distortion in the LAMS sample \index{LAMS!airflow distortion} volumes, and the beam focus was moved to 20 m from the exit port. In both cases the sample volume is approximately 2 m long. 
 
 \subsubsection{Relative Beam Pointing}
 
-The relative pointing of the LAMS beams is defined by the orientation of each beam relative to the others. If the absolute pointing direction of one beam is known, the relative pointing may be used to determine the absolute pointing of all other beams. We define the relative pointing coordinates such that the z-axis is directed along the forward beam (D). The angle $\theta_{L}$ is the angle between the beam and the z-axis and the azimuthal angle $\phi_{L}$ is measured relative to the x-axis such that beam 1 (A) is positioned at $\phi_{L}=0$.\sindex[lis]{phi\_subL@$\phi_{L}$=LAMS azimuthal pointing angle}\sindex[lis]{theta\_subL@$\theta_{L}$=LAMS pointing angle from longitudinal axis}\marginpar{180?}
+The relative pointing of the LAMS beams is defined by the orientation of each beam relative to the others. If the absolute pointing direction of one beam is known, the relative pointing may be used to determine the absolute pointing of all other beams. We define the relative pointing coordinates such that the z-axis is directed along the forward beam (D). The angle $\theta_{L}$ is the angle between the beam and the z-axis and the azimuthal angle $\phi_{L}$ is measured relative to the x-axis such that beam 1 (A) is positioned at $\phi_{L}=180^{\circ}$.\sindex[lis]{phi\_subL@$\phi_{L}$=LAMS azimuthal pointing angle}\sindex[lis]{theta\_subL@$\theta_{L}$=LAMS pointing angle from longitudinal axis}\marginpar{180 OK?}
 
-Two methods were used to determine the relative pointing angles. The first, performed prior to IDEAS-4-GV, used a Laser Survey, in which a commercial laser surveying\index{LAMS!pointing angles!survey} company measured the positions of the LAMS head and the beam focal points. 
-
-The second method used a 30x beam expanded with focusing lens in a fixed position (referred to here as the receiver system) while LAMS was mounted in an astronomical telescope mount. A camera was placed at the focal point of the receiver system and the telescope mount was used to steer the LAMS beams into the receiver system such that each beam was centered on the CCD. This method had redundant pointing measurements, using both SDN500 data as well as the telescope mount angle read-outs. 
-
-Both methods were relatively accurate, with less than $0.2^{\circ}$ difference in beam pointing. It should be noted that the fibers on the LAMS head may have moved slightly between the two measurement methods. The forward pointing beam was added after IDEAS-4-GV which required some disassembly of the LAMS head. So the relatively small difference in beam pointing may be partially attributable to that work. 
-
-%The beam pointing results from the telescope measurement system are typically used going forward, first because they are the most recent beam pointing measurements, but also because redundant measurements and the position invariance of Fourier plane measurements generally illicit greater confidence in those pointing results.
-
-%\subsubsubsection{Laser Survey}
-
-Prior to IDEAS-4-GV in Sept.--Oct.~2013, a laser survey system was used to estimate the LAMS beam pointing angles of Beams 1, 2, and 3 (the forward pointing beam had not been added at that point). The LAMS head was positioned in the hanger so the bottom two beams were approximately parallel to the floor. Two infra-red (IR) card targets were placed at the focal points of those beams. 
+Two methods were used to determine the relative pointing angles. The first, performed prior to September 2013, used a Laser Survey, in which a commercial laser surveying\index{LAMS!pointing angles!survey} company measured the positions of the LAMS head and the beam focal points. The second method used a 30x beam expanded with focusing lens in a fixed position (referred to here as the receiver system) while LAMS was mounted in an astronomical telescope mount. A camera was placed at the focal point of the receiver system and the telescope mount was used to steer the LAMS beams into the receiver system such that each beam was centered on the CCD. This method had redundant pointing measurements, using both IRU(SDN500) measurements of attitude angles as well as the telescope mount angle read-outs. 
+The LAMS head was positioned in the hangar so the bottom two beams were approximately parallel to the floor. Two infrared (IR) card targets were placed at the focal points of those beams. 
 
 The laser survey system locked onto a corner cube reflector and register its position in space. The corner cube was first used to estimate the position of the LAMS exit ports by taking a series of points around their circumference. The tracker then registered the positions of the IR card targets by the same method. Once complete, the LAMS head was rotated by $120^{\circ}$ and the process was repeated. This measurement was repeated for three different LAMS head rotations, where two beams were surveyed at a time. 
 
@@ -760,15 +751,20 @@ The weaknesses of this method are
 \item The survey can be expensive, requiring the hire of an outside vendor.  
 \end{itemize}
 
+%The beam pointing results from the telescope measurement system are typically used going forward, first because they are the most recent beam pointing measurements, but also because redundant measurements and the position invariance of Fourier plane measurements generally illicit greater confidence in those pointing results.
 
-The results of the laser survey method were used to process IDEAS-4-GV data, but those angle calibrations have since been traded for the Telescope technique described below. 
+%\subsubsubsection{Laser Survey}
+
+% Prior to IDEAS-4-GV in Sept.--Oct.~2013, a laser survey system was used to estimate the LAMS beam pointing angles of Beams 1, 2, and 3 (the forward pointing beam had not been added at that point). 
+
+%The results of the laser survey method were used to process IDEAS-4-GV data, but those angle calibrations have since been traded for the Telescope technique described below. 
 
 
 %\subsubsubsection{Telescope Measurement}
 
-The relative positions of the LAMS system can be determined by defining a fixed reference vector and directing each beam onto it. The pointing of the LAMS module is recorded when each beam is directed on the reference. Without absolute knowledge of the reference vector, this only allows the relative beam geometry to be determined. Thus, we define a LAMS beam pointing coordinate frame such that the z-axis is along the forward beam. 
+For the second method using a telescope mount, the relative positions of the LAMS system can be determined by defining a fixed reference vector and directing each beam onto it. The pointing of the LAMS module is recorded when each beam is directed onto the reference. Without absolute knowledge of the reference vector, this only allows the relative beam geometry to be determined. Thus, we define a LAMS beam pointing coordinate frame such that the z-axis is along the forward beam. 
 
-The telescope beam measurement system was developed in house to provide position insensitive angular measurement. It uses a 30x beam expander consisting of an off axis parabola and convex secondary (exact type is unknown). The light from that beam expander is focused onto an IR card using a 50 mm lens, yielding a total focal length of 1.5 m. The IR card was then reimaged using a 45 mm lens onto a charge-coupled device (CCD) to monitor the beam position (see Figure \ref{fig:TelescopePointingRX} and \ref{fig:TelescopePictures}). 
+The telescope beam measurement system was developed in house to provide position insensitive angular measurement. It uses a 30x beam expander consisting of an off-axis parabola and convex secondary (exact type is unknown). The light from that beam expander is focused onto an IR card using a 50 mm lens, yielding a total focal length of 1.5 m. The IR card was then reimaged using a 45 mm lens onto a charge-coupled device (CCD) to monitor the beam position (see Figure \ref{fig:TelescopePointingRX} and \ref{fig:TelescopePictures}). 
 
 \begin{figure}
 \noindent \begin{centering}
@@ -786,19 +782,19 @@ The telescope beam measurement system was developed in house to provide position
 
 With the IR card at the back focus of the optical system, the beam image is position independent. Its location in this plane is dictated solely by the angle of the input beam. Even though each beam is slightly translated relative to its counterparts, we can still perform accurate angle measurements. 
 
-The LAMS system is mounted in a precision telescope mount with accuracy on the order of $1^{\prime\prime}$ or about $0.0003^{\circ}$. The mount gives fine resolution in adjusting LAMS pointing into the receiver reference system and provides a digital readout of Alt/Az coordinates. These coordinates provide the first set of pointing data for the LAMS system. The second set of pointing data is provided by the SDN500 INS, which is attached and operating during our data collection. Thus, two measurements of the LAMS pointing are provided. 
+The precision telescope mount onto which the LAMS system was mounted provides angular measurements with uncertainty of about $1^{\prime\prime}$ or about $0.0003^{\circ}$. The mount gives fine resolution in adjusting LAMS pointing into the receiver reference system and provides a digital readout of altitude and azimuth coordinates. These coordinates provide the first set of pointing data for the LAMS system. The second set of pointing data is provided by the SDN500 IRU, which is attached and operated during data collection. Thus, two measurements of the LAMS pointing are provided. 
 
-The telescope mount readout provides the quantities Alt, $\vartheta_{T}$\sindex[lis]{theta\_T@$\vartheta_{T}$=altitude angle, telescope mount, LAMS calibration}, and Az, $\varphi_{T}$\sindex[lis]{phi\_T@$\varphi_{T}$=azimuth angle, telescope mount, LAMS calibration}. When a beam is directed into the reference telescope, it is accomplished through rotation operations:  
+The telescope mount readout provides the quantities altitude angle ($\vartheta_{T})$\sindex[lis]{theta\_T@$\vartheta_{T}$=altitude angle, telescope mount, LAMS calibration} and azimuth angle ($\varphi_{T}$).\sindex[lis]{phi\_T@$\varphi_{T}$=azimuth angle, telescope mount, LAMS calibration} When a beam is directed into the reference telescope, it is accomplished through rotation operations:  
 \begin{equation}
 \hat{r}=\mathbf{R}(\vartheta_{T},\hat{x})\mathbf{R}(\varphi_{T},\hat{y})\hat{u},\label{TelMountReference}
 \end{equation}
-where $\hat{r}$ \sindex[lis]{r\_hat@$\hat{r}$=reference direction, LAMS receiving telescope, for LAMS angle calibration}is the reference direction of the receiving telescope, $\hat{u}$ is the beam pointing direction and $\mathbf{R}(\theta,\hat{v})$\sindex[lis]{R\_LAMS@$\mathbf{R}(\theta,\hat{v})$=rotation matrix used for LAMS calibration} is a rotation matrix of angle $\theta$ about the vector $\hat{v}$. 
+where $\hat{r}$\sindex[lis]{r\_hat@$\hat{r}$=reference direction, LAMS receiving telescope, for LAMS angle calibration} is the reference direction of the receiving telescope, $\hat{u}$ is the beam pointing direction and $\mathbf{R}(\gamma,\hat{v})$\sindex[lis]{R\_LAMS@$\mathbf{R}(\gamma,\hat{v})$=rotation matrix used for LAMS calibration} is a rotation matrix of angle $\gamma$ about the vector $\hat{v}$. 
 
 To determine the beam pointing angle, we invert the rotation operations (or perform the opposite rotations in the opposite order), which results in  
 \begin{equation}
 \hat{u}=\mathbf{R}(-\varphi_{T},\hat{y})\mathbf{R}(-\vartheta_{T},\hat{x})\hat{r}.\label{TelMountBeam}
 \end{equation}
-To obtain a beam pointing vector, we first need to know the reference vector in some coordinate basis. We let Beam 4 (the forward pointing beam) define the z-axis in this coordinate basis and obtain $\hat{r}$ by evaluating Eq. \eqref{TelMountReference} for the recorded Alt/Az angles of Beam 4 (D) where $\hat{u}=\left[\begin{array}{ccc} 0 & 0 & 1\end{array}\right]^{T}$. We then obtain all other beam vectors from their respective Alt/Az coordinates using Eq. \eqref{TelMountBeam}. 
+To obtain a beam pointing vector, we first need to know the reference vector in some coordinate basis. We let Beam 4 (the forward pointing beam) define the z-axis in this coordinate basis and obtain $\hat{r}$ by evaluating Eq. \eqref{TelMountReference} for the recorded Alt/Az angles of Beam 4 (D) where $\hat{u}=\left[\begin{array}{ccc} 0 & 0 & 1\end{array}\right]^{T}$. We then obtain all other beam vectors from their respective altitude and azimuth coordinates using Eq. \eqref{TelMountBeam}. 
 
 The process for obtaining the beam pointing vectors from the SDN500 IRU is essentially identical to the process above, except that the SDN500 IRU provides roll, pitch and heading. It should be noted, as will be addressed later, that the SDN500 IRU heading is not reliable when the device is stationary. 
 
@@ -835,14 +831,15 @@ Beam 4 (D) &
 (Forward)  &
 $0.024^{\circ}$ \tabularnewline
 \midrule 
-\label{tab:AngleDiff}  &
+  &
 \tabularnewline
 \end{tabular}
 \par\end{center}%
 \end{minipage}
+\protect\caption{Differences between angles measured by the SDN500 IRU and the telescope mount, for each beam.\label{tab:AngleDiff}}
 \end{table}
 
-An assessment of the beam pointing accuracy was performed by translating the focused beam across the IR card and finding the spread of angles accepted by the optical system. The full angle field-of-view of the system was approximately $2^{\prime}$ or about $0.02^{\circ}$. The beam spot position can be repeated to greater accuracy than this (we can see when it is well centered using the CCD), however this is probably a reasonable uncertainty figure because the IR card may not be located at the exact Fourier plane of the optical system.  
+To assess the uncertainty in beam pointing angles, the focused beam was positioned across the IR card to determine the spread of angles accepted by the optical system. The full angle field-of-view of the system was approximately $2^{\prime}$ or about $0.02^{\circ}$. The beam spot position can be repeated to greater accuracy than this (we can see when it is well centered using the CCD), however this is probably a reasonable uncertainty figure because the IR card may not be located at the exact Fourier plane of the optical system.  
 
 The benefits of the telescope beam measurement method\index{LAMS!angle calibration!telescope method} are:  
 \begin{itemize}
@@ -924,7 +921,7 @@ $120.16^{\circ}$  &
 $120.16^{\circ}$  &
 $120.00^{\circ}$\tabularnewline
 \midrule 
-\label{tab:PointingAngles}  &
+  &
  &
  &
  &
@@ -933,200 +930,10 @@ $120.00^{\circ}$\tabularnewline
 \tabularnewline
 \end{tabular}%
 \end{minipage}{\footnotesize \par}
+\protect\caption{Comparison of beam pointing angles determined by the telescope-mount method and the laser-survey method.\label{tab:PointingAngles}}
 \end{table}
 
-
-The following uncertainty analysis treats unknown biases in pointing as random variables with standard deviations or variances. These figures represent uncertainty, not stochastic processes. The resultant variances provide bounds on the LAMS wind vector accuracy based strictly on the instrument characterization, independent of other factors such as signal fidelity. 
-
-The accuracy to which we know the LAMS relative beam pointing directly impacts our estimates of airspeed and wind. A sequence of line-of-sight velocity measurements is given by the equation:  
-\begin{equation}
-\vec{m}=\mathbf{U}\vec{v}_{L},\label{Vmeas}
-\end{equation}
-where $\vec{m}$ is the set of measurements (3 or 4 elements corresponding to the number of beams in use), $\vec{v}_{L}$ is the air velocity vector in the LAMS beam coordinate basis and $\mathbf{U}$ is the matrix describing each beam's pointing angle given by  
-\begin{equation}
-\mathbf{U}=\left[\begin{array}{cccc} \hat{u}_{1} & \hat{u}_{2} & \hat{u}_{3} & \hat{u}_{4}\end{array}\right]^{T},\label{Umatrix}
-\end{equation}
-where $\hat{u}_{i}$ is the $ith$ beam pointing direction. The exact vector entries for $\mathbf{U}$ are dependent on which beams are used for LAMS operation. For example, $\hat{u}_{4}$ would not be included for HCR-TEST (post-DEEPWAVE configuration) where the down-inboard beam was not used in that three beam configuration. For this analysis the beam and air velocity vectors are defined in the LAMS relative coordinate frame. Though this is not inherently required, it allows the analysis presented in this section to flow directly into further uncertainty analysis described in Section \ref{sub:Absolute}. 
-
-The covariance matrix of a beam pointing vector is given by  
-\begin{equation}
-\Sigma_{\hat{u}_{i}}^{2}=\left(\frac{\partial\hat{u}_{i}}{\partial\phi}\right)\sigma_{\phi}^{2}\left(\frac{\partial\hat{u}_{i}}{\partial\phi}\right)^{T}+\left(\frac{\partial\hat{u}_{i}}{\partial\theta}\right)\sigma_{\theta}^{2}\left(\frac{\partial\hat{u}_{i}}{\partial\theta}\right)^{T},\label{CovUvec} 
-\end{equation}
-where $\sigma_{\phi}$ and $\sigma_{\theta}$ are the standard deviation of the beam pointing angles. Note that the uncertainty in these angles may be different for each beam, but this analysis will treat them as identical. 
-
-The variance in a measurement due to beam pointing uncertainty is given by  
-\begin{equation}
-\sigma_{m_{ii}}^{2}=\vec{v}_{L}^{T}\Sigma_{\hat{u}_{i}}^{2}\vec{v}_{L}.\label{measUncert} 
-\end{equation}
-The uncertainty in the relative pointing angles are assumed to be independent for each beam (common uncertainty in the instrument pointing will be addressed in section \ref{sub:Absolute}). Thus the total measurement covariance matrix is diagonal and given by  
-\begin{equation}
-\Sigma_{\vec{m}}^2=\left[\begin{array}{cccc} \sigma_{m_{11}}^2 & 0 & 0 & 0 \\                                                  0 & \sigma_{m_{22}}^2 & 0 & 0 \\                                                 0 & 0 & \sigma_{m_{33}}^2 & 0 \\                                                 0 & 0 & 0 & \sigma_{m_{44}^2} \end{array} \right].\label{measCov} 
-\end{equation}
-
-The total velocity uncertainty in the LAMS coordinate frame is ultimately bounded by its covariance matrix  
-\begin{equation}
-\Sigma_{\vec{v}_{L}}^{2}=\mathbf{U}_{inv}\left(\Sigma_{\vec{m}}^{2}+\Sigma_{f}^{2}+\mathbf{U}\Sigma_{\vec{v}}^{2}\mathbf{U}^{T}\right)\mathbf{U}_{inv},\label{VlamsError} 
-\end{equation}
-where the velocity uncertainty resulting from beam pointing uncertainty is given by the covariance matrix $\Sigma_{\vec{m}}^{2}$ from Eq.  \eqref{measCov}, the uncertainty arising from Fast Fourier Transform (FFT) Doppler peak estimation is described by the covariance matrix $\Sigma_{f}^{2}$ and is defined in section \ref{sub:FreqPrec}, the covariance matrix $\Sigma_{\vec{v}}^{2}$ is the result of velocity variability between the three or four beam sample volumes with $\mathbf{U}$ being the beam projection matrix from Eq. \eqref{Umatrix} and $\mathbf{U}_{inv}$ is the inversion matrix for finding the total velocity vector from the three or four line-of-sight measurements. In the case of the three beam LAMS, $\mathbf{U}_{inv}=\mathbf{U}^{-1}$.  However, because the four beam system is overdefined, a pseudo-inverse may be used, or if the uncertainty in measurements are well known, 
-\begin{equation}
-\mathbf{U}_{inv}=\left[\mathbf{U}^{T}\left(\Sigma_{L}^{2}\right)^{-1}\mathbf{U}\right]^{-1}\mathbf{U}^{T}\left(\Sigma_{L}^{2}\right)^{-1},\label{OptInv}
-\end{equation}
-where  
-\begin{equation}
-\Sigma_{L}^{2}=\Sigma_{\vec{m}}^{2}+\Sigma_{f}^{2}+\mathbf{U}\Sigma_{\vec{v}}^{2}\mathbf{U}^{T}.\label{TotalMeasUncert} 
-\end{equation}
-
-Assuming the angle uncertainty of all four beams is approximately $0.02^{\circ}$ and an aircraft velocity of 200 m/s along the LAMS pointing direction, the total velocity uncertainty resulting from beam pointing uncertainty is approximately 0.06 m/s in the horizontal and vertical directions with the four beam configuration, 0.09 m/s in the horizontal and vertical directions with the three beam configuration used in HCR-TEST. To first order approximation, the forward velocity is insensitive to small perturbations in beam pointing. 
+The two methods for determining the beam angles are compared in Table~\ref{tab:PointingAngles}. The methods were in reasonable agreement, with differences in combined pointing angles smaller than about $0.2^{\circ}$. However, the forward pointing beam was added after the laser survey, and that required some disassembly of the LAMS head, so there might have been some small changes in the locations of the fibers on the LAMS head. Therefore, the relatively small difference in beam pointing in this table may be partially attributable to that work. 
 
 
-Add note that SDN500 IRU cannot provide reliable heading information without moving. Heading adjustments had to be added to the fit of the two measurements. 
-
-\subsubsection{SDN500 IRU Absolute Beam Pointing\label{sub:Absolute}}
-
-With the relative pointing angles of the beams, an air velocity vector can be retrieved reliably in the predefined LAMS coordinate frame. However, the exact transformation between the LAMS beams and the SDN500 IRU coordinate frame (defined by the unit's principal axes) is unknown. We typically assume that one SDN500 IRU axis is exactly aligned to the forward pointing beam and one is directed along the angle beam 1. However, it stands to reason that there will be some slight differences between the LAMS beam coordinate frame and the principal axes of the SDN500 IRU. At present, the only method we have for determining this transformation relies on making small angle adjustments based on flight maneuvers. 
-
-Let the transformation matrix between the LAMS relative coordinate frame and the SDN500 IRU principal axes be $\mathbf{T_{L}}$. The velocity from LAMS is converted to the SDN500 IRU coordinate frame using  
-\begin{equation}
-\vec{v}_{c}=\mathbf{T_{L}}\vec{v}_{L},\label{velL2C}
-\end{equation}
-where $\vec{v}_{c}$ is the air velocity vector in the SDN500 IRU coordinate frame and $\vec{v}_{L}$ the air velocity vector in the LAMS relative beam coordinate frame. To propagate error in the transformation matrix we reframe the problem by vectorizing the matrix such that Eq. \eqref{velL2C} becomes  
-\begin{equation}
-\vec{v}_{c}=\mathbf{V_{L}}\vec{t}_{L},\label{velL2Cvect}
-\end{equation}
-where the matrix $\mathbf{T_{L}}$ has been converted to the vector $\vec{t}_{L}$ given by  
-\begin{equation}
-\vec{t}_{L}=\left[\begin{array}{cccc} T_{11} & T_{12} & \cdots & T_{33}\end{array}\right]^{T},\label{T2vec}
-\end{equation}
-where $T_{ij}$ is the element of $\mathbf{T_{L}}$ from the $ith$ row and $jth$ column. The matrix $\mathbf{V_{L}}$ is constructed from the LAMS coordinate frame velocity vector $\vec{v}_{L}$ and is given by  
-\begin{equation}
-\mathbf{V_{L}}=\left[\begin{array}{ccccccccc}
-v_{1} & v_{2} & v_{3} & 0 & 0 & 0 & 0 & 0 & 0\\ 0 & 0 & 0 & v_{1} & v_{2} & v_{3} & 0 & 0 & 0\\ 0 & 0 & 0 & 0 & 0 & 0 & v_{1} & v_{2} & v_{3} 
-\end{array}\right],\label{v2mat}
-\end{equation}
-where $v_{i}$ is the $ith$ element of $\vec{v}_{L}$. 
-
-The covariance matrix of $\vec{t}_{L}$ can be estimated from the uncertainties in the roll, pitch and yaw transformation angles denoted here as $\gamma$, $\beta$ and $\alpha$ respectively using partial derivatives  
-\begin{equation}
-\Sigma_{\vec{t}_{L}}^{2}=\left(\frac{\partial\vec{t}_{L}}{\partial\gamma}\right)\sigma_{\gamma}^{2}\left(\frac{\partial\vec{t}_{L}}{\partial\gamma}\right)^{T}+\left(\frac{\partial\vec{t}_{L}}{\partial\beta}\right)\sigma_{\beta}^{2}\left(\frac{\partial\vec{t}_{L}}{\partial\beta}\right)^{T}+\left(\frac{\partial\vec{t}_{L}}{\partial\alpha}\right)\sigma_{\alpha}^{2}\left(\frac{\partial\vec{t}_{L}}{\partial\alpha}\right)^{T}.\label{tCov} 
-\end{equation}
-
-Thus the velocity covariance matrix in the SDN500 IRU coordinate frame is given by  
-\begin{equation}
-\Sigma_{\vec{v}_{c}}^{2}=\mathbf{V_{L}}\Sigma_{\vec{t}_{L}}^{2}\mathbf{V_{L}}^{T}+\mathbf{T_{L}}\Sigma_{\vec{v}_{L}}^{2}\mathbf{T_{L}}^{T},\label{CMvelError} 
-\end{equation}
-where $\Sigma_{\vec{v}_{L}}$ is obtained from Eq. \eqref{VlamsError}. 
-
-It should be noted that a similar analysis can be performed for the transformation between SDN500 IRU and a Global or aircraft coordinate frame where uncertainties in SDN500 IRU roll, pitch and heading are better known. 
-
-ADD DETAILS ON DETERMINING THIS TRANSFORMATION MATRIX FROM FLIGHT DATA. 
-
-With the SDN500 IRU INS, the air velocity measurements can be transformed into a global coordinate frame. The transformation matrix is determined using $\mathbf{T_{1}}$, $\mathbf{T_{2}}$ and $\mathbf{T_{3}}$ from the roll, pitch and yaw reported by SDN500 IRU. The analysis needed for this step is covered in Section \ref{sub:EarthRef}. 
-
-
-
-\subsubsection{Frequency Precision\label{sub:FreqPrec}}
-
-The LAMS A/D samples each beam detection channel at 200 MHz and performs a 1024 point FFT. The frequency resolution of the FFT is thus given by the sample rate divided by the number of data points  
-\begin{equation}
-\Delta f=\dfrac{f_{s}}{N_{s}}=195\mathrm{kHz}. 
-\end{equation}
-The Doppler shift measured on a particular beam is  
-\begin{equation}
-f_{D}=\frac{2}{\lambda}\hat{u}\cdot\vec{v},\label{DopplerShift} 
-\end{equation}
-where $\lambda$ is the laser wavelength (1560 nm), $\hat{u}$ is the beam direction and $\vec{v}$ is the velocity vector of the air relative to the instrument. A factor of two is included because the Doppler shift is imposed twice, first when the beam is absorbed by the aerosol and second when it is re-emitted. Along the beam line-of-sight, each FFT bin corresponds to a velocity resolution of $\Delta v_{LOS}=0.15\mathrm{m/s}$. 
-%With post processing the backscatter Doppler peak can be determined at sub-bin resolution.  %This is accomplished using linear interpolation on the derivative of the backscatter peak to find the derivative zero crossing. 
-However, the peak in the detected Doppler spectrum can be determined with resolution of about 0.3~bin by using a fit to the derivative of the spectrum. 
-%For the purposes of this analysis, we assume a sub-sample resolution of about 0.3, 
-%giving 
-This gives a line-of-sight velocity resolution of about $\Delta v_{LOS}=0.05\mathrm{m/s}$. 
-
-The resulting covariance matrix for each line-of-sight velocity measurement (only accounting for frequency accuracy) is diagonal with identically distributed variances  
-\begin{equation}
-\Sigma_{f}^{2}=\left[\begin{array}{cccc} 
-\sigma_{v_{LOS}}^{2} & 0 & 0 & 0\\ 0 & \sigma_{v_{LOS}}^{2} & 0 & 0\\ 0 & 0 & \sigma_{v_{LOS}}^{2} & 0\\ 0 & 0 & 0 & \sigma_{v_{LOS}}^{2} \end{array}\right],\label{CovFreq} 
-\end{equation}
-where, for our purposes, we assume $\sigma_{v_{LOS}}=\Delta v_{LOS}$. 
-
-The analysis presented here assumes variance in the sample rate to be small compared to other error sources. 
-
-Note that at GV speeds, the Doppler shift is expected to exceed the Nyquist frequency at the present sample rate. We use the true air speed measurements from the aircraft radome to determine which frequency fold contains the Doppler peak. 
-
-\subsubsection{Flow Distortion}
-
-Initial operation of the three beam \index{LAMS!airflow distortion} LAMS on IDEAS-4-GV revealed that the aircraft can influence flow fields in the LAMS sample volume. This issue became recognizable when data processing showed the down-inboard beam registered significantly slower velocities than the other two beams. An analysis using Gulfstream's computational fluid dynamics analysis confirmed that all three beams could be expected to observe some flow distortion. The expected flow distortion depends on the aircraft flight parameters. The down-inboard beam is expected to experience the largest effect, typically observing a line-of-sight flow effect between -0.5 and -2.0 m/s when the beam is focused at 20 m. The upward beam may see flow effects on the order of $\pm0.5$ m/s and the down-outboard may see flow effects between 0 and -0.5 m/s. 
-
-On the GV, LAMS no longer uses the down-inboard beam due to the substantial flow effects in its sample volume. The flow effects around the C-130 will be better determined after the ARISTO flight campaign in Fall 2015. 
-
-\subsubsection{Uncertainty arising from separation of measurement volumes}
-
-
-In turbulent conditions \index{LAMS!separation of measurement volumes} the three sensitive volumes can be characterized by slightly different values of the wind vector\sindex[lis]{v@$\mathbf{v}$=wind vector} $\mathbf{v}=\{u,v,w\}.$ \sindex[lis]{u@$u$=component of wind along the x-axis}\sindex[lis]{v@$v$=component of wind along the y-axis}\sindex[lis]{w@$w$=component of wind along the z-axis; also, vertical wind}The single forward beam measures $u$ directly while the 3-beam system must solve for $u$ using the relative wind measurements at three locations displaced from each other. If there are variations in the wind vector at these three locations, that will introduce an error that can be significantly larger than the measurement errors for a single-beam-forward system. 
-
-If for simplicity it is assumed that the 3-beam system is aligned so that the longitudinal axis matches the $u$ axis and the vertical axis matches the $w$ axis, then the unique solution (for a 35$^{\circ}$ diverging-beam angle) for the true airspeed ($u$) is 
-
-\begin{equation}
-u=\frac{(a_{1}+a_{2}+a_{3})}{3\cos(35^{\circ})}\label{eq:TAS3beam} 
-\end{equation}
-
-
-where $a_{i}$ is the relative airspeed measured by the ith beam.% 
-%\footnote{The direction cosines for the three beams are given by the following matrix $\sigma$:
-% 
-% \[
-% \sigma=\left(\begin{array}{ccc}
-% \cos\Theta & \sin\Theta\sin\Phi & \sin\Theta\cos\Phi\\
-% \cos\Theta & -\sin\Theta\sin\Phi & \sin\Theta\cos\Phi\\
-% \cos\Theta & 0 & \sin\Theta
-% \end{array}\right)
-% \]
-% where $\Theta=35^{\circ}$ and $\Phi=120^{\circ}$. The direction
-% cosine matrix relates the wind components to the 3-beam measured components
-% ($a_{i}$\} via 
-% 
-% \[
-% \begin{pmatrix}a_{1}\\
-% a_{2}\\
-% a_{3}
-% \end{pmatrix}=\mbox{\textbf{\ensuremath{\sigma}}}\begin{pmatrix}u\\
-% v\\
-% w
-% \end{pmatrix}
-% \]
-% 
-% 
-% Inverting $\sigma$ then gives the wind components in terms of the
-% measured components:
-% 
-% \[
-% \begin{pmatrix}u\\
-% v\\
-% w
-% \end{pmatrix}=\sigma^{-1}\begin{pmatrix}a_{1}\\
-% a_{2}\\
-% a_{3}
-% \end{pmatrix}
-% \]
-% 
-% 
-% For the above angles, application of the inverse below to the component
-% $u$ leads to (\ref{eq:TAS3beam}): 
-% 
-% \[
-% \sigma^{-1}=\begin{pmatrix}0.4069249 & 0.4069249 & 0.4069249\\
-% 1.006579 & -1.006579 & 0\\
-% -0.5811489 & -0.5811489 & 0.9166754
-% \end{pmatrix}
-% \]
-% }
-If each beam measures relative airspeed in its direction of alignment to an uncertainty $\delta$,\sindex[lis]{delta@$\delta$=measurement uncertainty} then a one-beam system aligned along the airflow measures with uncertainty $\delta$ while a three-beam system measures to uncertainty $\sqrt{3}\delta/(3\cos(35^{\circ})=0.7\delta$, so if each beam is an independent measurement the 3-beam system measures TAS more accurately than a single-beam system. However, the unique solution for the wind vector obtained from the 3-beam system relies on the assumption that all three beams are viewing air that has the same wind vector $\mathbf{v}$. If there is variation in the wind vector at the three viewed locations, that variation is not necessarily just variation in $u$ (that it might be desirable to average) but can also result from other variations because the beams are not aligned along the $u$ axis. 
-
-Because the uncertainty $\delta$ is less than 0.1 m/s, variations of this magnitude would introduce errors comparable to the measurement error. The spatial separation between any two sensitive volumes in the 3-beam system is about 1.5($\sqrt{2}L\sin(35^{\circ})\simeq18$\,m for focal distance L=15 m. The variance in the wind for points separated by 18 m can be estimated as follows:\sindex[lis]{epsilon@$\epsilon$=eddy dissipation rate}\sindex[lis]{k@$k$=wave number} 
-
-\begin{equation}
-(u^{\prime})^{2}=\int_{k_{0}}^{\infty}C\epsilon^{2/3}k^{-5/3}dk=\alpha\epsilon^{2/3}\frac{3}{2}k_{0}^{-2/3}\label{eq:Uvariance} 
-\end{equation}
-
-
-where $k_{0}=2\pi/\Delta$ with $\Delta=18$ m. For modest eddy dissipation rates in the range $\epsilon=0.001$ to 0.01 m$^{2}$s$^{-3}$, and for $C=1.5$ (FIND REFERENCE XXX)\marginpar{XXX}, (\ref{eq:Uvariance}) results in estimates of the velocity variance of about .02--0.1 m$^{2}$s$^{-2}$, or standard deviations of about 0.14 to 0.3 m/s. These fluctuations, entering (\ref{eq:TAS3beam}), will cause errors in the estimate of $u$ that are not negligible in comparison to the measurement errors in \{$a_{1},\,a_{2},\,a_{3}$\}. {[}FIX THIS: C or $\alpha...$ 
 

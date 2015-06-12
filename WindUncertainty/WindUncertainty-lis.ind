@@ -15,7 +15,7 @@
   \indexspace
 
   \item $b_{0},\thinspace b_{1},\thinspace b_{2}\thinspace,b_{3}$=empirical coefficients relating angle of attack to pressure measurements from the gust pod {[}deg{]}, 
-		\hyperpage{48}
+		\hyperpage{43}
   \item $\mathbf{b}^{(b)}$=unit vector representing errors in attitude angles in the \emph{b}-frame, 
 		\hyperpage{99}
   \item $\beta$=sideslip angle, \hyperpage{3}
@@ -25,7 +25,7 @@
   \indexspace
 
   \item $c_{0},\thinspace c_{1}$=coefficients used to calculate angle of attack, 
-		\hyperpage{45}, \hyperpage{69}
+		\hyperpage{40}, \hyperpage{70}
   \item $c_{p}$=specific heat of moist air at constant pressure, 
 		\hyperpage{81}
   \item $c^{\prime}$=standard coefficients for calculating the angle of attack, 
@@ -37,7 +37,7 @@
 
   \indexspace
 
-  \item $\delta$=measurement uncertainty, \hyperpage{37}
+  \item $\delta$=measurement uncertainty, \hyperpage{58}
   \item $\Delta p_{\alpha,g}$=gust pod pressure difference, bottom vs top, 
 		\hyperpage{80}
   \item $\Delta p_{\alpha}$=pressure difference between bottom and top ports on the radome or gust pod {[}hPa{]}, 
@@ -50,8 +50,8 @@
   \indexspace
 
   \item $e_{0},\thinspace e_{1}$=empirical coefficients used to obtain the sideslip angle, 
-		\hyperpage{51}
-  \item $\epsilon$=eddy dissipation rate, \hyperpage{38}
+		\hyperpage{46}
+  \item $\epsilon$=eddy dissipation rate, \hyperpage{58}
 
   \indexspace
 
@@ -69,12 +69,13 @@
 
   \indexspace
 
-  \item $k$=wave number, \hyperpage{38}
+  \item $k$=wave number, \hyperpage{58}
 
   \indexspace
 
-  \item $\lambda$=latitude, \hyperpage{94}
-  \item $\lambda$=wind direction, \hyperpage{60}
+  \item $\lambda$=laser wavelength, LAMS, \hyperpage{56}
+  \item $\lambda_E$=latitude, \hyperpage{94}
+  \item $\lambda_w$=wind direction, \hyperpage{60}
 
   \indexspace
 
@@ -111,7 +112,7 @@
 
   \item $\hat{r}$=reference direction, LAMS receiving telescope, for LAMS angle calibration, 
 		\hyperpage{31}
-  \item $\mathbf{R}(\theta,\hat{v})$=rotation matrix used for LAMS calibration, 
+  \item $\mathbf{R}(\gamma,\hat{v})$=rotation matrix used for LAMS calibration, 
 		\hyperpage{31}
   \item $R_{a}$=gas constant for moist air, \hyperpage{81}
   \item $R_{e}$=radius of the Earth, \hyperpage{94}
@@ -132,13 +133,13 @@
 
   \indexspace
 
-  \item $u$=component of wind along the x-axis, \hyperpage{37}
+  \item $u$=component of wind along the x-axis, \hyperpage{57}
 
   \indexspace
 
   \item $V$=airspeed, \hyperpage{3}
-  \item $\mathbf{v}$=wind vector, \hyperpage{37}
-  \item $v$=component of wind along the y-axis, \hyperpage{37}
+  \item $\mathbf{v}$=wind vector, \hyperpage{57}
+  \item $v$=component of wind along the y-axis, \hyperpage{57}
   \item $v$=wind speed (relative to the Earth), \hyperpage{109}
   \item $v_{n}$=northward component of velocity, \hyperpage{95}
   \item $V^{*}$=longitudinal component of airspeed, \hyperpage{3}
@@ -146,7 +147,7 @@
   \indexspace
 
   \item $w$=component of wind along the z-axis; also, vertical wind, 
-		\hyperpage{37}
+		\hyperpage{57}
 
   \indexspace
 

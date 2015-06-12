@@ -5,6 +5,7 @@
 \renewcommand{\ttdefault}{lmtt}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
+\usepackage[font={normal,sl}]{caption}% this sets captions in slanted font
 \usepackage[letterpaper]{geometry}
 \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1.2in,rmargin=1in}
 \usepackage{fancyhdr}
@@ -38,14 +39,15 @@
 \newindex[List of Symbols]{lis}
 \usepackage[unicode=true,
  bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
- breaklinks=true,pdfborder={0 0 0},backref=false,colorlinks=true]
+ breaklinks=true,pdfborder={0 0 0},backref=false,colorlinks=true,
+ linkcolor=blue, linktocpage=true]
  {hyperref}
 \hypersetup{pdftitle={Technical Note: Uncertainty in Wind Measurements},
- pdfauthor={RAF},
+ pdfauthor={RAF}, citecolor={blue},
  pdfsubject={characterization of the uncertainty in wind measurements, GV},
  pdfkeywords={wind,uncertainty, NCAR Research Aviation Facility, research aircraft, NCAR/EOL/RAF}}
-\usepackage{breakurl}
-\usepackage{html}
+%\usepackage{breakurl}
+%\usepackage{html}
 
 \makeatletter
 
@@ -194,6 +196,7 @@ transferAttributes <- function (dsub, d) {
 }
 
 @
+
 \begin{abstract}
 
 This technical note presents an analysis of uncertainty for measurements
@@ -226,13 +229,18 @@ of heading. Appendices to the report discuss the conventions used
 for characterization of uncertainty and the high-rate (25~Hz) measurements
 used to characterize turbulence. Finally, the last appendix discusses
 how the analysis programs and data are preserved in ways that address
-reproducibility of the analysis, so that others can duplicate these
+reproducibility of the analyses, so that others can duplicate these
 results.
 \end{abstract}
+\clearpage
 \tableofcontents{}
-\vfill{}
-\eject
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{List of Figures}
 \listoffigures
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{List of Tables}
 \listoftables
 \newpage
 \pagenumbering{arabic}
@@ -338,25 +346,24 @@ Almost all of the analyses reported here were performed using R (\citet{Rlanguag
 
 \bibliographystyle{plainnat}
 \label{sec:bibliography}
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{References}
 \bibliography{WAC}
-
 \clearpage
-\addcontentsline{toc}{chapter}{References}
-
+\phantomsection
+\addcontentsline{toc}{section}{List of Symbols}
 \printindex[lis]{}
-
 \clearpage
-\addcontentsline{toc}{chapter}{List of Symbols}
-
+\phantomsection
+\addcontentsline{toc}{section}{Variable Names and Acronyms}
 \printindex[var]{}
-
 \clearpage
-\addcontentsline{toc}{chapter}{Variable Names and Acronyms}
-
+\phantomsection
+\addcontentsline{toc}{section}{Index}
 \printindex[idx]{}
 
 \clearpage
-\addcontentsline{toc}{chapter}{Index}
 
 \centerline{-- Blank Page, End of this Technical Report --}
 \vfill\eject

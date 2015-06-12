@@ -42,7 +42,7 @@
 \indexentry{BDIFR=pressure difference, starboard minus port source on radome {[}hPa{]}|hyperpage}{9}
 \indexentry{ARINC=Aeronautical Radio, Inc.; ARINC-429 is a communications standard|hyperpage}{10}
 \indexentry{UTC=Coordinated Universal Time|hyperpage}{11}
-\indexentry{TASX=primary true airspeed|hyperpage}{11}
+\indexentry{TASX=primary airspeed|hyperpage}{11}
 \indexentry{AOA=angle of attack|hyperpage}{11}
 \indexentry{PMS=Particle Measuring Systems|hyperpage}{17}
 \indexentry{ADIF_GP=pressure difference between bottom and top sources, 858  probe [hPa]@ADIF\_GP=pressure difference between bottom and top sources, 858 probe {[}hPa{]}|hyperpage}{17}
@@ -51,35 +51,36 @@
 \indexentry{C-MIGITS-III=model of IRU used with the gust pod|hyperpage}{17}
 \indexentry{MEMS=micro-electro-mechanical system|hyperpage}{17}
 \indexentry{SDN500=model of IRU used with the gust pod|hyperpage}{26}
-\indexentry{DOF=degrees of freedom|hyperpage}{44}
-\indexentry{AKRD=angle of attack measured using the radome-based system|hyperpage}{45}
-\indexentry{PSF=ambient or static pressure measured at the fuselage static buttons {[}hPa{]}|hyperpage}{46}
-\indexentry{AK_GP=angle of attack determined using the gust pod [deg]@AK\_GP=angle of attack determined using the gust pod {[}deg{]}|hyperpage}{48}
-\indexentry{CPITCH_GP@CPITCH\_GP|hyperpage}{49}
-\indexentry{BDIFR|hyperpage}{51}
-\indexentry{SSRD|hyperpage}{51}
-\indexentry{ADIFR|hyperpage}{51}
-\indexentry{QCF|hyperpage}{51}
-\indexentry{THDG|hyperpage}{53}
-\indexentry{PITCH|hyperpage}{53}
-\indexentry{PSF|hyperpage}{53}
-\indexentry{TASF|hyperpage}{53}
-\indexentry{ATX|hyperpage}{53}
-\indexentry{PCOR=correction applied to measured ambient and dynamic pressures|hyperpage}{54}
-\indexentry{BDIF_GP@BDIF\_GP|hyperpage}{54}
-\indexentry{SS_GP@SS\_GP|hyperpage}{56}
-\indexentry{ADIF_GP@ADIF\_GP|hyperpage}{56}
-\indexentry{CTHDG_GP@CTHDG\_GP|hyperpage}{57}
-\indexentry{TASF=measurement of true airspeed from the fuselage-mounted pitot tube|hyperpage}{58}
+\indexentry{IDEAS-4-GV=Instrument Development and Education in Airborne Science Phase 4|hyperpage}{28}
+\indexentry{DOF=degrees of freedom|hyperpage}{39}
+\indexentry{AKRD=angle of attack measured using the radome-based system|hyperpage}{40}
+\indexentry{PSF=ambient or static pressure measured at the fuselage static buttons {[}hPa{]}|hyperpage}{41}
+\indexentry{AK_GP=angle of attack determined using the gust pod [deg]@AK\_GP=angle of attack determined using the gust pod {[}deg{]}|hyperpage}{43}
+\indexentry{CPITCH_GP@CPITCH\_GP|hyperpage}{44}
+\indexentry{BDIFR|hyperpage}{46}
+\indexentry{SSRD|hyperpage}{46}
+\indexentry{ADIFR|hyperpage}{46}
+\indexentry{QCF|hyperpage}{46}
+\indexentry{THDG|hyperpage}{48}
+\indexentry{PITCH|hyperpage}{48}
+\indexentry{PSF|hyperpage}{48}
+\indexentry{TASF|hyperpage}{48}
+\indexentry{ATX|hyperpage}{48}
+\indexentry{PCOR=correction applied to measured ambient and dynamic pressures|hyperpage}{49}
+\indexentry{BDIF_GP@BDIF\_GP|hyperpage}{49}
+\indexentry{SS_GP@SS\_GP|hyperpage}{51}
+\indexentry{ADIF_GP@ADIF\_GP|hyperpage}{51}
+\indexentry{CTHDG_GP@CTHDG\_GP|hyperpage}{52}
+\indexentry{TASF=measurement of airspeed from the fuselage-mounted pitot tube|hyperpage}{53}
 \indexentry{TASF|hyperpage}{64}
 \indexentry{QCFC=corrected dynamic pressure {[}hPa{]}|hyperpage}{64}
 \indexentry{TASF|hyperpage}{64}
 \indexentry{AOAREFC=reference angle of attack with pitch correction|hyperpage}{65}
 \indexentry{ICAO=International Civil Aviation Authority|hyperpage}{69}
-\indexentry{TASF|hyperpage}{78}
 \indexentry{PSFC=corrected ambient pressure {[}hPa{]}|hyperpage}{80}
+\indexentry{TASF=true airspeed from the fuselage-mounted pitot tube|hyperpage}{82}
 \indexentry{TASF|hyperpage}{82}
-\indexentry{TASF|hyperpage}{83}
+\indexentry{TASF|hyperpage}{82}
 \indexentry{VSPD|hyperpage}{84}
 \indexentry{VSPD_A=vertical motion of the aircraft as provided by the avionic  system@VSPD\_A=vertical motion of the aircraft as provided by the avionics system|hyperpage}{84}
 \indexentry{GGVSPD|hyperpage}{84}
@@ -121,11 +122,11 @@
 \indexentry{GUM=Guide to the Expression of Uncertainty in Measurement|hyperpage}{125}
 \indexentry{VYC=horizontal-wind component lateral to the aircraft axis|hyperpage}{132}
 \indexentry{UXC=horizontal-wind component along the aircraft axis|hyperpage}{132}
-\indexentry{HCRTEST=HIAPER Cloud Radar test flights|hyperpage}{136}
-\indexentry{TASF|hyperpage}{136}
-\indexentry{TASF|hyperpage}{137}
-\indexentry{UXM=new variable representing the ``blended'' longitudinal component of the horizontal wind|hyperpage}{137}
-\indexentry{UX_GP@UX\_GP|hyperpage}{137}
-\indexentry{URL=Uniform Resource Locator|hyperpage}{139}
-\indexentry{HPSS=High Performance Storage System|hyperpage}{139}
-\indexentry{HIAPER=High-Performance Airborne Platform for Environmental Research|hyperpage}{141}
+\indexentry{HCRTEST=HIAPER Cloud Radar test flights|hyperpage}{138}
+\indexentry{TASF|hyperpage}{138}
+\indexentry{TASF|hyperpage}{139}
+\indexentry{UXM=new variable representing the ``blended'' longitudinal component of the horizontal wind|hyperpage}{139}
+\indexentry{UX_GP@UX\_GP|hyperpage}{139}
+\indexentry{URL=Uniform Resource Locator|hyperpage}{141}
+\indexentry{HPSS=High Performance Storage System|hyperpage}{141}
+\indexentry{HIAPER=High-Performance Airborne Platform for Environmental Research|hyperpage}{143}
