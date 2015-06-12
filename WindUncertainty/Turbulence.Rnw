@@ -62,7 +62,13 @@ Evidence from Sect.~\ref{sub:Variance-spectra-for-W-components} (cf.~Fig.~\ref{f
 
 Some examples from the DEEPWAVE\index{DEEPWAVE} project have been shown in Sect.~\ref{sec:VerticalVelocity}. That project emphasized studies of waves and often measured in regions where waves rather than turbulent air motions were predominant, so here different measurements from lower-level flight will be used here. In particular, a flight segment from two test programs flown on Oct~16 2013 and Nov.~20 2014 provide good cases for study of \index{turbulence!boundary-layer}boundary-layer turbulence. In the former, a leg was flown from 19:54:00 to 20:12:00 on Oct.\ 16, 2013 at an altitude of about 5500~ft (1700\,m) over terrain having an approximate elevation of 3700\,ft (1130\,m). In the latter project the leg to be used was flown from 21:02:00--21:09:99 UTC on Nov./ 24, 2014. It will be used here because both LAMS and the gust pod were also operational. 
 
-<<call-Xanadu, include=FALSE, echo=TRUE>>=
+<<call-Xanadu, include=FALSE, echo=FALSE, eval=FALSE>>=
+
+## note re this section: The routines in the package Xanadu are needed to
+## duplicate the spectral analysis leading to the plots of this section.
+## With eval=FALSE for this section, the routine will just use plots
+## previously generated.
+## 
 
 setwd ("~/RStudio/DEEPWAVE/WindUncertainty")
 fnew <- "./R-toXanadu.nc"
@@ -113,17 +119,17 @@ setXanadu (fnew, start, end, "WIC", wlow, whigh)
 unlink ("MEMPlot.png")
 XanaduOut <- system ("Xanadu otto", intern=TRUE)
 while (!file.exists ("MEMPlot.png")) {Sys.sleep (1)}
-file.rename ("MEMPlot.png", "PSD1.png")
+file.rename ("MEMPlot.png", "SpecialGraphics/PSD1.png")
 setXanadu (fnew, start, end, "UXC", wlow, whigh)
 unlink ("MEMPlot.png")
 XanaduOut <- system ("Xanadu otto", intern=TRUE)
 while (!file.exists ("MEMPlot.png")) {Sys.sleep (1)}
-file.rename ("MEMPlot.png", "PSD2.png")
+file.rename ("MEMPlot.png", "SpecialGraphics/PSD2.png")
 setXanadu (fnew, start, end, "VYC", wlow, whigh)
 unlink ("MEMPlot.png")
 XanaduOut <- system ("Xanadu otto", intern=TRUE)
 while (!file.exists ("MEMPlot.png")) {Sys.sleep (1)}
-file.rename ("MEMPlot.png", "PSD3.png")
+file.rename ("MEMPlot.png", "SpecialGraphics/PSD3.png")
 setXanadu (fnew, start, end, "TASF", wlow, whigh)
 unlink ("MEMPlot.png")
 XanaduOut <- system ("Xanadu otto", intern=TRUE)
@@ -138,7 +144,7 @@ Because the measurements affecting high-frequency measurements of wind component
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{50_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PSD1.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PSD1.png}  
 \par\end{centering}
 
 \protect\protect\protect\caption{\label{fig:AppxB-PSD1}Variance spectra for the vertical wind for the flight segment from 19:51:01--20:12:00 UTC on 16 Oct.\ 2013.} 
@@ -146,7 +152,7 @@ Because the measurements affecting high-frequency measurements of wind component
 \index{variance spectrum!UXC}
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{51_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PSD2.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PSD2.png}  
 \par\end{centering}
 
 \protect\caption{\label{fig:AppxB-PSD2}Variance spectra for the longitudinal component of the wind (along the aircraft centerline, and so essentially also the spectrum for the airspeed) for the flight segment from 19:51:01--20:12:00 UTC on 16 Oct.\ 2013.} 
@@ -155,7 +161,7 @@ Because the measurements affecting high-frequency measurements of wind component
 \index{variance spectrum!VYC}
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{52_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PSD3.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PSD3.png}  
 \par\end{centering}
 
 \protect\caption{\label{fig:AppxB-PSD3}Variance spectra for the lateral component of the horizontal wind for the flight segment from 19:51:01--20:12:00 UTC on 16 Oct.\ 2013.} 
@@ -180,7 +186,7 @@ The longer \index{pressure lines}pressure lines used for the measurement of dyna
 Calculations by D.~Lenschow using equations presented in \citet{Iberall1950} for the line lengths and tubing sizes in use are shown in Figs.~\ref{fig:AppxB-DHL1} and \ref{fig:AppxB-DHL2}. The first plot, applicable to QCF, shows that there are significant effects on the amplitude and phase of the measured signals even for frequencies of 1--10\,Hz, although the amplitude effects are smallest for flight between 12--16\,km. The most pronounced effects on amplitude are for flight near sea level, where for example the measured amplitude is more than three times the correct value for frequencies near 9\,Hz. In contrast, the effect on phase is largest for the higher flight levels, and for example at 12\,km would introduce a phase lag of about 0.03\,s. 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{PressureLines1.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PressureLines1.png}  
 \par\end{centering}
 
 \protect\caption[Amplitude ratio and phase for transmission through the QCF pressure line.]{\label{fig:AppxB-DHL1}Amplitude and phase of response at the sensor end of the QCF pressure line, for a set of assumed standard-atmosphere flight conditions: (blue) sea level; (orange) 4 km; (green) 8 km; (red) 12 km; (violet) 16 km; (dark orange) 20 km. The same results are shown in the top and bottom plots but for different ranges in frequency. Phase angles above zero should be interpreted as 180$^{\circ}$ minus the plotted angle, so that the phase angle decreases monotonically with frequency. Tube dimensions: 5.3~mm inside diameter, length 8~m. } 
@@ -189,7 +195,7 @@ Calculations by D.~Lenschow using equations presented in \citet{Iberall1950} for
 The corresponding results for the radome pressure lines are shown in Fig.~\ref{fig:AppxB-DHL2}. Here the effect on amplitude is negligible for frequencies below 12.5\,Hz, the Nyquist frequency for the normal high-rate measurements. The effect on phase is also negligible in this range, with a time delay smaller than 5\,ms for all pressures. The measurements could not be extended to higher rates without significant error, but for normal high-rate measurements the lines do not introduce any problems that affect the lateral components of the wind.
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.6\textheight]{PressureLines2.png}  
+\includegraphics[height=0.6\textheight]{SpecialGraphics/PressureLines2.png}  
 \par\end{centering}
 
 \protect\caption[Amplitude ratio and phase for transmission through the pressure lines for ADIFR and BDIFR.]{\label{fig:AppxB-DHL2}Amplitude and phase of response at the sensor end of the ADIFR and BDIFR pressure lines, for a set of assumed standard-atmosphere flight conditions: (blue) sea level; (orange) 4 km; (green) 8 km; (red) 12 km; (violet) 16 km; (dark orange) 20 km. Phase angles above zero should be interpreted as 180$^{\circ}$ minus the plotted angle, so that the phase angle decreases monotonically with frequency. Tube dimensions: 4.0~mm inside diameter, length 1.5~m.} 
@@ -217,8 +223,9 @@ if (ReloadData) {
 
 @
 
-<<get-hcrtest-spectra, include=FALSE>>=
+<<get-hcrtest-spectra, include=FALSE, eval=FALSE>>=
 
+## See the note with section call-Xanadu above.
 fnew <- "./R-toXanadu.nc"
 unlink(fnew)
 Z <- makeNetCDF (Data, fnew)
@@ -229,12 +236,12 @@ setXanadu (fnew, start, end, "WIC", wlow, whigh)
 unlink ("MEMPlot.png")
 XanaduOut <- system ("Xanadu otto", intern=TRUE)
 while (!file.exists ("MEMPlot.png")) {Sys.sleep (1)}
-file.rename ("MEMPlot.png", "PSD5.png")
+file.rename ("MEMPlot.png", "SpecialGraphics/PSD5.png")
 setXanadu (fnew, start, end, "UXC", wlow, whigh)
 unlink ("MEMPlot.png")
 XanaduOut <- system ("Xanadu otto", intern=TRUE)
 while (!file.exists ("MEMPlot.png")) {Sys.sleep (1)}
-file.rename ("MEMPlot.png", "PSD6.png")
+file.rename ("MEMPlot.png", "SpecialGraphics/PSD6.png")
 setXanadu (fnew, start, end, "VYC", wlow, whigh)
 unlink ("MEMPlot.png")
 XanaduOut <- system ("Xanadu otto", intern=TRUE)
@@ -250,7 +257,7 @@ file.rename ("MEMPlot.png", "PSD8.png")
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{53_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PSD5.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PSD5.png}  
 \par\end{centering}
 
 \protect\protect\protect\caption{\label{fig:AppxB-PSD5}Variance spectra for the vertical component of the wind (WIC) for the flight segment from 21:02:00 to 21:09:00 UTC on 24 Nov.\ 2014.} 
@@ -261,7 +268,7 @@ Another example of the high-frequency variance spectrum of the vertical wind is 
 \index{variance spectrum!UXC}
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{54_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PSD6.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PSD6.png}  
 \par\end{centering}
 
 \protect\protect\protect\caption{\label{fig:AppxB-PSD6}Variance spectra for the longitudinal component of the horizontal wind for the flight segment from 21:02:00 to 21:09:00 UTC on 24 Nov.\ 2014.} 
@@ -279,7 +286,7 @@ The other wind-sensing systems on the GV can help provide valid measurements of 
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{55_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_MEMPlotQC.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/MEMPlotQC.png}  
 \par\end{centering}
 
 \protect\protect\protect\caption{\label{fig:AppxB-PSD1314}Variance spectra for the dynamic pressure measurements from the radome-based system (QCF) and from the gust-pod system (QC\_GP) for the flight segment from 21:02:00 to 21:09:00 UTC on 24 Nov.\ 2014.} 
@@ -511,7 +518,7 @@ makeNetCDF(dM, fnw)
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{56_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_MEMPlot3Comp.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/MEMPlot3Comp.png}  
 \par\end{centering}
 
 \protect\caption[Variance spectra for the three components of the wind.]{\label{fig:AppxB-3Comp}Variance spectra for the three components of the wind represented by UXM (longitudinal component as recalculated by combining the gust-pod airspeed and the radome-based airspeed, as discussed in the text), VYC (the conventional lateral component of the horizontal wind), and WIC (the conventional measurement of vertical wind). The two lateral components (VYC and WIC) have been multiplied by 0.75 to make them comparable to the longitudinal component in relation to the indicated reference lines for eddy dissipation rate (green lines), which are shown with magnitudes applicable to the longitudinal component. Data from HCRTEST flight 3, 24 Nov.\ 2014.} 

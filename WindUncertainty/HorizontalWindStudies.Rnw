@@ -1260,7 +1260,7 @@ are essentially identical for most frequencies, with some deviation around 0.4~H
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=\maxwidth]{FFTVEW}
+\includegraphics[width=\maxwidth]{SpecialGraphics/FFTVEW}
 \par\end{centering}
 \protect\caption[Variance spectra for the eastward component of aircraft motion as measured by GPS and by IRU.]{Variance spectra for the eastward component of aircraft motion as measured by GPS (GGVEW) and for the corresponding measurement from the IRU (VEW). Data are from IDEAS-IV-GV flight 6 on 13 Oct 2013, 20:03:30--20:11:50 UTC. FFT spectral analysis was used, with 50\,Hz measurements, combining segments of 8192 points, and the resulting spectra were smoothed by averaging in 75 bins equally spaced in the logarithm of the frequency.\label{fig:FFTVEW}} 
 \end{figure}

@@ -550,7 +550,7 @@ Because any errors affecting the measurement of static pressure\index{pressure!a
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=8.5cm]{PitotTube-r.png}  
+\includegraphics[width=8.5cm]{SpecialGraphics/PitotTube-r.png}  
 \par\end{centering}
 
 \protect\caption{A pitot tube used for the measurement of dynamic pressure.\label{fig:pitot-tube-photo}}
@@ -563,7 +563,7 @@ Because any errors affecting the measurement of static pressure\index{pressure!a
 The radome gust-sensing system consists of five pressure ports\index{radome!ports} installed in a standard GV radome\index{radome}, as shown in \index{radome!photograph}Fig.~\ref{fig:radome-photo}. 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=8cm]{1_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_RadomePhotoGV.png}  
+\includegraphics[width=8cm]{SpecialGraphics/RadomePhotoGV.png}  
 \par\end{centering}
 
 \protect\caption{Photograph of the GV radome showing three of the five pressure ports on the radome used for measurement of components of the relative wind.\label{fig:radome-photo}} 
@@ -649,7 +649,7 @@ Finally, Fig.~\ref{fig:radome-plot-wind} \index{example of measurements!wind com
 The all-weather gust pod\index{gust pod}\index{all-weather wind pod|see {gust pod}} was developed by Allen Schanot and is available for mounting under the wing of the GV, where it was installed during the 2014 project DEEPWAVE\index{DEEPWAVE}. It was still regarded as experimental for that project, but as described in this report it performed well when measuring vertical wind so it is now ready for deployment as a requestable instrument. The system has also been called the all-weather wind pod because the primary reason for its development was to provide a backup wind measurement for cases when the standard system malfunctions because its lines or apertures are blocked by ice. The gust pod fits into a standard PMS-style canister\sindex[var]{PMS=Particle Measuring Systems} and uses a \index{Rosemount 858 probe}Rosemount 858 probe, but the location under the wing is one where there is substantial flow distortion\index{airflow distortion} in comparison to the free stream so an unconventional calibration is needed to use the measurements. The 858 probe is anti-iced by heaters and should be unaffected by icing or ice accumulation. Five ports are oriented forward, upward and downward 45$^{\circ}$, and left and right 45$^{\circ}$ on the leading edge of the sensor, which has the shape of a hemisphere. There are also ports in a ring around the cylinder behind the hemisphere that provide a static source. The measurements are the pressure difference between the top and bottom ports (ADIF\_GP),\sindex[var]{ADIF_GP=pressure difference between bottom and top sources, 858  probe [hPa]@ADIF\_GP=pressure difference between bottom and top sources, 858 probe {[}hPa{]}} the pressure difference between the right and left ports (BDIF\_GP),\sindex[var]{BDIF_GP=pressure difference between starboard and port sources,  858 probe [hPa]@BDIF\_GP=pressure difference between starboard and port sources, 858 probe {[}hPa{]}} and the pressure difference between the forward port and the static ports (QC\_GP).\sindex[var]{QC_GP=pressure difference between forward and static ports, 858  probe [hPa]@QC\_GP=pressure difference between forward and static ports, 858 probe {[}hPa{]}} In addition, the pressure provided by the ring of static ports is recorded as PS\_GP.\index{PS_GP=pressure at static ports, 858 probe [hPa]@PS\_GP=pressure at static ports, 858 probe} The system incorporates a Systron Donner \sindex[var]{C-MIGITS-III=model of IRU used with the gust pod}\index{IRU!C-MIGITS}C-MIGITS III GPS/INS MEMS\sindex[var]{MEMS=micro-electro-mechanical system} Tactical Grade navigation system (henceforth called the C-MIGITS IRU), which is mounted in the pod to measure vibrations and wing-flex motions that will affect the measurements of wind. This unit provides measurements of attitude angles, ground-speed components, and accelerations and uses a GPS signal in a Kalman-filter feedback loop to reduce errors in the measurements. The relevant specifications\index{IRU!C-MIGITS!specifications} are listed in Table~\ref{tab:Gust-pod-measurements}. 
 
 \noindent \begin{center}
-\includegraphics[width=12.1cm]{GustPod1-r.png}\includegraphics[height=5.1cm]{GustPod2x-r}\\  \textsl{Photograph of the Gust Pod (bottom left) and the ports on the Rosemount 858 probe (right).} \index{gust pod!photograph} 
+\includegraphics[width=12.1cm]{SpecialGraphics/GustPod1-r.png}\includegraphics[height=5.1cm]{SpecialGraphics/GustPod2x-r}\\  \textsl{Photograph of the Gust Pod (bottom left) and the ports on the Rosemount 858 probe (right).} \index{gust pod!photograph} 
 \par\end{center}
 
 \begin{table}
@@ -848,7 +848,7 @@ The result of this error in wind direction and additional problems that occur wi
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=10cm]{12_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_GPrf11Fig5.png}  
+\includegraphics[width=10cm]{SpecialGraphics/GPrf11Fig5.png}  
 \par\end{centering}
 
 \protect\caption{\label{fig:VarSpecWICandWIG}Variance spectra for WIC (red line labeled PSD, unsmoothed, and also shown smoothed as the blue line), compared to the smoothed spectrum for WIG from the gust pod (green line). Data from DEEPWAVE flight 5, 9:15:00--9:40:00.\index{variance spectrum!vertical wind!gust pod}\index{power spectrum|see {variance spectrum}}} 
@@ -859,7 +859,7 @@ Figure \ref{fig:VarSpecWICandWIG} shows variance spectra from the two systems. T
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=10cm]{13_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_GPrf11WIGshiftM1.png}  
+\includegraphics[width=10cm]{SpecialGraphics/GPrf11WIGshiftM1.png}  
 \par\end{centering}
 
 \protect\caption{\label{fig:FurtherExpandedWIGshifted}Comparison of WIG (red line) and WIC (blue line) after shifting WIG 1/25 s earlier to compensate for the longitudinal displacement of the sensor.} 
@@ -987,15 +987,15 @@ The laser air-motion sensor (LAMS)\index{laser air-motion sensor} is still under
 
 \begin{figure}%
 \noindent \begin{centering}%
-\includegraphics[width=0.9\columnwidth]{amt-2014-0031-f01.png}%
+\includegraphics[width=0.9\columnwidth]{SpecialGraphics/amt-2014-0031-f01.png}%
 %\includegraphics[width=120mm]{amt-2014-0031-f01}%
 \caption[Diagram showing the LAMS as operated on the GV.]{Diagram of the LAMS. Light generated by the laser in the cabin is transmitted by optical fibers to a~wing pod, where it is transmitted in a beam that has a~focal point well ahead of the aircraft (farther ahead than suggested by this not-to-scale diagram). The light backscattered from aerosol particles in the focal region is collected by the lens, and a circulator mixes a~portion of the transmitted signal with the returned signal. The resulting signal, with interference patterns that measure the Doppler shift of the backscattered light, is returned via optical fiber to the cabin for digitization. Also illustrated in this figure are the approximate locations of the static pressure ports and the fuselage pitot tube used by the research data system to measure static and dynamic pressures. This figure appears in Applied Optics in the article by \citet{SpulerEtAl2011} and is used here with permission from the Optical Society of America.\label{fig:LAMSschematic}}%
 \end{centering}%
 \end{figure}%
 \begin{figure}%
 \noindent \begin{centering}%
-\includegraphics[width=0.59\columnwidth]{LAMS-1r}% 
-\includegraphics[width=0.4\columnwidth]{LAMS-2r}% 
+\includegraphics[width=0.59\columnwidth]{SpecialGraphics/LAMS-1r}% 
+\includegraphics[width=0.4\columnwidth]{SpecialGraphics/LAMS-2r}% 
 \caption{The four-beam configuration of the LAMS optical head as installed in a GV under-wing pod.}%
 \label{fig:LAMS-4Beam}\index{LAMS!photograph}%
 \end{centering}%
@@ -1099,14 +1099,14 @@ The telescope beam measurement system was developed in house to provide position
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=10cm]{BeamPointing_ReceiverDiagram}  
+\includegraphics[width=10cm]{SpecialGraphics/BeamPointing_ReceiverDiagram}  
 \par\end{centering}
 \protect\caption[Diagram of the LAMS receiver system]{\label{fig:TelescopePointingRX}Diagram of the receiver system. The invisible infrared beam enters the beam expander which amplifies the angle of the beam relative to the telescope optic axis, and is then focused onto an IR card. The IR card fluoresces at a visible wavelength and that light is reimaged onto a CCD.} 
 \end{figure}
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=10cm]{BeamPointingCollection-r.png}  
+\includegraphics[width=10cm]{SpecialGraphics/BeamPointingCollection-r.png}  
 \par\end{centering}
 \protect\caption[Photographs of the telescope angle measurement system.]{\label{fig:TelescopePictures}Photographs of the telescope angle measurement system in the RAF optics lab. View of the setup from behind the LAMS pod (top left), the receiver system (bottom left), LAMS mounted in the telescope mount (right).} 
 \end{figure}
@@ -3050,7 +3050,7 @@ For evaluation of these measurements of aircraft velocity, it is useful to compa
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=0.9\textwidth]{28_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_VSPDspectraDW16.pdf}  
+\includegraphics[width=0.9\textwidth]{SpecialGraphics/VSPDspectraDW16.pdf}  
 \par\end{centering}
 
 \protect\caption[Variance spectra for various components entering vertical-wind calculations.]{\label{fig:Variance-spectra-VSPD}Variance spectra {[}units: m$^{2}$s$^{-2}$, density functions per logarithmic interval in frequency expressed in Hz{]} for various components entering vertical-wind calculations. Data are from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC. The thick blue trace is that for the vertical wind variable WIC; others show either measurements of the aircraft vertical motion (VSPD, GGVSPD) or, as GUSTW,\sindex[var]{GUSTW=relative-wind contribution to the wind measurement} the relative-wind contribution to WIC. The green diagonal lines show the slope expected\index{inertial subrange} for an inertial subrange; the thicker green line labeled ``!0$^{-4}$'' corresponds to the spectrum expected for an eddy dissipation rate\index{eddy dissipation rate} of $1\times10^{-4}$\,m$^{2}$s$^{-3}$. Other green reference lines are displaced by an order of magnitude in eddy dissipation rate. The calculations are based on the all-poles or maximum-entropy method, with 100 poles; cf.~\citet{Press:1992:NRC:148286}. The resolution used was 0.0005, with results smoothed in 50 bins in the logarithm of frequency. Total variance is 1.36\,m$^{2}$s$^{-2}$.} 
@@ -3114,7 +3114,7 @@ The key conclusions reached from this study of the vertical aircraft velocity ar
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=0.9\textwidth]{29_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_WIXHR1.png}  
+\includegraphics[width=0.9\textwidth]{SpecialGraphics/WIXHR1.png}  
 \par\end{centering}
 
 \protect\caption[Variance spectra for the vertical wind and for the contributions made by the relative wind and the aircraft motion.]{\label{fig:WIXHR1}Variance spectra for the vertical wind (here, WIX) and for the contributions to it made by the relative wind (GUSTW) and the aircraft motion (GGVSPDB, essentially the same as GGVSPD). Also shown for comparison is the spectrum for the IRU-provided aircraft motion (VSPD, dashed line). Data from DEEPWAVE flight 15, 3:40:00--3:55:00.} 
@@ -4257,7 +4257,7 @@ are essentially identical for most frequencies, with some deviation around 0.4~H
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=\maxwidth]{FFTVEW}
+\includegraphics[width=\maxwidth]{SpecialGraphics/FFTVEW}
 \par\end{centering}
 \protect\caption[Variance spectra for the eastward component of aircraft motion as measured by GPS and by IRU.]{Variance spectra for the eastward component of aircraft motion as measured by GPS (GGVEW) and for the corresponding measurement from the IRU (VEW). Data are from IDEAS-IV-GV flight 6 on 13 Oct 2013, 20:03:30--20:11:50 UTC. FFT spectral analysis was used, with 50\,Hz measurements, combining segments of 8192 points, and the resulting spectra were smoothed by averaging in 75 bins equally spaced in the logarithm of the frequency.\label{fig:FFTVEW}} 
 \end{figure}
@@ -4385,7 +4385,7 @@ Many different measures are used to characterize measurement error, often making
 
 \begin{figure}[H] 
 \noindent \begin{centering}
-\includegraphics[width=11cm]{47_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_A-figure1.png}  
+\includegraphics[width=11cm]{SpecialGraphics/A-figure1.png}  
 \par\end{centering}
 
 \protect\caption[Illustration of the separate effects of bias errors and random errors.]{\emph{\label{fig:IllustrationOfTerms}Illustration of the separate effects of bias errors and random errors. The true population mean is $\mu$, but an instrument is used that has a bias $b$ and measures with random error (in each observation) $\sigma$. The resulting estimate of the mean, obtained from $\overline{x}$, is in error because of the separate contributions of the bias error $b$ and the random error in the measurement of the mean, in this case $(\overline{x}-a)$. The precision of the instrument is $\sigma$, so the estimated random error in the mean is $\sigma/{N}^{1/2}$. The actual error in an experiment is the difference between the true value $\mu$ and the measured value $\overline{x}$. The histogram represents a frequency distribution measured in a particular experiment, with mean shown as the solid line labeled $\overline{x}$. In a large number of observations, it would be expected that the results would tend toward the smooth dashed curve with mean $a=\mu+b$. The measured standard deviation is $s$, but the limiting value for a large number of measurements is expected to be $\sigma$.} } 
@@ -4702,7 +4702,7 @@ Because the measurements affecting high-frequency measurements of wind component
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{50_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PSD1.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PSD1.png}  
 \par\end{centering}
 
 \protect\protect\protect\caption{\label{fig:AppxB-PSD1}Variance spectra for the vertical wind for the flight segment from 19:51:01--20:12:00 UTC on 16 Oct.\ 2013.} 
@@ -4710,7 +4710,7 @@ Because the measurements affecting high-frequency measurements of wind component
 \index{variance spectrum!UXC}
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{51_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PSD2.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PSD2.png}  
 \par\end{centering}
 
 \protect\caption{\label{fig:AppxB-PSD2}Variance spectra for the longitudinal component of the wind (along the aircraft centerline, and so essentially also the spectrum for the airspeed) for the flight segment from 19:51:01--20:12:00 UTC on 16 Oct.\ 2013.} 
@@ -4719,7 +4719,7 @@ Because the measurements affecting high-frequency measurements of wind component
 \index{variance spectrum!VYC}
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{52_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PSD3.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PSD3.png}  
 \par\end{centering}
 
 \protect\caption{\label{fig:AppxB-PSD3}Variance spectra for the lateral component of the horizontal wind for the flight segment from 19:51:01--20:12:00 UTC on 16 Oct.\ 2013.} 
@@ -4744,7 +4744,7 @@ The longer \index{pressure lines}pressure lines used for the measurement of dyna
 Calculations by D.~Lenschow using equations presented in \citet{Iberall1950} for the line lengths and tubing sizes in use are shown in Figs.~\ref{fig:AppxB-DHL1} and \ref{fig:AppxB-DHL2}. The first plot, applicable to QCF, shows that there are significant effects on the amplitude and phase of the measured signals even for frequencies of 1--10\,Hz, although the amplitude effects are smallest for flight between 12--16\,km. The most pronounced effects on amplitude are for flight near sea level, where for example the measured amplitude is more than three times the correct value for frequencies near 9\,Hz. In contrast, the effect on phase is largest for the higher flight levels, and for example at 12\,km would introduce a phase lag of about 0.03\,s. 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{PressureLines1.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PressureLines1.png}  
 \par\end{centering}
 
 \protect\caption[Amplitude ratio and phase for transmission through the QCF pressure line.]{\label{fig:AppxB-DHL1}Amplitude and phase of response at the sensor end of the QCF pressure line, for a set of assumed standard-atmosphere flight conditions: (blue) sea level; (orange) 4 km; (green) 8 km; (red) 12 km; (violet) 16 km; (dark orange) 20 km. The same results are shown in the top and bottom plots but for different ranges in frequency. Phase angles above zero should be interpreted as 180$^{\circ}$ minus the plotted angle, so that the phase angle decreases monotonically with frequency. Tube dimensions: 5.3~mm inside diameter, length 8~m. } 
@@ -4753,7 +4753,7 @@ Calculations by D.~Lenschow using equations presented in \citet{Iberall1950} for
 The corresponding results for the radome pressure lines are shown in Fig.~\ref{fig:AppxB-DHL2}. Here the effect on amplitude is negligible for frequencies below 12.5\,Hz, the Nyquist frequency for the normal high-rate measurements. The effect on phase is also negligible in this range, with a time delay smaller than 5\,ms for all pressures. The measurements could not be extended to higher rates without significant error, but for normal high-rate measurements the lines do not introduce any problems that affect the lateral components of the wind.
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.6\textheight]{PressureLines2.png}  
+\includegraphics[height=0.6\textheight]{SpecialGraphics/PressureLines2.png}  
 \par\end{centering}
 
 \protect\caption[Amplitude ratio and phase for transmission through the pressure lines for ADIFR and BDIFR.]{\label{fig:AppxB-DHL2}Amplitude and phase of response at the sensor end of the ADIFR and BDIFR pressure lines, for a set of assumed standard-atmosphere flight conditions: (blue) sea level; (orange) 4 km; (green) 8 km; (red) 12 km; (violet) 16 km; (dark orange) 20 km. Phase angles above zero should be interpreted as 180$^{\circ}$ minus the plotted angle, so that the phase angle decreases monotonically with frequency. Tube dimensions: 4.0~mm inside diameter, length 1.5~m.} 
@@ -4769,7 +4769,7 @@ If the measurements from UXC at frequencies from about 0.4--2~Hz are representat
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{53_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PSD5.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PSD5.png}  
 \par\end{centering}
 
 \protect\protect\protect\caption{\label{fig:AppxB-PSD5}Variance spectra for the vertical component of the wind (WIC) for the flight segment from 21:02:00 to 21:09:00 UTC on 24 Nov.\ 2014.} 
@@ -4780,7 +4780,7 @@ Another example of the high-frequency variance spectrum of the vertical wind is 
 \index{variance spectrum!UXC}
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{54_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_PSD6.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/PSD6.png}  
 \par\end{centering}
 
 \protect\protect\protect\caption{\label{fig:AppxB-PSD6}Variance spectra for the longitudinal component of the horizontal wind for the flight segment from 21:02:00 to 21:09:00 UTC on 24 Nov.\ 2014.} 
@@ -4798,7 +4798,7 @@ The other wind-sensing systems on the GV can help provide valid measurements of 
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{55_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_MEMPlotQC.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/MEMPlotQC.png}  
 \par\end{centering}
 
 \protect\protect\protect\caption{\label{fig:AppxB-PSD1314}Variance spectra for the dynamic pressure measurements from the radome-based system (QCF) and from the gust-pod system (QC\_GP) for the flight segment from 21:02:00 to 21:09:00 UTC on 24 Nov.\ 2014.} 
@@ -4832,7 +4832,7 @@ Because this all involves the same approaches documented in the body of this rep
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[height=0.4\textheight]{56_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_MEMPlot3Comp.png}  
+\includegraphics[height=0.4\textheight]{SpecialGraphics/MEMPlot3Comp.png}  
 \par\end{centering}
 
 \protect\caption[Variance spectra for the three components of the wind.]{\label{fig:AppxB-3Comp}Variance spectra for the three components of the wind represented by UXM (longitudinal component as recalculated by combining the gust-pod airspeed and the radome-based airspeed, as discussed in the text), VYC (the conventional lateral component of the horizontal wind), and WIC (the conventional measurement of vertical wind). The two lateral components (VYC and WIC) have been multiplied by 0.75 to make them comparable to the longitudinal component in relation to the indicated reference lines for eddy dissipation rate (green lines), which are shown with magnitudes applicable to the longitudinal component. Data from HCRTEST flight 3, 24 Nov.\ 2014.} 
@@ -4855,7 +4855,7 @@ The conclusion from this appendix is that the lateral components of the wind mea
 \textsf{\textsc{\textcolor{blue}{Git:}}} & https://github.com/WilliamCooper/WindUncertainty.git\tabularnewline
 \end{tabular}
 
-\attachm{WindUncertainty.Rnw\\WindUncertainty.pdf\\chunks/*\\SessionInfo\\Ranadu\_2.1-15-5-29.tar.gz}
+\attachm{WindUncertainty.Rnw\\WindUncertainty.pdf\\SessionInfo\\Ranadu\_2.1-15-5-29.tar.gz\\Introduction.Rnw\\ComponentsOfWindSensingSystem.Rnw\\Conventions.Rnw\\CalibrationProcedures.Rnw\\ElementsOfUncertaintyAndSummary.Rnw\\SensitivityCoefficients.Rnw\\SchulerSection.Rnw\\VerticalWindStudies.Rnw\\HorizontalWindStudies.Rnw\\Turbulence.Rnw\\./chunks\\./SpecialGraphics\\WAC.bib}
 
 \index{reproducibility of this document}This document is constructed in ways that support duplication of the
 study. The processing programs are incorporated into the same file
@@ -4864,12 +4864,12 @@ by \citet{Xie2014a} as implemented in the R package 'knitr' (\citet{Xie2014b}).
 The core program, 'WindUncertainty.Rnw', is archived on 'GitHub' 
 \index{GitHub repository}in
 the directory at \href{https://github.com/WilliamCooper/WindUncertainty.git}{this URL}.\sindex[var]{URL=Uniform Resource Locator}
-There is some supplemental material in that directory, like the bibliography
+There is some supplemental material in that directory, like the bibliography, special graphics not generated by the R code,
 and many code segments saved in the 'chunks' subdirectory, so the
-full directory should be downloaded in order to run the program. The calculations
+full directory should be downloaded in order to run the program. The file WindUncertainty.zip will contain all the files needed to generate this document. The calculations
 use the programming language R\index{R!the programming language}\index{R!RStudio used with} (\citet{Rlanguage}) and were run within RStudio
 (\citet{RStudio2012}), so this is the most straightforward way to replicate the
-calculations and the generation of this document. To duplicate the list of symbols, list of variable names and acronyms, and the index, once the 'WindUncertainty.tex' file is generated by RStudio, run 'splitindex' and then 'makeindex', then 'pdflatex' to update the indices.
+calculations and the generation of this document. To duplicate the list of symbols, list of variable names and acronyms, and the index, once the 'WindUncertainty.tex' file is generated by RStudio, run 'pdflatex WindUncertainty' three times to generate the index files, run 'splitindex WindUncertainty' and then 'makeindex WindUncertainty', then 'pdflatex WindUncertainty' again to update the indices.
 
 A package named Ranadu,\index{Ranadu} containing auxiliary functions, is used extensively
 in the R code. It is

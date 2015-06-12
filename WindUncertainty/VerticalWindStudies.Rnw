@@ -106,7 +106,7 @@ For evaluation of these measurements of aircraft velocity, it is useful to compa
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=0.9\textwidth]{28_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_VSPDspectraDW16.pdf}  
+\includegraphics[width=0.9\textwidth]{SpecialGraphics/VSPDspectraDW16.pdf}  
 \par\end{centering}
 
 \protect\caption[Variance spectra for various components entering vertical-wind calculations.]{\label{fig:Variance-spectra-VSPD}Variance spectra {[}units: m$^{2}$s$^{-2}$, density functions per logarithmic interval in frequency expressed in Hz{]} for various components entering vertical-wind calculations. Data are from DEEPWAVE flight 16, 6:30:00--12:30:00 UTC. The thick blue trace is that for the vertical wind variable WIC; others show either measurements of the aircraft vertical motion (VSPD, GGVSPD) or, as GUSTW,\sindex[var]{GUSTW=relative-wind contribution to the wind measurement} the relative-wind contribution to WIC. The green diagonal lines show the slope expected\index{inertial subrange} for an inertial subrange; the thicker green line labeled ``!0$^{-4}$'' corresponds to the spectrum expected for an eddy dissipation rate\index{eddy dissipation rate} of $1\times10^{-4}$\,m$^{2}$s$^{-3}$. Other green reference lines are displaced by an order of magnitude in eddy dissipation rate. The calculations are based on the all-poles or maximum-entropy method, with 100 poles; cf.~\citet{Press:1992:NRC:148286}. The resolution used was 0.0005, with results smoothed in 50 bins in the logarithm of frequency. Total variance is 1.36\,m$^{2}$s$^{-2}$.} 
@@ -170,7 +170,7 @@ The key conclusions reached from this study of the vertical aircraft velocity ar
 
 \begin{figure}
 \noindent \begin{centering}
-\includegraphics[width=0.9\textwidth]{29_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_WIXHR1.png}  
+\includegraphics[width=0.9\textwidth]{SpecialGraphics/WIXHR1.png}  
 \par\end{centering}
 
 \protect\caption[Variance spectra for the vertical wind and for the contributions made by the relative wind and the aircraft motion.]{\label{fig:WIXHR1}Variance spectra for the vertical wind (here, WIX) and for the contributions to it made by the relative wind (GUSTW) and the aircraft motion (GGVSPDB, essentially the same as GGVSPD). Also shown for comparison is the spectrum for the IRU-provided aircraft motion (VSPD, dashed line). Data from DEEPWAVE flight 15, 3:40:00--3:55:00.} 

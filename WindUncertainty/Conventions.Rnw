@@ -48,7 +48,7 @@ Many different measures are used to characterize measurement error, often making
 
 \begin{figure}[H] 
 \noindent \begin{centering}
-\includegraphics[width=11cm]{47_home_cooperw_RStudio_DEEPWAVE_WindUncertainty_A-figure1.png}  
+\includegraphics[width=11cm]{SpecialGraphics/A-figure1.png}  
 \par\end{centering}
 
 \protect\caption[Illustration of the separate effects of bias errors and random errors.]{\emph{\label{fig:IllustrationOfTerms}Illustration of the separate effects of bias errors and random errors. The true population mean is $\mu$, but an instrument is used that has a bias $b$ and measures with random error (in each observation) $\sigma$. The resulting estimate of the mean, obtained from $\overline{x}$, is in error because of the separate contributions of the bias error $b$ and the random error in the measurement of the mean, in this case $(\overline{x}-a)$. The precision of the instrument is $\sigma$, so the estimated random error in the mean is $\sigma/{N}^{1/2}$. The actual error in an experiment is the difference between the true value $\mu$ and the measured value $\overline{x}$. The histogram represents a frequency distribution measured in a particular experiment, with mean shown as the solid line labeled $\overline{x}$. In a large number of observations, it would be expected that the results would tend toward the smooth dashed curve with mean $a=\mu+b$. The measured standard deviation is $s$, but the limiting value for a large number of measurements is expected to be $\sigma$.} } 
