@@ -161,7 +161,7 @@
 \author{W. A. Cooper, R. B. Friesen, M. Hayman, J. B. Jensen, D. H. Lenschow, \\P. A. Romashkin, A. J. Schanot, S. M. Spuler, J. L. Stith, C. Wolff}
 
 
-\date{\textcolor{red}{DRAFT} 6/8/2015}
+\date{\textcolor{red}{DRAFT} 6/12/2015}
 \thispagestyle{empty}
 \maketitle
 \vfill{}
@@ -329,7 +329,7 @@ is thus preserved.
 <<make-zip-archive, include=FALSE, echo=FALSE>>=
 
 cat (toLatex(sessionInfo()), file="SessionInfo")
-system (sprintf("zip %s.zip %s.Rnw %s.pdf SessionInfo ~/RStudio/Ranadu/Ranadu_2.1-15-5-29.tar.gz", thisFileName, thisFileName, thisFileName))
+system (sprintf("zip %s.zip %s.Rnw SessionInfo Introduction.Rnw ComponentsOfWindSensingSystem.Rnw Conventions.Rnw CalibrationProcedures.Rnw ElementsOfUncertaintyAndSummary.Rnw SensitivityCoefficients.Rnw SchulerSection.Rnw VerticalWindStudies.Rnw HorizontalWindStudies.Rnw Turbulence.Rnw ./chunks ./chunks/* ~/RStudio/Ranadu/Ranadu_2.1-15-5-29.tar.gz", thisFileName, thisFileName))
 
 @
 
