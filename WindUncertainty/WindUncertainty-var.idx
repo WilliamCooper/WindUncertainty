@@ -88,10 +88,10 @@
 \indexentry{CVSPD_LAMS@CVSPD\_LAMS|hyperpage}{84}
 \indexentry{VSPD_G=alternate name used for VSPD_A in some projects@VSPD\_G=alternate name used for VSPD\_A in some projects|hyperpage}{84}
 \indexentry{WP3=obsolete vertical-motion variable calculated using baro-inertial updating|hyperpage}{84}
-\indexentry{GGVSPDB=high-resolution version of GGVSPD|hyperpage}{85}
 \indexentry{WI=vertical wind calculated using VSPD {[}m/s{]}|hyperpage}{85}
 \indexentry{WIC=vertical wind calculated using GGVSPD {[}m/s{]}|hyperpage}{85}
 \indexentry{GGQUAL=variable indicating GPS quality of measurement; 5 if OmniSTAR|hyperpage}{85}
+\indexentry{GGVSPDB=high-resolution version of GGVSPD|hyperpage}{85}
 \indexentry{GUSTW=relative-wind contribution to the wind measurement|hyperpage}{86}
 \indexentry{GGVSPD|hyperpage}{87}
 \indexentry{VSPD|hyperpage}{87}
@@ -107,8 +107,8 @@
 \indexentry{RTRL=recovery temperature, left-radome sensor|hyperpage}{91}
 \indexentry{LAT=latitude measured by the Honeywell inertial reference unit|hyperpage}{96}
 \indexentry{GGLAT=latitude measured by the GPS receiver|hyperpage}{96}
-\indexentry{ENU=east-north-up|hyperpage}{99}
-\indexentry{PITCHC=pitch corrected as described in Sect.~\ref{sub:angle-transforms-for-pitch-correction}|hyperpage}{100}
+\indexentry{ENU=east-north-up|hyperpage}{98}
+\indexentry{PITCHC=pitch corrected as described in Sect.~\ref{sub:angle-transforms-for-pitch-correction}|hyperpage}{101}
 \indexentry{TASF|hyperpage}{117}
 \indexentry{VEWC|hyperpage}{120}
 \indexentry{VEWC|hyperpage}{120}
@@ -122,11 +122,11 @@
 \indexentry{GUM=Guide to the Expression of Uncertainty in Measurement|hyperpage}{125}
 \indexentry{VYC=horizontal-wind component lateral to the aircraft axis|hyperpage}{132}
 \indexentry{UXC=horizontal-wind component along the aircraft axis|hyperpage}{132}
-\indexentry{HCRTEST=HIAPER Cloud Radar test flights|hyperpage}{138}
-\indexentry{TASF|hyperpage}{138}
+\indexentry{HCRTEST=HIAPER Cloud Radar test flights|hyperpage}{139}
+\indexentry{TASF|hyperpage}{139}
 \indexentry{TASF|hyperpage}{139}
 \indexentry{UXM=new variable representing the ``blended'' longitudinal component of the horizontal wind|hyperpage}{139}
 \indexentry{UX_GP@UX\_GP|hyperpage}{139}
-\indexentry{URL=Uniform Resource Locator|hyperpage}{141}
-\indexentry{HPSS=High Performance Storage System|hyperpage}{142}
-\indexentry{HIAPER=High-Performance Airborne Platform for Environmental Research|hyperpage}{143}
+\indexentry{URL=Uniform Resource Locator|hyperpage}{142}
+\indexentry{HPSS=High Performance Storage System|hyperpage}{143}
+\indexentry{HIAPER=High-Performance Airborne Platform for Environmental Research|hyperpage}{144}

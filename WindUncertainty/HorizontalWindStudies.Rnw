@@ -136,7 +136,7 @@ During the DEEPWAVE\index{DEEPWAVE} project, several circle patterns\index{maneu
 
 The circle maneuver is a stringent test of the wind measurements because, in steady conditions, the measured wind should remain constant around the circles. From the patterns of deviations with orientation in the turn, it is possible to detect an error in airspeed or an offset in heading or sideslip angle. A time offset in measured \index{ground speed!time offset}ground speed from the GPS relative to the IRU can also be detected because it produces a deduced heading offset that changes sign when left-turn and right-turn circles are compared. 
 
-For these patterns, the wind should be relatively steady and non-turbulent and the roll angle should be constant. For this flight segment, the left-turn circles had a roll angle of \Sexpr{round(meanr1,2)}$\pm$\Sexpr{round(sdr1,2)}$^{\circ}$ and the right-turn circles had roll angle \Sexpr{round(meanr2,2)}$\pm$\Sexpr{round(sdr2,2)}$^{\circ}$, while the mean airspeed for these circles was \Sexpr{round(meanv,1)}$\pm$\Sexpr{round(sdv,1)}~m/s. Most of the standard deviation in airspeed arose from the normal fluctuations created by the flight management system, as discussed in Sect.~\ref{sub:Variance-spectra-for-W-components} (cf.~Fig.~\ref{fig:phugoid-plot}). The steadiness of these measurements indicates that this maneuver was flown with good precision and symmetrically, so the following is is a good illustration of what can be learned from this maneuver. 
+For these patterns, the wind should be relatively steady and non-turbulent and the roll angle should be constant. For this flight segment, the left-turn circles had a roll angle of \Sexpr{round(meanr1,2)}$\pm$\Sexpr{round(sdr1,2)}$^{\circ}$ and the right-turn circles had roll angle \Sexpr{round(meanr2,2)}$\pm$\Sexpr{round(sdr2,2)}$^{\circ}$, while the mean airspeed for these circles was \Sexpr{round(meanv,1)}$\pm$\Sexpr{round(sdv,1)}~m/s. Some of the standard deviation in airspeed arose from the normal fluctuations created by the flight management system, as discussed in Sect.~\ref{sub:Variance-spectra-for-W-components} (cf.~Fig.~\ref{fig:phugoid-plot}), and some represents real fluctuations in wind. The steadiness of these measurements indicates that this maneuver was flown with good precision and symmetrically, so the following is is a good illustration of what can be learned from this maneuver. 
 
 \subsubsection{Basic equations}
 
@@ -245,7 +245,7 @@ From the definitions \eqref{eq:v-errors}, the mean wind can be found by adjustin
 
 There is an apparently significant difference of about 1~m/s in mean wind speed, both measured and resulting from the fits, between the right-turn circles and the left-turn circles. This seems to be a real difference between wind conditions in the regions where the circles were flown and is supported by the difference between maximum and minimum ground speed for the two sets of circles. Conditions are more uniform for the right-turn circles, as reflected in the lower residual error for those circles, so more weight will be given here to the results from the right-turn circles. 
 
-The fits point to a very small heading error that is consistent for the two turn directions. That result is very sensitive to the timing of signal acquisition: Any difference in timing between the ground-speed components from the GPS and the heading measurement from the IRU will produce an indicated error in heading that changes sign with turn direction. Shifting either pitch or ground-speed components by 40\,ms changes the indicated errors in heading by 0.07$^{\circ}$, so these lags are very sensitive to the assumed delay. The results here were obtained for a heading shift of $-50$\,ms, slightly different from the conventional shift of $-80$\,ms, and with no shift imposed on the GPS measurements of ground-speed components. Also, no offset was applied to heading. For documentation, the attributes\index{heading!attributes of THDG} for the heading variable as processed for this study are listed here: 
+The fits point to a very small heading error that is consistent for the two turn directions. That result is very sensitive to the timing of signal acquisition: Any difference in timing between the ground-speed components from the GPS and the heading measurement from the IRU will produce an indicated error in heading that changes sign with turn direction. Shifting either pitch or ground-speed components by 40\,ms changes the indicated errors in heading by 0.07$^{\circ}$, so these lags are very sensitive to the assumed delay. The results here were obtained for a heading time lag of $-50$\,ms, slightly different from the conventional lag of $-80$\,ms, and with no shift imposed on the GPS measurements of ground-speed components. Also, no offset was applied to heading. For documentation, the attributes\index{heading!attributes of THDG} for the heading variable as processed for this study are listed here: 
 
 <<list-THDG-attributes, include=TRUE>>=
 
@@ -253,7 +253,7 @@ Z <- getAttributes(D$THDG)
 
 @
 
-Two other circle patterns were flown on this same flight, at 4:35:00--4:53:00 and 5:30:00--5:53:00 UTC. Results from fits to those circle maneuvers are shown in Tables~\ref{tab:GS2min} and \ref{tab:GS3min}. In these two cases and in Table~\ref{tab:GSmin}, indicated airspeed corrections\index{airspeed!correction}\index{heading!correction} from individual circles varied from $-0.6$ to 0.6\,m/s and angular corrections (combining heading and sideslip-angle errors) varied from 0.01 to 0.23$^{\circ}$, with mean values of 0.2$\pm0.2$\,m/s and 0.13$\pm0.03^{\circ}$. 
+Two other circle patterns were flown on this same flight, at 4:35:00--4:53:00 and 5:30:00--5:53:00 UTC. Results from fits to those circle maneuvers are shown in Tables~\ref{tab:GS2min} and \ref{tab:GS3min}. In these two cases and in Table~\ref{tab:GSmin}, deduced airspeed corrections\index{airspeed!correction}\index{heading!correction} from individual circles varied from $-0.6$ to 0.6\,m/s and angular corrections (combining heading and sideslip-angle errors) varied from 0.01 to 0.23$^{\circ}$, with mean values of 0.2$\pm0.2$\,m/s and 0.13$\pm0.03^{\circ}$. 
 The fits thus support the low uncertainty limit claimed for airspeed but suggest that there is an error in the combination of heading and sideslip that should be corrected.
 
 
@@ -286,7 +286,7 @@ mwd2 <- mwd; mwdL2 <- mwdL; mwdR2 <- mwdR
 \end{tabular}
 \par\end{centering}
 
-\protect\caption[The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the second circle maneuver from DEEPWAVE flight 15.]{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the second circle maneuver from DEEPWAVE flight 15, 4:35:00--4:53:00 UTC, at an altitude of about 6.1 km (20,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GS2min}}
+\protect\caption[The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the second circle maneuver from DEEPWAVE flight 15.]{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the second circle maneuver from DEEPWAVE flight 15, 4:35:00--4:53:00 UTC, at an altitude of about 6.1 km (20,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system; others are fit results.\label{tab:GS2min}}
 \end{table}
 
 \par\end{center}
@@ -317,7 +317,7 @@ mwd3 <- mwd; mwdL3 <- mwdL; mwdR3 <- mwdR
 \end{tabular}
 \par\end{centering}
 
-\protect\caption[The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the third circle maneuver from DEEPWAVE flight 15.]{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the third circle maneuver from DEEPWAVE flight 15, 5:30:30--5:53:00 UTC, at an altitude of about 9.1 km (30,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system.\label{tab:GS3min}}
+\protect\caption[The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the third circle maneuver from DEEPWAVE flight 15.]{The best-fit parameters that minimize the errors given by \eqref{eq:v-errors} for the third circle maneuver from DEEPWAVE flight 15, 5:30:30--5:53:00 UTC, at an altitude of about 9.1 km (30,000 ft). The lines \textquotedbl{}mean of measurements\textquotedbl{}, \textquotedbl{}left-turn measurements\textquotedbl{} and \textquotedbl{}right-turn measurements\textquotedbl{} are based on the wind measurements from the aircraft data system; others are fit results.\label{tab:GS3min}}
 \end{table}
 
 \par\end{center}
@@ -611,7 +611,7 @@ gsfdiff2 <- max(Z2) - min(Z2)
 
 @
 
-Figures \ref{fig:first-circles}--\ref{fig:third-circles} show the mean measurements of wind speed as a function of the angle between the mean wind direction and the adjusted heading representing the motion of the aircraft relative to the air. The two turn directions are shown separately in each figure because they often require a different mean wind speed, as also shown in Tables~\ref{tab:Circlemin}--\ref{tab:Circle3min} where the fit results are tabulated. The fits to \eqref{eq:delta-v-m}, found by minimizing the defined $\chi^{2}$, are also shown in this figures (orange lines). 
+Figures \ref{fig:first-circles}--\ref{fig:third-circles} show the mean measurements of wind speed as a function of the angle between the mean wind direction and the adjusted heading representing the motion of the aircraft relative to the air. The two turn directions are shown separately in each figure because they often require a different mean wind speed, as also shown in Tables~\ref{tab:Circlemin}--\ref{tab:Circle3min} where the fit results are tabulated. The fits to \eqref{eq:delta-v-m}, found by minimizing the defined $\chi^{2}$, are also shown in these figures (orange lines). 
 
 \index{maneuver!circle!plotted wind-speed variations}
 
@@ -966,7 +966,7 @@ One approximate test is to compare the sideslip measurement in left vs right tur
 Ds <- D[r, ]
 DL <- DL1; DR <- DR1
 Capn <- "Sideslip measured durning the circle maneuvers, first turning left (3:40:00 -- 3:45:00) and then turning right (3:47:30 -- 3:53:30). Mean values for these segments are indicated by dashed orange lines."
-plotWAC(Ds$Time, Ds$SS, ylab="Sideslip")
+plotWAC(Ds$Time, Ds$SS, ylab="Sideslip [degrees]")
 yrm <- mean (Ds$SS, na.rm=TRUE)
 lines(c(Ds$Time[1], Ds$Time[length(Ds$Time)]), c(yrm, yrm), col='red', lty=2, lwd=4)
 yrL <- mean(DL$SS, na.rm=TRUE)
@@ -1006,13 +1006,13 @@ dbeta <- DX$SSLIP - dstar
 hist(dbeta, breaks=40, main='', freq=FALSE, xlab="error in sideslip [deg.]")
 dbm <- mean (dbeta, na.rm=TRUE)
 dbsd <- sd  (dbeta, na.rm=TRUE)
-title (sprintf ("mean %.2f +/- %.2f", dbm, dbsd))
 dbsdm <- dbsd / sqrt (length(dbeta))
-print (sprintf ("mean error in sideslip: %.3f +/-%.3f", dbm, dbsdm))
+title (sprintf ("mean %.3f +/- %.3f", dbm, dbsdm))
+# print (sprintf ("mean error in sideslip: %.3f +/-%.3f", dbm, dbsdm))
 
 @
 
-Measurements of this estimate of the sideslip error are shown in Fig.~\ref{fig:sideslip-error-histogram}. The mean error is \Sexpr{round(dbm, 3)}$^{\circ}$, which  should be subtracted from the sideslip measurements,\footnote{The value is the measurement error so the required correction is the negative of that value.} 
+Measurements of this estimate of the sideslip error are shown in Fig.~\ref{fig:sideslip-error-histogram}. The mean error is \Sexpr{round(dbm, 3)}$^{\circ}$, which  should be subtracted from the sideslip measurements.\footnote{The value is the measurement error so the required correction is the negative of that value.} 
 % This result differs from the indication from Fig.\ \ref{fig:plotSS}, where no offset was required. The uncertainty in the estimated mean of this result is very low, and this result is more general because it uses measured values of the pitch, so this value will be used to correct the sideslip offset. 
 This indicates that the sideslip sensitivity coefficients should be modified from those initially found in Sect.~\ref{sub:radome-and-gust-pod-beta} to these revised values:\label{page:SSoffset} \{$e_{0}$,\, $e_{1}$\} = \{\Sexpr{round(cfs[1]-dbm, 3)}, \Sexpr{round(cfs[2], 3)}\}. Because this result is dependent on the vertical wind being zero, an uncertainty of at least 0.03$^{\circ}$ should be assigned to the first coefficient to recognize that the vertical wind might typically be $\pm$0.05\,m/s in a region such as this.% %msrmt 0.1, but biased/unreliable in high-bank turn? 
 
@@ -1232,7 +1232,7 @@ ButterworthFilter <- function (x, tau=600.) {
 
 %
 %In 2014 this was changed to use the Butterworth filter coefficients given by the R routine 'butter' for the corresponding filter function, because it was found that the previous digital filter introduced a mean shift in the measurements. 
-The digital filter used is recursive, not centered, to permit calculation during a single pass through the data. If the cutoff frequency lies where both the GPS and INS measurements are valid and are almost the same, then the detailed characteristics of the filter in the transition region (e.g., phase shift) do not matter because the complementary filters have cancelling effects when applied to the same signal. The transition frequency $f_{c}$ was chosen to be (1/600) Hz (but this value can be overridden via the ``defaults'' file). The Butterworth filter was chosen because it provides flat response away from the transition. The resulting variables for aircraft motion, \{VNSC,VEWC\},\sindex[var]{VEWC}\sindex[var]{VEWC} are then each the sum of two filtered signals, calculated as described in the following box:\index{filter!complementary!algorithm}\\ 
+The digital filter used is recursive, not centered, to permit calculation during a single pass through the data. If the cutoff frequency lies where both the GPS and INS measurements are valid and are almost the same, then the detailed characteristics of the filter in the transition region (e.g., phase shift) do not matter because the complementary filters have cancelling effects when applied to the same signal. The standard transition frequency $f_{c}$ was chosen to be (1/600) Hz. The Butterworth filter was chosen because it provides flat response away from the transition. The resulting variables for aircraft motion, \{VNSC,VEWC\},\sindex[var]{VEWC}\sindex[var]{VEWC} are then each the sum of two filtered signals, calculated as described in the following box:\index{filter!complementary!algorithm}\\ 
  %
 \fbox{% 
 \begin{minipage}[t]{0.95\textwidth}% 
@@ -1249,11 +1249,11 @@ VEW = IRU-measured east component of the aircraft ground speed\\  VNS = IRU-meas
 %
 \end{minipage}}
 
-This is straightforward and effective when both sets of measurements (IRU and GPS) are available. The approach in use becomes more complicated when the GPS signals are lost, as sometimes happens in sharp turns. Then some means is needed to avoid sudden discontinuities in velocity (and hence wind speed), which would introduce spurious effects into variance spectra and other properties dependent on a continuously valid measurement of wind. To extrapolate measurements through periods when the GPS measurements are not available, a fit is determined to the difference between the best-estimate variables \{VNSC, VEWC\}\sindex[var]{VNSC}\sindex[var]{VEWC} and the IRU variables \{VNS,VEW\}\sindex[var]{VNS}\sindex[var]{VEW} for the period before GPS reception was lost, and that fit is used to extrapolate through periods when GPS reception is not available. The procedure is described in section 3.4 of \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{this document on processing algorithms}. 
+This is straightforward and effective when both sets of measurements (IRU and GPS) are available. The approach in use becomes more complicated when the GPS signals are lost, as sometimes happens in sharp turns. Then some means is needed to avoid sudden discontinuities in velocity (and hence wind speed), which would introduce spurious effects into variance spectra and other properties dependent on a continuously valid measurement of wind. To extrapolate measurements through periods when the GPS measurements are not available, a fit was determined to the difference between the best-estimate variables \{VNSC, VEWC\}\sindex[var]{VNSC}\sindex[var]{VEWC} and the IRU variables \{VNS,VEW\}\sindex[var]{VNS}\sindex[var]{VEW} for the period before GPS reception was lost, and that fit was used to extrapolate through periods when GPS reception is not available. The procedure is described in section 3.4 of \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{this document on processing algorithms}. 
 
 \subsubsection{Recommended changes}
 
-Because current measurements provided by GPS are so much better than when the filter was introduced, it also seems appropriate to reconsider the response time used for the filter or even if the filter is still needed. A problem has also been found with the filter function, shown below. For these reasons, the use of the complementary filter is revisited in the remainder of this section.
+Because current measurements provided by GPS are so much better than when the filter was introduced, it seems appropriate to reconsider the response time used for the filter or even if the filter is still needed. A problem has also been found with the filter function, shown below. For these reasons, the use of the complementary filter is revisited in the remainder of this section.
 
 The cutoff frequency should be selected to lie in a region where the signals are matched. Figure \ref{fig:FFTVEW} shows an example of the variance spectra for GGVEW and VEW from a level segment of GV boundary-layer flight. The two spectra
 are essentially identical for most frequencies, with some deviation around 0.4~Hz. The coherence between these two signals, shown in Fig.~\ref{fig:coherence-plot}, indicates near-unity coherence for frequencies below 0.1\,Hz, and the corresponding phase through this region (not shown) is also near zero, so an appropriate choice is a frequency in the upper part of this range but still far enough below 0.1\,Hz that the transition region for the filter does not have significant residual transmission at that frequency.

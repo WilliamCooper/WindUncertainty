@@ -61,7 +61,7 @@
 
   \indexspace
 
-  \item ENU=east-north-up, \hyperpage{99}
+  \item ENU=east-north-up, \hyperpage{98}
   \item EOL=Earth Observing Laboratory, \hyperpage{1}
 
   \indexspace
@@ -95,10 +95,10 @@
 
   \item HARCO=manufacturer of the primary temperature sensor on the GV. This is not an acronym., 
 		\hyperpage{6}
-  \item HCRTEST=HIAPER Cloud Radar test flights, \hyperpage{138}
+  \item HCRTEST=HIAPER Cloud Radar test flights, \hyperpage{139}
   \item HIAPER=High-Performance Airborne Platform for Environmental Research, 
-		\hyperpage{143}
-  \item HPSS=High Performance Storage System, \hyperpage{142}
+		\hyperpage{144}
+  \item HPSS=High Performance Storage System, \hyperpage{143}
 
   \indexspace
 
@@ -134,7 +134,7 @@
   \item PITCH=pitch angle measured by the Honeywell IRU {[}deg.{]}, 
 		\hyperpage{4}
   \item PITCHC=pitch corrected as described in Sect.~\ref{sub:angle-transforms-for-pitch-correction}, 
-		\hyperpage{100}
+		\hyperpage{101}
   \item PMS=Particle Measuring Systems, \hyperpage{17}
   \item PSF, \hyperpage{48}
   \item PSF=ambient or static pressure measured at the fuselage static buttons {[}hPa{]}, 
@@ -171,7 +171,7 @@
   \indexspace
 
   \item TASF, \hyperpage{48}, \hyperpage{64}, \hyperpage{82}, 
-		\hyperpage{117}, \hyperpage{138, 139}
+		\hyperpage{117}, \hyperpage{139}
   \item TASF=measurement of airspeed from the fuselage-mounted pitot tube, 
 		\hyperpage{53}
   \item TASF=true airspeed from the fuselage-mounted pitot tube, 
@@ -183,7 +183,7 @@
 
   \indexspace
 
-  \item URL=Uniform Resource Locator, \hyperpage{141}
+  \item URL=Uniform Resource Locator, \hyperpage{142}
   \item US=United States, \hyperpage{125}
   \item UTC=Coordinated Universal Time, \hyperpage{11}
   \item UX\_GP, \hyperpage{139}

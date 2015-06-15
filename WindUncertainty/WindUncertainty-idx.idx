@@ -403,12 +403,12 @@
 \indexentry{timing!GGVSPD|hyperpage}{92}
 \indexentry{wind!vertical!first-order equation|hyperpage}{92}
 \indexentry{DEEPWAVE!flight 15|hyperpage}{92}
-\indexentry{timing!pitch|hyperpage}{93}
-\indexentry{maneuver!pitch|hyperpage}{93}
+\indexentry{timing!pitch|hyperpage}{92}
+\indexentry{maneuver!pitch|hyperpage}{92}
 \indexentry{pitch!correction|hyperpage}{93}
 \indexentry{oscillation!Schuler|hyperpage}{93}
 \indexentry{inertial reference unit!alignment|hyperpage}{93}
-\indexentry{oscillation!Schuler|hyperpage}{94}
+\indexentry{oscillation!Schuler|hyperpage}{93}
 \indexentry{oscillation!Schuler!period of|hyperpage}{94}
 \indexentry{oscillation!Schuler|hyperpage}{94}
 \indexentry{pitch!correction|hyperpage}{94}
@@ -421,15 +421,15 @@
 \indexentry{coordinate system!l-frame|hyperindexformat{\see {coordinate system, local reference frame}}}{98}
 \indexentry{coordinate system!aircraft reference frame|hyperpage}{98}
 \indexentry{Savitzky-Golay polynomials|hyperpage}{98}
-\indexentry{coordinate system!local reference frame|hyperpage}{99}
-\indexentry{coordinate system!ENU frame|hyperindexformat{\see {coordinate system, local reference frame}}}{99}
-\indexentry{coordinate system!b-frame|hyperindexformat{\see {coordinate system, aircraft reference frame}}}{99}
-\indexentry{coordinate system!body frame|hyperindexformat{\see {coordinate system, aircraft reference frame}}}{99}
-\indexentry{coordinate system!rotation|hyperpage}{99}
+\indexentry{coordinate system!local reference frame|hyperpage}{98}
+\indexentry{coordinate system!ENU frame|hyperindexformat{\see {coordinate system, local reference frame}}}{98}
+\indexentry{coordinate system!b-frame|hyperindexformat{\see {coordinate system, aircraft reference frame}}}{98}
+\indexentry{coordinate system!body frame|hyperindexformat{\see {coordinate system, aircraft reference frame}}}{98}
+\indexentry{coordinate system!rotation|hyperpage}{98}
 \indexentry{pitch!correction!equation|hyperpage}{100}
 \indexentry{DEEPWAVE!flight 1|hyperpage}{100}
-\indexentry{pitch!correction!tests|hyperpage}{100}
-\indexentry{pitch!correction!tests!course reversal|hyperpage}{100}
+\indexentry{pitch!correction!tests|hyperpage}{103}
+\indexentry{pitch!correction!tests!course reversal|hyperpage}{103}
 \indexentry{pitch!correction!magnitude of|hyperpage}{105}
 \indexentry{oscillation!Schuler|hyperpage}{106}
 \indexentry{maneuver!circle|hyperpage}{107}
@@ -462,7 +462,7 @@
 \indexentry{turbulence!characterization of|hyperpage}{131}
 \indexentry{high-rate data files|hyperpage}{131}
 \indexentry{noise!sensor|hyperpage}{131}
-\indexentry{DEEPWAVE|hyperpage}{131}
+\indexentry{DEEPWAVE|hyperpage}{132}
 \indexentry{turbulence!boundary-layer|hyperpage}{132}
 \indexentry{variance spectrum|hyperpage}{132}
 \indexentry{Nyquist frequency|hyperpage}{132}
@@ -470,25 +470,25 @@
 \indexentry{variance spectrum!UXC|hyperpage}{132}
 \indexentry{variance spectrum!VYC|hyperpage}{132}
 \indexentry{pressure lines|hyperpage}{132}
-\indexentry{variance spectrum!WIC|hyperpage}{136}
-\indexentry{momentum fluxes|hyperpage}{136}
+\indexentry{variance spectrum!WIC|hyperpage}{134}
+\indexentry{momentum fluxes|hyperpage}{134}
 \indexentry{variance spectrum!UXC|hyperpage}{137}
 \indexentry{wind!blended variables|hyperpage}{137}
 \indexentry{variance spectrum!comparison of QCF and QC_GP@comparison of QCF and QC\_GP|hyperpage}{137}
-\indexentry{DEEPWAVE|hyperpage}{138}
-\indexentry{HCRTEST|hyperpage}{138}
+\indexentry{DEEPWAVE|hyperpage}{139}
+\indexentry{HCRTEST|hyperpage}{139}
 \indexentry{variance spectrum!new blended variable for longitudinal wind|hyperpage}{139}
 \indexentry{variance spectrum!all three components|hyperpage}{139}
-\indexentry{eddy dissipation rate|hyperpage}{140}
-\indexentry{reproducibility of this document|hyperpage}{141}
-\indexentry{GitHub repository|hyperpage}{141}
-\indexentry{R!the programming language|hyperpage}{141}
-\indexentry{R!RStudio used with|hyperpage}{141}
-\indexentry{Ranadu|hyperpage}{141}
-\indexentry{data files|hyperpage}{142}
-\indexentry{data!requesting|hyperpage}{142}
-\indexentry{netCDF format|hyperpage}{142}
-\indexentry{R!data.frame|hyperpage}{142}
-\indexentry{attribute!variables|hyperpage}{142}
-\indexentry{attribute!data.frame|hyperpage}{142}
-\indexentry{calibration coefficients!nimbus|hyperpage}{142}
+\indexentry{eddy dissipation rate|hyperpage}{139}
+\indexentry{reproducibility of this document|hyperpage}{142}
+\indexentry{GitHub repository|hyperpage}{142}
+\indexentry{R!the programming language|hyperpage}{142}
+\indexentry{R!RStudio used with|hyperpage}{142}
+\indexentry{Ranadu|hyperpage}{142}
+\indexentry{data files|hyperpage}{143}
+\indexentry{data!requesting|hyperpage}{143}
+\indexentry{netCDF format|hyperpage}{143}
+\indexentry{R!data.frame|hyperpage}{143}
+\indexentry{attribute!variables|hyperpage}{143}
+\indexentry{attribute!data.frame|hyperpage}{143}
+\indexentry{calibration coefficients!nimbus|hyperpage}{143}

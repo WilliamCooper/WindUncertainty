@@ -58,9 +58,9 @@
 \indexentry{Omega@$\Omega_{Sch}$=angular velocity|hyperpage}{96}
 \indexentry{An@$A_{n}$=amplitude of north component of the Schuler oscillation in ground speed|hyperpage}{96}
 \indexentry{Ae@$A_{e}$=amplitude of east component of the Schuler oscillation in ground speed|hyperpage}{96}
-\indexentry{bl@$\mathbf{b}^{(l)}$=unit vector representing errors in attitude angles in the \emph{l}-frame|hyperpage}{99}
-\indexentry{Rlb@$R_{l}^{b}$=rotation matrix from \emph{l}-frame to \emph{b}-frame|hyperpage}{99}
-\indexentry{bb@$\mathbf{b}^{(b)}$=unit vector representing errors in attitude angles in the \emph{b}-frame|hyperpage}{99}
+\indexentry{bl@$\mathbf{b}^{(l)}$=unit vector representing errors in attitude angles in the \emph{l}-frame|hyperpage}{100}
+\indexentry{Rlb@$R_{l}^{b}$=rotation matrix from \emph{l}-frame to \emph{b}-frame|hyperpage}{100}
+\indexentry{bb@$\mathbf{b}^{(b)}$=unit vector representing errors in attitude angles in the \emph{b}-frame|hyperpage}{100}
 \indexentry{psiprime@$\psi^{\prime}$=heading angle adjusted in turns for sideslip angle and angle of attack|hyperpage}{108}
 \indexentry{xi@$\xi$=angle between the relative wind and Earth-referenced wind|hyperpage}{109}
 \indexentry{v@$v$=wind speed (relative to the Earth)|hyperpage}{109}

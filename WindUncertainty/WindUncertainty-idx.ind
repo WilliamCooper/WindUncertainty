@@ -35,8 +35,8 @@
       \subsubitem standard coefficients, \hyperpage{67}
       \subsubitem timing, \hyperpage{91}
   \item attribute
-    \subitem data.frame, \hyperpage{142}
-    \subitem variables, \hyperpage{142}
+    \subitem data.frame, \hyperpage{143}
+    \subitem variables, \hyperpage{143}
 
   \indexspace
 
@@ -48,7 +48,7 @@
   \indexspace
 
   \item calibration coefficients
-    \subitem nimbus, \hyperpage{142}
+    \subitem nimbus, \hyperpage{143}
   \item calibrations
     \subitem general, \hyperpage{34}
     \subitem laboratory/bench, \hyperpage{34}
@@ -59,25 +59,25 @@
     \subitem aircraft, \hyperpage{3}
     \subitem aircraft reference frame, \hyperpage{98}
     \subitem b-frame, 
-		\hyperindexformat{\see {coordinate system, aircraft reference frame}}{99}
+		\hyperindexformat{\see {coordinate system, aircraft reference frame}}{98}
     \subitem body frame, 
-		\hyperindexformat{\see {coordinate system, aircraft reference frame}}{99}
+		\hyperindexformat{\see {coordinate system, aircraft reference frame}}{98}
     \subitem Earth, \hyperpage{3, 4}
     \subitem ENU frame, 
-		\hyperindexformat{\see {coordinate system, local reference frame}}{99}
+		\hyperindexformat{\see {coordinate system, local reference frame}}{98}
     \subitem l-frame, 
 		\hyperindexformat{\see {coordinate system, local reference frame}}{98}
-    \subitem local reference frame, \hyperpage{98, 99}
-    \subitem rotation, \hyperpage{99}
+    \subitem local reference frame, \hyperpage{98}
+    \subitem rotation, \hyperpage{98}
 
   \indexspace
 
   \item data
-    \subitem requesting, \hyperpage{142}
-  \item data files, \hyperpage{142}
+    \subitem requesting, \hyperpage{143}
+  \item data files, \hyperpage{143}
   \item DEEPWAVE, \hyperpage{1}, \hyperpage{6}, \hyperpage{17}, 
 		\hyperpage{49}, \hyperpage{52}, \hyperpage{107}, 
-		\hyperpage{131}, \hyperpage{138}
+		\hyperpage{132}, \hyperpage{139}
     \subitem calibration maneuvers, \hyperpage{64}
     \subitem ferry flight, \hyperpage{96}
     \subitem flight 1, \hyperpage{100}
@@ -99,7 +99,7 @@
 
   \indexspace
 
-  \item eddy dissipation rate, \hyperpage{86}, \hyperpage{140}
+  \item eddy dissipation rate, \hyperpage{86}, \hyperpage{139}
   \item EOL web pages, instruments, \hyperpage{6}
   \item error
     \subitem random, \hyperpage{125}
@@ -127,7 +127,7 @@
 
   \indexspace
 
-  \item GitHub repository, \hyperpage{141}
+  \item GitHub repository, \hyperpage{142}
   \item Global Positioning System, \hyperpage{1}, \hyperpage{4}, 
 		\hyperpage{6}, \hyperpage{10}, \hyperpage{20}, 
 		\hyperpage{85}
@@ -156,7 +156,7 @@
 
   \indexspace
 
-  \item HCRTEST, \hyperpage{138}
+  \item HCRTEST, \hyperpage{139}
   \item heading, \hyperpage{3, 4}, \hyperpage{6}
     \subitem attributes of THDG, \hyperpage{111}
     \subitem correction, \hyperpage{112}
@@ -217,7 +217,7 @@
       \subsubitem plotted wind-speed variations, \hyperpage{114}
       \subsubitem sinusoidal fit, \hyperpage{113}
       \subsubitem summary of results, \hyperpage{117}
-    \subitem pitch, \hyperpage{35}, \hyperpage{93}
+    \subitem pitch, \hyperpage{35}, \hyperpage{92}
     \subitem reverse heading, \hyperpage{35}
     \subitem speed run, \hyperpage{35, 36}, \hyperpage{64}
     \subitem yaw, \hyperpage{35}, \hyperpage{75}
@@ -225,12 +225,12 @@
     \subitem calibration, \hyperpage{63}
   \item matrices
     \subitem rotation, \hyperpage{4}
-  \item momentum fluxes, \hyperpage{136}
+  \item momentum fluxes, \hyperpage{134}
   \item Monte Carlo techniques, \hyperpage{130}
 
   \indexspace
 
-  \item netCDF format, \hyperpage{142}
+  \item netCDF format, \hyperpage{143}
   \item nimbus, \hyperpage{4}
     \subitem gust.c, \hyperpage{84}
   \item NIST Technical Note1297, \hyperpage{125}
@@ -263,7 +263,7 @@
     \subitem correction, \hyperpage{84}, \hyperpage{93, 94}
       \subsubitem equation, \hyperpage{100}
       \subsubitem magnitude of, \hyperpage{105}
-      \subsubitem tests, \hyperpage{100}
+      \subsubitem tests, \hyperpage{103}
     \subitem correction to, \hyperpage{42}
     \subitem errors, \hyperpage{35}
     \subitem inter-comparison, \hyperpage{44}
@@ -309,14 +309,14 @@
   \indexspace
 
   \item R
-    \subitem data.frame, \hyperpage{142}
-    \subitem RStudio used with, \hyperpage{141}
-    \subitem the programming language, \hyperpage{141}
+    \subitem data.frame, \hyperpage{143}
+    \subitem RStudio used with, \hyperpage{142}
+    \subitem the programming language, \hyperpage{142}
   \item radome, \hyperpage{6}, \hyperpage{9}
     \subitem photograph, \hyperpage{9}
     \subitem ports, \hyperpage{9}
   \item RAF Bulletin 23, \hyperpage{3, 4}
-  \item Ranadu, \hyperpage{141}
+  \item Ranadu, \hyperpage{142}
   \item rate of climb, \hyperpage{84}
   \item relationship
     \subitem empirical
@@ -328,7 +328,7 @@
   \item representation
     \subitem empirical
       \subsubitem re-randomization tests, \hyperpage{72}
-  \item reproducibility of this document, \hyperpage{141}
+  \item reproducibility of this document, \hyperpage{142}
   \item residual standard deviation, \hyperpage{65}
   \item roll, \hyperpage{4}, \hyperpage{6, 7}, \hyperpage{44}
   \item roll angle, \hyperpage{3}
@@ -393,7 +393,7 @@
   \item timing
     \subitem GGVSPD, \hyperpage{92}
     \subitem heading, \hyperpage{91}
-    \subitem pitch, \hyperpage{91}, \hyperpage{93}
+    \subitem pitch, \hyperpage{91, 92}
     \subitem QCF, \hyperpage{91}
     \subitem roll, \hyperpage{91}
   \item timing of measurements, \hyperpage{84}, \hyperpage{91}
@@ -449,7 +449,7 @@
     \subitem vertical wind components, \hyperpage{85}
     \subitem VYC, \hyperpage{132}
     \subitem white noise, \hyperpage{88}
-    \subitem WIC, \hyperpage{132}, \hyperpage{136}
+    \subitem WIC, \hyperpage{132}, \hyperpage{134}
   \item velocity
     \subitem aircraft
       \subsubitem available measurements, \hyperpage{84}

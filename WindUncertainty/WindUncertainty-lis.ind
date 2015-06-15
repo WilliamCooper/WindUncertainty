@@ -17,10 +17,10 @@
   \item $b_{0},\thinspace b_{1},\thinspace b_{2}\thinspace,b_{3}$=empirical coefficients relating angle of attack to pressure measurements from the gust pod {[}deg{]}, 
 		\hyperpage{43}
   \item $\mathbf{b}^{(b)}$=unit vector representing errors in attitude angles in the \emph{b}-frame, 
-		\hyperpage{99}
+		\hyperpage{100}
   \item $\beta$=sideslip angle, \hyperpage{3}
   \item $\mathbf{b}^{(l)}$=unit vector representing errors in attitude angles in the \emph{l}-frame, 
-		\hyperpage{99}
+		\hyperpage{100}
 
   \indexspace
 
@@ -118,7 +118,7 @@
   \item $R_{e}$=radius of the Earth, \hyperpage{94}
   \item $\rho_{a}$=density of air, \hyperpage{8}
   \item $R_{l}^{b}$=rotation matrix from \emph{l}-frame to \emph{b}-frame, 
-		\hyperpage{99}
+		\hyperpage{100}
 
   \indexspace
 
