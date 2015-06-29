@@ -582,6 +582,8 @@ if (ReloadData) {
   load (file='DataFrames/AOAdata.Rdata')    # loads DataC
 }
 
+@
+
 <<plot-all-flights-radome-aoa, include=TRUE>>=
 fmallflt <- lm(AOAREF ~ AR, data=DataC)
 SummarizeFit ((fmallflt))
@@ -914,6 +916,171 @@ The squared correlation of this fit was \Sexpr{round (summary(sfm_GP)$r.squared,
 
 An additional study is needed to separate a possible offset in sideslip angle from a similar error in heading, because the approach used here assumes that the heading is accurate. In the data files used for this study, an offset in heading of -0.08$^{\circ}$ was imposed; without that offset, the offset in sideslip angle (coefficient $e_{0}$) would be reduced by 0.08$^{\circ}$. A method of determining these separate offsets is developed later in this report (Section \ref{sub:Analysis-of-circle}), where a set of circles flown with constant roll angle are used to obtain a better estimate of the sideslip-angle offset. That study results in a corrected value for $e_{0}$; cf.~Sect.~\ref{sub:Offset-in-Sideslip}, p.~\pageref{page:SSoffset}. 
 
+\subsection{Independent calibrations using the LAMS\label{sub:LAMS-aoa-and-sideslip}}
+
+The LAMS provides an independent measurement of the relative wind, so it provides
+an alternative reference for the calibrations of the angles of attack and sideslip.
+Some measurements from the three-beam LAMS were shown in Sect.~\ref{sub:LAMS-examples}.
+Once relative-wind components are found from the measurements of line-of-sight speeds
+along the three beams, the angle of attack is the arctangent of the ratio of the 
+vertical to longitudinal component of the relative wind and the sideslip angle is
+the arctangent of the ratio of the from-starboard component to the longitudinal
+component. The components of the relative wind measured by LAMS thus provide 
+independent measurements of these angles that can be used to check the coefficients
+determined in the preceding sections. The LAMS system is mounted with significant
+offsets in orientation compared to the aircraft centerline, however, so this only
+checks the second coefficient in the fits and a difference in first coefficient
+is expected.
+
+<<reload-LAMS-3D-data, include=FALSE>>=
+
+DataFrameFileL <- "DataFrames/DataFrameL.Rdata"
+## data previously saved in ComponentsOfWindSensingSystems.Rnw
+DataSave <- Data
+load(file=DataFrameFileL)
+DataL <- Data
+Data <- DataSave
+
+transferAttributes <- function (dsub, d) {
+  ds <- dsub
+  for (nm in names (ds)) {
+    var <- sprintf ("d$%s", nm)
+    A <- attributes (eval (parse (text=var)))
+    A[[1]] <- nrow (ds)
+    if (!grepl("Time", nm)) {
+      A$dim <- NULL
+      A$class <- NULL
+    }
+    attributes (ds[, nm]) <- A
+  }
+  return(ds)
+}
+
+
+@
+
+<<LAMS-transform, include=FALSE>>=
+
+# DataL$BEAM1speed <- DataL$Beam1_LAMS
+# DataL$BEAM2speed <- DataL$Beam2_LAMS
+# DataL$BEAM3speed <- DataL$Beam3_LAMS
+
+DDX <- DataL
+DataL$BEAM1speed <- zoo::na.approx (as.vector(DataL$BEAM1speed), maxgap=1000, na.rm = FALSE)
+DataL$BEAM2speed <- zoo::na.approx (as.vector(DataL$BEAM2speed), maxgap=1000, na.rm = FALSE)
+DataL$BEAM3speed <- zoo::na.approx (as.vector(DataL$BEAM3speed), maxgap=1000, na.rm = FALSE)
+
+## try to fix CTHDG_LAMS bad points in transition through 180:
+for (i in 2:(nrow(DataL)-1)) {
+  if (is.na(DataL$CTHDG_LAMS[i]) || is.na(DataL$CTHDG_LAMS[i-1]) || is.na(DataL$CTHDG_LAMS[i+1])) {next}
+  if (abs(DataL$CTHDG[i-1]-DataL$CTHDG_LAMS[i+1]) > 10.) {next}
+  if ((DataL$CTHDG_LAMS[i-1] < 180.) && (DataL$CTHDG_LAMS[i+1] > 180)) {DataL$CTHDG_LAMS[i] <- NA}
+  if ((DataL$CTHDG_LAMS[i-1] > 180.) && (DataL$CTHDG_LAMS[i+1] < 180)) {DataL$CTHDG_LAMS[i] <- NA}
+}
+DataL$CTHDG_LAMS <- zoo::na.approx (as.vector(DataL$CTHDG_LAMS), maxgap=1000, na.rm = FALSE)
+DataL <- transferAttributes (DataL, DDX)
+
+Theta =  c(35.0802, 34.8501, 34.8496, 0.) * pi / 180 # revised 12 May 2014
+Phi = c(179.2171, -61.0712, 59.1506, 0.) * pi / 180  #  "  "
+# special for HCRTEST:
+Theta[2] = 0.   # beam 2 is forward
+
+# also need the distances from the IRS to LAMS: (x,y,z)
+LL = c(-10.305, -6.319, 1.359)                # see Scott's email, recorded above.
+# unit vectors along beams are then:
+#   a[i] = [cos(Theta[i]), -sin(Theta[i])*sin(Phi[i]), sin(Theta[i])*cos(Phi[i])]
+# and the dot products with the (i,j,k) unit vectors give the direction cosine matrix:
+S = c(cos(Theta[1]), -sin(Theta[1])*sin(Phi[1]), sin(Theta[1])*cos(Phi[1]), 
+               cos(Theta[2]), -sin(Theta[2])*sin(Phi[2]), sin(Theta[2])*cos(Phi[2]), 
+               cos(Theta[3]), -sin(Theta[3])*sin(Phi[3]), sin(Theta[3])*cos(Phi[3]))
+dim(S) <- c(3,3)
+Si = t(solve(S))  # calculate the inverse of S -- this is the 3-beam version
+A = c(DataL$BEAM1speed, DataL$BEAM2speed, DataL$BEAM3speed)
+dim(A) <- c(nrow(DataL), 3)
+RW = t (Si %*% t(A))    # gives u, v, w components, RW[,1] is u
+# D <- data.frame("Time"=DataL$Time)
+D <- DataL
+D$TASX <- sqrt(RW[,1]^2 + RW[,2]^2 + RW[,3]^2)
+D$ATTACK <- atan (RW[, 3] / RW[, 1]) * 180 / pi
+D$SSLIP <-  atan (RW[, 2] / RW[, 1]) * 180 / pi
+D$GGVSPD <- DataL$CVSPD_LAMS
+D$VEW <- DataL$CVEW_LAMS
+D$VNS <- DataL$CVNS_LAMS
+D$THDG <- DataL$CTHDG_LAMS
+D$ROLL <- DataL$CROLL_LAMS
+D$PITCH <- DataL$CPITCH_LAMS +0.15
+rg <- setRange (DataL$Time, 193000,205000)
+D2 <- D[rg, ]
+D <- transferAttributes (D2, DataL)
+Data2 <- DataL[rg, ]
+DataL <- transferAttributes (Data2, DataL)
+DW <- WindProcessor (data=D)
+DataL$WD_LAMS <- DW$WDN
+attr(DataL$WD_LAMS, "units") <- "degrees"
+DataL$WS_LAMS <- DW$WSN
+attr(DataL$WS_LAMS, "units") <- "m/s"
+DataL$WI_LAMS <- DW$WIN
+attr(DataL$WI_LAMS, "units") <- "m/s"
+DataL$ATTACK_L <- D$ATTACK
+attr(DataL$ATTACK_L, "units") <- "degrees"
+DataL$SSLIP_L <- D$SSLIP
+attr(DataL$SSLIP_L, "units") <- "degrees"
+DataL$TASL <- D$TASX
+attr(DataL$TASL, "units") <- "m/s"
+
+@
+
+
+<<LAMS-attack-plot, include=TRUE, fig.cap="Angle of attack determined by the standard system (AKRD) plotted vs.\ the angle of attack determined from the LAMS. The orange dashed line is the regression line for AKRD as a function of the LAMS angle-of-attack.">>=
+
+rb <- setRange (DW$Time, 203200,204200)
+op <- par (mar=c(5,4,1,1)+0.1)
+DW$ATTACK[DW$ATTACK < -2] <- NA
+DW$ATTACK[DW$ATTACK > 10] <- NA
+DW$ATTACK[DW$TASX < 130] <- NA
+fLAMS <- lm(ATTACK~I(ADIFR/QCF), data=DW)
+cfLAMS <- coef (fLAMS)
+plot(DW$ATTACK[rb], DW$AKRD[rb], type='p', pch=20, col='blue', ylab="Standard AKRD [deg.]", xlab="LAMS-based angle of attack [deg.]")
+f <- lm(DW$AKRD[rb]~DW$ATTACK[rb])
+cf <- coef(f)
+## print ("Fit results using the standard sensitivity coefficients for the GV")
+## SummarizeFit(f)
+x <- c(-3.,2.)
+y <- cf[1]+cf[2]*x
+points (x,y, type='l', col='darkorange', lwd=3, lty=2)
+
+@
+
+The flight shown previously included a speed run from 20:32--20:42 UTC. Using the LAMS-determined angle of attack as the reference $\alpha^{*}$ in a fit of the form \eqref{eq:AOAsens1term} gave a regression slope of \Sexpr{round(cfLAMS[2], 2)}$^{\circ}$, 
+about 1\% smaller than the
+coefficient recommended above. Because this difference represents a difference in
+angle of attack and hence wind that is proportional to the error, the difference for
+a vertical wind of 3~m/s would be only 0.03~m/s, so this is good support for the
+recommended second sensitivity coefficient. The difference is outside the uncertainty
+estimates used in Sect.~\ref{sec:Uncertainty-components}, but the LAMS-derived result is based
+on only one set of measurements at an altitude much lower than that used for most
+research in DEEPWAVE, so it appears best to regard this as a reasonable check on
+those results not requiring any adjustment to them.
+
+<<LAMS-sideslip, include=FALSE>>=
+
+rd <- setRange (DW$Time, 204300, 204600)
+## plot(DW$SSLIP[rd], DW$SSRD[rd], type='p', pch=20, col='blue', ylab="Standard SSRD [deg.]", xlab="LAMS-based sideslip angle [deg.]")
+fyLAMS <- lm (DW$SSLIP[rd]~I(DW$BDIFR[rd]/DW$QCF[rd]))
+cfyLAMS <- coef(fyLAMS)
+## SummarizeFit(fd)
+
+@
+
+There was also a yaw maneuver with the three-beam LAMS, flown from 20:43--20:46 UTC
+on that same flight (Nov 24 2014). As for angle of attack, the sideslip measurements
+from the LAMS can be used as the reference for calibration of the radome-based 
+measurements in \eqref{eq:betaFunctionForm}. The result was a second coefficient of \Sexpr{round(cfyLAMS[2], 2)}$^{\circ}$, which differs by only about 4\% from the value of 22.32$^{\circ}$ obtained from the sideslip maneuvers. The sideslip angle in normal flight seldom exceeds 1$^{\circ}$, so
+the change introduced by this difference would be typically less than 0.15~m/s. As for
+angle of attack, it appears preferable to regard this as a check not requiring a change
+in the coefficient determined from a larger data set and under typical conditions for
+DEEPWAVE flights. This result does provide a useful check on the validity of the
+procedure used to determine the sideslip sensitivity coefficients.
 
 \subsection{True Airspeed from the Gust Pod\label{sub:GP-TAS}}
 

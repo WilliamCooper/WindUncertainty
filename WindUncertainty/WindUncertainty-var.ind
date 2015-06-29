@@ -1,29 +1,29 @@
 \begin{theindex}
 
-  \item ADIF\_GP, \hyperpage{51}
+  \item ADIF\_GP, \hyperpage{52}
   \item ADIF\_GP=pressure difference between bottom and top sources, 858 probe {[}hPa{]}, 
 		\hyperpage{17}
-  \item ADIFR, \hyperpage{46}
+  \item ADIFR, \hyperpage{47}
   \item ADIFR=pressure difference, bottom minus top source on radome {[}hPa, 
 		\hyperpage{9}
   \item AK\_GP=angle of attack determined using the gust pod {[}deg{]}, 
-		\hyperpage{43}
+		\hyperpage{44}
   \item AKRD=angle of attack measured using the radome-based system, 
-		\hyperpage{40}
+		\hyperpage{41}
   \item AOA=angle of attack, \hyperpage{11}
   \item AOAREFC=reference angle of attack with pitch correction, 
-		\hyperpage{65}
+		\hyperpage{66}
   \item ARINC=Aeronautical Radio, Inc.; ARINC-429 is a communications standard, 
 		\hyperpage{10}
-  \item ATX, \hyperpage{48}
+  \item ATX, \hyperpage{49}
   \item ATX=ambient temperature {[}deg C{]}, \hyperpage{6}
 
   \indexspace
 
-  \item BDIF\_GP, \hyperpage{49}
+  \item BDIF\_GP, \hyperpage{50}
   \item BDIF\_GP=pressure difference between starboard and port sources, 858 probe {[}hPa{]}, 
 		\hyperpage{17}
-  \item BDIFR, \hyperpage{46}
+  \item BDIFR, \hyperpage{47}
   \item BDIFR=pressure difference, starboard minus port source on radome {[}hPa{]}, 
 		\hyperpage{9}
 
@@ -31,10 +31,10 @@
 
   \item C-MIGITS-III=model of IRU used with the gust pod, 
 		\hyperpage{17}
-  \item CPITCH\_GP, \hyperpage{44}
+  \item CPITCH\_GP, \hyperpage{45}
   \item CPITCH\_GP=pitch angle from the CMIGITSIII IRU {[}deg.{]}, 
 		\hyperpage{4}
-  \item CTHDG\_GP, \hyperpage{52}
+  \item CTHDG\_GP, \hyperpage{53}
   \item CTHDG\_GP=heading from the C-MIGITS IRU {[}deg.{]}, 
 		\hyperpage{4}
   \item CVEW\_GP=east component of ground speed, gust-pod CMIGITSIII {[}m/s{]}, 
@@ -45,10 +45,10 @@
 		\hyperpage{5}
   \item CVNS\_LAMS=north component of ground speed, LAMS SDN500 {[}m/s{]}, 
 		\hyperpage{5}
-  \item CVSPD\_GP, \hyperpage{84}
+  \item CVSPD\_GP, \hyperpage{87}
   \item CVSPD\_GP=vertical component of aircraft motion, gust-pod CMIGITSIII {[}m/s{]}, 
 		\hyperpage{5}
-  \item CVSPD\_LAMS, \hyperpage{84}
+  \item CVSPD\_LAMS, \hyperpage{87}
   \item CVSPD\_LAMS=vertical component of aircraft motion, LAMS SDN500 {[}m/s{]}, 
 		\hyperpage{5}
 
@@ -56,64 +56,64 @@
 
   \item DEEPWAVE=Deep Propagating Gravity Wave Experiment over New Zealand, 
 		\hyperpage{1}
-  \item DOF=degrees of freedom, \hyperpage{39}
+  \item DOF=degrees of freedom, \hyperpage{40}
   \item DPX=dew point {[}deg C{]}, \hyperpage{6}
 
   \indexspace
 
-  \item ENU=east-north-up, \hyperpage{98}
+  \item ENU=east-north-up, \hyperpage{101}
   \item EOL=Earth Observing Laboratory, \hyperpage{1}
 
   \indexspace
 
-  \item FMS=flight management system, \hyperpage{90}
+  \item FMS=flight management system, \hyperpage{93}
 
   \indexspace
 
-  \item GGLAT=latitude measured by the GPS receiver, \hyperpage{96}
+  \item GGLAT=latitude measured by the GPS receiver, \hyperpage{99}
   \item GGQUAL=variable indicating GPS quality of measurement; 5 if OmniSTAR, 
-		\hyperpage{85}
+		\hyperpage{88}
   \item GGVEW=east component of ground speed, GPS {[}m/s{]}, 
 		\hyperpage{5}
   \item GGVNS=north component of ground speed, GPS {[}m/s{]}, 
 		\hyperpage{5}
-  \item GGVSPD, \hyperpage{84}, \hyperpage{87}
-  \item GGVSPD=vertical aircraft speed provided by GPS, \hyperpage{90}
+  \item GGVSPD, \hyperpage{87}, \hyperpage{90}
+  \item GGVSPD=vertical aircraft speed provided by GPS, \hyperpage{93}
   \item GGVSPD=vertical component of the aircraft motion, GPS {[}m/s{]}, 
 		\hyperpage{5}
-  \item GGVSPDB=high-resolution version of GGVSPD, \hyperpage{85}
+  \item GGVSPDB=high-resolution version of GGVSPD, \hyperpage{88}
   \item GPS=global positioning system, \hyperpage{1}
   \item GUM=Guide to the Expression of Uncertainty in Measurement, 
-		\hyperpage{125}
+		\hyperpage{128}
   \item GUSTW=relative-wind contribution to the wind measurement, 
-		\hyperpage{86}
+		\hyperpage{89}
   \item GUSTW=special-use variable representing the relative wind {[}m/s{]}, 
-		\hyperpage{87}
+		\hyperpage{90}
   \item GV=NSF/NCAR Gulfstream V, \hyperpage{1}
 
   \indexspace
 
   \item HARCO=manufacturer of the primary temperature sensor on the GV. This is not an acronym., 
 		\hyperpage{6}
-  \item HCRTEST=HIAPER Cloud Radar test flights, \hyperpage{139}
+  \item HCRTEST=HIAPER Cloud Radar test flights, \hyperpage{142}
   \item HIAPER=High-Performance Airborne Platform for Environmental Research, 
-		\hyperpage{144}
-  \item HPSS=High Performance Storage System, \hyperpage{143}
+		\hyperpage{147}
+  \item HPSS=High Performance Storage System, \hyperpage{146}
 
   \indexspace
 
-  \item ICAO=International Civil Aviation Authority, \hyperpage{69}
+  \item ICAO=International Civil Aviation Authority, \hyperpage{70}
   \item IDEAS-4-GV=Instrument Development and Education in Airborne Science Phase 4, 
 		\hyperpage{28}
   \item IRU=inertial reference unit, \hyperpage{3}
   \item ISO=International Organization for Standardization, 
-		\hyperpage{125}
+		\hyperpage{128}
 
   \indexspace
 
   \item laser air-motion sensor, \hyperpage{2}
   \item LAT=latitude measured by the Honeywell inertial reference unit, 
-		\hyperpage{96}
+		\hyperpage{99}
 
   \indexspace
 
@@ -123,33 +123,33 @@
 
   \item NCAR=National Center for Atmospheric Research, \hyperpage{1}
   \item NIST=National Institute of Standards and Technology, 
-		\hyperpage{125}
+		\hyperpage{128}
   \item NSF=National Science Foundation, \hyperpage{1}
 
   \indexspace
 
   \item PCOR=correction applied to measured ambient and dynamic pressures, 
-		\hyperpage{49}
-  \item PITCH, \hyperpage{48}
+		\hyperpage{50}
+  \item PITCH, \hyperpage{49}
   \item PITCH=pitch angle measured by the Honeywell IRU {[}deg.{]}, 
 		\hyperpage{4}
   \item PITCHC=pitch corrected as described in Sect.~\ref{sub:angle-transforms-for-pitch-correction}, 
-		\hyperpage{101}
+		\hyperpage{104}
   \item PMS=Particle Measuring Systems, \hyperpage{17}
-  \item PSF, \hyperpage{48}
+  \item PSF, \hyperpage{49}
   \item PSF=ambient or static pressure measured at the fuselage static buttons {[}hPa{]}, 
-		\hyperpage{41}
-  \item PSFC=corrected ambient pressure {[}hPa{]}, \hyperpage{80}
+		\hyperpage{42}
+  \item PSFC=corrected ambient pressure {[}hPa{]}, \hyperpage{82}
 
   \indexspace
 
   \item QC\_GP=pressure difference between forward and static ports, 858 probe {[}hPa{]}, 
 		\hyperpage{17}
-  \item QCF, \hyperpage{46}, \hyperpage{88}
+  \item QCF, \hyperpage{47}, \hyperpage{91}
   \item QCF=dynamic pressure measured using a fuselage-mounted pitot tube, 
 		\hyperpage{8}
-  \item QCFC=corrected dynamic pressure {[}hPa{]}, \hyperpage{64}
-  \item QCR, \hyperpage{88}
+  \item QCFC=corrected dynamic pressure {[}hPa{]}, \hyperpage{65}
+  \item QCR, \hyperpage{91}
   \item QCR=dynamic pressure measured at the center port on the radome, 
 		\hyperpage{8}
 
@@ -160,69 +160,69 @@
 		\hyperpage{4}
   \item ROLL\_GP=roll angle from CMIGITSIII IRU {[}deg.{]}, 
 		\hyperpage{4}
-  \item RTRL=recovery temperature, left-radome sensor, \hyperpage{91}
+  \item RTRL=recovery temperature, left-radome sensor, \hyperpage{94}
 
   \indexspace
 
   \item SDN500=model of IRU used with the gust pod, \hyperpage{26}
-  \item SS\_GP, \hyperpage{51}
-  \item SSRD, \hyperpage{46}
+  \item SS\_GP, \hyperpage{52}
+  \item SSRD, \hyperpage{47}
 
   \indexspace
 
-  \item TASF, \hyperpage{48}, \hyperpage{64}, \hyperpage{82}, 
-		\hyperpage{117}, \hyperpage{139}
+  \item TASF, \hyperpage{49}, \hyperpage{65}, \hyperpage{85}, 
+		\hyperpage{120}, \hyperpage{142}
   \item TASF=measurement of airspeed from the fuselage-mounted pitot tube, 
-		\hyperpage{53}
+		\hyperpage{54}
   \item TASF=true airspeed from the fuselage-mounted pitot tube, 
-		\hyperpage{82}
+		\hyperpage{85}
   \item TASX=primary airspeed, \hyperpage{11}
-  \item THDG, \hyperpage{48}
+  \item THDG, \hyperpage{49}
   \item THDG=heading measured by the Honeywell IRU {[}deg.{]}, 
 		\hyperpage{4}
 
   \indexspace
 
-  \item URL=Uniform Resource Locator, \hyperpage{142}
-  \item US=United States, \hyperpage{125}
+  \item URL=Uniform Resource Locator, \hyperpage{145}
+  \item US=United States, \hyperpage{128}
   \item UTC=Coordinated Universal Time, \hyperpage{11}
-  \item UX\_GP, \hyperpage{139}
+  \item UX\_GP, \hyperpage{142}
   \item UXC=horizontal-wind component along the aircraft axis, 
-		\hyperpage{132}
+		\hyperpage{135}
   \item UXM=new variable representing the ``blended'' longitudinal component of the horizontal wind, 
-		\hyperpage{139}
+		\hyperpage{142}
 
   \indexspace
 
-  \item VEW, \hyperpage{121}
+  \item VEW, \hyperpage{124}
   \item VEW=east component of ground speed, Honeywell IRU {[}m/s{]}, 
 		\hyperpage{4}
-  \item VEWC, \hyperpage{120, 121}
+  \item VEWC, \hyperpage{123, 124}
   \item VEWC=east component of ground speed, blended VEW and GGVEW {[}m/s{]}, 
 		\hyperpage{5}
   \item VEWx=east component of the ground speed, 's' system, or \{VEWC, CVEW\_GP, CVEW\_LAMS\}, 
 		\hyperpage{5}
-  \item VNS, \hyperpage{121}
+  \item VNS, \hyperpage{124}
   \item VNS=north component of ground speed, Honeywell IRU {[}m/s{]}, 
 		\hyperpage{4}
-  \item VNSC, \hyperpage{121}
+  \item VNSC, \hyperpage{124}
   \item VNSC=north component of ground speed, blended VNS and GGVNS {[}m/s{]}, 
 		\hyperpage{5}
   \item VNSx=north component of the ground speed, 's' system, or \{VNSC, CVNS\_GP, CVNS\_LAMS\}, 
 		\hyperpage{5}
-  \item VSPD, \hyperpage{84}, \hyperpage{87}
+  \item VSPD, \hyperpage{87}, \hyperpage{90}
   \item VSPD=vertical aircraft speed provided by the primary IRU, 
-		\hyperpage{90}
+		\hyperpage{93}
   \item VSPD=vertical velocity of the aircraft, Honeywell IRU {[}m/s{]}, 
 		\hyperpage{4}
   \item VSPD\_A=vertical motion of the aircraft as provided by the avionics system, 
-		\hyperpage{84}
+		\hyperpage{87}
   \item VSPD\_G=alternate name used for VSPD\_A in some projects, 
-		\hyperpage{84}
+		\hyperpage{87}
   \item VSPDx=upward component of the aircraft speed, 's' system, or \{GGVSPD, CVSDP\_GP, CVSPD\_LAMS\}, 
 		\hyperpage{5}
   \item VYC=horizontal-wind component lateral to the aircraft axis, 
-		\hyperpage{132}
+		\hyperpage{135}
 
   \indexspace
 
@@ -231,15 +231,15 @@
   \item WDx=wind direction from the 's' measuring system, 's'=\{C, \_GP, \_LAMS\}, 
 		\hyperpage{5}
   \item WI=vertical wind calculated using VSPD {[}m/s{]}, 
-		\hyperpage{85}
-  \item WIC
-    \subitem recommendation, \hyperpage{87}
-  \item WIC=vertical wind calculated using GGVSPD {[}m/s{]}, 
-		\hyperpage{85}
-  \item WIX=vertical wind recalculated with pitch correction {[}m/s{]}, 
 		\hyperpage{88}
+  \item WIC
+    \subitem recommendation, \hyperpage{90}
+  \item WIC=vertical wind calculated using GGVSPD {[}m/s{]}, 
+		\hyperpage{88}
+  \item WIX=vertical wind recalculated with pitch correction {[}m/s{]}, 
+		\hyperpage{91}
   \item WP3=obsolete vertical-motion variable calculated using baro-inertial updating, 
-		\hyperpage{84}
+		\hyperpage{87}
   \item WSC=wind speed after combining IRU and GPS information via a complementary filter, units m/s, 
 		\hyperpage{5}
 

@@ -1,112 +1,112 @@
 \begin{theindex}
 
   \item $A_{e}$=amplitude of east component of the Schuler oscillation in ground speed, 
-		\hyperpage{96}
+		\hyperpage{99}
   \item $\alpha$=angle of attack, \hyperpage{3}
   \item $\alpha_{fit}$=empirical function representing angle of attack, 
-		\hyperpage{64}
-  \item $\alpha_{g}$=angle of attack, gust pod, \hyperpage{73}
+		\hyperpage{65}
+  \item $\alpha_{g}$=angle of attack, gust pod, \hyperpage{74}
   \item $\alpha^{*}$=reference angle of attack for calibration, 
-		\hyperpage{64}
+		\hyperpage{65}
   \item $A_{n}$=amplitude of north component of the Schuler oscillation in ground speed, 
-		\hyperpage{96}
-  \item $a_{n}$=northward component of acceleration, \hyperpage{95}
+		\hyperpage{99}
+  \item $a_{n}$=northward component of acceleration, \hyperpage{98}
 
   \indexspace
 
   \item $b_{0},\thinspace b_{1},\thinspace b_{2}\thinspace,b_{3}$=empirical coefficients relating angle of attack to pressure measurements from the gust pod {[}deg{]}, 
-		\hyperpage{43}
+		\hyperpage{44}
   \item $\mathbf{b}^{(b)}$=unit vector representing errors in attitude angles in the \emph{b}-frame, 
-		\hyperpage{100}
+		\hyperpage{103}
   \item $\beta$=sideslip angle, \hyperpage{3}
   \item $\mathbf{b}^{(l)}$=unit vector representing errors in attitude angles in the \emph{l}-frame, 
-		\hyperpage{100}
+		\hyperpage{103}
 
   \indexspace
 
   \item $c_{0},\thinspace c_{1}$=coefficients used to calculate angle of attack, 
-		\hyperpage{40}, \hyperpage{70}
+		\hyperpage{41}, \hyperpage{71}
   \item $c_{p}$=specific heat of moist air at constant pressure, 
-		\hyperpage{81}
+		\hyperpage{83}
   \item $c^{\prime}$=standard coefficients for calculating the angle of attack, 
-		\hyperpage{67}
+		\hyperpage{68}
   \item $c_{0}^{*},\,c_{1}^{*}$=empirical coefficients for angle of attack, alternates to \{$c_{0},\,c_{1}$\}, 
-		\hyperpage{65}
+		\hyperpage{66}
   \item $c_{v}$=specific heat of moist air at constant volume, 
-		\hyperpage{81}
+		\hyperpage{83}
 
   \indexspace
 
-  \item $\delta$=measurement uncertainty, \hyperpage{58}
+  \item $\delta$=measurement uncertainty, \hyperpage{59}
   \item $\Delta p_{\alpha,g}$=gust pod pressure difference, bottom vs top, 
-		\hyperpage{80}
+		\hyperpage{83}
   \item $\Delta p_{\alpha}$=pressure difference between bottom and top ports on the radome or gust pod {[}hPa{]}, 
-		\hyperpage{67}
+		\hyperpage{68}
   \item $\delta p_{\beta}$=pressure difference between starboard and port sources on the radome or gust pod {[}hPa{]}, 
-		\hyperpage{67}
+		\hyperpage{68}
   \item $d_{i}$=coefficients for fit representing the gust-pod airspeed, 
-		\hyperpage{81}
+		\hyperpage{83}
 
   \indexspace
 
   \item $e_{0},\thinspace e_{1}$=empirical coefficients used to obtain the sideslip angle, 
-		\hyperpage{46}
-  \item $\epsilon$=eddy dissipation rate, \hyperpage{58}
+		\hyperpage{47}
+  \item $\epsilon$=eddy dissipation rate, \hyperpage{59}
 
   \indexspace
 
   \item $f_{c}$=cutoff frequency for filters used for complementary filtering, 
-		\hyperpage{120}
+		\hyperpage{123}
   \item $F_{H}$=high-pass filter applied to IRU ground-speed measurements, 
-		\hyperpage{120}
+		\hyperpage{123}
   \item $F_{L}$=low-pass filter applied to GPS ground-speed measurements, 
-		\hyperpage{120}
+		\hyperpage{123}
 
   \indexspace
 
-  \item $g$=acceleration of gravity, \hyperpage{94}
-  \item $G^{*}$=gust-pod fit for q/p, \hyperpage{81}
+  \item $g$=acceleration of gravity, \hyperpage{97}
+  \item $G^{*}$=gust-pod fit for q/p, \hyperpage{83}
 
   \indexspace
 
-  \item $k$=wave number, \hyperpage{58}
+  \item $k$=wave number, \hyperpage{59}
 
   \indexspace
 
-  \item $\lambda$=laser wavelength, LAMS, \hyperpage{56}
-  \item $\lambda_E$=latitude, \hyperpage{94}
+  \item $\lambda$=laser wavelength, LAMS, \hyperpage{57}
+  \item $\lambda_E$=latitude, \hyperpage{97}
   \item $\lambda_w$=wind direction, \hyperpage{60}
 
   \indexspace
 
-  \item $M$=Mach number, \hyperpage{67}
+  \item $M$=Mach number, \hyperpage{68}
   \item $\mathbf{v_{E}}$=vector wind relative to the Earth reference frame, 
 		\hyperpage{5}
   \item $\mathbf{v_{r}}$=vector relative wind, \hyperpage{5}
   \item $M_{g}$=Mach number calculated using gust-pod pressure measurements, 
-		\hyperpage{73}
+		\hyperpage{74}
   \item $m_{i}$=measured quantities used in empirical functions, 
-		\hyperpage{64}
+		\hyperpage{65}
 
   \indexspace
 
-  \item $\Omega_{Sch}$=angular velocity, \hyperpage{96}
+  \item $\Omega_{Sch}$=angular velocity, \hyperpage{99}
 
   \indexspace
 
-  \item $p_{g}$=ambient pressure measurement, gust pod, \hyperpage{80}
+  \item $p_{g}$=ambient pressure measurement, gust pod, \hyperpage{82}
   \item $\phi$=roll angle, \hyperpage{3}
   \item $\phi_{L}$=LAMS azimuthal pointing angle, \hyperpage{29}
   \item $\varphi_{T}$=azimuth angle, telescope mount, LAMS calibration, 
 		\hyperpage{31}
   \item $\psi$=heading, \hyperpage{3}
   \item $\psi^{\prime}$=heading angle adjusted in turns for sideslip angle and angle of attack, 
-		\hyperpage{108}
+		\hyperpage{111}
 
   \indexspace
 
   \item $q$=dynamic pressure, \hyperpage{8}
-  \item $q_{g}$=dynamic pressure, gust pod, \hyperpage{80}
+  \item $q_{g}$=dynamic pressure, gust pod, \hyperpage{82}
 
   \indexspace
 
@@ -114,46 +114,46 @@
 		\hyperpage{31}
   \item $\mathbf{R}(\gamma,\hat{v})$=rotation matrix used for LAMS calibration, 
 		\hyperpage{31}
-  \item $R_{a}$=gas constant for moist air, \hyperpage{81}
-  \item $R_{e}$=radius of the Earth, \hyperpage{94}
+  \item $R_{a}$=gas constant for moist air, \hyperpage{83}
+  \item $R_{e}$=radius of the Earth, \hyperpage{97}
   \item $\rho_{a}$=density of air, \hyperpage{8}
   \item $R_{l}^{b}$=rotation matrix from \emph{l}-frame to \emph{b}-frame, 
-		\hyperpage{100}
+		\hyperpage{103}
 
   \indexspace
 
-  \item $T_{a}$=temperature, absolute units, \hyperpage{82}
+  \item $T_{a}$=temperature, absolute units, \hyperpage{83}
   \item $\theta$=pitch angle, \hyperpage{3}
   \item $\theta_{L}$=LAMS pointing angle from longitudinal axis, 
 		\hyperpage{29}
   \item $\vartheta_{T}$=altitude angle, telescope mount, LAMS calibration, 
 		\hyperpage{31}
   \item $T_{Sch}$=period of the Schuler oscillation (84.4 min), 
-		\hyperpage{94}
+		\hyperpage{97}
 
   \indexspace
 
-  \item $u$=component of wind along the x-axis, \hyperpage{57}
+  \item $u$=component of wind along the x-axis, \hyperpage{59}
 
   \indexspace
 
   \item $V$=airspeed, \hyperpage{3}
-  \item $\mathbf{v}$=wind vector, \hyperpage{57}
-  \item $v$=component of wind along the y-axis, \hyperpage{57}
-  \item $v$=wind speed (relative to the Earth), \hyperpage{109}
-  \item $v_{n}$=northward component of velocity, \hyperpage{95}
+  \item $\mathbf{v}$=wind vector, \hyperpage{59}
+  \item $v$=component of wind along the y-axis, \hyperpage{59}
+  \item $v$=wind speed (relative to the Earth), \hyperpage{112}
+  \item $v_{n}$=northward component of velocity, \hyperpage{98}
   \item $V^{*}$=longitudinal component of airspeed, \hyperpage{3}
 
   \indexspace
 
   \item $w$=component of wind along the z-axis; also, vertical wind, 
-		\hyperpage{57}
+		\hyperpage{59}
 
   \indexspace
 
   \item $x$=northward coordinate in an Earth reference frame, 
-		\hyperpage{95}
+		\hyperpage{98}
   \item $\xi$=angle between the relative wind and Earth-referenced wind, 
-		\hyperpage{109}
+		\hyperpage{112}
 
 \end{theindex}

@@ -792,7 +792,7 @@ For the gust-pod system\index{system!gust pod}\index{gust pod!uncertainty}\index
 The net uncertainty in the lateral (longitudinal) component of the horizontal wind, combining in quadrature (because all the important random contributions have associated degrees of freedom more than 50), is 1.9\,m\,s$^{-1}$ (0.4\,m\,s$^{-1}$), consisting of an estimated uncertainty arising from bias of 0.7\,m\,s$^{-1}$ (0.34\,m\,s$^{-1}$) and an estimated uncertainty arising from random error of 1.7\,m\,s$^{-1}$ (0.4\,m\,s$^{-1}$). Averaging such measurements, for example to measure the mean wind over some region, will reduce the uncertainty arising from random error but will not affect the uncertainty arising from bias. These characteristics apply to individual 1-Hz measurements and are restricted to conditions where the absolute value of the aircraft roll is less than 5$^{\circ}$ and the airspeed is greater than 130\,m\,s$^{-1}$. 
 \end{minipage}}
 
-\subsection{Uncertainties associated with LAMS}
+\subsection{Uncertainties associated with the LAMS\label{sub:LAMS-uncertainty}}
 
 Because the LAMS is still under development, a different format will be used here to record some preliminary information on contributions to its uncertainty.  
 The following uncertainty analysis treats unknown biases in pointing as random variables with standard deviations or variances. These figures represent uncertainty, not stochastic processes. The resultant variances provide bounds on the uncertainty in the wind vector measured by the LAMS, but they are based strictly on the instrument characterization, independent of other factors such as signal fidelity. 
@@ -811,7 +811,7 @@ The covariance matrix of a beam pointing vector is given by
 \begin{equation}
 \Sigma_{\hat{u}_{i}}^{2}=\left(\frac{\partial\hat{u}_{i}}{\partial\phi}\right)\sigma_{\phi}^{2}\left(\frac{\partial\hat{u}_{i}}{\partial\phi}\right)^{T}+\left(\frac{\partial\hat{u}_{i}}{\partial\theta}\right)\sigma_{\theta}^{2}\left(\frac{\partial\hat{u}_{i}}{\partial\theta}\right)^{T},\label{CovUvec} 
 \end{equation}
-where $\sigma_{\phi}$ and $\sigma_{\theta}$ are the standard deviation of the beam pointing angles. Note that the uncertainty in these angles may be different for each beam, but this analysis will treat them as identical. 
+where $\sigma_{\phi}$ and $\sigma_{\theta}$ are the standard deviation of the beam pointing angles. The uncertainty in these angles may be different for each beam, but this analysis will treat them as identical. 
 
 The variance in a measurement due to beam pointing uncertainty is given by  
 \begin{equation}
@@ -909,7 +909,21 @@ where, for our purposes, we assume $\sigma_{v_{LOS}}=\Delta v_{LOS}$.
 
 The analysis presented here assumes variance in the sample rate to be small compared to other error sources. 
 
-Note that at GV speeds, the Doppler shift is expected to exceed the Nyquist frequency at the present sample rate. We use the true air speed measurements from the aircraft radome to determine which frequency fold contains the Doppler peak. 
+At GV speeds, the Doppler shift will exceed the Nyquist frequency at the present sample rate. Therefore, the conventional measurement of airspeed is used
+to determine which frequency fold contains the Doppler peak. The line-of-sight airspeed
+at which the LAMS data system folds is
+
+\begin{equation}
+V{fold} = \frac{F_s~\lambda_L}{4}; % speed in m/s where data system changes or folds
+\end{equation}
+where the sample frequency ($F_s$) is 200 MHz and the laser wavelength ($\lambda$) is 1560.0 nm.  
+Therefore the LAMS line-of-sight measurements will fold at airspeeds of 78,
+156, and 234\,m/s. For beams at 35$^{\circ}$ from the longitudinal axis, these 
+folds correspond to approximate longitudinal airspeeds of 95.2, 190.4, and 
+285.7 m/s.
+The ambiguity that occurs near fold points makes it more difficult to 
+determine the LAMS line-of-sight speeds,
+so the uncertainty increases within a few m/s of the fold points.
 
 \subsubsection{Flow Distortion}
 
@@ -993,6 +1007,12 @@ where $k_{0}=2\pi/\Delta$ with $\Delta=18$ m. For modest eddy dissipation rates 
 \subsection{Conclusions\label{sub:Conclusions}}
 
 \index{uncertainty!summary table}Table~\ref{tab:Summary-of-uncertainty} restates the key results from this section. \index{uncertainty!conclusion}
+This subsection omits discussion of the three-beam LAMS because its evaluation is still underway and the available data are sparse. The general approach and good estimates of
+the uncertainty in the relative wind were provided in Sect.~\ref{sub:LAMS-uncertainty},
+but the system shares some weaknesses with the gust-pod system because of weaknesses
+in the measurements from the associated IRU. Therefore, this summary only reviews the
+results for the radome-based and gust-pod systems.
+
 The first three lines of Table~\ref{tab:Summary-of-uncertainty} claim that wind can be measured with low uncertainty from a high-speed aircraft such as the NCAR/NSF GV. This is particularly challenging at high speed because the aircraft introduces flow distortions and pressure variations over and near the fuselage that affect many of the sensors used to measure wind. Calibration by comparison to a laser air-motion sensor has led to improvement in the measurement of horizontal wind and is the basis for achieving these tolerances. Calibration maneuvers, especially those involving flying circles, have provided evidence for the claimed limits to uncertainty and have refined some of the calibrations used to achieve these limits. The fourth line in the table indicates disappointing performance for the gust-pod measurement of the component of horizontal wind lateral to the aircraft, so in general this measurement should not be used for research without further improvement. However, the measurement of vertical wind from the gust pod provides a useful back-up to the conventional measurement. 
 
 \begin{table}
