@@ -1,112 +1,118 @@
 \begin{theindex}
 
-  \item ADIFR
-    \subitem noise limit, \hyperpage{91}
-  \item airflow distortion, \hyperpage{6}, \hyperpage{17}
-  \item airspeed, \hyperpage{4}, \hyperpage{8}, \hyperpage{37}
-    \subitem correction, \hyperpage{115}
-    \subitem gust pod, \hyperpage{82}
-      \subsubitem fit equation and coefficients, \hyperpage{83}
+  \item [, \hyperpage{142}
+
+  \indexspace
+
+  \item aircraft
+    \subitem research, \hyperpage{1}
+  \item airflow distortion, \hyperpage{1}, \hyperpage{6}, 
+		\hyperpage{17}
+  \item airspeed, \hyperpage{4}, \hyperpage{8}, \hyperpage{38}, 
+		\hyperpage{42}
+    \subitem correction, \hyperpage{117}
+    \subitem gust pod, \hyperpage{83}
+      \subsubitem fit equation and coefficients, \hyperpage{84}
     \subitem longitudinal, \hyperpage{3}
     \subitem true, \hyperpage{3}
-    \subitem uncertainty, \hyperpage{37}
+    \subitem uncertainty, \hyperpage{38}
   \item all-weather wind pod, \hyperindexformat{\see {gust pod}}{17}
   \item analysis of uncertainty
-    \subitem conventions used, \hyperpage{127}
-    \subitem recommended reporting guidelines, \hyperpage{131}
+    \subitem conventions used, \hyperpage{129}
+    \subitem recommended reporting guidelines, \hyperpage{133}
   \item angle
-    \subitem airflow, \hyperpage{6}, \hyperpage{37}, \hyperpage{39}
+    \subitem airflow, \hyperpage{6}, \hyperpage{38}, \hyperpage{40}
       \subsubitem gust pod, \hyperpage{19}
     \subitem attitude, \hyperpage{4}, \hyperpage{6}
       \subsubitem gust pod, \hyperpage{17}
   \item angle of attack, \hyperindexformat{\see {attack, angle of}}{6}
   \item attack
-    \subitem angle of, \hyperpage{3}, \hyperpage{6}, \hyperpage{37}, 
-		\hyperpage{64}
-      \subsubitem alternate fit, \hyperpage{68}
-      \subsubitem calibration equation, \hyperpage{64}
+    \subitem angle of, \hyperpage{3}, \hyperpage{6}, \hyperpage{38}, 
+		\hyperpage{65}
+      \subsubitem alternate fit, \hyperpage{69}
+      \subsubitem calibration equation, \hyperpage{65}
       \subsubitem effect of mean vertical wind in calibration data, 
-		\hyperpage{73}
-      \subsubitem empirical representation, \hyperpage{65}
-      \subsubitem fit coefficients, all DEEPWAVE flights, 
 		\hyperpage{74}
-      \subsubitem fit with expanded data set, \hyperpage{70}
-      \subsubitem recommended coefficients, \hyperpage{71}
-      \subsubitem standard coefficients, \hyperpage{68}
-      \subsubitem timing, \hyperpage{94}
+      \subsubitem empirical representation, \hyperpage{66}
+      \subsubitem fit coefficients, all DEEPWAVE flights, 
+		\hyperpage{75}
+      \subsubitem fit with expanded data set, \hyperpage{71}
+      \subsubitem recommended coefficients, \hyperpage{72}
+      \subsubitem sign convention, \hyperpage{3}
+      \subsubitem standard coefficients, \hyperpage{69}
+      \subsubitem timing, \hyperpage{95}
   \item attribute
-    \subitem data.frame, \hyperpage{146}
-    \subitem variables, \hyperpage{146}
+    \subitem data.frame, \hyperpage{148}
+    \subitem variables, \hyperpage{148}
 
   \indexspace
 
-  \item baro-inertial updating, \hyperpage{87}
-  \item bias, \hyperpage{128}
+  \item baro-inertial updating, \hyperpage{88}
+  \item bias, \hyperpage{130}
   \item buttons
     \subitem static, \hyperpage{8}
 
   \indexspace
 
   \item calibration coefficients
-    \subitem nimbus, \hyperpage{146}
+    \subitem nimbus, \hyperpage{148}
   \item calibrations
-    \subitem general, \hyperpage{35}
-    \subitem laboratory/bench, \hyperpage{35}
-  \item circle maneuver, \hyperindexformat{\see {maneuver, circle}}{38}
+    \subitem general, \hyperpage{36}
+    \subitem laboratory/bench, \hyperpage{36}
+  \item circle maneuver, \hyperindexformat{\see {maneuver, circle}}{39}
   \item converter
-    \subitem analog to digital, \hyperpage{36}
+    \subitem analog to digital, \hyperpage{37}
   \item coordinate system
     \subitem aircraft, \hyperpage{3}
     \subitem aircraft reference frame, \hyperpage{101}
     \subitem b-frame, 
-		\hyperindexformat{\see {coordinate system, aircraft reference frame}}{101}
+		\hyperindexformat{\see {coordinate system, aircraft reference frame}}{104}
     \subitem body frame, 
-		\hyperindexformat{\see {coordinate system, aircraft reference frame}}{101}
+		\hyperindexformat{\see {coordinate system, aircraft reference frame}}{104}
     \subitem Earth, \hyperpage{3, 4}
     \subitem ENU frame, 
-		\hyperindexformat{\see {coordinate system, local reference frame}}{101}
+		\hyperindexformat{\see {coordinate system, local reference frame}}{104}
     \subitem l-frame, 
 		\hyperindexformat{\see {coordinate system, local reference frame}}{101}
-    \subitem local reference frame, \hyperpage{101}
-    \subitem rotation, \hyperpage{101}
+    \subitem local reference frame, \hyperpage{101}, \hyperpage{104}
+    \subitem rotation, \hyperpage{104}
 
   \indexspace
 
   \item data
-    \subitem requesting, \hyperpage{146}
-  \item data files, \hyperpage{146}
+    \subitem requesting, \hyperpage{148}
+  \item data files, \hyperpage{148}
   \item DEEPWAVE, \hyperpage{1}, \hyperpage{6}, \hyperpage{17}, 
-		\hyperpage{50}, \hyperpage{53}, \hyperpage{110}, 
-		\hyperpage{135}, \hyperpage{142}
-    \subitem calibration maneuvers, \hyperpage{65}
-    \subitem ferry flight, \hyperpage{99}
-    \subitem flight 1, \hyperpage{103}
-    \subitem flight 11, \hyperpage{64}
-    \subitem flight 15, \hyperpage{64}, \hyperpage{76}, \hyperpage{91}, 
-		\hyperpage{95}, \hyperpage{110}
-    \subitem flight 16, \hyperpage{88}
+		\hyperpage{51}, \hyperpage{54}, \hyperpage{112}, 
+		\hyperpage{137}, \hyperpage{144}
+    \subitem calibration maneuvers, \hyperpage{66}
+    \subitem ferry flight, \hyperpage{101}
+    \subitem flight 1, \hyperpage{105}
+    \subitem flight 11, \hyperpage{65}
+    \subitem flight 15, \hyperpage{65}, \hyperpage{77}, \hyperpage{92}, 
+		\hyperpage{96}, \hyperpage{112}
+    \subitem flight 16, \hyperpage{89}
     \subitem flight 18, \hyperpage{26}
-    \subitem flights with bad measurements, \hyperpage{73}
-    \subitem flights with good C-MIGITS operation, \hyperpage{53}
-    \subitem missing data, \hyperpage{45}
-    \subitem obstructed radome, \hyperpage{85}
-    \subitem reference temperature, \hyperpage{94}
+    \subitem flights with bad measurements, \hyperpage{74}
+    \subitem flights with good C-MIGITS operation, \hyperpage{54}
+    \subitem missing data, \hyperpage{46}
+    \subitem obstructed radome, \hyperpage{86}
+    \subitem reference temperature, \hyperpage{95}
     \subitem restrictions on gust-pod airspeed measurements, 
-		\hyperpage{82}
-    \subitem typical Mach number, \hyperpage{49}
+		\hyperpage{83}
+    \subitem typical Mach number, \hyperpage{50}
   \item dew point, \hyperpage{10}
-  \item dynamic heating, \hyperpage{1}
 
   \indexspace
 
-  \item eddy dissipation rate, \hyperpage{89}, \hyperpage{142}
+  \item eddy dissipation rate, \hyperpage{90}, \hyperpage{144}
   \item EOL web pages, instruments, \hyperpage{6}
   \item error
-    \subitem random, \hyperpage{128}
-    \subitem systematic, \hyperpage{128}
+    \subitem random, \hyperpage{130}
+    \subitem systematic, \hyperpage{130}
   \item evaluation of uncertainty
-    \subitem type-A, \hyperpage{129}
-    \subitem type-B, \hyperpage{130}
+    \subitem type-A, \hyperpage{131}
+    \subitem type-B, \hyperpage{132}
   \item example of measurements
     \subitem airspeed, \hyperpage{11}
     \subitem angle of attack, \hyperpage{11}
@@ -120,217 +126,227 @@
   \indexspace
 
   \item filter
-    \subitem complementary, \hyperpage{88}, \hyperpage{123}
-      \subsubitem algorithm, \hyperpage{123}
-    \subitem Kalman, \hyperpage{20}, \hyperpage{45}, \hyperpage{62}
-  \item flow distortion, \hyperpage{1}
+    \subitem complementary, \hyperpage{89}, \hyperpage{125}
+      \subsubitem algorithm, \hyperpage{125}
+    \subitem Kalman, \hyperpage{20}, \hyperpage{46}, \hyperpage{63}
+  \item flow distortion, \hyperindexformat{\see{airflow distortion}}{1}
 
   \indexspace
 
-  \item GitHub repository, \hyperpage{145}
+  \item GitHub repository, \hyperpage{147}
   \item Global Positioning System, \hyperpage{1}, \hyperpage{4}, 
 		\hyperpage{6}, \hyperpage{10}, \hyperpage{20}, 
-		\hyperpage{88}
+		\hyperpage{89}
   \item GPS, \hyperpage{1}, 
 		\hyperindexformat{\see {Global Positioning System}}{4}
     \subitem delay time, \hyperpage{10}
     \subitem Novatel, \hyperpage{7}
     \subitem uncertainty, \hyperpage{10}
-  \item ground speed, \hyperindexformat{\see {speed, ground}}{4}, 
-		\hyperpage{4}, \hyperpage{6}
-    \subitem time offset, \hyperpage{111}
+  \item ground speed, 
+		\hyperindexformat{\see {speed of aircraft, ground speed}}{4}
   \item Guide to the expression of uncertainty in measurement, 
-		\hyperpage{128}
+		\hyperpage{130}
   \item Gulfstream V, \hyperpage{1}
-  \item GUM, \hyperpage{128}
-  \item gust pod, \hyperpage{1}, \hyperpage{3, 4}, \hyperpage{17}, 
-		\hyperpage{37}, \hyperpage{44, 45}, \hyperpage{50}, 
-		\hyperpage{62}
+  \item GUM, \hyperpage{130}
+  \item gust pod, \hyperpage{1}, \hyperpage{4}, \hyperpage{17}, 
+		\hyperpage{38}, \hyperpage{45, 46}, \hyperpage{51}, 
+		\hyperpage{63}
     \subitem components, \hyperpage{17}, \hyperpage{19}
-    \subitem limitations, \hyperpage{46}, \hyperpage{62}
+    \subitem limitations, \hyperpage{47}, \hyperpage{63}
     \subitem photograph, \hyperpage{17}
     \subitem problem in turns, \hyperpage{24}
-    \subitem uncertainty, \hyperpage{54}
-  \item gust.c, \hyperpage{4}, \hyperpage{87}
+    \subitem uncertainty, \hyperpage{55}
+  \item gust.c, \hyperpage{5}, \hyperpage{88}
   \item GV, \hyperpage{1}
+    \subitem typical flight speed, \hyperpage{1}
 
   \indexspace
 
-  \item HCRTEST, \hyperpage{142}
+  \item HCRTEST, \hyperpage{144}
   \item heading, \hyperpage{3, 4}, \hyperpage{6}
-    \subitem attributes of THDG, \hyperpage{114}
-    \subitem correction, \hyperpage{115}
-    \subitem offset in, \hyperpage{120}
-    \subitem uncertainty, \hyperpage{49, 50}, \hyperpage{53}
-  \item high-rate data files, \hyperpage{134}
+    \subitem attributes of THDG, \hyperpage{116}
+    \subitem correction, \hyperpage{117}
+    \subitem offset in, \hyperpage{122}
+    \subitem uncertainty, \hyperpage{50, 51}, \hyperpage{54}
+  \item heating
+    \subitem dynamic, \hyperpage{1}
+  \item high-rate data files, \hyperpage{136}
   \item Honeywell Laseref IV, \hyperpage{7}
   \item humidity, effect of, \hyperpage{10}
 
   \indexspace
 
-  \item inertial reference unit, \hyperpage{1}, \hyperpage{3}, 
-		\hyperpage{6}, \hyperpage{10}, \hyperpage{53}, 
-		\hyperpage{87}
-    \subitem alignment, \hyperpage{96}
+  \item inertial reference unit, \hyperpage{1}, \hyperpage{4}, 
+		\hyperpage{6}, \hyperpage{10}, \hyperpage{54}, 
+		\hyperpage{88}
+    \subitem alignment, \hyperpage{98}
     \subitem comparison, \hyperpage{6}
-    \subitem filter, \hyperpage{87}
+    \subitem filter, \hyperpage{88}
     \subitem filters, \hyperpage{10}
     \subitem Honeywell
       \subsubitem characteristics, \hyperpage{10}
     \subitem orientation, \hyperpage{10}
-    \subitem Schuler oscillation, \hyperpage{97}
-  \item inertial subrange, \hyperpage{89}
+    \subitem Schuler oscillation, \hyperpage{98}
+  \item inertial subrange, \hyperpage{90}
+  \item International Committee on Weights and Measures, \hyperpage{1}
   \item IRU, \hyperindexformat{\see{inertial reference unit}}{1}
     \subitem C-MIGITS, \hyperpage{17}, \hyperpage{20}
       \subsubitem specifications, \hyperpage{17}
       \subsubitem uncertainty, \hyperpage{17}
-    \subitem Honeywell, \hyperpage{88}
-      \subsubitem Schuler oscillation, \hyperpage{97}
-    \subitem LAMS, \hyperpage{26}
-    \subitem SDN500, \hyperpage{26}
+    \subitem Honeywell, \hyperpage{89}
+      \subsubitem Schuler oscillation, \hyperpage{98}
+    \subitem LAMS, \hyperpage{27}
+    \subitem SDN500, \hyperpage{27}
     \subitem specifications, \hyperpage{6}
 
   \indexspace
 
   \item LAMS, \hyperindexformat{\see {laser air-motion sensor}}{2}
-    \subitem 4-beam configuration, \hyperpage{28}
-    \subitem airflow distortion, \hyperpage{28}, \hyperpage{58}
+    \subitem 4-beam configuration, \hyperpage{27}
+    \subitem airflow distortion, \hyperpage{27}, \hyperpage{59}
     \subitem angle calibration
       \subsubitem telescope method, \hyperpage{32}
-    \subitem focal distance, \hyperpage{28}
-    \subitem in DEEPWAVE, \hyperpage{28}
-    \subitem photograph, \hyperpage{28}
+    \subitem focal distance, \hyperpage{27}
+    \subitem in DEEPWAVE, \hyperpage{27}
+    \subitem photograph, \hyperpage{29}
     \subitem pointing angles, \hyperpage{29}
-      \subsubitem survey, \hyperpage{29}
-    \subitem schematic, \hyperpage{26}
-    \subitem separation of measurement volumes, \hyperpage{59}
-  \item laser air-motion sensor, \hyperpage{1--3}, \hyperpage{26}, 
-		\hyperpage{37}, \hyperpage{41}, \hyperpage{45}
+      \subsubitem survey, \hyperpage{30}
+    \subitem schematic, \hyperpage{27}
+    \subitem separation of measurement volumes, \hyperpage{60}
+  \item laser air-motion sensor, \hyperpage{1, 2}, \hyperpage{4}, 
+		\hyperpage{26}, \hyperpage{38}, \hyperpage{42}, 
+		\hyperpage{46}
 
   \indexspace
 
-  \item Mach number, \hyperpage{6}, \hyperpage{49}, \hyperpage{68}, 
-		\hyperpage{83}
+  \item Mach number, \hyperpage{6}, \hyperpage{50}, \hyperpage{69}, 
+		\hyperpage{84}
   \item maneuver
-    \subitem circle, \hyperpage{36}, \hyperpage{38}, \hyperpage{110}
-      \subsubitem plotted track, \hyperpage{110}
-      \subsubitem plotted wind-speed variations, \hyperpage{117}
-      \subsubitem sinusoidal fit, \hyperpage{116}
-      \subsubitem summary of results, \hyperpage{120}
-    \subitem pitch, \hyperpage{36}, \hyperpage{95}
-    \subitem reverse heading, \hyperpage{36}
-    \subitem speed run, \hyperpage{36, 37}, \hyperpage{65}
-    \subitem yaw, \hyperpage{36}, \hyperpage{76}
+    \subitem circle, \hyperpage{37}, \hyperpage{39}, \hyperpage{112}
+      \subsubitem plotted track, \hyperpage{112}
+      \subsubitem plotted wind-speed variations, \hyperpage{119}
+      \subsubitem sinusoidal fit, \hyperpage{118}
+      \subsubitem summary of results, \hyperpage{122}
+    \subitem pitch, \hyperpage{37}, \hyperpage{96}
+    \subitem reverse heading, \hyperpage{37}
+    \subitem speed run, \hyperpage{37, 38}, \hyperpage{66}
+    \subitem yaw, \hyperpage{37}, \hyperpage{77}
   \item maneuvers
-    \subitem calibration, \hyperpage{64}
+    \subitem calibration, \hyperpage{65}
   \item matrices
     \subitem rotation, \hyperpage{4}
-  \item momentum fluxes, \hyperpage{137}
-  \item Monte Carlo techniques, \hyperpage{133}
+  \item momentum fluxes, \hyperpage{139}
+  \item Monte Carlo techniques, \hyperpage{135}
 
   \indexspace
 
-  \item netCDF format, \hyperpage{146}
-  \item nimbus, \hyperpage{4}
-    \subitem gust.c, \hyperpage{87}
-  \item NIST Technical Note1297, \hyperpage{128}
+  \item National Institute of Standards and Technology, \hyperpage{1}
+  \item netCDF format, \hyperpage{148}
+  \item nimbus, \hyperpage{5}
+    \subitem gust.c, \hyperpage{88}
+  \item NIST Technical Note1297, \hyperpage{130}
   \item noise
-    \subitem sensor, \hyperpage{134}
+    \subitem ADIFR, \hyperpage{40}, \hyperpage{92}
+    \subitem all wind components, \hyperpage{146}
+    \subitem DEEPWAVE flights, \hyperpage{89}
+    \subitem digitization, \hyperpage{92}
+    \subitem low-intensity turbulence, \hyperpage{92}
+    \subitem QCF, \hyperpage{42}, \hyperpage{92}
+    \subitem QCR, \hyperpage{92}
+    \subitem sensor, \hyperpage{136}
+    \subitem vertical wind, \hyperpage{139}
+    \subitem white, \hyperpage{92}
   \item NSF/NCAR GV, \hyperpage{1}
-  \item Nyquist frequency, \hyperpage{135}
+  \item Nyquist frequency, \hyperpage{137}
 
   \indexspace
 
   \item OmniSTAR, \hyperpage{1}, \hyperpage{7}, \hyperpage{10}, 
-		\hyperpage{88}, \hyperpage{93}
+		\hyperpage{89}, \hyperpage{94}
   \item organization
     \subitem this report, \hyperpage{1}
   \item organizations
     \subitem standards, \hyperpage{1}
   \item oscillation
-    \subitem in aircraft altitude, \hyperpage{93}
-    \subitem Schuler, \hyperpage{87}, \hyperpage{96, 97}, 
-		\hyperpage{109}
-      \subsubitem angular velocity, \hyperpage{99}
-      \subsubitem period of, \hyperpage{97}
-      \subsubitem tutorial, \hyperpage{97}
+    \subitem in aircraft altitude, \hyperpage{94}
+    \subitem Schuler, \hyperpage{88}, \hyperpage{98}, \hyperpage{111}
+      \subsubitem angular velocity, \hyperpage{100}
+      \subsubitem period of, \hyperpage{98}
+      \subsubitem tutorial, \hyperpage{99}
 
   \indexspace
 
-  \item PCOR, \hyperindexformat{\see {pressure, correction}}{50}
-  \item phugoid, \hyperpage{93}
+  \item PCOR, \hyperindexformat{\see {pressure, correction}}{51}
+  \item phugoid, \hyperpage{94}
   \item pitch, \hyperpage{4}, \hyperpage{6, 7}
-    \subitem correction, \hyperpage{87}, \hyperpage{96, 97}
-      \subsubitem equation, \hyperpage{103}
-      \subsubitem magnitude of, \hyperpage{108}
-      \subsubitem tests, \hyperpage{106}
-    \subitem correction to, \hyperpage{43}
-    \subitem errors, \hyperpage{36}
-    \subitem inter-comparison, \hyperpage{45}
-    \subitem timing, \hyperpage{94}
-    \subitem uncertainty, \hyperpage{42}, \hyperpage{49}
-      \subsubitem gust pod, \hyperpage{53}
+    \subitem correction, \hyperpage{44}, \hyperpage{88}, \hyperpage{98}
+      \subsubitem equation, \hyperpage{105}
+      \subsubitem magnitude of, \hyperpage{110}
+      \subsubitem tests, \hyperpage{105}
+    \subitem errors, \hyperpage{37}
+    \subitem inter-comparison, \hyperpage{46}
+    \subitem timing, \hyperpage{95}
+    \subitem uncertainty, \hyperpage{43}, \hyperpage{50}
+      \subsubitem gust pod, \hyperpage{54}
   \item pitch angle, \hyperpage{3}
   \item pitot tube, \hyperpage{6}, \hyperpage{8}
     \subitem location, \hyperpage{8}
     \subitem photo, \hyperpage{8}
   \item power spectrum, \hyperindexformat{\see {variance spectrum}}{24}
   \item pressure
-    \subitem ambient, \hyperpage{3}, \hyperpage{6}, \hyperpage{37}
-      \subsubitem corrected, \hyperpage{82}
+    \subitem ambient, \hyperpage{3}, \hyperpage{6}, \hyperpage{38}
+      \subsubitem corrected, \hyperpage{84}
       \subsubitem corrections, \hyperpage{8}
-      \subsubitem gust pod, \hyperpage{19}, \hyperpage{83}
+      \subsubitem gust pod, \hyperpage{19}, \hyperpage{84}
+      \subsubitem uncertainty, \hyperpage{8}, \hyperpage{43}, 
+		\hyperpage{47}, \hyperpage{50}, \hyperpage{54}
+    \subitem correction, \hyperpage{51}, \hyperpage{55}
+    \subitem dynamic, \hyperpage{8}, \hyperpage{38}, \hyperpage{51}
+      \subsubitem corrected, \hyperpage{84}
+      \subsubitem corrections, \hyperpage{8}
+      \subsubitem gust pod, \hyperpage{19}, \hyperpage{84}
       \subsubitem uncertainty, \hyperpage{8}, \hyperpage{42}, 
-		\hyperpage{46}, \hyperpage{49}, \hyperpage{53}
-    \subitem correction, \hyperpage{50}, \hyperpage{54}
-    \subitem dynamic, \hyperpage{8}, \hyperpage{37}, \hyperpage{50}
-      \subsubitem corrected, \hyperpage{82}
-      \subsubitem corrections, \hyperpage{8}
-      \subsubitem gust pod, \hyperpage{19}, \hyperpage{83}
-      \subsubitem uncertainty, \hyperpage{8}, \hyperpage{41}, 
-		\hyperpage{45}, \hyperpage{47}, \hyperpage{52}
+		\hyperpage{46}, \hyperpage{48}, \hyperpage{53}
     \subitem lines, \hyperpage{8}
     \subitem static, \hyperindexformat{\see {pressure, ambient}}{3}, 
-		\hyperpage{50}
-  \item pressure lines, \hyperpage{135}
+		\hyperpage{51}
+  \item pressure lines, \hyperpage{137}
   \item processing algorithms, \hyperpage{10}
   \item properties of moist air, \hyperpage{3}
   \item PS\_GP=pressure at static ports, 858 probe, \hyperpage{17}
 
   \indexspace
 
-  \item QCF
-    \subitem noise limit, \hyperpage{91}
   \item quality assurance
-    \subitem airflow angles, \hyperpage{36}
-    \subitem IRU, \hyperpage{36}
-    \subitem maneuvers, \hyperpage{36}
+    \subitem airflow angles, \hyperpage{37}
+    \subitem IRU, \hyperpage{37}
+    \subitem maneuvers, \hyperpage{37}
 
   \indexspace
 
   \item R
-    \subitem data.frame, \hyperpage{146}
-    \subitem RStudio used with, \hyperpage{145}
-    \subitem the programming language, \hyperpage{145}
+    \subitem data.frame, \hyperpage{148}
+    \subitem RStudio used with, \hyperpage{147}
+    \subitem the programming language, \hyperpage{147}
   \item radome, \hyperpage{6}, \hyperpage{9}
     \subitem photograph, \hyperpage{9}
     \subitem ports, \hyperpage{9}
   \item RAF Bulletin 23, \hyperpage{3, 4}
-  \item Ranadu, \hyperpage{145}
-  \item rate of climb, \hyperpage{87}
+  \item Ranadu, \hyperpage{147}
+  \item rate of climb, \hyperpage{88}
   \item relationship
     \subitem empirical
-      \subsubitem angle of attack, \hyperpage{41}
-      \subsubitem gust pod, \hyperpage{52}
-      \subsubitem sideslip, \hyperpage{41}
+      \subsubitem angle of attack, \hyperpage{42}
+      \subsubitem gust pod, \hyperpage{53}
+      \subsubitem sideslip, \hyperpage{42}
   \item relationships
-    \subitem empirical, \hyperpage{37, 38}
+    \subitem empirical, \hyperpage{38, 39}
   \item representation
     \subitem empirical
-      \subsubitem re-randomization tests, \hyperpage{73}
-  \item reproducibility of this document, \hyperpage{145}
-  \item residual standard deviation, \hyperpage{66}
-  \item roll, \hyperpage{4}, \hyperpage{6, 7}, \hyperpage{45}
+      \subsubitem re-randomization tests, \hyperpage{74}
+  \item reproducibility of this document, \hyperpage{147}
+  \item residual standard deviation, \hyperpage{67}
+  \item roll, \hyperpage{4}, \hyperpage{6, 7}, \hyperpage{46}
   \item roll angle, \hyperpage{3}
   \item Rosemount 858 probe, \hyperpage{1}, \hyperpage{17}
   \item rotation matrices, \hyperpage{4}
@@ -339,10 +355,10 @@
 
   \item Savitzky-Golay polynomials, \hyperpage{101}
   \item Schuler oscillation, \hyperpage{10}, 
-		\hyperindexformat{\see {oscillation, Schuler}}{45}, 
-		\hyperindexformat{\see {oscillation, Schuler}}{87}
+		\hyperindexformat{\see {oscillation, Schuler}}{46}, 
+		\hyperindexformat{\see {oscillation, Schuler}}{88}
   \item sensitivity coefficients, 
-		\hyperindexformat{\see {relationships, empirical}}{37}
+		\hyperindexformat{\see {relationships, empirical}}{38}
   \item sensor
     \subitem pressure, \hyperpage{7, 8}
       \subsubitem characteristics, \hyperpage{9}
@@ -352,147 +368,155 @@
   \item sensors
     \subitem characteristics, \hyperpage{6}
     \subitem table, \hyperpage{6}
-  \item sideslip, \hyperpage{3}, \hyperpage{37}, \hyperpage{45}, 
-		\hyperpage{64}
-    \subitem fit coefficients for DEEPWAVE, \hyperpage{77}
-    \subitem fit coefficients for gust pod, \hyperpage{79}
-    \subitem gust pod, \hyperpage{52}
-    \subitem offset in, \hyperpage{120}
-    \subitem standard coefficients, \hyperpage{79}
-    \subitem uncertainty, \hyperpage{53}
+  \item sideslip, \hyperpage{3}, \hyperpage{38}, \hyperpage{46}, 
+		\hyperpage{65}
+    \subitem fit coefficients for DEEPWAVE, \hyperpage{78}
+    \subitem fit coefficients for gust pod, \hyperpage{80}
+    \subitem gust pod, \hyperpage{53}
+    \subitem offset in, \hyperpage{122}
+    \subitem sign convention, \hyperpage{3}
+    \subitem standard coefficients, \hyperpage{80}
+    \subitem uncertainty, \hyperpage{54}
   \item sign convention, \hyperpage{3}
   \item specifications
     \subitem gust pod, \hyperpage{18}
     \subitem standard system, \hyperpage{7}
-  \item WIC, \hyperpage{90}
+  \item WIC, \hyperpage{91}
   \item speed
     \subitem vertical
-      \subsubitem aircraft, \hyperpage{42}
+      \subsubitem aircraft, \hyperpage{43}
   \item speed of aircraft
-    \subitem ground speed, \hyperpage{4}, \hyperpage{6, 7}, 
-		\hyperpage{10}
-      \subsubitem uncertainty, \hyperpage{49}
-    \subitem vertical, \hyperpage{46}, \hyperpage{87}
+    \subitem airspeed
+      \subsubitem see airspeed, \hyperpage{42}
+    \subitem ground speed, \hyperpage{2}, \hyperpage{4}, 
+		\hyperpage{6, 7}, \hyperpage{10, 11}, \hyperpage{27}, 
+		\hyperpage{37}, \hyperpage{53}, \hyperpage{101}, 
+		\hyperpage{105}, \hyperpage{113}, \hyperpage{116}, 
+		\hyperpage{124, 125}, \hyperpage{136}
+      \subsubitem time offset, \hyperpage{113}
+      \subsubitem uncertainty, \hyperpage{50}
+    \subitem vertical, \hyperpage{47}, \hyperpage{88}
   \item static buttons, \hyperpage{6}
   \item static defect, \hyperpage{8}
   \item system
-    \subitem gust pod, \hyperpage{37}, \hyperpage{44}, \hyperpage{54}
+    \subitem gust pod, \hyperpage{38}, \hyperpage{45}, \hyperpage{55}
     \subitem radome-based, 
 		\hyperindexformat{\see {system, standard}}{4}
-    \subitem standard, \hyperpage{37}
-      \subsubitem uncertainty, \hyperpage{60}
+    \subitem standard, \hyperpage{38}
+      \subsubitem uncertainty, \hyperpage{61}
 
   \indexspace
 
   \item temperature, \hyperpage{1}, \hyperpage{10}
-    \subitem calibration of sensors, \hyperpage{35}
-    \subitem uncertainty, \hyperpage{10}, \hyperpage{46}, 
-		\hyperpage{49}
+    \subitem calibration of sensors, \hyperpage{36}
+    \subitem uncertainty, \hyperpage{10}, \hyperpage{47}, 
+		\hyperpage{50}
   \item time lag
-    \subitem AKRD, \hyperpage{94}
+    \subitem AKRD, \hyperpage{95}
   \item timing
-    \subitem GGVSPD, \hyperpage{95}
-    \subitem heading, \hyperpage{94}
-    \subitem pitch, \hyperpage{94, 95}
-    \subitem QCF, \hyperpage{94}
-    \subitem roll, \hyperpage{94}
-  \item timing of measurements, \hyperpage{87}, \hyperpage{94}
+    \subitem GGVSPD, \hyperpage{96}
+    \subitem heading, \hyperpage{95}
+    \subitem pitch, \hyperpage{95, 96}
+    \subitem QCF, \hyperpage{95}
+    \subitem roll, \hyperpage{95}
+  \item timing of measurements, \hyperpage{88}, \hyperpage{95}
   \item transformation
     \subitem coordinate, \hyperpage{4}
     \subitem order, \hyperpage{4}
     \subitem rotation, \hyperpage{4}
-    \subitem to Earth reference frame, \hyperpage{3}
-  \item true airspeed, \hyperindexformat{\see airspeed}{41}
+    \subitem to Earth reference frame, \hyperpage{4}
+  \item true airspeed, \hyperindexformat{\see airspeed}{42}
   \item turbulence
-    \subitem boundary-layer, \hyperpage{135}
-    \subitem characterization of, \hyperpage{134}
-    \subitem measurements, \hyperpage{37}
+    \subitem boundary-layer, \hyperpage{137}
+    \subitem characterization of, \hyperpage{136}
+    \subitem measurements, \hyperpage{38}
 
   \indexspace
 
   \item uncertainty
     \subitem analysis
-      \subsubitem format, \hyperpage{39}
-    \subitem conclusion, \hyperpage{59}
-    \subitem elemental sources, \hyperpage{47}, \hyperpage{50}
-      \subsubitem table, \hyperpage{44}
+      \subsubitem format, \hyperpage{40}
+    \subitem conclusion, \hyperpage{60}
+    \subitem elemental sources, \hyperpage{48}, \hyperpage{51}
+      \subsubitem table, \hyperpage{45}
     \subitem estimate, \hyperpage{1}
-    \subitem heading, \hyperpage{49}
+    \subitem heading, \hyperpage{50}
     \subitem horizontal wind
-      \subsubitem gust pod, \hyperpage{62}
+      \subsubitem gust pod, \hyperpage{63}
     \subitem report
       \subsubitem conventions, \hyperpage{1}
-    \subitem summary table, \hyperpage{59}
-    \subitem temperature, \hyperpage{46}, \hyperpage{49}
-    \subitem vertical wind, \hyperpage{43}
-      \subsubitem gust pod, \hyperpage{62}
+    \subitem summary table, \hyperpage{60}
+    \subitem temperature, \hyperpage{47}, \hyperpage{50}
+    \subitem vertical wind, \hyperpage{44}
+      \subsubitem gust pod, \hyperpage{63}
     \subitem wind
-      \subsubitem lateral, \hyperpage{50}
-      \subsubitem longitudinal, \hyperpage{50}
-      \subsubitem vertical, \hyperpage{46}
-    \subitem wind direction, \hyperpage{60}
-    \subitem wind speed, \hyperpage{60}
+      \subsubitem lateral, \hyperpage{51}
+      \subsubitem longitudinal, \hyperpage{51}
+      \subsubitem vertical, \hyperpage{47}
+    \subitem wind direction, \hyperpage{61}
+    \subitem wind speed, \hyperpage{61}
 
   \indexspace
 
-  \item variance spectrum, \hyperpage{135}
-    \subitem all three components, \hyperpage{142}
-    \subitem comparison of QCF and QC\_GP, \hyperpage{140}
-    \subitem concern re GPS variable GGVSPD, \hyperpage{90}
-    \subitem low-turbulence case, \hyperpage{91}
+  \item variance spectrum, \hyperpage{137}
+    \subitem all three components, \hyperpage{144}
+    \subitem comparison of QCF and QC\_GP, \hyperpage{142}
+    \subitem concern re GPS variable GGVSPD, \hyperpage{91}
+    \subitem low-turbulence case, \hyperpage{92}
     \subitem new blended variable for longitudinal wind, 
-		\hyperpage{142}
-    \subitem noise in, \hyperpage{91}
-    \subitem UXC, \hyperpage{135}, \hyperpage{140}
+		\hyperpage{144}
+    \subitem noise in, \hyperpage{92}
+    \subitem UXC, \hyperpage{137}, \hyperpage{142}
     \subitem vertical wind
       \subsubitem gust pod, \hyperpage{24}
-    \subitem vertical wind components, \hyperpage{88}
-    \subitem VYC, \hyperpage{135}
-    \subitem white noise, \hyperpage{91}
-    \subitem WIC, \hyperpage{135}, \hyperpage{137}
+    \subitem vertical wind components, \hyperpage{89}
+    \subitem VYC, \hyperpage{137}
+    \subitem white noise, \hyperpage{92}
+    \subitem WIC, \hyperpage{137}, \hyperpage{139}
   \item velocity
     \subitem aircraft
-      \subsubitem available measurements, \hyperpage{87}
-      \subsubitem vertical, \hyperpage{87}
+      \subsubitem available measurements, \hyperpage{88}
+      \subsubitem vertical, \hyperpage{88}
 
   \indexspace
 
   \item WI
-    \subitem recommendation against use, \hyperpage{90}
+    \subitem recommendation against use, \hyperpage{91}
   \item WIC
-    \subitem recommended variable, \hyperpage{90}
+    \subitem recommended variable, \hyperpage{91}
   \item wind, \hyperpage{1}
-    \subitem blended variables, \hyperpage{140}
+    \subitem blended variables, \hyperpage{142}
     \subitem direction, \hyperpage{5}
     \subitem east component, \hyperpage{5}
     \subitem example of measurements, \hyperpage{11}
     \subitem gust pod
-      \subsubitem using TASF for airspeed, \hyperpage{85}
-    \subitem horizontal, \hyperpage{47}
+      \subsubitem using TASF for airspeed, \hyperpage{86}
+    \subitem horizontal, \hyperpage{48}
       \subsubitem correction for IRU errors in ground speed, 
-		\hyperpage{123}
-      \subsubitem lateral, \hyperpage{54}
-      \subsubitem longitudinal, \hyperpage{54}
-      \subsubitem uncertainty, \hyperpage{47}, \hyperpage{54}
-    \subitem lateral component, \hyperpage{50}
+		\hyperpage{125}
+      \subsubitem lateral, \hyperpage{55}
+      \subsubitem longitudinal, \hyperpage{55}
+      \subsubitem uncertainty, \hyperpage{48}, \hyperpage{55}
+    \subitem lateral component, \hyperpage{51}
     \subitem measurement
       \subsubitem challenges, \hyperpage{1}
       \subsubitem gust pod, \hyperpage{2}
       \subsubitem instrumentation, \hyperpage{1}
+      \subsubitem laser air-motion sensor, \hyperpage{2}
       \subsubitem standard system, \hyperpage{1, 2}, \hyperpage{6}
     \subitem measurements
       \subsubitem uses, \hyperpage{1}
     \subitem north component, \hyperpage{5}
-    \subitem relative, \hyperpage{3, 4}, \hyperpage{37}, \hyperpage{49}, 
-		\hyperpage{64}
+    \subitem relative, \hyperpage{3, 4}, \hyperpage{38}, \hyperpage{50}, 
+		\hyperpage{65}
     \subitem speed, \hyperpage{5}
     \subitem uncertainty
-      \subsubitem lateral, \hyperpage{50}
+      \subsubitem lateral, \hyperpage{51}
     \subitem vertical, \hyperpage{5}
-      \subsubitem first-order equation, \hyperpage{95}
-      \subsubitem inter-comparison, \hyperpage{62}
-      \subsubitem net uncertainty, \hyperpage{43}, \hyperpage{46}
-      \subsubitem potential for improvement, \hyperpage{60}
-      \subsubitem uncertainty, \hyperpage{44}
+      \subsubitem first-order equation, \hyperpage{96}
+      \subsubitem inter-comparison, \hyperpage{63}
+      \subsubitem net uncertainty, \hyperpage{44}, \hyperpage{47}
+      \subsubitem potential for improvement, \hyperpage{61}
+      \subsubitem uncertainty, \hyperpage{45}
 
 \end{theindex}

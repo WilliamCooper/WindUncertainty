@@ -1,0 +1,542 @@
+%% LyX 2.1.4 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=3.54cm,bmargin=2.54cm,lmargin=2.54cm,rmargin=2.54cm,headheight=1cm,headsep=2cm,footskip=0.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\usepackage{graphicx}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\addressee} \global\addressee={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Memo to: \the\addressee \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+\newcommand{\EOLmemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Earth Observing Laboratory}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.3truein \leftline{\hskip \longindent \datetoday} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lyxlist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+
+\makeatother
+
+\begin{document}
+\EOLmemo 
+
+\global\addressee={DEEPWAVE Applanix File}  
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{To:}}} & \the\addressee\tabularnewline
+\textsf{\textsc{\textcolor{blue}{From:}}} & Al Cooper\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Subject:}}} & First look at Applanix measurements\tabularnewline
+\end{tabular}
+
+\bigskip
+
+
+\section{Source of data}
+
+Dick Friesen, working with Kelly Schick, produced an ASCII file containing
+the 10-Hz Applanix measurements for DEEPWAVE flight 15 (the flight
+with calibration maneuvers). The measurements were associated with
+a time in seconds after midnight. This file was read into R, a POSIX-format
+time was produced from the time variable, the measurements were renamed
+according to names saved in the file 'NewNames' (to variables like
+PITCH\_APPX), and the measurements were linearly interpolated to a
+25-Hz sequence. That result was then smoothed slightly using Savitzky-Golay
+polynomials (3rd order, spanning 7 points). The resulting file was
+truncated to match the times in the high-rate production file (/scr/raf/Prod\_Data/DEEPWAVE/HRT/DEEPWAVErf15hPC.nc).
+That production file also included processing to produce a corrected
+measurement of PITCH, PITCHC, based on detection of the Schuler oscillation.
+The resulting file, produced only with a subset of the variables in
+the original file to save space, was then saved as the netCDF file
+/scr/raf/cooperw/DEEPWAVErf15hPC\_APPX.nc, so that file is available
+for continued study. The following listing shows some of the required
+R code; for a more complete listing, see the source file ApplanixMemo.Rnw
+at the location specified in the ``Reproducibility'' section at
+the end of this memo.
+
+<<initialization,echo=FALSE,include=FALSE>>=
+
+require(knitr)
+opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+opts_chunk$set(fig.width=6, fig.height=5, fig.pos="center", digits=4)
+thisFileName <- "ApplanixMemo"
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+require(ggplot2)
+require(grid)
+require(ggthemes)
+Directory <- DataDirectory ()
+Flight <- "rf15" 				# XXX change this
+Project = "DEEPWAVE"			 # XXX change this
+fname = sprintf("%s%s/%s%s.nc", Directory,Project,Project,Flight)
+# Data <- getNetCDF (fname, standardVariables(c("GGVSPDB")))		#XXX set variables needed here
+SaveRData <- sprintf("%s.Rdata.gz", thisFileName)
+
+@
+
+<<prelim>>=
+
+require(xts)
+require(zoo)
+require(signal)
+
+transferAttributes <- function (dsub, d) {
+  ds <- dsub
+  for (nm in names (ds)) {
+    if (nm %in% names(d)) {
+      var <- sprintf ("d$%s", nm)
+      A <- attributes (eval (parse (text=var)))
+      A$dim <- NULL
+      if (nm != "Time") {
+        A$class <- NULL
+      }
+      attributes (ds[,nm]) <- A
+    }
+  }
+  return(ds)
+}
+
+@
+
+<<read-applanix, echo=TRUE, include=TRUE>>=
+
+ApplanixRF15 <- read.table ("~/RStudio/DEEPWAVE/ApplanixRF15.txt", 
+                            header=TRUE, quote="\"", stringsAsFactors=FALSE)
+## convert times to a POSIX-format time, for merging with standard netCDF:
+## (note 2014-07-03 is the flight date)
+ApplanixRF15$Time <- as.POSIXct (ApplanixRF15$time_.UTC_seconds_of_day.,
+                                 origin="2014-07-03", tz="GMT")
+NewNames <- names (ApplanixRF15)
+## reassign names as specified in file NewNames:
+source ('NewNames')
+NewNames <- c(NewNames, "Time")
+names (ApplanixRF15) <- NewNames
+
+@
+
+<<read-HRT-netCDF, include=TRUE, echo=FALSE>>=
+
+## read variables from netCDF file, including those needed for pitch correction:
+# Data <- getNetCDF ("/scr/raf/Prod_Data/DEEPWAVE/HRT/DEEPWAVErf15hPC.nc",
+Data <- getNetCDF ("/Data/DEEPWAVE/DEEPWAVErf15hPC.nc",
+                   standardVariables(c("PITCH", "ROLL", "THDG", "GGVSPD",
+                                       "VNS", "VEW", "GGVNS", "GGVEW", "LAT", "PITCHC")))
+Data$PITCHC <- Data$PITCH - CorrectPitch(Data) ## should be commented, already done?
+
+Rate <- 1
+if ("sps25" %in% names(attributes(Data)$Dimensions)) {Rate <- 25}
+
+## if Rate > 10, need to interpolate/filter the 10-Hz Applanix measurements to get 25 Hz;
+## if Rate == 1, need to average the 10-Hz Applanix measurements
+
+ReloadDave <- FALSE
+# ReloadDave <- TRUE
+if (ReloadDave) {
+  if (Rate == 25) {
+    L <- 2.5 * nrow (ApplanixRF15)
+    for (nm in names (ApplanixRF15)) {
+      if (nm == "Time") {next}    ## skip Time; will handle specially below
+      ## angle variables require vector averaging to avoid wrap-around problems
+      if (nm == "THDG_APPX" || nm == "WANDER_APPX" || nm == "HDG_APPX") {
+        sina <- sin (ApplanixRF15[, nm] * pi/180)
+        cosa <- cos (ApplanixRF15[, nm] * pi/180)
+        X1 <- stats::approx (x=ApplanixRF15$time_seconds_APPX, y=sina,
+                            method='linear', n=L)
+        X2 <- stats::approx (x=ApplanixRF15$time_seconds_APPX, y=cosa,
+                             method='linear', n=L)
+        ## apply small amount of filtering to linearly interpolated values
+        X1$y <- signal::filter (signal::sgolay(3,7), X1$y)
+        X2$y <- signal::filter (signal::sgolay(3,7), X2$y)
+        Dave[, nm] <- (atan2(X1$y, X2$y) * 180/pi + 360) %% 360
+      } else {    ## these are now not-angle variables
+        X <- stats::approx (x=ApplanixRF15$time_seconds_APPX, y=ApplanixRF15[, nm], 
+                           method='linear', n=L)
+        X$y <- signal::filter (signal::sgolay (3,7), X$y)
+        ## add variables to data.frame
+        if (grepl("time", nm)) {
+          Dave <- data.frame(time_seconds_APPX=X$y)
+        } else {
+          Dave[, nm] <- X$y
+        }
+      }
+    }
+  } else {  ## this is branch for 1-Hz data
+    
+    ## construct 1-Hz data by averaging 10-Hz data
+    ## (I think the following might introduce 0.5-s delay vs nimbus?)    
+    ep <- endpoints(ApplanixRF15$Time, 'seconds')
+    tt <- as.integer(period.apply(ApplanixRF15$time_seconds_APPX, ep, mean))
+    Dave <- data.frame(time_seconds_APPX=tt)
+    for (nm in names(ApplanixRF15)) {
+      print(nm)
+      if (nm == "Time") {next}
+      ## deal specially with THDG_APPX to handle wrap-around
+      if (nm == "THDG_APPX" || nm == "WANDER_APPX" || nm == "HDG_APPX") {
+        ## note that this is the preferred way to average angles
+        sina <- sin(ApplanixRF15[, nm] * pi/180)
+        cosa <- cos(ApplanixRF15[, nm] * pi/180)
+        sinave <- period.apply(sina, ep, mean)
+        cosave <- period.apply(cosa, ep, mean)
+        Dave[, nm] <- (atan2(sinave, cosave)*180/pi + 360) %% 360
+      } else {
+        if (grepl("time_s", nm)) {next}  ## already dealt with time_s
+        Dave[, nm] <- period.apply(ApplanixRF15[,nm], ep, mean)
+      }
+    }
+  }
+  Dave$Time <- as.POSIXct(Dave$time_seconds_APPX, origin="2014-07-03", tz="GMT")
+  save(Dave, file="APPX.Rdata")
+} else {
+  load(file='APPX.Rdata')
+}  
+
+@
+
+The new netCDF file has the following new variables: time\_seconds\_APPX,
+LAT\_APPX, LON\_APPX, ALT\_APPX, UI\_APPX, VI\_APPX, VSPD\_APPX, ROLL\_APPX,
+PITCH\_APPX, HDG\_APPX, WANDER\_APPX, THDG\_APPX, BACCX\_APPX, BACCY\_APPX,
+BACCZ\_APPX, BROTX\_APPX, BROTY\_APPX, BROTZ\_APPX, DPITCH, DROLL,
+DTHDG. The variables with names beginning with BACC are components
+of the body accelerations; those beginning with BROT are components
+of the body rotation, and those beginning with D are difference variables
+between the denoted variable and the corresponding Applanix-provided
+variable; i.e., DPITCHC is the difference between PITCHC and PITCH\_APPX.
+This is particularly useful in the case of THDG because the variable
+is calculated with correction for wrap-around cases that otherwise
+would produce differences near 360 or -360$^{\circ}$.
+
+<<match-times>>=
+  
+  ## now set consistent time limits and dimensions in the two files
+  ## The netCDF file is a subset of the Applanix file, so truncate the latter
+SE <- getStartEnd(Data$Time)
+r <- setRange(Dave$Time, SE[1], SE[2])
+Dave <- Dave[r, ]
+DS <- Data
+Data <- Data[1:nrow(Dave),]
+Data <- transferAttributes(Data, DS)
+Dave$Time <- NULL    ## this is a duplicate
+Dave <- cbind(Data, Dave)  ## merge the two data.files
+
+@
+
+<<write-netcdf>>=
+
+attributes(Dave) <- attributes(Data)
+NewNames <- NewNames[-which(NewNames == 'Time')]  ## eliminate Time for NewNames
+names (Dave) <- c(names (Data), NewNames)
+Dave <- transferAttributes (Dave, DS)             ## DS is saved 'Data'
+## set units attributes for new variables
+## (need at least one; could set more if needed
+attr (Dave$time_seconds_APPX, 'units') <- 'seconds past midnight UTC'
+attr (Dave$LAT_APPX, 'units') <- 'degrees N'
+attr (Dave$LON_APPX, 'units') <- 'degrees E'
+attr (Dave$ALT_APPX, 'units') <- 'meters'
+attr (Dave$UI_APPX, 'units') <- 'm/s'
+attr (Dave$VI_APPX, 'units') <- 'm/s'
+attr (Dave$VSPD_APPX, 'units') <- 'm/s'
+attr (Dave$ROLL_APPX, 'units') <- 'degrees'
+attr (Dave$PITCH_APPX, 'units') <- 'degrees'
+attr (Dave$HDG_APPX, 'units') <- 'degrees'
+attr (Dave$WANDER_APPX, 'units') <- 'degrees'
+attr (Dave$THDG_APPX, 'units') <- 'degrees'
+attr (Dave$BACCX_APPX, 'units') <- 'm/s^2'
+attr (Dave$BACCY_APPX, 'units') <- 'm/s^2'
+attr (Dave$BACCZ_APPX, 'units') <- 'm/s^2'
+attr (Dave$BROTX_APPX, 'units') <- 'degrees per second'
+attr (Dave$BROTY_APPX, 'units') <- 'degrees per second'
+attr (Dave$BROTZ_APPX, 'units') <- 'degrees per second'
+Dave$DTHDG <- Dave$THDG-Dave$THDG_APPX
+Dave$DTHDG[Dave$DTHDG > 180] <- Dave$DTHDG[Dave$DTHDG > 180] - 360
+Dave$DTHDG[Dave$DTHDG < -180] <- Dave$DTHDG[Dave$DTHDG < -180] + 360
+Dave$DPITCH <- Dave$PITCH-Dave$PITCH_APPX
+Dave$DPITCHC <- Dave$PITCHC-Dave$PITCH_APPX
+Dave$DROLL <- Dave$ROLL - Dave$ROLL_APPX
+attr( Dave$DPITCH, 'units') <- 'degrees'
+attr (Dave$DPITCHC, 'units') <- 'degrees'
+attr (Dave$DROLL, 'units') <- 'degrees'
+attr (Dave$DTHDG, 'units') <- 'degrees'
+
+fnw <- "DEEPWAVErf15_APPX.nc"  ## name of new file to create
+unlink (fnw)                   ## delete if present
+print (" call to makeNetCDF:")
+makeNetCDF (Dave, fnw)         ## write the new netCDF file
+print (" finished with makeNetCDF")
+
+@
+
+
+\section{Comparison between Applanix and Honeywell measurements}
+
+It is evident from turns that there are small angle differences in
+how the two IRUs are installed, so to avoid that problem the measurements
+will initially be restricted to those for which |ROLL| < 5. Figure~\ref{fig:overview-plot}
+shows the measurements from the two systems, and shows important consistency
+between them because the measurements are almost indistinguishable
+at this plot scale. Figure~\ref{fig:difference-plots} shows the
+differences directly. For pitch, the differences are mostly small
+relative to the expected uncertainty in the Honeywell measurement,
+expected to be 0.05$^{\circ}$, but there is a mean offset of around
+0.08$^{\circ}$ and a few regions near the end of the flight of more
+systematic variations. In roll, the deviations are a little larger
+and there is a similar but opposite-sign offset; this is still reasonable
+in comparison to the expected uncertainty, except for the offset.
+In heading, the variations are apparently more systematic and of larger
+magnitude, approaching the expected uncertainty. 
+
+<<overview-plot, include=TRUE, fig.cap="Plots of attitude angles measured by the Honeywell IRU and the Applanix IRU, for DEEPWAVE flight 15 on 3 July 2014">>=
+
+r <- setRange(Dave$Time, 30000, 60000)
+DT <- Dave[r, ]
+q <- abs(DT$ROLL) > 5
+DT$DROLL[q] <- NA
+DT$DPITCH[q] <- NA
+DT$DTHDG[q] <- NA
+DT$DPITCHC[q] <- NA
+
+layout (matrix (1:3, ncol=1), widths=1, heights=c (5,5,6))
+op <- par (mar=c(2,4,1,1)+0.1)
+plotWAC (DT[, c("Time", "PITCH", "PITCH_APPX")], legend.position='topright')
+plotWAC (DT[, c("Time", "ROLL", "ROLL_APPX")])
+op <- par (mar=c(5,4,1,1)+0.1)
+plotWAC (DT[, c("Time", "THDG", "THDG_APPX")], legend.position='topright')
+
+@
+
+<<difference-plots, include=TRUE, fig.cap="Plots of the differences between the attitude angles measured by the Honeywell vs.\\ Applanix IRUs, for the same measurements shown in the preceding figure. Gaps indicate regions excluded because the magnitude of the roll exceeded five degrees.">>=
+
+layout (matrix (1:3, ncol=1), widths=1, heights=c (5,5,6))
+op <- par (mar=c(2,4,1,1)+0.1)
+plotWAC (DT[, c("Time", "DPITCH")])
+plotWAC (DT[, c("Time", "DROLL")])
+op <- par (mar=c(5,4,1,1)+0.1)
+plotWAC (DT[, c("Time", "DTHDG")])
+
+@
+
+This is shown more clearly in Figs.~\ref{fig:histograms}, where
+histograms of the differences in angles are plotted (again restricted
+to the absolute value of the roll less than 5$^{\circ}$). For pitch,
+the standard deviation of the differences is only 0.012$^{\circ}$,
+well below the expected uncertainty from instrument specifications
+but consistent with comparisons between identical IRUs onboard the
+aircraft (as discussed in the document on Wind Uncertainty). The mean
+offset is likely a difference in installed orientation on the aircraft.
+For roll, the standard deviation is twice as large and the distribution
+is not symmetrical but shows a peak near 0.07$^{\circ}$ difference
+and outliers (vs a Gaussian distribution) toward positive values or
+toward Honeywell values being larger than those from the Applanix.
+Errors in roll do not have serious influence on errors in wind measurement,
+so this plot indicates that roll measurements are also quite consistent
+between the units and within expected error limits. However, the panel
+in Fig.~\ref{fig:histograms} for heading shows that the standard
+deviation in heading is larger and there are some measurements well
+outside the tolerance expected from instrument specifications. The
+specifications for the Applanix IRU indicate much smaller uncertainty
+limits for that instrument than for the Honeywell IRU, so a plausible
+interpretation is that these differences arise mostly from errors
+in the Honeywell measurement of heading. The heading offset is quite
+small, 0.02$^{\circ}$, so the IRUs appear to be aligned consistently
+with the longitudinal axis of the aircraft.
+
+It is interesting that a similar comparison to 'PITCHC', the pitch
+after correction for the detected Schuler oscillation, shows only
+a slightly smaller standard deviation. (This is shown as the red histogram
+in the top panel of Fig.~\ref{fig:histograms}.) There should be
+some improvement if the algorithm works properly, but this small improvement
+may indicate that the remaining errors don't arise from the Schuler
+oscillation but rather from other inaccuracies in the measurements.
+Indeed, flight 15 was one where the pitch corrections applied by the
+pitch-correction algorithm were especially small.
+
+<<histograms, include=TRUE, fig.cap="Histograms of the differences between angles measured by the Honeywell and Applanix IRUs, for DEEPWAVE flight 15.">>=
+
+layout (matrix (1:3, ncol=1), widths=1, heights=c (5,5,5))
+op <- par (mar=c(5,4,1,1)+0.1)
+hist(DT$DPITCH, main='', breaks=50, freq=FALSE, xlim=c(-0.15,0.05), col='gray')
+hist(DT$DPITCHC, main='', breaks=50, freq=FALSE, xlim=c(-0.15,0.05), add=TRUE, col='#cc000088')
+title(sprintf(" mean and st dev: %.3f %.3f -- for PITCHC [orange], %.03f %.03f",                          mean(DT$DPITCH, na.rm=TRUE), sd(DT$DPITCH, na.rm=TRUE),
+                mean(DT$DPITCHC, na.rm=TRUE), sd (DT$DPITCHC, na.rm=TRUE)))
+hist(DT$DROLL, main='', breaks=100, freq=FALSE, xlim=c(0, 0.2))
+title(sprintf(" mean and st dev: %.3f %.3f", mean(DT$DROLL, na.rm=TRUE), sd(DT$DROLL, na.rm=TRUE)))
+hist(DT$DTHDG, main='', breaks=100, freq=FALSE, xlim=c(-0.1,0.1))
+title(sprintf(" mean and st dev: %.2f %.2f", mean(DT$DTHDG, na.rm=TRUE), sd(DT$DTHDG, na.rm=TRUE)))
+# hist(DT$DPITCHC, main='', breaks=50, freq=FALSE, xlim=c(-0.15,0.05))
+# title(sprintf(" mean and st dev: %.3f %.3f", mean(DT$DPITCHC, na.rm=TRUE), 
+#              sd(DT$DPITCHC, na.rm=TRUE)))
+
+@
+
+
+\section{Timing of the measurements}
+
+All indications are that the measurements are perfectly aligned in
+time. Various tests were applied, shifting to see if the correlation
+between signals were improved and also, in a very sensitive test,
+comparing the phase and coherence of the signals. For pitch, the signals
+remain coherent at >0.75 for all frequencies up to the Nyquist frequency
+of 12.5~Hz. If the signals were delayed even by one sample (0.04
+or 0.1~s), the expected phase shift at 1~Hz would be 14--36$^{\circ}$,
+and this would increase for higher frequencies, so the absence of
+phase shift at all frequencies is a sensitive indicator that there
+is no timing difference between the signals.
+
+Figure \ref{fig:example-short} shows a shorter example of the time
+correspondence between PITCH and PITCH\_APPX, to illustrate that there
+is no apparent time shift.
+
+<<example-short, include=TRUE, fig.cap="Example of the time correspondence between PITCH and PITCH\\_APPX for a sequence of measurements including a pitch maneuver, from DEEPWAVE flight 15 on 3 July 2014.">>=
+
+layout (matrix (1:1, ncol=1), widths=1, heights=c (5))
+op <- par (mar=c(5,4,1,1)+0.1)
+V <- c("Time", "PITCH", "PITCH_APPX")
+r <- setRange (Dave$Time, 42555, 42610)
+plotWAC (Dave[r, V], legend.position='bottomright')
+
+@
+
+There is, however, one significant difference: The Applanix measurements
+of pitch have much lower variance at high frequency in comparison
+to the Honeywell measurements. This is shown in Fig.~\ref{fig:PITCHspectra},
+which shows that the variance spectra are essentially identical at
+frequencies below about 2 Hz but differ significantly above that frequency,
+with an apparent peak in the spectrum for PITCH at about 7 Hz that
+does not appear in PITCH\_APPX and is likely not real. In comparison
+to the spectrum for AKRD, this is insignificant and so has no important
+effect on the vertical wind.
+
+\begin{figure}
+\noindent \begin{centering}
+\includegraphics[width=0.9\textwidth]{MEMPlotPITCH}
+\par\end{centering}
+
+\caption{\label{fig:PITCHspectra}Variance spectra for the measurements PITCH
+(from the Honeywell IRU) and PITCH\textbackslash{}\_APPX (from the
+Applanix IRU).}
+
+
+\end{figure}
+
+
+<<misc, eval=FALSE>>=
+
+
+V <- c("Time", "PITCH", "PITCH_APPX")
+r <- setRange(Dave$Time, 33000,33500)
+plotWAC(Dave[r,V])
+r <- setRange(Dave$Time, 33330,33350)
+plotWAC(Dave[r,V])
+V <- c("Time", "THDG", "THDG_APPX")
+plotWAC(Dave[setRange(Dave$Time, 33300,33400),V])
+plotWAC(Dave[,V])
+plotWAC(Dave[setRange(Dave$Time, 34000,35500),V])
+r <- setRange(Dave$Time, 34000, 35500)
+r <- setRange(Dave$Time, 34450, 34510)
+plotWAC(Dave[r,V])
+lineWAC(Dave$Time[r], 50*(Dave$THDG[r]-Dave$THDG_APPX[r])+150, col='red')
+Dave$DTHDG <- Dave$THDG-Dave$THDG_APPX
+Dave$DTHDG[Dave$DTHDG > 180] <- Dave$DTHDG[Dave$DTHDG > 180] - 360
+Dave$DTHDG[Dave$DTHDG < -180] <- Dave$DTHDG[Dave$DTHDG < -180] + 360
+plotWAC(Dave$Time, Dave$DTHDG)
+abline(h=0, col='darkorange', lty=2)
+sd(Dave$DTHDG)
+sd(Dave$PITCH-Dave$PITCH_APPX)
+sd(Dave$ROLL-Dave$ROLL_APPX)
+
+@
+
+
+\section{Tentative conclusions}
+
+The Applanix data are available continuously for this full flight,
+and the measurements have no obvious problems. In comparison to the
+Honeywell measurements of attitude angles, the two systems are apparently
+offset slightly, but only by less than 0.1$^{\circ}$ in the worst
+case (roll). The standard deviations are consistent with expected
+measurement uncertainties, with pitch appearing the best (about 0.01$^{\circ}$
+standard deviation) and heading the worst (about 0.03$^{\circ}$ standard
+deviation). Figure~\ref{fig:difference-plots} (bottom) shows that
+the difference in heading tends to drift, as might be expected if
+the Kalman filter incorporated in the Applanix is correcting for errors
+that otherwise grow in the uncorrected measurement from the Honeywell
+IRU.~It is hard to test the quality of the heading measurement except
+via circle maneuvers, which have already been applied to adjust the
+offset in THDG. However, the standard deviation and distribution shown
+in the bottom plot of Fig.~\ref{fig:histograms} suggest that there
+is significant error in THDG that can be improved through use of THDG\_APPX.
+
+\clearpage
+
+\begin{center}
+\textsf{\textcolor{blue}{-- End of Memo --}}
+\par\end{center}
+
+Reproducibility:
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{Project:}}} & \Sexpr{thisFileName}\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Archive package:}}} & \Sexpr{thisFileName}.zip\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Contains:}}} & attachment list below\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Program:}}} & \Sexpr{thisFileName}.Rnw\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Original Data:}}} & /scr/raf/Prod\_Data/\Sexpr{Project}/HRT/\Sexpr{Project}\Sexpr{Flight}hPC.nc \tabularnewline
+ & /scr/raf/Raw\_Data/DEEPWAVE/Applanix/POS\_to\_ASCII\_output/RF15ASCII.txt\tabularnewline
+\textsf{\textsc{\textcolor{blue}{merged Data:}}} & /scr/raf/cooperw/DEEPWAVErf15hPC\_APPX.nc\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Git:}}} & git@github.com:WilliamCooper/\Sexpr{thisFileName}.git\tabularnewline
+\end{tabular}
+
+\attachm{\Sexpr{thisFileName}.Rnw\\\Sexpr{thisFileName}.pdf\\SessionInfo}
+%\cc{first attachment\\second\\3rd att}
+%\attach{attachment}
+%\attachm{first\\second} %\cc{first attachment\\second\\3rd att}
+<<save-system-info, echo=FALSE>>= 
+cat (toLatex(sessionInfo()), file="SessionInfo")
+
+@ 
+<<make-zip-archive, echo=TRUE, INCLUDE=TRUE>>=
+system (sprintf("zip %s.zip %s.Rnw %s.pdf SessionInfo", thisFileName, thisFileName, thisFileName))
+
+@ 
+
+%\cc{first attachment\\second\\3rd att}
+\end{document}

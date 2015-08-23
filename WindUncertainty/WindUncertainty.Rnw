@@ -105,7 +105,7 @@
 
 % workaround for a makeindex bug,
 % see sec. "Index Entry Order"
-% only uncomment this when you are using makindex
+% only uncomment this when you are using makeindex
 \let\OrgIndex\index 
 \renewcommand*{\index}[1]{\OrgIndex{#1}}
 \usepackage{splitidx}

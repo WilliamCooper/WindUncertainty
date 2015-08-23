@@ -1,0 +1,2561 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\addressee} \global\addressee={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Memo to: \the\addressee \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+\newcommand{\EOLmemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Earth Observing Laboratory}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.3truein \leftline{\hskip \longindent \datetoday} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lyxlist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+\end_preamble
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding default
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize letterpaper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 0
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.54cm
+\topmargin 3.54cm
+\rightmargin 2.54cm
+\bottommargin 2.54cm
+\headheight 1cm
+\headsep 2cm
+\footskip 0.5cm
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+EOLmemo 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+global
+\backslash
+addressee={DEEPWAVE Applanix File}  
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+To:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+the
+\backslash
+addressee
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+From:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Al Cooper
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Subject:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+First look at Applanix measurements
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Source of data
+\end_layout
+
+\begin_layout Standard
+Dick Friesen, working with Kelly Schick, produced an ASCII file containing
+ the 10-Hz Applanix measurements for DEEPWAVE flight 15 (the flight with
+ calibration maneuvers).
+ The measurements were associated with a time in seconds after midnight.
+ This file was read into R, a POSIX-format time was produced from the time
+ variable, the measurements were renamed according to names saved in the
+ file 'NewNames' (to variables like PITCH_APPX), and the measurements were
+ linearly interpolated to a 25-Hz sequence.
+ That result was then smoothed slightly using Savitzky-Golay polynomials
+ (3rd order, spanning 7 points).
+ The resulting file was truncated to match the times in the high-rate production
+ file (/scr/raf/Prod_Data/DEEPWAVE/HRT/DEEPWAVErf15hPC.nc).
+ That production file also included processing to produce a corrected measuremen
+t of PITCH, PITCHC, based on detection of the Schuler oscillation.
+ The resulting file, produced only with a subset of the variables in the
+ original file to save space, was then saved as the netCDF file /scr/raf/cooperw
+/DEEPWAVErf15hPC_APPX.nc, so that file is available for continued study.
+ The following listing shows some of the required R code; for a more complete
+ listing, see the source file ApplanixMemo.Rnw at the location specified
+ in the 
+\begin_inset Quotes eld
+\end_inset
+
+Reproducibility
+\begin_inset Quotes erd
+\end_inset
+
+ section at the end of this memo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<initialization,echo=FALSE,include=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+require(knitr)
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(fig.width=6, fig.height=5, fig.pos="center", digits=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+thisFileName <- "ApplanixMemo"
+\end_layout
+
+\begin_layout Plain Layout
+
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggplot2)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(grid)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggthemes)
+\end_layout
+
+\begin_layout Plain Layout
+
+Directory <- DataDirectory ()
+\end_layout
+
+\begin_layout Plain Layout
+
+Flight <- "rf15" 				# XXX change this
+\end_layout
+
+\begin_layout Plain Layout
+
+Project = "DEEPWAVE"			 # XXX change this
+\end_layout
+
+\begin_layout Plain Layout
+
+fname = sprintf("%s%s/%s%s.nc", Directory,Project,Project,Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+# Data <- getNetCDF (fname, standardVariables(c("GGVSPDB")))		#XXX set variables
+ needed here
+\end_layout
+
+\begin_layout Plain Layout
+
+SaveRData <- sprintf("%s.Rdata.gz", thisFileName)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<prelim>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+require(xts)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(zoo)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(signal)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+transferAttributes <- function (dsub, d) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  ds <- dsub
+\end_layout
+
+\begin_layout Plain Layout
+
+  for (nm in names (ds)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (nm %in% names(d)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      var <- sprintf ("d$%s", nm)
+\end_layout
+
+\begin_layout Plain Layout
+
+      A <- attributes (eval (parse (text=var)))
+\end_layout
+
+\begin_layout Plain Layout
+
+      A$dim <- NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+      if (nm != "Time") {
+\end_layout
+
+\begin_layout Plain Layout
+
+        A$class <- NULL
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+      attributes (ds[,nm]) <- A
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  return(ds)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+<<read-applanix, echo=TRUE, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ApplanixRF15 <- read.table ("~/RStudio/DEEPWAVE/ApplanixRF15.txt", 
+\end_layout
+
+\begin_layout Plain Layout
+
+                            header=TRUE, quote="
+\backslash
+"", stringsAsFactors=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+## convert times to a POSIX-format time, for merging with standard netCDF:
+\end_layout
+
+\begin_layout Plain Layout
+
+## (note 2014-07-03 is the flight date)
+\end_layout
+
+\begin_layout Plain Layout
+
+ApplanixRF15$Time <- as.POSIXct (ApplanixRF15$time_.UTC_seconds_of_day.,
+\end_layout
+
+\begin_layout Plain Layout
+
+                                 origin="2014-07-03", tz="GMT")
+\end_layout
+
+\begin_layout Plain Layout
+
+NewNames <- names (ApplanixRF15)
+\end_layout
+
+\begin_layout Plain Layout
+
+## reassign names as specified in file NewNames:
+\end_layout
+
+\begin_layout Plain Layout
+
+source ('NewNames')
+\end_layout
+
+\begin_layout Plain Layout
+
+NewNames <- c(NewNames, "Time")
+\end_layout
+
+\begin_layout Plain Layout
+
+names (ApplanixRF15) <- NewNames
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+<<read-HRT-netCDF, include=TRUE, echo=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+## read variables from netCDF file, including those needed for pitch correction:
+\end_layout
+
+\begin_layout Plain Layout
+
+# Data <- getNetCDF ("/scr/raf/Prod_Data/DEEPWAVE/HRT/DEEPWAVErf15hPC.nc",
+\end_layout
+
+\begin_layout Plain Layout
+
+Data <- getNetCDF ("/Data/DEEPWAVE/DEEPWAVErf15hPC.nc",
+\end_layout
+
+\begin_layout Plain Layout
+
+                   standardVariables(c("PITCH", "ROLL", "THDG", "GGVSPD",
+\end_layout
+
+\begin_layout Plain Layout
+
+                                       "VNS", "VEW", "GGVNS", "GGVEW", "LAT",
+ "PITCHC")))
+\end_layout
+
+\begin_layout Plain Layout
+
+Data$PITCHC <- Data$PITCH - CorrectPitch(Data) ## should be commented, already
+ done?
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Rate <- 1
+\end_layout
+
+\begin_layout Plain Layout
+
+if ("sps25" %in% names(attributes(Data)$Dimensions)) {Rate <- 25}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+## if Rate > 10, need to interpolate/filter the 10-Hz Applanix measurements
+ to get 25 Hz;
+\end_layout
+
+\begin_layout Plain Layout
+
+## if Rate == 1, need to average the 10-Hz Applanix measurements
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ReloadDave <- FALSE
+\end_layout
+
+\begin_layout Plain Layout
+
+# ReloadDave <- TRUE
+\end_layout
+
+\begin_layout Plain Layout
+
+if (ReloadDave) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  if (Rate == 25) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    L <- 2.5 * nrow (ApplanixRF15)
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (nm in names (ApplanixRF15)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      if (nm == "Time") {next}    ## skip Time; will handle specially below
+\end_layout
+
+\begin_layout Plain Layout
+
+      ## angle variables require vector averaging to avoid wrap-around problems
+\end_layout
+
+\begin_layout Plain Layout
+
+      if (nm == "THDG_APPX" || nm == "WANDER_APPX" || nm == "HDG_APPX")
+ {
+\end_layout
+
+\begin_layout Plain Layout
+
+        sina <- sin (ApplanixRF15[, nm] * pi/180)
+\end_layout
+
+\begin_layout Plain Layout
+
+        cosa <- cos (ApplanixRF15[, nm] * pi/180)
+\end_layout
+
+\begin_layout Plain Layout
+
+        X1 <- stats::approx (x=ApplanixRF15$time_seconds_APPX, y=sina,
+\end_layout
+
+\begin_layout Plain Layout
+
+                            method='linear', n=L)
+\end_layout
+
+\begin_layout Plain Layout
+
+        X2 <- stats::approx (x=ApplanixRF15$time_seconds_APPX, y=cosa,
+\end_layout
+
+\begin_layout Plain Layout
+
+                             method='linear', n=L)
+\end_layout
+
+\begin_layout Plain Layout
+
+        ## apply small amount of filtering to linearly interpolated values
+\end_layout
+
+\begin_layout Plain Layout
+
+        X1$y <- signal::filter (signal::sgolay(3,7), X1$y)
+\end_layout
+
+\begin_layout Plain Layout
+
+        X2$y <- signal::filter (signal::sgolay(3,7), X2$y)
+\end_layout
+
+\begin_layout Plain Layout
+
+        Dave[, nm] <- (atan2(X1$y, X2$y) * 180/pi + 360) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+      } else {    ## these are now not-angle variables
+\end_layout
+
+\begin_layout Plain Layout
+
+        X <- stats::approx (x=ApplanixRF15$time_seconds_APPX, y=ApplanixRF15[,
+ nm], 
+\end_layout
+
+\begin_layout Plain Layout
+
+                           method='linear', n=L)
+\end_layout
+
+\begin_layout Plain Layout
+
+        X$y <- signal::filter (signal::sgolay (3,7), X$y)
+\end_layout
+
+\begin_layout Plain Layout
+
+        ## add variables to data.frame
+\end_layout
+
+\begin_layout Plain Layout
+
+        if (grepl("time", nm)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+          Dave <- data.frame(time_seconds_APPX=X$y)
+\end_layout
+
+\begin_layout Plain Layout
+
+        } else {
+\end_layout
+
+\begin_layout Plain Layout
+
+          Dave[, nm] <- X$y
+\end_layout
+
+\begin_layout Plain Layout
+
+        }
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+  } else {  ## this is branch for 1-Hz data
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\end_layout
+
+\begin_layout Plain Layout
+
+    ## construct 1-Hz data by averaging 10-Hz data
+\end_layout
+
+\begin_layout Plain Layout
+
+    ## (I think the following might introduce 0.5-s delay vs nimbus?)   
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+    ep <- endpoints(ApplanixRF15$Time, 'seconds')
+\end_layout
+
+\begin_layout Plain Layout
+
+    tt <- as.integer(period.apply(ApplanixRF15$time_seconds_APPX, ep, mean))
+\end_layout
+
+\begin_layout Plain Layout
+
+    Dave <- data.frame(time_seconds_APPX=tt)
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (nm in names(ApplanixRF15)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+      print(nm)
+\end_layout
+
+\begin_layout Plain Layout
+
+      if (nm == "Time") {next}
+\end_layout
+
+\begin_layout Plain Layout
+
+      ## deal specially with THDG_APPX to handle wrap-around
+\end_layout
+
+\begin_layout Plain Layout
+
+      if (nm == "THDG_APPX" || nm == "WANDER_APPX" || nm == "HDG_APPX")
+ {
+\end_layout
+
+\begin_layout Plain Layout
+
+        ## note that this is the preferred way to average angles
+\end_layout
+
+\begin_layout Plain Layout
+
+        sina <- sin(ApplanixRF15[, nm] * pi/180)
+\end_layout
+
+\begin_layout Plain Layout
+
+        cosa <- cos(ApplanixRF15[, nm] * pi/180)
+\end_layout
+
+\begin_layout Plain Layout
+
+        sinave <- period.apply(sina, ep, mean)
+\end_layout
+
+\begin_layout Plain Layout
+
+        cosave <- period.apply(cosa, ep, mean)
+\end_layout
+
+\begin_layout Plain Layout
+
+        Dave[, nm] <- (atan2(sinave, cosave)*180/pi + 360) %% 360
+\end_layout
+
+\begin_layout Plain Layout
+
+      } else {
+\end_layout
+
+\begin_layout Plain Layout
+
+        if (grepl("time_s", nm)) {next}  ## already dealt with time_s
+\end_layout
+
+\begin_layout Plain Layout
+
+        Dave[, nm] <- period.apply(ApplanixRF15[,nm], ep, mean)
+\end_layout
+
+\begin_layout Plain Layout
+
+      }
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  Dave$Time <- as.POSIXct(Dave$time_seconds_APPX, origin="2014-07-03", tz="GMT")
+\end_layout
+
+\begin_layout Plain Layout
+
+  save(Dave, file="APPX.Rdata")
+\end_layout
+
+\begin_layout Plain Layout
+
+} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+  load(file='APPX.Rdata')
+\end_layout
+
+\begin_layout Plain Layout
+
+}  
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The new netCDF file has the following new variables: time_seconds_APPX,
+ LAT_APPX, LON_APPX, ALT_APPX, UI_APPX, VI_APPX, VSPD_APPX, ROLL_APPX, PITCH_APP
+X, HDG_APPX, WANDER_APPX, THDG_APPX, BACCX_APPX, BACCY_APPX, BACCZ_APPX,
+ BROTX_APPX, BROTY_APPX, BROTZ_APPX, DPITCH, DROLL, DTHDG.
+ The variables with names beginning with BACC are components of the body
+ accelerations; those beginning with BROT are components of the body rotation,
+ and those beginning with D are difference variables between the denoted
+ variable and the corresponding Applanix-provided variable; i.e., DPITCHC
+ is the difference between PITCHC and PITCH_APPX.
+ This is particularly useful in the case of THDG because the variable is
+ calculated with correction for wrap-around cases that otherwise would produce
+ differences near 360 or -360
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<match-times>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  ## now set consistent time limits and dimensions in the two files
+\end_layout
+
+\begin_layout Plain Layout
+
+  ## The netCDF file is a subset of the Applanix file, so truncate the latter
+\end_layout
+
+\begin_layout Plain Layout
+
+SE <- getStartEnd(Data$Time)
+\end_layout
+
+\begin_layout Plain Layout
+
+r <- setRange(Dave$Time, SE[1], SE[2])
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave <- Dave[r, ]
+\end_layout
+
+\begin_layout Plain Layout
+
+DS <- Data
+\end_layout
+
+\begin_layout Plain Layout
+
+Data <- Data[1:nrow(Dave),]
+\end_layout
+
+\begin_layout Plain Layout
+
+Data <- transferAttributes(Data, DS)
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave$Time <- NULL    ## this is a duplicate
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave <- cbind(Data, Dave)  ## merge the two data.files
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+<<write-netcdf>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+attributes(Dave) <- attributes(Data)
+\end_layout
+
+\begin_layout Plain Layout
+
+NewNames <- NewNames[-which(NewNames == 'Time')]  ## eliminate Time for
+ NewNames
+\end_layout
+
+\begin_layout Plain Layout
+
+names (Dave) <- c(names (Data), NewNames)
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave <- transferAttributes (Dave, DS)             ## DS is saved 'Data'
+\end_layout
+
+\begin_layout Plain Layout
+
+## set units attributes for new variables
+\end_layout
+
+\begin_layout Plain Layout
+
+## (need at least one; could set more if needed
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$time_seconds_APPX, 'units') <- 'seconds past midnight UTC'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$LAT_APPX, 'units') <- 'degrees N'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$LON_APPX, 'units') <- 'degrees E'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$ALT_APPX, 'units') <- 'meters'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$UI_APPX, 'units') <- 'm/s'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$VI_APPX, 'units') <- 'm/s'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$VSPD_APPX, 'units') <- 'm/s'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$ROLL_APPX, 'units') <- 'degrees'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$PITCH_APPX, 'units') <- 'degrees'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$HDG_APPX, 'units') <- 'degrees'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$WANDER_APPX, 'units') <- 'degrees'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$THDG_APPX, 'units') <- 'degrees'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$BACCX_APPX, 'units') <- 'm/s^2'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$BACCY_APPX, 'units') <- 'm/s^2'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$BACCZ_APPX, 'units') <- 'm/s^2'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$BROTX_APPX, 'units') <- 'degrees per second'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$BROTY_APPX, 'units') <- 'degrees per second'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$BROTZ_APPX, 'units') <- 'degrees per second'
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave$DTHDG <- Dave$THDG-Dave$THDG_APPX
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave$DTHDG[Dave$DTHDG > 180] <- Dave$DTHDG[Dave$DTHDG > 180] - 360
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave$DTHDG[Dave$DTHDG < -180] <- Dave$DTHDG[Dave$DTHDG < -180] + 360
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave$DPITCH <- Dave$PITCH-Dave$PITCH_APPX
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave$DPITCHC <- Dave$PITCHC-Dave$PITCH_APPX
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave$DROLL <- Dave$ROLL - Dave$ROLL_APPX
+\end_layout
+
+\begin_layout Plain Layout
+
+attr( Dave$DPITCH, 'units') <- 'degrees'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$DPITCHC, 'units') <- 'degrees'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$DROLL, 'units') <- 'degrees'
+\end_layout
+
+\begin_layout Plain Layout
+
+attr (Dave$DTHDG, 'units') <- 'degrees'
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+fnw <- "DEEPWAVErf15_APPX.nc"  ## name of new file to create
+\end_layout
+
+\begin_layout Plain Layout
+
+unlink (fnw)                   ## delete if present
+\end_layout
+
+\begin_layout Plain Layout
+
+print (" call to makeNetCDF:")
+\end_layout
+
+\begin_layout Plain Layout
+
+makeNetCDF (Dave, fnw)         ## write the new netCDF file
+\end_layout
+
+\begin_layout Plain Layout
+
+print (" finished with makeNetCDF")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Comparison between Applanix and Honeywell measurements
+\end_layout
+
+\begin_layout Standard
+It is evident from turns that there are small angle differences in how the
+ two IRUs are installed, so to avoid that problem the measurements will
+ initially be restricted to those for which |ROLL| < 5.
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:overview-plot}
+\end_layout
+
+\end_inset
+
+ shows the measurements from the two systems, and shows important consistency
+ between them because the measurements are almost indistinguishable at this
+ plot scale.
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:difference-plots}
+\end_layout
+
+\end_inset
+
+ shows the differences directly.
+ For pitch, the differences are mostly small relative to the expected uncertaint
+y in the Honeywell measurement, expected to be 0.05
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, but there is a mean offset of around 0.08
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ and a few regions near the end of the flight of more systematic variations.
+ In roll, the deviations are a little larger and there is a similar but
+ opposite-sign offset; this is still reasonable in comparison to the expected
+ uncertainty, except for the offset.
+ In heading, the variations are apparently more systematic and of larger
+ magnitude, approaching the expected uncertainty.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<overview-plot, include=TRUE, fig.cap="Plots of attitude angles measured
+ by the Honeywell IRU and the Applanix IRU, for DEEPWAVE flight 15 on 3
+ July 2014">>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+r <- setRange(Dave$Time, 30000, 60000)
+\end_layout
+
+\begin_layout Plain Layout
+
+DT <- Dave[r, ]
+\end_layout
+
+\begin_layout Plain Layout
+
+q <- abs(DT$ROLL) > 5
+\end_layout
+
+\begin_layout Plain Layout
+
+DT$DROLL[q] <- NA
+\end_layout
+
+\begin_layout Plain Layout
+
+DT$DPITCH[q] <- NA
+\end_layout
+
+\begin_layout Plain Layout
+
+DT$DTHDG[q] <- NA
+\end_layout
+
+\begin_layout Plain Layout
+
+DT$DPITCHC[q] <- NA
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+layout (matrix (1:3, ncol=1), widths=1, heights=c (5,5,6))
+\end_layout
+
+\begin_layout Plain Layout
+
+op <- par (mar=c(2,4,1,1)+0.1)
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC (DT[, c("Time", "PITCH", "PITCH_APPX")], legend.position='topright')
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC (DT[, c("Time", "ROLL", "ROLL_APPX")])
+\end_layout
+
+\begin_layout Plain Layout
+
+op <- par (mar=c(5,4,1,1)+0.1)
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC (DT[, c("Time", "THDG", "THDG_APPX")], legend.position='topright')
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+<<difference-plots, include=TRUE, fig.cap="Plots of the differences between
+ the attitude angles measured by the Honeywell vs.
+\backslash
+
+\backslash
+ Applanix IRUs, for the same measurements shown in the preceding figure.
+ Gaps indicate regions excluded because the magnitude of the roll exceeded
+ five degrees.">>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+layout (matrix (1:3, ncol=1), widths=1, heights=c (5,5,6))
+\end_layout
+
+\begin_layout Plain Layout
+
+op <- par (mar=c(2,4,1,1)+0.1)
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC (DT[, c("Time", "DPITCH")])
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC (DT[, c("Time", "DROLL")])
+\end_layout
+
+\begin_layout Plain Layout
+
+op <- par (mar=c(5,4,1,1)+0.1)
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC (DT[, c("Time", "DTHDG")])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is shown more clearly in Figs.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:histograms}
+\end_layout
+
+\end_inset
+
+, where histograms of the differences in angles are plotted (again restricted
+ to the absolute value of the roll less than 5
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+).
+ For pitch, the standard deviation of the differences is only 0.012
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, well below the expected uncertainty from instrument specifications but
+ consistent with comparisons between identical IRUs onboard the aircraft
+ (as discussed in the document on Wind Uncertainty).
+ The mean offset is likely a difference in installed orientation on the
+ aircraft.
+ For roll, the standard deviation is twice as large and the distribution
+ is not symmetrical but shows a peak near 0.07
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ difference and outliers (vs a Gaussian distribution) toward positive values
+ or toward Honeywell values being larger than those from the Applanix.
+ Errors in roll do not have serious influence on errors in wind measurement,
+ so this plot indicates that roll measurements are also quite consistent
+ between the units and within expected error limits.
+ However, the panel in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:histograms}
+\end_layout
+
+\end_inset
+
+ for heading shows that the standard deviation in heading is larger and
+ there are some measurements well outside the tolerance expected from instrument
+ specifications.
+ The specifications for the Applanix IRU indicate much smaller uncertainty
+ limits for that instrument than for the Honeywell IRU, so a plausible interpret
+ation is that these differences arise mostly from errors in the Honeywell
+ measurement of heading.
+ The heading offset is quite small, 0.02
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, so the IRUs appear to be aligned consistently with the longitudinal axis
+ of the aircraft.
+\end_layout
+
+\begin_layout Standard
+It is interesting that a similar comparison to 'PITCHC', the pitch after
+ correction for the detected Schuler oscillation, shows only a slightly
+ smaller standard deviation.
+ (This is shown as the red histogram in the top panel of Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:histograms}
+\end_layout
+
+\end_inset
+
+.) There should be some improvement if the algorithm works properly, but
+ this small improvement may indicate that the remaining errors don't arise
+ from the Schuler oscillation but rather from other inaccuracies in the
+ measurements.
+ Indeed, flight 15 was one where the pitch corrections applied by the pitch-corr
+ection algorithm were especially small.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<histograms, include=TRUE, fig.cap="Histograms of the differences between
+ angles measured by the Honeywell and Applanix IRUs, for DEEPWAVE flight
+ 15.">>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+layout (matrix (1:3, ncol=1), widths=1, heights=c (5,5,5))
+\end_layout
+
+\begin_layout Plain Layout
+
+op <- par (mar=c(5,4,1,1)+0.1)
+\end_layout
+
+\begin_layout Plain Layout
+
+hist(DT$DPITCH, main='', breaks=50, freq=FALSE, xlim=c(-0.15,0.05), col='gray')
+\end_layout
+
+\begin_layout Plain Layout
+
+hist(DT$DPITCHC, main='', breaks=50, freq=FALSE, xlim=c(-0.15,0.05), add=TRUE,
+ col='#cc000088')
+\end_layout
+
+\begin_layout Plain Layout
+
+title(sprintf(" mean and st dev: %.3f %.3f -- for PITCHC [orange], %.03f %.03f",
+                          mean(DT$DPITCH, na.rm=TRUE), sd(DT$DPITCH, na.rm=TRUE),
+\end_layout
+
+\begin_layout Plain Layout
+
+                mean(DT$DPITCHC, na.rm=TRUE), sd (DT$DPITCHC, na.rm=TRUE)))
+\end_layout
+
+\begin_layout Plain Layout
+
+hist(DT$DROLL, main='', breaks=100, freq=FALSE, xlim=c(0, 0.2))
+\end_layout
+
+\begin_layout Plain Layout
+
+title(sprintf(" mean and st dev: %.3f %.3f", mean(DT$DROLL, na.rm=TRUE), sd(DT$DROL
+L, na.rm=TRUE)))
+\end_layout
+
+\begin_layout Plain Layout
+
+hist(DT$DTHDG, main='', breaks=100, freq=FALSE, xlim=c(-0.1,0.1))
+\end_layout
+
+\begin_layout Plain Layout
+
+title(sprintf(" mean and st dev: %.2f %.2f", mean(DT$DTHDG, na.rm=TRUE), sd(DT$DTHD
+G, na.rm=TRUE)))
+\end_layout
+
+\begin_layout Plain Layout
+
+# hist(DT$DPITCHC, main='', breaks=50, freq=FALSE, xlim=c(-0.15,0.05))
+\end_layout
+
+\begin_layout Plain Layout
+
+# title(sprintf(" mean and st dev: %.3f %.3f", mean(DT$DPITCHC, na.rm=TRUE),
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+#              sd(DT$DPITCHC, na.rm=TRUE)))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Timing of the measurements
+\end_layout
+
+\begin_layout Standard
+All indications are that the measurements are perfectly aligned in time.
+ Various tests were applied, shifting to see if the correlation between
+ signals were improved and also, in a very sensitive test, comparing the
+ phase and coherence of the signals.
+ For pitch, the signals remain coherent at >0.75 for all frequencies up to
+ the Nyquist frequency of 12.5
+\begin_inset space ~
+\end_inset
+
+Hz.
+ If the signals were delayed even by one sample (0.04 or 0.1
+\begin_inset space ~
+\end_inset
+
+s), the expected phase shift at 1
+\begin_inset space ~
+\end_inset
+
+Hz would be 14--36
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, and this would increase for higher frequencies, so the absence of phase
+ shift at all frequencies is a sensitive indicator that there is no timing
+ difference between the signals.
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:example-short}
+\end_layout
+
+\end_inset
+
+ shows a shorter example of the time correspondence between PITCH and PITCH_APPX
+, to illustrate that there is no apparent time shift.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<example-short, include=TRUE, fig.cap="Example of the time correspondence
+ between PITCH and PITCH
+\backslash
+
+\backslash
+_APPX for a sequence of measurements including a pitch maneuver, from DEEPWAVE
+ flight 15 on 3 July 2014.">>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+layout (matrix (1:1, ncol=1), widths=1, heights=c (5))
+\end_layout
+
+\begin_layout Plain Layout
+
+op <- par (mar=c(5,4,1,1)+0.1)
+\end_layout
+
+\begin_layout Plain Layout
+
+V <- c("Time", "PITCH", "PITCH_APPX")
+\end_layout
+
+\begin_layout Plain Layout
+
+r <- setRange (Dave$Time, 42555, 42610)
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC (Dave[r, V], legend.position='bottomright')
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There is, however, one significant difference: The Applanix measurements
+ of pitch have much lower variance at high frequency in comparison to the
+ Honeywell measurements.
+ This is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:PITCHspectra"
+
+\end_inset
+
+, which shows that the variance spectra are essentially identical at frequencies
+ below about 2 Hz but differ significantly above that frequency, with an
+ apparent peak in the spectrum for PITCH at about 7 Hz that does not appear
+ in PITCH_APPX and is likely not real.
+ In comparison to the spectrum for AKRD, this is insignificant and so has
+ no important effect on the vertical wind.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename MEMPlotPITCH.png
+	lyxscale 50
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:PITCHspectra"
+
+\end_inset
+
+Variance spectra for the measurements PITCH (from the Honeywell IRU) and
+ PITCH
+\backslash
+_APPX (from the Applanix IRU).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<misc, eval=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+V <- c("Time", "PITCH", "PITCH_APPX")
+\end_layout
+
+\begin_layout Plain Layout
+
+r <- setRange(Dave$Time, 33000,33500)
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC(Dave[r,V])
+\end_layout
+
+\begin_layout Plain Layout
+
+r <- setRange(Dave$Time, 33330,33350)
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC(Dave[r,V])
+\end_layout
+
+\begin_layout Plain Layout
+
+V <- c("Time", "THDG", "THDG_APPX")
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC(Dave[setRange(Dave$Time, 33300,33400),V])
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC(Dave[,V])
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC(Dave[setRange(Dave$Time, 34000,35500),V])
+\end_layout
+
+\begin_layout Plain Layout
+
+r <- setRange(Dave$Time, 34000, 35500)
+\end_layout
+
+\begin_layout Plain Layout
+
+r <- setRange(Dave$Time, 34450, 34510)
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC(Dave[r,V])
+\end_layout
+
+\begin_layout Plain Layout
+
+lineWAC(Dave$Time[r], 50*(Dave$THDG[r]-Dave$THDG_APPX[r])+150, col='red')
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave$DTHDG <- Dave$THDG-Dave$THDG_APPX
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave$DTHDG[Dave$DTHDG > 180] <- Dave$DTHDG[Dave$DTHDG > 180] - 360
+\end_layout
+
+\begin_layout Plain Layout
+
+Dave$DTHDG[Dave$DTHDG < -180] <- Dave$DTHDG[Dave$DTHDG < -180] + 360
+\end_layout
+
+\begin_layout Plain Layout
+
+plotWAC(Dave$Time, Dave$DTHDG)
+\end_layout
+
+\begin_layout Plain Layout
+
+abline(h=0, col='darkorange', lty=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+sd(Dave$DTHDG)
+\end_layout
+
+\begin_layout Plain Layout
+
+sd(Dave$PITCH-Dave$PITCH_APPX)
+\end_layout
+
+\begin_layout Plain Layout
+
+sd(Dave$ROLL-Dave$ROLL_APPX)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Tentative conclusions
+\end_layout
+
+\begin_layout Standard
+The Applanix data are available continuously for this full flight, and the
+ measurements have no obvious problems.
+ In comparison to the Honeywell measurements of attitude angles, the two
+ systems are apparently offset slightly, but only by less than 0.1
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ in the worst case (roll).
+ The standard deviations are consistent with expected measurement uncertainties,
+ with pitch appearing the best (about 0.01
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ standard deviation) and heading the worst (about 0.03
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ standard deviation).
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:difference-plots}
+\end_layout
+
+\end_inset
+
+ (bottom) shows that the difference in heading tends to drift, as might
+ be expected if the Kalman filter incorporated in the Applanix is correcting
+ for errors that otherwise grow in the uncorrected measurement from the
+ Honeywell IRU.
+\begin_inset space ~
+\end_inset
+
+It is hard to test the quality of the heading measurement except via circle
+ maneuvers, which have already been applied to adjust the offset in THDG.
+ However, the standard deviation and distribution shown in the bottom plot
+ of Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:histograms}
+\end_layout
+
+\end_inset
+
+ suggest that there is significant error in THDG that can be improved through
+ use of THDG_APPX.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\family sans
+\color blue
+-- End of Memo --
+\end_layout
+
+\begin_layout Standard
+Reproducibility:
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+include enough info to re-run.
+ in zip, include program, pdf if not too big, and subset data, not entire
+ file.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Project:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{thisFileName}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Archive package:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{thisFileName}.zip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Contains:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+attachment list below
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Program:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+Sexpr{thisFileName}.Rnw
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Original Data:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+/scr/raf/Prod
+\backslash
+_Data/
+\backslash
+Sexpr{Project}/HRT/
+\backslash
+Sexpr{Project}
+\backslash
+Sexpr{Flight}hPC.nc
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+/scr/raf/Raw_Data/DEEPWAVE/Applanix/POS_to_ASCII_output/RF15ASCII.txt
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+merged Data:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+/scr/raf/cooperw/DEEPWAVErf15hPC_APPX.nc
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Git:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+git@github.com:WilliamCooper/
+\backslash
+Sexpr{thisFileName}.git
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+attachm{
+\backslash
+Sexpr{thisFileName}.Rnw
+\backslash
+
+\backslash
+
+\backslash
+Sexpr{thisFileName}.pdf
+\backslash
+
+\backslash
+SessionInfo}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+cc{first attachment
+\backslash
+
+\backslash
+second
+\backslash
+
+\backslash
+3rd att}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+attach{attachment}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+attachm{first
+\backslash
+
+\backslash
+second} %
+\backslash
+cc{first attachment
+\backslash
+
+\backslash
+second
+\backslash
+
+\backslash
+3rd att}
+\end_layout
+
+\begin_layout Plain Layout
+
+<<save-system-info, echo=FALSE>>= 
+\end_layout
+
+\begin_layout Plain Layout
+
+cat (toLatex(sessionInfo()), file="SessionInfo")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@ 
+\end_layout
+
+\begin_layout Plain Layout
+
+<<make-zip-archive, echo=TRUE, INCLUDE=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+system (sprintf("zip %s.zip %s.Rnw %s.pdf SessionInfo", thisFileName, thisFileName,
+ thisFileName))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+cc{first attachment
+\backslash
+
+\backslash
+second
+\backslash
+
+\backslash
+3rd att}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

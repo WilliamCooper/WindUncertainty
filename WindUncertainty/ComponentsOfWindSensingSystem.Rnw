@@ -20,7 +20,7 @@ if (!exists ("ReloadData")) {
 
 \subsubsection{Overview}
 
-The primary measurement of wind on the GV \index{wind!measurement!standard system} is that based on measurement of airspeed via a pitot tube\index{pitot tube}, airflow angles\index{angle!airflow} via pressure differences measured on the nose \index{radome}radome, attitude angles\index{angle!attitude} measured by an \index{inertial reference unit}inertial reference unit, and \index{speed of aircraft!ground speed}ground-speed\index{ground speed} components measured by the same inertial reference unit and also by a Global Positioning System\index{Global Positioning System} receiver. A cursory description of this system was provided by \citet{CooperEtAl2014}. A more extensive description will be provided here. Table~\ref{tab:Radome-system-measurements} provides a summary of the measurements used to determine the wind and the characteristics of the sensors\index{sensors!table}\index{sensors!characteristics} used, and the \index{EOL web pages, instruments}\href{http://www.eol.ucar.edu/aircraft-instrumentation}{EOL instrument web pages} (cf.~\textquotedbl{}State Parameters\textquotedbl{}, \textquotedbl{}Wind\textquotedbl{}) provide additional information on these measurements.  
+The primary measurement of wind on the GV \index{wind!measurement!standard system} is that based on measurement of airspeed via a pitot tube\index{pitot tube}, airflow angles\index{angle!airflow} via pressure differences measured on the nose \index{radome}radome, attitude angles\index{angle!attitude} measured by an \index{inertial reference unit}inertial reference unit, and \index{speed of aircraft!ground speed}ground-speed components measured by the same inertial reference unit and also by a Global Positioning System\index{Global Positioning System} receiver. A cursory description of this system was provided by \citet{CooperEtAl2014}. A more extensive description will be provided here. Table~\ref{tab:Radome-system-measurements} provides a summary of the measurements used to determine the wind and the characteristics of the sensors\index{sensors!table}\index{sensors!characteristics} used, and the \index{EOL web pages, instruments}\href{http://www.eol.ucar.edu/aircraft-instrumentation}{EOL instrument web pages} (cf.~\textquotedbl{}State Parameters\textquotedbl{}, \textquotedbl{}Wind\textquotedbl{}) provide additional information on these measurements.  
 
 % \begin{table}
 % \begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.5cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
@@ -59,7 +59,7 @@ The primary measurement of wind on the GV \index{wind!measurement!standard syste
 % are used for the standard calculation of the wind. See further
 % discussion of each measurement in Sect.~\ref{sub:The-radome-based-system}.\label{tab:Radome-system-measurements}}
 % \end{table}
-\sindex[var]{ATX=ambient temperature {[}deg C{]}}\sindex[var]{DPX=dew point {[}deg C{]}}
+\sindex[var]{ATX=selected best measurement of ambient \\temperature {[}deg C{]}}\sindex[var]{DPX=dew point {[}deg C{]}}
 \sindex[var]{HARCO=manufacturer of the primary temperature sensor on the GV. This is not an acronym.}
 \begin{table}
 \begin{tabular}{>{\centering}p{2.3cm}>{\centering}p{2.7cm}>{\centering}p{2.5cm}>{\centering}p{2.2cm}>{\centering}p{2.5cm}}
@@ -72,27 +72,27 @@ The primary measurement of wind on the GV \index{wind!measurement!standard syste
 \midrule
 \midrule 
 pitch, roll\index{roll}\index{pitch}\\
-(PITCH, ROLL) &
+(PITCH\sindex[var]{PITCH>@PITCH}, ROLL\sindex[var]{ROLL>@ROLL}) &
 Honeywell Laseref IV HG2001 GD03\index{Honeywell Laseref IV}&
 ring gyros, strap-down system &
 0.05$^{\circ}$ &
 mixed bias and random error\tabularnewline
 \midrule 
 heading\\
-(THDG) &
+(THDG)\sindex[var]{THDG>@THDG} &
 `` &
 `` &
 0.2$^{\circ}$ &
 ``\tabularnewline
 \midrule 
-ambient pressure (PSF) &
+ambient pressure (PSF)\sindex[var]{PSF>@PSF} &
 Paroscientific 1000-15A-28 (absolute)\index{sensor!pressure} &
 0--15 psi $\simeq$0--1035\,hPa &
 0.10\,hPa\\
  &
 specs. assumed std. uncertainty\tabularnewline
 \midrule 
-dynamic pressure (QCF, QCR) &
+dynamic pressure (QCF, QCR)\sindex[var]{QCR>@QCR}\sindex[var]{QCF>@QCF} &
 Honeywell PPT0005-DXX2VB-5021 &
 0--5 psi $\simeq$0--345 hPa &
 0.34 hPa\\
@@ -107,32 +107,32 @@ $\pm1$\textasciitilde{}psi $\simeq$$\pm$68.95 hPa &
 the first is ``typ.'', average over the range\tabularnewline
 \midrule 
 horizontal GV velocity components\index{speed of aircraft!ground speed}
-(VNS, VEW) &
+(VNS, VEW)\sindex[var]{VNS>@VNS}\sindex[var]{VEW>@VEW} &
 Laseref IV (see above) &
 strap-down accelerometers &
 2.1\,m\,s$^{-1}$  &
 0.1~m~s$^{-1}$ with slow updating to GPS\tabularnewline
 \midrule 
 ``\\
-(GGVNS, GGVEW) &
+(GGVNS, GGVEW)\sindex[var]{GGVNS>@GGVNS}\sindex[var]{GGVEW>@GGVEW} &
 Novatel\index{GPS!Novatel} OEMV differential GPS  &
 correction via OmniSTAR\index{OmniSTAR} XP &
 0.03\,m\,s$^{-1}$ &
  still smaller with OmniSTAR\tabularnewline
 \midrule 
-vertical GV speed (VSPD) &
+vertical GV speed (VSPD)\sindex[var]{VSPD>@VSPD} &
 Laserref IV (see above) &
 strap-down accelerometers &
 0.76 m\,s$^{-1}$ &
 with baro-loop updating\tabularnewline
 \midrule 
- " \\(GGVSPD) &
+ " \\(GGVSPD)\sindex[var]{GGVSPD>@GGVSPD} &
 Novatel GPS (see above) &
  &
 0.03\,m\,s$^{-1}$ &
 still smaller with OmniSTAR\tabularnewline
 \midrule 
-temperature (ATX) &
+temperature (ATX)\sindex[var]{ATX>@ATX} &
 HARCO 100009-1 &
 $-80$ to +40$^{\circ}$C, anti-iced &
 0.3$^{\circ}$ &
@@ -140,7 +140,7 @@ needed for airspeed\tabularnewline
 \midrule 
 dew point
 
-(DPX) &
+(DPX)\sindex[var]{DPX>@DPX} &
 Buck Research 1011C &
 $-70$ to +30$^{\circ}$C &
 <5$^{\circ}$ &
@@ -191,7 +191,7 @@ The radome gust-sensing system consists of five pressure ports\index{radome!port
 \protect\caption{Photograph of the GV radome showing three of the five pressure ports on the radome used for measurement of components of the relative wind.\label{fig:radome-photo}} 
 \end{figure}
 
-\index{radome!photograph}The pressure ports are connected to differential pressure sensors, one between the top and bottom ports (variable ADIFR),\sindex[var]{ADIFR=pressure difference, bottom minus top source on radome {[}hPa}\sindex[var]{BDIFR=pressure difference, starboard minus port source on radome {[}hPa{]}} one between the left and right ports (variable BDIFR), and one between the center port and the static source (variable QCR). The latter provides an alternative measurement of dynamic pressure but is not normally used. The measurements ADIFR and BDIFR are obtained from differential pressure transducers, with characteristics\index{sensor!pressure!characteristics} as shown in Table~\ref{tab:Radome-system-measurements}. The transducers have specified response times of 0.05\,s and resolution 0.0015\,hPa, with quoted stability of about 0.03\,hPa per year. These measurements are used with procedures discussed in Section \ref{sub:radome-sensitivity} to find the angle of attack and sideslip angle of the relative wind. Additional information is available at \href{https://www.eol.ucar.edu/instruments/radome-gust-probe-3-d-wind-measurements}{this URL}. 
+\index{radome!photograph}The pressure ports are connected to differential pressure sensors, one between the top and bottom ports (variable ADIFR),\sindex[var]{ADIFR=pressure difference, bottom minus top source on radome {[}hPa{]}}\sindex[var]{BDIFR=pressure difference, starboard minus port source on radome {[}hPa{]}} one between the left and right ports (variable BDIFR), and one between the center port and the static source (variable QCR).\sindex[var]{QCR>@QCR} The latter provides an alternative measurement of dynamic pressure but is not normally used. The measurements ADIFR and BDIFR are obtained from differential pressure transducers, with characteristics\index{sensor!pressure!characteristics} as shown in Table~\ref{tab:Radome-system-measurements}. The transducers have specified response times of 0.05\,s and resolution 0.0015\,hPa, with quoted stability of about 0.03\,hPa per year. These measurements are used with procedures discussed in Section \ref{sub:radome-sensitivity} to find the angle of attack and sideslip angle of the relative wind. Additional information is available at \href{https://www.eol.ucar.edu/instruments/radome-gust-probe-3-d-wind-measurements}{this URL}. 
 
 
 \subsubsection{Components of aircraft velocity relative to the Earth}
@@ -210,7 +210,7 @@ A measurement of temperature\index{temperature} is needed to calculate the wind 
 
 \subsubsection{Humidity (dew point)\label{sub:dewpoint}}
 
-The calculation of true \index{dew point}\index{humidity, effect of}airspeed from measured dynamic and static pressure involves the specific heats and gas constant for air, and this can depart from dry-air values when water vapor is present in significant amounts. This correction is usually insignificant for dew-point temperatures below about -20$^{\circ}$C. The equations used are those in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{the document on processing algorithms}. The correction to airspeed is approximately a factor of (1+0.3$q_{h}$) where $q_{h}$ is the dimensionless specific humidity,\sindex[sym]{qh@$q_h$=specific humidity} typically about 0.01 at 10$^{\circ}$C dew point and 700~hPa pressure. In this case the correction to airspeed, typically 150~m/s at this altitude, is about 0.45~m/s, so the correction is not negligible but is relatively insensitive to uncertainty in the measured humidity. The dew point measurements become more uncertain than listed here at the low end of this range, but the humidity correction is insignificant there. Those measurements are likely better than listed here for the upper range, in level flight, but lags and overshooting introduce errors when conditions are changing rapidly as in climbs or descents. 
+The calculation of true \index{dew point}\index{humidity, effect on airspeed}airspeed from measured dynamic and static pressure involves the specific heats and gas constant for air, and this can depart from dry-air values when water vapor is present in significant amounts. This correction is usually insignificant for dew-point temperatures below about -20$^{\circ}$C. The equations used are those in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{the document on processing algorithms}. The correction to airspeed is approximately a factor of (1+0.3$q_{h}$) where $q_{h}$ is the dimensionless specific humidity,\sindex[sym]{qh@$q_h$=specific humidity} typically about 0.01 at 10$^{\circ}$C dew point and 700~hPa pressure. In this case the correction to airspeed, typically 150~m/s at this altitude, is about 0.45~m/s, so the correction is not negligible but is relatively insensitive to uncertainty in the measured humidity. The dew point measurements become more uncertain than listed here at the low end of this range, but the humidity correction is insignificant there. Those measurements are likely better than listed here for the upper range, in level flight, but lags and overshooting introduce errors when conditions are changing rapidly as in climbs or descents. 
 
 \subsubsection{Examples of measurements}
 
@@ -235,42 +235,42 @@ if (ReloadData) {
 }
 op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:3, ncol = 1), widths = 1,  heights = c(5,5,6))
-plotWAC (DE[, c("Time", "PITCH", "PITCH_IRS2", "CPITCH_GP")])
-plotWAC (DE[, c("Time", "ROLL", "ROLL_IRS2", "CROLL_GP")])
+plotWAC (DE[, c("Time", "PITCH", "PITCH_IRS2", "CPITCH_GP")], ylab='PITCH', legend.position='bottomleft')
+plotWAC (DE[, c("Time", "ROLL", "ROLL_IRS2", "CROLL_GP")], legend.position='bottomleft')
 op <- par (mar=c(5,4,1,1)+0.1)
-plotWAC (DE[, c("Time", "THDG", "THDG_IRS2", "CTHDG_GP")], legend.position="bottomleft")
+plotWAC (DE[, c("Time", "THDG", "THDG_IRS2", "CTHDG_GP")], legend.position='bottom')
 
 @
 
-Typical measurements \index{example of measurements!attitude angles}\sindex[var]{UTC=Coordinated Universal Time} of the attitude angles are shown in Fig.~\ref{fig:radome-plot-angles}. The large difference in pitch is a result of the gust pod being installed in a canister below the wing where it points downward by several degrees relative to the aircraft longitudinal axis. (The pods were designed this way to provide better approaching airflow for cloud-imaging probes and other sampling from the airstream.) There is also a significant difference in heading and in roll for similar reasons. 
+Typical measurements \index{example of measurements!attitude angles}\sindex[var]{UTC=Coordinated Universal Time} of the attitude angles are shown in Fig.~\ref{fig:radome-plot-angles}.\sindex[var]{ROLL>@ROLL}\sindex[var]{PITCH>@PITCH}\sindex[var]{CPITCH_GP>@CPITCH\_GP}\sindex[var]{CTHDG_GP>@CTHDG\_GP}\sindex[var]{THDG>@THDG} The large difference in pitch is a result of the gust pod being installed in a canister below the wing where it points downward by several degrees relative to the aircraft longitudinal axis. (The pods were designed this way to provide better approaching airflow for cloud-imaging probes and other sampling from the airstream.) There is also a significant difference in heading and in roll for similar reasons. 
 
 <<radome-plot-pressures, include=TRUE, fig.cap="The measurements of dynamic pressure (QCF and, after correction QCFC), ambient pressure (PSF and corrected PSFC) and the resulting airspeed TASX. Data from DEEPWAVE flight 16.">>=
 
 op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:3, ncol = 1), widths = 1,  heights = c(5,5,6))
 plotWAC (DE[, c("Time", "QCF", "QCFC")], ylab="dynamic pressure [hPa]", 
-         legend.position="topright")
+         legend.position="top")
 plotWAC (DE[, c("Time", "PSF", "PSFC")], ylab='ambient pressure [hPa]',
-         legend.position="topright")
+         legend.position="top")
 op <- par (mar=c(5,4,1,1)+0.1)
 plotWAC (DE[, c("Time", "TASX")], ylab='True Airspeed [m/s]')
 
 @
 
-The measurements of pressures and the airspeed calculated from these \index{example of measurements!pressure}\index{example of measurements!airspeed} measurements are shown in Fig.~\ref{fig:radome-plot-pressures} for the same period as in the preceding figure.\sindex[var]{TASX=primary airspeed} Corrections have been applied to the pressure measurements according to the calibration determined from LAMS measurements, as described by \citet{CooperEtAl2014}; these corrections vary with flight conditions but normally are smaller than a few hPa so are not evident in these plots. They are nevertheless crucial to reducing the uncertainty in the airspeed to about 0.3\,m\,s$^{-1}$, as shown in that reference. 
+The measurements of pressures and the airspeed calculated from these \index{example of measurements!pressure}\index{example of measurements!airspeed} measurements are shown in Fig.~\ref{fig:radome-plot-pressures}\sindex[var]{QCFC>@QCFC}\sindex[var]{QCF>@QCF}\sindex[var]{PSF>@PSF}\sindex[var]{PSFC>@PSFC} for the same period as in the preceding figure.\sindex[var]{TASX=primary airspeed} Corrections have been applied to the pressure measurements according to the calibration determined from LAMS measurements, as described by \citet{CooperEtAl2014}; these corrections vary with flight conditions but normally are smaller than a few hPa so are not evident in these plots. They are nevertheless crucial to reducing the uncertainty in the airspeed to about 0.3\,m\,s$^{-1}$, as shown in that reference. 
 
 <<radome-plot-airflow-angles, include=TRUE, fig.cap="The pressure differences measured on the radome (ADIFR and BDIFR, respectively between the vertically separated ports and the horizontally separated ports) and the resulting airflow angles AKRD (angle of attack) and SSRD (sideslip angle). Data from DEEPWAVE flight 16.", fig.scap="Pressure differences measured on the radome (ADIFR and BDIFR)">>=
 
 op <- par (mar=c(2,4,1,1)+0.1)
 layout(matrix(1:2, ncol = 1), widths = 1,  heights = c(5,6))
-plotWAC (DE[, c("Time", "ADIFR", "BDIFR")], ylab="radome pressure-port differences [hPa]")
+plotWAC (DE[, c("Time", "ADIFR", "BDIFR")], ylab="radome pressures [hPa]", legend.position='bottom')
 op <- par (mar=c(5,4,1,1)+0.1)
 plotWAC (DE[, c("Time", "AKRD", "SSRD")], ylab='AOA and sideslip angles [deg.]',
-         legend.position='right')
+         legend.position='top')
 
 @
 
-Figure~\ref{fig:radome-plot-airflow-angles} shows the measurements\index{example of measurements!dynamic pressure}\index{example of measurements!angle of attack}\index{example of measurements!sideslip} of differential pressure at the radome and the resulting angle of attack and sideslip angle calculated from those pressure differences. The calculation is described in Section 4 of this document. Fluctuations in sideslip angle are seldom more than a fraction of a degree, while there can be several-degree fluctuations in the angle of attack. The gradual decrease in angle of attack\sindex[var]{AOA=angle of attack} is a result of the change in fuel load on the aircraft, which requires a smaller angle of attack to keep the aircraft level as the weight becomes smaller. 
+Figure~\ref{fig:radome-plot-airflow-angles}\sindex[var]{AKRD>@AKRD}\sindex[var]{ADIFR>@ADIFR}\sindex[var]{SSRD>@SSRD}\sindex[var]{BDIFR>@BDIFR} shows the measurements\index{example of measurements!dynamic pressure}\index{example of measurements!angle of attack}\index{example of measurements!sideslip} of differential pressure at the radome and the resulting angle of attack and sideslip angle calculated from those pressure differences. The calculation is described in Section 4 of this document. Fluctuations in sideslip angle are seldom more than a fraction of a degree, while there can be several-degree fluctuations in the angle of attack. The gradual decrease in angle of attack\sindex[var]{AOA=angle of attack} is a result of the change in fuel load on the aircraft, which requires a smaller angle of attack to keep the aircraft level as the weight becomes smaller. 
 
 <<radome-plot-groundspeed, include=TRUE, fig.cap="{Top two panels: Ground-speed components as measured by the IRU and GPS, and (red lines) the difference between the two measurements multiplied by a factor of 100. Bottom panel: Aircraft vertical speed as measured by the IRU (with built-in damping to the pressure altitude) and by the GPS unit. Data from DEEPWAVE flight 16.}", fig.scap="Ground-speed components measured by the IRU and GPS and vertical wind, DEEPWAVE flight 16.">>=
 
@@ -282,12 +282,13 @@ layout(matrix(1:3, ncol = 1), widths = 1,  heights = c(5,5,6))
 plotWAC (DE[, c("Time", "GGVEW", "VEW", "EWdiff")], ylab="East ground-speed [m/s]")
 plotWAC (DE[, c("Time", "GGVNS", "VNS", "NSdiff")], ylab="North ground-speed  [m/s]")
 op <- par (mar=c(5,4,1,1)+0.1)
-plotWAC (DE[, c("Time", "GGVSPD", "VSPD")], ylab='Aircraft vertical speed [m/s]')
+plotWAC (DE[, c("Time", "GGVSPD", "VSPD")], ylab='Aircraft vertical speed [m/s]', 
+         legend.position='bottom')
 
 
 @
 
-The last set of components entering the measurement of wind consists of the measurements of the motion of the aircraft with respect to the Earth. These measurements must be combined with the measurement of relative wind to transform the measurements to an Earth-referenced measurement. Figure~\ref{fig:radome-plot-groundspeed} shows the east and north components of the ground speed as measured by the IRU and GPS. They are close enough to lie almost on top of each other in this plot, but the red lines show the difference magnified by a factor of 100. They clearly show the Schuler oscillation that results from an IRU error in pitch, having magnitude of about 1--2~m\,s$^{-1}$. This error is discussed in the next section, and Section~\ref{sub:comp-filter} discusses how the IRU measurements (having good short-term response but long-term drift) and the GPS measurements (having long-term accuracy but inferior short-term response) are combined in the measurement of wind. In addition to the Schuler oscillation, additional perturbations associated with turns result from the mixing of pitch, roll, and heading errors when the aircraft is banked. 
+The last set of components entering the measurement of wind consists of the measurements of the motion of the aircraft with respect to the Earth. These measurements must be combined with the measurement of relative wind to transform the measurements to an Earth-referenced measurement. Figure~\ref{fig:radome-plot-groundspeed} shows the east and north components of the ground speed\index{speed of aircraft!ground speed} as measured by the IRU and GPS. They are close enough to lie almost on top of each other in this plot, but the red lines show the difference magnified by a factor of 100. They clearly show the Schuler oscillation that results from an IRU error in pitch, having magnitude of about 1--2~m\,s$^{-1}$. This error is discussed in the next section, and Section~\ref{sub:comp-filter} discusses how the IRU measurements (having good short-term response but long-term drift) and the GPS measurements (having long-term accuracy but inferior short-term response) are combined in the measurement of wind. In addition to the Schuler oscillation, additional perturbations associated with turns result from the mixing of pitch, roll, and heading errors when the aircraft is banked. 
 
 <<radome-plot-wind, include=TRUE, fig.cap="Wind measurements for DEEPWAVE research flight 16.">>=
 
@@ -307,7 +308,8 @@ Finally, Fig.~\ref{fig:radome-plot-wind} \index{example of measurements!wind com
 
 \subsubsection{Overview}
 
-The all-weather gust pod\index{gust pod}\index{all-weather wind pod|see {gust pod}} was developed by Allen Schanot and is available for mounting under the wing of the GV, where it was installed during the 2014 project DEEPWAVE\index{DEEPWAVE}. It was still regarded as experimental for that project, but as described in this report it performed well when measuring vertical wind so it is now ready for deployment as a requestable instrument. The system has also been called the all-weather wind pod because the primary reason for its development was to provide a backup wind measurement for cases when the standard system malfunctions because its lines or apertures are blocked by ice. The gust pod fits into a standard PMS-style canister\sindex[var]{PMS=Particle Measuring Systems} and uses a \index{Rosemount 858 probe}Rosemount 858 probe, but the location under the wing is one where there is substantial flow distortion\index{airflow distortion} in comparison to the free stream so an unconventional calibration is needed to use the measurements. The 858 probe is anti-iced by heaters and should be unaffected by icing or ice accumulation. Five ports are oriented forward, upward and downward 45$^{\circ}$, and left and right 45$^{\circ}$ on the leading edge of the sensor, which has the shape of a hemisphere. There are also ports in a ring around the cylinder behind the hemisphere that provide a static source. The measurements are the pressure difference between the top and bottom ports (ADIF\_GP),\sindex[var]{ADIF_GP=pressure difference between bottom and top sources, 858  probe [hPa]@ADIF\_GP=pressure difference between bottom and top sources, 858 probe {[}hPa{]}} the pressure difference between the right and left ports (BDIF\_GP),\sindex[var]{BDIF_GP=pressure difference between starboard and port sources,  858 probe [hPa]@BDIF\_GP=pressure difference between starboard and port sources, 858 probe {[}hPa{]}} and the pressure difference between the forward port and the static ports (QC\_GP).\sindex[var]{QC_GP=pressure difference between forward and static ports, 858  probe [hPa]@QC\_GP=pressure difference between forward and static ports, 858 probe {[}hPa{]}} In addition, the pressure provided by the ring of static ports is recorded as PS\_GP.\index{PS_GP=pressure at static ports, 858 probe [hPa]@PS\_GP=pressure at static ports, 858 probe} The system incorporates a Systron Donner \sindex[var]{C-MIGITS-III=model of IRU used with the gust pod}\index{IRU!C-MIGITS}C-MIGITS III GPS/INS MEMS\sindex[var]{MEMS=micro-electro-mechanical system} Tactical Grade navigation system (henceforth called the C-MIGITS IRU), which is mounted in the pod to measure vibrations and wing-flex motions that will affect the measurements of wind. This unit provides measurements of attitude angles, ground-speed components, and accelerations and uses a GPS signal in a Kalman-filter feedback loop to reduce errors in the measurements. The relevant specifications\index{IRU!C-MIGITS!specifications} are listed in Table~\ref{tab:Gust-pod-measurements}. 
+The all-weather gust pod\index{gust pod}\index{all-weather wind pod|see {gust pod}} was developed by Allen Schanot and is available for mounting under the wing of the GV, where it was installed during the 2014 project DEEPWAVE\index{DEEPWAVE}. It was still regarded as experimental for that project, but as described in this report it performed well when measuring vertical wind so it is now ready for deployment as a requestable instrument. The system has also been called the all-weather wind pod because the primary reason for its development was to provide a backup wind measurement for cases when the standard system malfunctions because its lines or apertures are blocked by ice. The gust pod fits into a standard PMS-style canister\sindex[var]{PMS=Particle Measuring Systems} and uses a \index{Rosemount 858 probe}Rosemount 858 probe, but the location under the wing is one where there is substantial flow distortion\index{airflow distortion} in comparison to the free stream so an unconventional calibration is needed to use the measurements. The 858 probe is anti-iced by heaters and should be unaffected by icing or ice accumulation. Five ports are oriented forward, upward and downward 45$^{\circ}$, and left and right 45$^{\circ}$ on the leading edge of the sensor, which has the shape of a hemisphere. There are also ports in a ring around the cylinder behind the hemisphere that provide a static source. The measurements are the pressure difference between the top and bottom ports (ADIF\_GP),\sindex[var]{ADIF_GP@ADIF\_GP=pressure difference between bottom and top sources, 858  probe [hPa]} the pressure difference between the right and left ports (BDIF\_GP),\sindex[var]{BDIF_GP@BDIF\_GP=pressure difference, starboard minus port sources,  858 probe [hPa]} and the pressure difference between the forward port and the static ports (QC\_GP).\sindex[var]{QC_GP@QC\_GP=pressure difference between forward and
+ static ports, 858  probe [hPa]} In addition, the pressure provided by the ring of static ports is recorded as PS\_GP.\index{PS_GP=pressure at static ports, 858 probe [hPa]@PS\_GP=pressure at static ports, 858 probe} The system incorporates a Systron Donner \sindex[var]{C-MIGITS III=model of IRU used with the gust pod}\index{IRU!C-MIGITS}C-MIGITS III GPS/INS MEMS\sindex[var]{MEMS=micro-electro-mechanical system} Tactical Grade navigation system (henceforth called the C-MIGITS IRU), which is mounted in the pod to measure vibrations and wing-flex motions that will affect the measurements of wind. This unit provides measurements of attitude angles, ground-speed components, and accelerations and uses a GPS signal in a Kalman-filter feedback loop to reduce errors in the measurements. The relevant specifications\index{IRU!C-MIGITS!specifications} are listed in Table~\ref{tab:Gust-pod-measurements}. 
 
 \noindent \begin{center}
 \includegraphics[width=12.1cm]{SpecialGraphics/GustPod1-r.png}\includegraphics[height=5.1cm]{SpecialGraphics/GustPod2x-r}\\  \textsl{Photograph of the Gust Pod (bottom left) and the ports on the Rosemount 858 probe (right).} \index{gust pod!photograph} 
@@ -321,23 +323,23 @@ The all-weather gust pod\index{gust pod}\index{all-weather wind pod|see {gust po
 \midrule
 \midrule 
 velocity components
-(CVNS\_GP, CVEW\_GP, CVSPD\_GP) & C-MIGITS IRU& with GPS & 0.1\,m\,s$^{-1}$  & horizontal and vertical\tabularnewline
+(CVNS\_GP,\sindex[var]{CVNS_GP>@CVNS\_GP} CVEW\_GP,\sindex[var]{CVEW_GP>@CVEW\_GP} CVSPD\_GP\sindex[var]{CVSPD_GP>@CVSPD\_GP}) & C-MIGITS\sindex[var]{C-MIGITS>@C-MIGITS} IRU& with GPS & 0.1\,m\,s$^{-1}$  & horizontal and vertical\tabularnewline
 \midrule 
 pitch, roll\\
-(CPITCH\_GP, CROLL\_GP) & C-MIGITS IRU& with GPS & 1\,mrad$\simeq$0.06$^{\circ}$ & with Kalman filter \tabularnewline
+(CPITCH\_GP,\sindex[var]{CPITCH_GP>@CPITCH\_GP} CROLL\_GP)\sindex[var]{CROLL_GP>@CROLL\_GP} & C-MIGITS IRU& with GPS & 1\,mrad$\simeq$0.06$^{\circ}$ & with Kalman filter \tabularnewline
 \midrule 
 heading\\
-CTHDG\_GP & C-MIGITS IRU & with GPS & 1.5\,mrad\\
+CTHDG\_GP\sindex[var]{CTHDG_GP>@CTHDG\_GP} & C-MIGITS IRU & with GPS & 1.5\,mrad\\
 $\simeq$0.09$^{\circ}$ & valid when in motion%
 \footnote{Without occasional turns the heading error grows linearly at about
 1--10$^{\circ}$/hour%
 }\tabularnewline
 \midrule 
 pressure differences,858 ports\\
-(ADIFR\_GP, BDIFR\_GP) & Honeywell PPT0001-DXX2VB-S021 & $\pm1$ psi$\simeq$$\pm$68.95 hPa & 0.07 hPa\\
+(ADIF\_GP,\sindex[var]{ADIF_GP>@ADIF\_GP} BDIF\_GP\sindex[var]{BDIF_GP>@BDIF\_GP}) & Honeywell PPT0001-DXX2VB-S021 & $\pm1$ psi$\simeq$$\pm$68.95 hPa & 0.07 hPa\\
 0.14 hPa max. & the first is ``typ.''; same transducers as for radome\tabularnewline
 \midrule 
-dynamic pressure (QC\_GP) & Honeywell PPT0005-DXX2VB-S021%
+dynamic pressure (QC\_GP)\sindex[var]{QC_GP>@QC\_GP} & Honeywell PPT0005-DXX2VB-S021%
  & 0--5 psi $\simeq$0--345 hPa & 0.17 hPa\\
 0.34 hPa max. & ``\tabularnewline
 \midrule 
@@ -353,7 +355,7 @@ in the text of Sect.~\ref{sub:The-gust-pod-system}.\label{tab:Gust-pod-measureme
 
 \subsubsection{Attitude angles}
 
-The C-MIGITS \index{angle!attitude!gust pod}\index{gust pod!components} IRU unit provides measurements of the attitude angles, recorded as variables CROLL\_GP, CPITCH\_GP, and CTHDG\_GP. The estimated standard uncertainty\index{IRU!C-MIGITS!uncertainty} in measurement of pitch, 1~mrad (cf.~Table~\ref{tab:Gust-pod-measurements}), is supported by comparison to the cabin-mounted inertial systems; the standard deviation in the difference between the two systems was about 0.1$^{\circ}\simeq1.7$~mrad for extensive multi-flight comparisons, while the expected difference for two systems each having standard uncertainties of 1 mrad would be 1.4\,mrad. Some contribution would be expected from vibrations and wing flex that affect the gust pod, so these comparisons are good support for the approximate validity of the specifications. However, the feedback from the Kalman filter using GPS measurements can be ineffective in the absence of turns or maneuvers, so some of the specified uncertainties, esp.~for heading, can be exceeded significantly in such cases, as noted in Table~\ref{tab:Gust-pod-measurements}. 
+The C-MIGITS\sindex[var]{C-MIGITS>@C-MIGITS} \index{angle!attitude!gust pod}\index{gust pod!components} IRU unit provides measurements of the attitude angles, recorded as variables CROLL\_GP,\sindex[var]{CROLL_GP>@CROLL\_GP} CPITCH\_GP,\sindex[var]{CPITCH_GP>@CPITCH\_GP} and CTHDG\_GP.\sindex[var]{CTHDG_GP>@CTHDG\_GP} The estimated standard uncertainty\index{IRU!C-MIGITS!uncertainty} in measurement of pitch, 1~mrad (cf.~Table~\ref{tab:Gust-pod-measurements}), is supported by comparison to the cabin-mounted inertial systems; the standard deviation in the difference between the two systems was about 0.1$^{\circ}\simeq1.7$~mrad for extensive multi-flight comparisons, while the expected difference for two systems each having standard uncertainties of 1 mrad would be 1.4\,mrad. Some contribution would be expected from vibrations and wing flex that affect the gust pod, so these comparisons are good support for the approximate validity of the specifications. However, the feedback from the Kalman filter using GPS measurements can be ineffective in the absence of turns or maneuvers, so some of the specified uncertainties, esp.~for heading, can be exceeded significantly in such cases, as noted in Table~\ref{tab:Gust-pod-measurements}. 
 
 
 \subsubsection{Ambient or static pressure}
@@ -363,22 +365,22 @@ Ambient pressure (variable PS\_GP) is measured by a digital transducer with \ind
 
 \subsubsection{Dynamic pressure}
 
-The dynamic pressure QC\_GP is measured by a differential pressure transducer, \index{pressure!dynamic!gust pod}\index{gust pod!components} with specifications listed in Table~\ref{tab:Gust-pod-measurements}. The measurement is the pressure difference between the forward-pointing port on the Rosemount 858 probe and the static ports on the side of that probe. Because the system is located under the wing in a region of disturbed airflow, the dynamic pressure requires unconventional correction to obtain the airspeed, as discussed in Sect.~\ref{sec:Calibrations}. This measurement is also used in the calculation of flow angles from the gust-pod pressure ports, as also discussed in that section. 
+The dynamic pressure QC\_GP\sindex[var]{QC_GP>@QC\_GP} is measured by a differential pressure transducer, \index{pressure!dynamic!gust pod}\index{gust pod!components} with specifications listed in Table~\ref{tab:Gust-pod-measurements}. The measurement is the pressure difference between the forward-pointing port on the Rosemount 858 probe and the static ports on the side of that probe. Because the system is located under the wing in a region of disturbed airflow, the dynamic pressure requires unconventional correction to obtain the airspeed, as discussed in Sect.~\ref{sec:Calibrations}. This measurement is also used in the calculation of flow angles from the gust-pod pressure ports, as also discussed in that section. 
 
 
 \subsubsection{Airflow angles}
 
-The difference between pressures at \index{angle!airflow!gust pod} the top and bottom ports of the Rosemount 858 probe (ADIFR\_GP) and the corresponding difference between right and left ports (BDIFR\_GP) are also measured using differential transducers listed in Table~\ref{tab:Gust-pod-measurements}. These are digital transducers that produce output with a fixed relationship to the pressure differences, and those digital outputs are recorded by the aircraft data system. 
+The difference between pressures at \index{angle!airflow!gust pod} the top and bottom ports of the Rosemount 858 probe (ADIF\_GP)\sindex[var]{ADIF_GP>@ADIF\_GP} and the corresponding difference between right and left ports (BDIF\_GP)\sindex[var]{BDIF_GP>@BDIF\_GP} are also measured using differential transducers listed in Table~\ref{tab:Gust-pod-measurements}. These are digital transducers that produce output with a fixed relationship to the pressure differences, and those digital outputs are recorded by the aircraft data system. 
 
 
 \subsubsection{Components of aircraft velocity relative to the Earth}
 
-The C-MIGITS\index{IRU!C-MIGITS} IRU, mounted with the gust pod, provides digital representations of the ground-speed components CVEW\_GP and CVNS\_GP and the vertical speed CVSPD\_GP. (cf.~Table~\ref{tab:Gust-pod-measurements}). The unit incorporates a GPS\index{Global Positioning System} receiver and uses GPS information as input to a Kalman filter\index{filter!Kalman} for adjustment of these measurements and others discussed in this section. 
+The C-MIGITS\sindex[var]{C-MIGITS>@C-MIGITS}\index{IRU!C-MIGITS} IRU, mounted with the gust pod, provides digital representations of the ground-speed components CVEW\_GP\sindex[var]{CVEW_GP>@CVEW\_GP} and CVNS\_GP\sindex[var]{CVNS_GP>@CVNS\_GP} and the vertical speed CVSPD\_GP.\sindex[var]{CVSPD_GP>@CVSPD\_GP} (cf.~Table~\ref{tab:Gust-pod-measurements}). The unit incorporates a GPS\index{Global Positioning System} receiver and uses GPS information as input to a Kalman filter\index{filter!Kalman} for adjustment of these measurements and others discussed in this section. 
 
 
 \subsubsection{Temperature and humidity}
 
-Air temperature and dew point are measured in the same way as discussed for the radome system in Sects.~\ref{sub:Temperature} and \ref{sub:dewpoint}, and the same variables (ATX and DPX) are used. 
+Air temperature and dew point are measured in the same way as discussed for the radome system in Sects.~\ref{sub:Temperature} and \ref{sub:dewpoint}, and the same variables (ATX and DPX)\sindex[var]{ATX>@ATX}\sindex[var]{DPX>@DPX} are used. 
 
 
 \subsubsection{Examples of measurements}
@@ -405,8 +407,14 @@ op <- par (mfrow=c(1,1), mar=c(5,5,2,2)+0.1)
 v <- DE$GGALT/0.3048 > 25000
 v[abs(DE$ROLL) > 5] <- FALSE
 v[DE$TASX < 130] <- FALSE
-plot(DE$WIC[v], DE$WI_GP[v], type='p', pch=20, col='blue', xlab="WIC [m/s]", ylab="WI_GP [m/s]")
-lines(c(-10,10), c(-10,10), lwd=3, lty=2, col='darkorange')
+# plot(DE$WIC[v], DE$WI_GP[v], type='p', pch=20, col='blue', xlab="WIC [m/s]", ylab="WI_GP [m/s]")
+DEV <- DE[v, ]
+g <- ggplot(data=DEV, aes(x=WIC))
+g <- g + geom_point (aes(y=WI_GP), pch=20, col='blue')
+g <- g + geom_line (aes(x=c(-10.,10.), y=c(-10.,10.)), col='darkorange', lwd=1.3, lty=2)
+g <- g + xlab ("WIC [m/s]") + ylab ("WI_GP [m/s]") + theme_WAC()
+# g <- g + geom_line(c(-10,10), c(-10,10), lwd=3, lty=2, col='darkorange')
+print (g)
 sdWICmWIG <- sd(DE$WIC[v]-DE$WI_GP[v], na.rm=TRUE)
 
 <<hw-gp-vs-std, include=TRUE, fig.scap="Horizontal wind direction and speed from the gust pod and from the conventional radome-based system.",fig.cap="Comparison of horizontal wind direction (top panel) and horizontal wind speed (bottom panel) as determined from the gust pod and from the conventional radome-based system, for measurements where the airspeed is greater than 130 m/s (to exclude periods of possible flap deployment). Only measurements considered valid are plotted for the gust pod; the restrictions where the gust-pod measurement is flagged as missing and therefore is not plotted here are: altitude (GGALT) > 5000 m, absolute value of roll (ROLL) < 5$^{\\circ}$. This causes exclusion of some measurements near the start and end of the flight and during turns.">>=
@@ -418,13 +426,17 @@ v[abs(DE$ROLL) > 5] <- FALSE
 v[DE$TASX < 130] <- FALSE
 DE[!v,"WD_GP"] <- NA
 DE[!v,"WS_GP"] <- NA
-plotWAC(DE[DE$TASX > 130, c("Time", "WDC", "WD_GP")], ylab="wind direction [deg.]")
+plotWAC(DE[DE$TASX > 130, c("Time", "WDC", "WD_GP")], ylab="wind direction [deg.]",
+        legend.position='bottom')
 op <- par (mar=c(5,4,1,1)+0.1)
-plotWAC(DE[DE$TASX > 130, c("Time", "WSC", "WS_GP")], ylab="wind speed [m/s]")
+plotWAC(DE[DE$TASX > 130, c("Time", "WSC", "WS_GP")], ylab="wind speed [m/s]",
+        legend.position='bottom')
 
 @
 
-The following are some plots that show the results of this processing, in this case from DEEPWAVE flight 16 on 4 July 2014. Figure~\ref{fig:vw-gp-vs-wic} shows  a comparison of the vertical wind calculated from the gust pod (WI\_GP) vs the conventional vertical wind (WIC). The standard deviation between the two measurements is \Sexpr{round(sdWICmWIG, 2)}\,m/s. % mean diff 0.13 This is a good illustration of performance because this is a flight with large-amplitude waves and some of the largest vertical-wind measurements in the DEEPWAVE project, so the consistency of these measurements even to extremes in this plot indicates that the measurements from the gust pod are useful even for these large-amplitude measurements. Figure~\ref{fig:hw-gp-vs-std} shows the corresponding horizontal-wind measurements, and also shows good agreement between the gust pod and the conventional wind-sensing system.\footnote{Some spikes would occur in turns if the exclusions listed in the figure caption were not applied to the measurements from the gust pod. These are the result of a problem with the C-MIGITS IRU measurement of heading, which exhibits noisy fluctuations as it moves through 180$^{\circ}$.  These fluctuations introduce large perturbations in the horizontal wind measurements,  affecting esp.~the east component of the wind.} 
+The following are some plots that show the results of this processing, in this case from DEEPWAVE flight 16 on 4 July 2014. Figure~\ref{fig:vw-gp-vs-wic} shows  a comparison of the vertical wind calculated from the gust pod (WI\_GP)\sindex[var]{WI_GP>@WI\_GP} vs the conventional vertical wind (WIC)\sindex[var]{WIC>@WIC}. The standard deviation between the two measurements is \Sexpr{round(sdWICmWIG, 2)}\,m/s. % mean diff 0.13 
+This is a good illustration of performance because this is a flight with large-amplitude waves and some of the largest vertical-wind measurements in the DEEPWAVE project, so the consistency of these measurements even to extremes in this plot indicates that the measurements from the gust pod are useful even for these large-amplitude measurements. Figure~\ref{fig:hw-gp-vs-std}\sindex[var]{ROLL>@ROLL} shows the corresponding horizontal-wind measurements, and also shows good agreement between the gust pod and the conventional wind-sensing system.\footnote{Some spikes would occur in turns if the exclusions listed in the figure caption were not applied to the measurements from the gust pod. These are the result of a problem with the C-MIGITS IRU measurement of heading, which exhibits noisy fluctuations as it moves through 180$^{\circ}$.  These fluctuations introduce large perturbations in the horizontal wind measurements,  affecting esp.~the east component of the wind. This
+problem was solved after the data files used in these studies were produced, and it will not appear in reprocessed or future data files.} 
 
 <<vw-gp-small-segment, include=TRUE, fig.cap="A 30-min segment from flight 16 of the DEEPWAVE project, showing the good agreement of the vertical wind measurements from the gust pod (WI\\_GP) and from the conventional wind-sensing system on the GV (WIC).">>=
 
@@ -433,7 +445,7 @@ plotWAC(DE[r,c("Time", "WIC", "WI_GP")], col=c('blue', 'red'), lwd=c(2,2), ylab=
 
 @
 
-A small segment of flight from a period with large-amplitude waves is shown in Fig.~\ref{fig:vw-gp-small-segment}. The two measurements match quite well in regard to the structure of these waves and the amplitudes of the fluctuations. The measurements of horizontal wind speed are in similar agreement, but the wind direction for this period shows an offset for the gust pod measurement relative to the conventional measurement, varying from about 5$^{\circ}$ near the start of this period to about 1$^{\circ}$ near the end. This is a result of an apparent error in heading from the C-MIGITS IRU, a common feature to see near the start of flights but one that usually was made smaller during flight by GPS updating via the Kalman filter in that IRU. 
+A small segment of flight from a period with large-amplitude waves is shown in Fig.~\ref{fig:vw-gp-small-segment}. The two measurements match quite well in regard to the structure of these waves and the amplitudes of the fluctuations. The measurements of horizontal wind speed are in similar agreement, but the wind direction for this period shows an offset for the gust pod measurement relative to the conventional measurement, varying from about 5$^{\circ}$ near the start of this period to about 1$^{\circ}$ near the end. This is a result of an apparent error in heading from the C-MIGITS\sindex[var]{C-MIGITS>@C-MIGITS} IRU, a common feature to see near the start of flights but one that usually was made smaller during flight by GPS updating via the Kalman filter in that IRU. 
 
 The result of this error in wind direction and additional problems that occur with measured heading very close to southbound complicate the use of the measurements of horizontal wind from the gust pod and make them of lesser quality that the standard measurements. Fortunately, in DEEPWAVE and most projects, the horizontal-wind measurements are available from the radome-based system on all flights and are usually not compromised even when there is loss of the measurement of angle of attack from plugging of the lines in the radome, because the side-mounted ports for the measurement of sideslip seldom are plugged. 
 
@@ -523,9 +535,10 @@ The result of this error in wind direction and additional problems that occur wi
 
 \protect\caption{\label{fig:VarSpecWICandWIG}Variance spectra for WIC (red line labeled PSD, unsmoothed, and also shown smoothed as the blue line), compared to the smoothed spectrum for WIG from the gust pod (green line). Data from DEEPWAVE flight 5, 9:15:00--9:40:00.\index{variance spectrum!vertical wind!gust pod}\index{power spectrum|see {variance spectrum}}} 
 \end{figure}
+\sindex[var]{WIC>@WIC}{\sindex[var]{WIG=alternate name for WI\_GP, used for non-standard calculations}
 
 
-Figure \ref{fig:VarSpecWICandWIG} shows variance spectra from the two systems. There is a significant difference at frequencies above about 3 Hz, with the gust-pod distribution dropping faster and the standard wind WIC showing more variance. The high frequency spectrum from the gust pod may be more realistic; it is unusual to see high variance at these frequencies without a related generating source. The coherence between the radome and gust-pod measurements was above 0.9 for frequencies less than 1 Hz but then fell to around 0.2 at 10 Hz. This is an indication that the two measurements are different in important ways at high frequency. This would not be the case if they were responding with different amplitudes; the signals must really be mostly incoherent at the highest frequency. The separation wing-to-fuselage is about 7 m lateral and 13 m longitudinal, so that doesn't seem enough to cause the low high-frequency coherence. The phase changes from in-phase at frequencies less than 1 Hz to 180$^{\circ}$ out-of-phase at 9 Hz, with WIG lagging, so this is consistent with the longitudinal offset. Shifting WIG relative to WIC also gave maximum coherence when WIG was shifted forward 1/25 s. Figure~\ref{fig:FurtherExpandedWIGshifted} shows an example of the good correspondence between gust-pod and radome measurements of vertical wind after application of such a shift to 25-Hz measurements. 
+Figure \ref{fig:VarSpecWICandWIG} shows variance spectra from the two systems. There is a significant difference at frequencies above about 3 Hz, with the gust-pod distribution dropping faster and the standard wind WIC\sindex[var]{WIC>@WIC} showing more variance. The high frequency spectrum from the gust pod may be more realistic; it is unusual to see high variance at these frequencies without a related generating source. The coherence between the radome and gust-pod measurements was above 0.9 for frequencies less than 1 Hz but then fell to around 0.2 at 10 Hz. This is an indication that the two measurements are different in important ways at high frequency. This would not be the case if they were responding with different amplitudes; the signals must really be mostly incoherent at the highest frequency. The separation wing-to-fuselage is about 7 m lateral and 13 m longitudinal, so that doesn't seem enough to cause the low high-frequency coherence. The phase changes from in-phase at frequencies less than 1 Hz to 180$^{\circ}$ out-of-phase at 9 Hz, with WIG\sindex[var]{WIG>@WIG} lagging, so this is consistent with the longitudinal offset. Shifting WIG relative to WIC\sindex[var]{WIC>@WIC} also gave maximum coherence when WIG was shifted forward 1/25 s. Figure~\ref{fig:FurtherExpandedWIGshifted} shows an example of the good correspondence between gust-pod and radome measurements of vertical wind after application of such a shift to 25-Hz measurements. 
 
 \begin{figure}
 \noindent \begin{centering}
@@ -534,6 +547,7 @@ Figure \ref{fig:VarSpecWICandWIG} shows variance spectra from the two systems. T
 
 \protect\caption{\label{fig:FurtherExpandedWIGshifted}Comparison of vertical wind as measured by the gust pod (WIG,red line) and the standard measurement (WIC, blue line) after shifting WIG 1/25 s earlier to compensate for the longitudinal displacement of the sensor.} 
 \end{figure}
+\sindex[var]{WIC>@WIC}\sindex[var]{WIG>@WIG}
 
 
 \subsubsection{Mixing of Attitude Angles for the Gust Pod}
@@ -555,7 +569,7 @@ The attitude angles (pitch, roll, \index{gust pod!problem in turns} heading) as 
 This problem with the reference frame for attitude angles has two consequences:  
 \begin{enumerate}
 \item Measurements from the gust pod in turns have large errors in comparison to the errors in level flight, because for example relatively large errors in heading can contribute to errors in pitch. The measurements from the gust pod should probably be flagged as of poor quality whenever the roll exceeds some threshold like perhaps $\pm5^{\circ}$. The measurements usually look reasonable in turns despite this worry, but the largest errors occur there.  
-\item There may be an offset introduced by the mixing of sideslip and angle of attack, arising from the difference in roll angle, and this will affect the reference or average value of the measured vertical wind. Some flights (e.g., DEEPWAVE\index{DEEPWAVE!flight 18} flight 18) have a significant offset in vertical wind from the gust pod at the start of the flight, related to offsets in heading and roll, that gradually is corrected in the course of the flight via the C-MIGITSIII IRU Kalman filter.  
+\item There may be an offset introduced by the mixing of sideslip and angle of attack, arising from the difference in roll angle, and this will affect the reference or average value of the measured vertical wind. Some flights (e.g., DEEPWAVE\index{DEEPWAVE!flight 18} flight 18) have a significant offset in vertical wind from the gust pod at the start of the flight, related to offsets in heading and roll, that gradually is corrected in the course of the flight via the C-MIGITS\sindex[var]{C-MIGITS>@C-MIGITS} III IRU Kalman filter.  
 \end{enumerate}
 Because the weight of the aircraft decreases during the flight, so does the angle of attack. When the wing flexes, the measured sideslip at the gust pod also varies with weight of the aircraft. This change in sideslip causes an offset in the mean lateral component of the wind as measured by the gust-pod system. 
 
@@ -672,8 +686,8 @@ The laser air-motion sensor (LAMS)\index{laser air-motion sensor} is still under
 \label{fig:LAMS-4Beam}\index{LAMS!photograph}%
 \end{centering}%
 \end{figure}%
-The system consists of one, three or four fiber-based laser beams focused ahead of the aircraft and a collection system to detect the Doppler shift in light backscattered from aerosols. The transmitter optical components are mounted in an under-wing pod, similar to that used for the gust pod, and like the gust pod the system incorporates a compact \sindex[var]{SDN500=model of IRU used with the gust pod}\index{IRU!LAMS}\index{IRU!SDN500}Systron Donner SDN500 GPS/INS MEMS Tactical Grade navigation system (henceforth called the SDN500 IRU) to measure the attitude angles and ground speed of the pod. Early measurements from this system have been used to determine corrections to the pressure measurements, and those serve an important role in reducing uncertainty in the wind measurements, as described in \citet{CooperEtAl2014} and later in this report.\footnote{LAMS measurements prior to July 2014 used a C-MIGITSIII IRU with characteristics identical to those listed for the gust-pod IRU. The specifications for the SDN500 are almost
-identical but the performance of the SDN500 appears to be better than the C-MIGITSIII.} 
+The system consists of one, three or four fiber-based laser beams focused ahead of the aircraft and a collection system to detect the Doppler shift in light backscattered from aerosols. The transmitter optical components are mounted in an under-wing pod, similar to that used for the gust pod, and like the gust pod the system incorporates a compact \sindex[var]{SDN500=model of IRU used with the gust pod}\index{IRU!LAMS}\index{IRU!SDN500}Systron Donner SDN500 GPS/INS MEMS Tactical Grade navigation system (henceforth called the SDN500 IRU) to measure the attitude angles and ground speed\index{speed of aircraft!ground speed} of the pod. Early measurements from this system have been used to determine corrections to the pressure measurements, and those serve an important role in reducing uncertainty in the wind measurements, as described in \citet{CooperEtAl2014} and later in this report.\footnote{LAMS measurements prior to July 2014 used a C-MIGITS\sindex[var]{C-MIGITS>@C-MIGITS} III IRU with characteristics identical to those listed for the gust-pod IRU. The specifications for the SDN500 are almost
+identical but the performance of the SDN500 appears to be better than the C-MIGITS III.} 
 
 LAMS hardware supports up to four \index{LAMS!4-beam configuration} beams, with three pointing $35^{\circ}$ off the forward direction and separated by $120^{\circ}$ in the azimuthal direction. The fourth beam is directed forward from the LAMS unit. The LAMS\index{LAMS!in DEEPWAVE} channel designations changed after DEEPWAVE (summer 2014) when it was decided the instrument would benefit from having a lower noise channel for forward pointing measurements (the laser/detector on channel 4 had lower signal-to-noise ratio than the other three channels). Table \ref{tab:BeamConfig} summarizes the labels and pointing angles of each beam for both up to and after DEEPWAVE. The number designation refers to the laser, detector, and data processing channels, and the letter designation is associated with the exit window on the LAMS head. The pointing angles reported here are target values; measured values are given below. The angle $\theta_L$ is measured relative to the forward direction of the LAMS pod (approximately the angle between the beam and $\hat{x^{\prime}}$) and the angle $\phi_L$ is the rotation angle about $\hat{x^{\prime}}$ relative to the $\hat{z^{\prime}}$ axis. This geometry is designed for GV installation where the LAMS pod is installed on the left wing, outboard pylon, outboard position.\footnote{The pointing geometry relative to the aircraft may change based on the installation configuration on the C-130 (to be determined in fall 2015) where the LAMS optical fibers are routed to the aircraft right wing.}
 
@@ -729,7 +743,7 @@ During the test program IDEAS-4-GV (Instrument Development and Education in Airb
 
 The relative pointing of the LAMS beams is defined by the orientation of each beam relative to the others. If the absolute pointing direction of one beam is known, the relative pointing may be used to determine the absolute pointing of all other beams. We define the relative pointing coordinates such that the z-axis is directed along the forward beam (D). The angle $\theta_{L}$ is the angle between the beam and the z-axis and the azimuthal angle $\phi_{L}$ is measured relative to the x-axis such that beam 1 (A) is positioned at $\phi_{L}=180^{\circ}$.\sindex[lis]{phi\_subL@$\phi_{L}$=LAMS azimuthal pointing angle}\sindex[lis]{theta\_subL@$\theta_{L}$=LAMS pointing angle from longitudinal axis}\marginpar{180 OK?}
 
-Two methods were used to determine the relative pointing angles. The first, performed prior to September 2013, used a FARO Lasser Tracker Survey, in which a commercial laser surveying\index{LAMS!pointing angles!survey} company measured the positions of the LAMS head and the beam focal points. The 
+Two methods were used to determine the relative pointing angles. The first, performed prior to September 2013, used a FARO Laser Tracker Survey, in which a commercial laser surveying\index{LAMS!pointing angles!survey} company measured the positions of the LAMS head and the beam focal points. The 
 LAMS head was positioned in the hangar so the bottom two beams were approximately parallel to the floor. Two infrared (IR) card targets were placed at the focal points of those beams. 
 
 A laser tracker locks onto a locating target, a precise corner cube reflector that contacts the surfaces being surveyed, to register the surface
@@ -1000,7 +1014,7 @@ transferAttributes <- function (dsub, d) {
 
 @
 
-<<transform, include=TRUE, fig.cap="Wind measurements from LAMS (WD\\_LAMS, WS\\_LAMS, WI\\_LAMS) compared to those from the standard wind-sensing system (WDC, WSC, WIC) for a flight segment from the HCRTEST program, flight 3, 24 Nov 2014.">>=
+<<transform, include=TRUE, fig.scap="Wind measurements from LAMS compared to those from the standard wind-sensing system.", fig.cap="Wind measurements from LAMS (WD\\_LAMS, WS\\_LAMS, WI\\_LAMS) compared to those from the standard wind-sensing system (WDC, WSC, WIC) for a flight segment from the HCRTEST program, flight 3, 24 Nov 2014.">>=
 
 # Data$BEAM1speed <- Data$Beam1_LAMS
 # Data$BEAM2speed <- Data$Beam2_LAMS
@@ -1077,7 +1091,7 @@ plotWAC(Data[c("Time", "WIC", "WI_LAMS")], ylim=c(-5,5), legend.position="bottom
 
 @
 
-The wind components measured by the LAMS are shown in Fig.~\ref{fig:transform}. For the full segment, which includes maneuvers and many turns, the mean mean difference in wind direction between the LAMS and standard measurements was 0.1$^{\circ}$ with standard deviation 3.8$^{\circ}$; for wind speed, the mean difference and standard deviation were $-0.2$\,m/s and 1.4\,m/s, and for vertical wind $-.04$\,m/s and 0.9\,m/s. Some apparent
+The wind components measured by the LAMS\sindex[var]{WDL=wind direction, LAMS}\sindex[var]{WSL=wind speed, LAMS}\sindex[var]{WIL=vertical wind, LAMS} are shown in Fig.~\ref{fig:transform}.\sindex[var]{WDC>@WDC}\sindex[var]{WSC>@WSC}\sindex[var]{WIC>@WIC} For the full segment, which includes maneuvers and many turns, the mean mean difference in wind direction between the LAMS and standard measurements was 0.1$^{\circ}$ with standard deviation 3.8$^{\circ}$; for wind speed, the mean difference and standard deviation were $-0.2$\,m/s and 1.4\,m/s, and for vertical wind $-.04$\,m/s and 0.9\,m/s. Some apparent
 noise in the first beam between 19:50 and 20:00 UTC accounts for most of the large
 standard deviation in vertical wind. Spikes in the measurements from LAMS are associated with low signal-to-noise resulting from the relatively low aerosol concentrations present at the flight level (about 20,500~ft or about 6.25 km). The two sets of measurements in this plot are
 independent of each other because they are based on different measuring systems for
