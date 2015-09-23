@@ -39,10 +39,15 @@
 \indexentry{wind!measurement!standard system|hyperpage}{2}
 \indexentry{speed of aircraft!ground speed|hyperpage}{2}
 \indexentry{wind!measurement!gust pod|hyperpage}{2}
+\indexentry{Rosemount 858 airflow sensor|hyperpage}{2}
+\indexentry{inertial reference unit|hyperpage}{2}
+\indexentry{filter!Kalman|hyperpage}{2}
 \indexentry{wind!measurement!laser air-motion sensor|hyperpage}{2}
 \indexentry{laser air-motion sensor|hyperpage}{2}
 \indexentry[var]{LAMS=laser air-motion sensor|hyperpage}{2}
 \indexentry{LAMS|hyperindexformat{\see {laser air-motion sensor}}}{2}
+\indexentry{Doppler shift|hyperpage}{3}
+\indexentry{humidity!effect on airspeed|hyperpage}{3}
 \indexentry{properties of moist air|hyperpage}{3}
 \indexentry{pressure!ambient|hyperpage}{3}
 \indexentry{pressure!static|hyperindexformat{\see {pressure, ambient}}}{3}
@@ -62,6 +67,8 @@
 \indexentry{heading|hyperpage}{3}
 \indexentry{roll angle|hyperpage}{3}
 \indexentry{pitch angle|hyperpage}{3}
+\indexentry{angle!attitude|hyperpage}{3}
+\indexentry{coordinate system!Earth|hyperpage}{3}
 \indexentry{wind!relative|hyperpage}{3}
 \indexentry{coordinate system!aircraft|hyperpage}{3}
 \indexentry{wind!relative|hyperpage}{3}
@@ -73,7 +80,7 @@
 \indexentry{airspeed!longitudinal|hyperpage}{3}
 \indexentry{attack!angle of|hyperpage}{3}
 \indexentry{sideslip|hyperpage}{3}
-\indexentry{sign convention|hyperpage}{3}
+\indexentry{wind!relative!sign convention|hyperpage}{3}
 \indexentry{transformation!to Earth reference frame|hyperpage}{4}
 \indexentry{coordinate system!Earth|hyperpage}{4}
 \indexentry{gust pod|hyperpage}{4}
@@ -87,6 +94,7 @@
 \indexentry{Global Positioning System|hyperpage}{4}
 \indexentry{speed of aircraft!ground speed|hyperpage}{4}
 \indexentry{transformation!coordinate|hyperpage}{4}
+\indexentry{wind!coordinate transformation|hyperpage}{4}
 \indexentry{rotation matrices|hyperpage}{4}
 \indexentry{transformation!rotation|hyperpage}{4}
 \indexentry{matrices!rotation|hyperpage}{4}
@@ -111,6 +119,7 @@
 \indexentry[var]{VSPD=vertical velocity of the aircraft, Honeywell IRU {[}m/s{]}|hyperpage}{4}
 \indexentry{nimbus|hyperpage}{5}
 \indexentry{gust.c|hyperpage}{5}
+\indexentry[var]{VNSs=north component of the aircraft ground speed from the 's' measuring system, 's'=\{C, \_GP, \_LAMS\} for respectively the standard, gust-pod, and LAMS systems|hyperpage}{5}
 \indexentry[var]{VNSC>@VNSC|hyperpage}{5}
 \indexentry[var]{VEWC>@VEWC|hyperpage}{5}
 \indexentry[var]{VSPD>@VSPD|hyperpage}{5}
@@ -142,6 +151,7 @@
 \indexentry[var]{CVSPD_LAMS@CVSPD\_LAMS=vertical component of aircraft motion, LAMS SDN500 {[}m/s{]}|hyperpage}{5}
 \indexentry[lis]{mathbf{v_{E}} =vector wind relative to the Earth reference frame@$\mathbf{v_{E}}$=vector wind relative to the Earth reference frame|hyperpage}{5}
 \indexentry[lis]{mathbf{v_{r}} =vector relative wind@$\mathbf{v_{r}}$=vector relative wind|hyperpage}{5}
+\indexentry{wind!equation for components|hyperpage}{5}
 \indexentry{wind!measurement!standard system|hyperpage}{6}
 \indexentry{pitot tube|hyperpage}{6}
 \indexentry{angle!airflow|hyperpage}{6}
@@ -238,7 +248,7 @@
 \indexentry{processing algorithms|hyperpage}{10}
 \indexentry{temperature!uncertainty|hyperpage}{10}
 \indexentry{dew point|hyperpage}{10}
-\indexentry{humidity, effect of|hyperpage}{10}
+\indexentry{humidity, effect on airspeed|hyperpage}{10}
 \indexentry[sym]{qh@$q_h$=specific humidity|hyperpage}{10}
 \indexentry{example of measurements!attitude angles|hyperpage}{11}
 \indexentry[var]{UTC=Coordinated Universal Time|hyperpage}{11}
@@ -908,7 +918,7 @@
 \indexentry{maneuver!circle|hyperpage}{112}
 \indexentry{DEEPWAVE|hyperpage}{112}
 \indexentry{maneuver!circle!plotted track|hyperpage}{112}
-\indexentry{DEEPWAVE!flight 15|hyperpage}{112}
+\indexentry{DEEPWAVE!flight 15|hyperpage}{113}
 \indexentry{speed of aircraft!ground speed!time offset|hyperpage}{113}
 \indexentry[var]{ROLL>@ROLL|hyperpage}{113}
 \indexentry[lis]{psiprime@$\psi^{\prime}$=heading angle adjusted in turns for sideslip angle and angle of attack|hyperpage}{113}

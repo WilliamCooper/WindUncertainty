@@ -161,11 +161,12 @@
 \author{W. A. Cooper, R. B. Friesen, M. Hayman, J. B. Jensen, D. H. Lenschow, \\P. A. Romashkin, A. J. Schanot, S. M. Spuler, J. L. Stith, C. Wolff}
 
 
-\date{\textcolor{red}{DRAFT} 6/29/2015}
+\date{\textcolor{red}{} 9/23/2015}
 \thispagestyle{empty}
 \maketitle
 \vfill{}
 \eject%
+\cleardoublepage
 \pagenumbering{roman}
 
 <<prelude, echo=FALSE, include=FALSE>>=
@@ -233,6 +234,94 @@ reproducibility of the analyses, so that others can duplicate these
 results.
 \end{abstract}
 \clearpage
+\subsection*{\centering{Foreword}}
+\addcontentsline{toc}{subsection}{Foreword}
+%%\source('foreword_wind_doc.tex')
+{\centering
+Jeff Stith
+\par}
+
+{\centering
+Manager, Research Aviation Facility, EOL/NCAR
+\par}
+
+
+\bigskip
+
+It is hard to imagine science without its dedicated laboratories where
+the specialized experiments and measurements required for scientific
+progress are located. In the earth sciences, particularly in the
+atmospheric sciences, airborne laboratories are often the best and
+sometimes the only way to obtain the necessary measurements, many of
+which are carried out in situ. For most meteorological research and
+related disciplines (such as atmospheric chemistry), the motion of the
+air with respect to the earth at the location of the research aircraft
+is a fundamental part of the research. In a general sense we think
+of this as a wind measurement, but it also includes the field of
+atmospheric turbulence, a discipline in its own right. Scientific
+interest in this topic ranges from planetary scales to mm scales,
+representing a major experimental need. 
+
+Resolving even the larger turbulent eddies in the atmosphere requires
+high resolution three-dimensional wind measurements, which is a major
+challenge to obtain accurately from a high-speed aircraft. There
+are several challenges when making such a measurement. The motion of
+the aircraft through the atmosphere must be accurately measured, which
+has traditionally been done through measurement of pitot and static
+pressures, temperature, humidity, angle of attack and angle of
+sideslip, each with their own measurement limitations. The motion
+of the aircraft with respect to the earth must also be accurately
+determined. The adoption of compact Inertial Navigation Systems
+(INS) on research aircraft, over fifty years ago, represents a
+milestone in airborne wind measurement by allowing the motion of the
+aircraft relative to the earth to be accurately measured at a high
+sampling rate. NCAR{\textquoteright}s Research Aviation Facility,
+through the work by Don Lenschow and collaborators, was an early user
+and developer of wind measurements using this technology in the 1970s.
+These techniques are still the primary methods used for high
+resolution wind and turbulence measurements from research aircraft.
+In fact, the aircraft maneuvers that Lenschow developed to setup
+the wind system are still today often referred to as
+{\textquotedblleft}Lenschow maneuvers{\textquotedblright}. 
+
+While there are calibration standards for pressure, temperature,
+humidity, and for evaluating the performance of an INS, there is no
+comparable standard for evaluating the performance of the wind
+measuring system as a whole. Furthermore, the response of the
+aircraft itself to gusts and the associated perturbations of the
+airflow around the aircraft are poorly known and a significant
+constraint on the wind measurement capabilities. Techniques such as
+flight by an instrumented tower can be used for comparison with
+airborne wind measurements, but the uncertainty in these comparisons is
+generally of the same order or greater than the accuracy one might
+expect from the wind system itself and they cannot duplicate the
+conditions in the atmosphere where the measurements are made. Thus,
+such techniques do not resolve the basic uncertainties of a given wind
+measurement system. 
+
+Over the past decade we have been developing and using a Laser Air
+Motion System (LAMS), which utilizes lidar technology to resolve the
+airspeed of the aircraft ahead of the airflow perturbations caused by
+the presence of the aircraft. Since it provides an independent
+measurement of airspeed, it allows for better characterization the wind
+system. 
+
+This document represents a careful examination of each component of the
+uncertainty in the wind measurement system on the NSF/NCAR GV aircraft,
+utilizing the new data provided by LAMS to improve the characterization
+of the GV wind system. It also provides a description of updated
+Lenschow maneuver techniques and shows how these and other techniques
+can be used to setup the wind system for optimal measurement
+performance. It will be an important reference to future users of
+the data from the GV and to scientists at the Research Aviation
+Facility. It also serves as a guide to modern wind-system
+measurement technology and, as such, will be of general interest to
+users of these types of systems and to students who are learning about
+this important technology. It represents a continuation of the
+pioneering work on airborne wind measurements done by Lenschow and
+colleagues, done now with modern technology and a continuing focus on
+the performance of the instrumentation used for this application. 
+
 \tableofcontents{}
 \clearpage
 \phantomsection
@@ -242,6 +331,7 @@ results.
 \phantomsection
 \addcontentsline{toc}{section}{List of Tables}
 \listoftables
+\cleardoublepage
 \newpage
 \pagenumbering{arabic}
 <<A, child='Introduction.Rnw'>>=
