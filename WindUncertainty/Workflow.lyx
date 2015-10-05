@@ -1,0 +1,3905 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\addressee} \global\addressee={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Memo to: \the\addressee \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+\newcommand{\EOLmemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Earth Observing Laboratory}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.3truein \leftline{\hskip \longindent \datetoday} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lyxlist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+\end_preamble
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding default
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize letterpaper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 0
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.54cm
+\topmargin 3.54cm
+\rightmargin 2.54cm
+\bottommargin 2.54cm
+\headheight 1cm
+\headsep 2cm
+\footskip 0.5cm
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+EOLmemo 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+global
+\backslash
+addressee={Tech Note archive}  % >>change "File" to the "To:" name desired
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+To:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+the
+\backslash
+addressee
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+From:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+William Cooper
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Subject:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Workflow to reproduce or update the technical note
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<initialization,echo=FALSE,include=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+library(knitr)
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(fig.width=6, fig.height=5, fig.pos="center", digits=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+thisFileName <- "WorkflowTN"
+\end_layout
+
+\begin_layout Plain Layout
+
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggplot2)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(grid)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggthemes)
+\end_layout
+
+\begin_layout Plain Layout
+
+Directory <- DataDirectory ()
+\end_layout
+
+\begin_layout Plain Layout
+
+Flight <- "rf15" 				
+\end_layout
+
+\begin_layout Plain Layout
+
+Project = "DEEPWAVE"			 
+\end_layout
+
+\begin_layout Plain Layout
+
+# fname = sprintf("%s%s/%s%s.nc", Directory,Project,Project,Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+# Data <- getNetCDF (fname, standardVariables(c("GGVSPDB")))	
+\end_layout
+
+\begin_layout Plain Layout
+
+SaveRData <- sprintf("%s.Rdata.gz", thisFileName)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Purpose
+\end_layout
+
+\begin_layout Standard
+This section describes the workflow for the code in "WindUncertainty.Rnw"
+ that generates the Technical Note on 
+\begin_inset Quotes eld
+\end_inset
+
+Characterization of Uncertainty in Measurements of Wind from the NSF/NCAR
+ Gulfstream V Research Aircraft.
+\begin_inset Quotes erd
+\end_inset
+
+ WindUncertainty.Rnw contains both text (in LaTeX format) and R processing
+ script for the analysis in this Technical Note.
+ The description of workflow provided here includes the process of collecting
+ the observations and processing them to data files, the data archives used,
+ the steps required to generate the plots and other results including the
+ instances where manual intervention is required to identify appropriate
+ subsets of the data, the relevant R code and LaTeX documents, and all the
+ steps leading to the generation of the text in the Technical Note.
+ "WindUncertainty.Rnw" incorporates a set of child documents containing the
+ individual sections of the document, so the workflow of each of those child
+ documents is also described in detail.
+ The final authority regarding workflow is the set of ".Rnw" documents themselves
+, which are part of the archive, but this overview and diagrams will help
+ explain the workflow at a general level and so should substitute for reading
+ the R and LaTeX code in most cases.
+ The intent is to describe the workflow in sufficient detail to support
+ replication of the analysis and figures presented in this Technical Note,
+ and also to enable changes based on new data or new analysis approaches.
+\end_layout
+
+\begin_layout Section
+Acquisition of the primary data
+\end_layout
+
+\begin_layout Standard
+Most of the measurements used in this report were collected using the NSF/NCAR
+ GV research aircraft during the DEEPWAVE project of 2014.
+ As described in the body of the technical note, the onboard data-acquisition
+ program 'aeros' recorded the data in digital format, and those data files
+ were then processed by the program 'nimbus' to produce an archive in NetCDF
+ format.
+ The software management group of NCAR/EOL maintains a version-controlled
+ archive of these programs, so if they are of interest they can be obtained
+ by contacting the data-management group of EOL (
+\begin_inset CommandInset href
+LatexCommand href
+name "at this "
+target "raf-dm@eol.ucar.edu"
+type "mailto:"
+
+\end_inset
+
+ or 
+\begin_inset CommandInset href
+LatexCommand href
+name "this"
+target "datahelp@eol.ucar.edu"
+type "mailto:"
+
+\end_inset
+
+ address).
+ The data files available from NCAR/EOL can be found at links on 
+\begin_inset CommandInset href
+LatexCommand href
+name "this URL"
+target "https://www.eol.ucar.edu/all-field-projects-and-deployments"
+
+\end_inset
+
+.
+ The details of the processing algorithms are documented here: 
+\begin_inset CommandInset href
+LatexCommand href
+name "Processing Algorithms"
+target "https://drive.google.com/open?id=0B1kIUH45ca5Ab2Z6cld1M1cydjA"
+
+\end_inset
+
+.
+ These procedures as they pertain to the measurement of wind are also documented
+ in the "Introduction" to the present technical note.
+ The resulting data files contain measurements in scientific units and brief
+ descriptions of each measurement.
+ 
+\end_layout
+
+\begin_layout Section
+Overview of the workflow
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Workflow.png
+	lyxscale 50
+	width 60text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Top-level-flow-chart"
+
+\end_inset
+
+Top-level flow chart describing the order of processing for the main program.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+The Technical Note is organized into seven sections, three appendices, some
+ lists including citations, and an index.
+ Each of the sections in contained it a separate 
+\begin_inset Quotes eld
+\end_inset
+
+child
+\begin_inset Quotes erd
+\end_inset
+
+ document that is loaded during compilation and so included in the document
+ produced by the file 
+\begin_inset Quotes eld
+\end_inset
+
+WindUncertainty.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+.
+ An additional document containing the pitch-correction subsection is also
+ loaded when section 6 is processed.
+ A top-level view of the sequence is provided by Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Top-level-flow-chart"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Some information on the rationale for the organization of the technical
+ note is provided in Appendix A, where the conventions for uncertainty analysis
+ being followed in this technical note are discussed.
+ The central result of the uncertainty analysis is contained in Section
+ 4 (Elements of uncertainty and summary).
+ The sections before this one are mostly descriptions of the measuring systems
+ in terms of component measurements and how they are calibrated and combined
+ to obtain measurements of wind.
+ The last three sections present key studies of the measurements used to
+ reduce uncertainty and check the results.
+ Section 4 relies on information presented in detail in the last three sections,
+ but the intent is that the section be readable as a suimmary of the results,
+ with references and links should more information be desired by the reader.
+\end_layout
+
+\begin_layout Standard
+An additional appendix, Appendix B, provide some limited characterization
+ of the ability of the systems to measure the characteristics of turbulence.
+ Appendix C is a discussion of the attempt to facilitate reproducibility
+ of this technical note, and the present memo describing workflow is a key
+ feature of that attempt.
+\end_layout
+
+\begin_layout Standard
+The description of workflow provided in this memo is lacking in specifics
+ regarding, for example, how particular parts of the data were selected
+ for plots and how those plots were generated.
+ However, that information can be found in detail in the code itself, and
+ almost all steps leading to plots, fit coefficients, or other numerical
+ results can be found in that way.
+ The few exceptions (e.g., the variance spectra in Appendix B) are mentioned
+ specifically and a general path to their creation is described.
+ Because this information is so complete in the master files themselves,
+ no effort will be made here to develop a similar provenance diagram showing
+ these details.
+\end_layout
+
+\begin_layout Standard
+Describing one additional aspect of the document structure may help readers
+ of the code: Where the expression 
+\begin_inset Quotes eld
+\end_inset
+
+Sexpr{}
+\begin_inset Quotes erd
+\end_inset
+
+ exists in the LaTeX code, the quantity in braces is a reference to variables
+ or functions in the preceding R code.
+ This is a feature provided by the 
+\begin_inset Quotes eld
+\end_inset
+
+knitr
+\begin_inset Quotes erd
+\end_inset
+
+ processing, which derives from sweave and so traces back to S, the predecessor
+ to R; hence the contraction for S-expression.
+ In this way, results from calculations (e.g., coefficients from a linear
+ fit) can be entered into the text with assurance that the text will represent
+ exactly the results of the calculations.
+ This avoids the danger of entering numerical results manually into the
+ text, when those results might change for different data or different fit
+ constraints.
+ 
+\end_layout
+
+\begin_layout Standard
+In the next section, the workflow for each of the seven sections shown in
+ Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Top-level-flow-chart"
+
+\end_inset
+
+ will be discussed, with additional diagrams for the details internal to
+ each section.
+\end_layout
+
+\begin_layout Section
+Workflow diagrams and discussion for individual sections
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Workflow1.png
+	lyxscale 50
+	width 60text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Workflow for Section 1 (Introduction).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Workflow-Section-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The general structure of an Rnw file like Introduction.Rnw is that R code
+ is incorporated in 
+\begin_inset Quotes eld
+\end_inset
+
+chunks
+\begin_inset Quotes erd
+\end_inset
+
+ that have special delimiters and unique names, while the remainder of the
+ content is LaTeX.
+ Introduction.Rnw has only one chunk, the 
+\begin_inset Quotes eld
+\end_inset
+
+parent-intro
+\begin_inset Quotes erd
+\end_inset
+
+ chunk that provides a link to the parent file 
+\begin_inset Quotes eld
+\end_inset
+
+WindUncertainty.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+ so that it can be compiled to PDF format by referencing the LaTeX preamble
+ and document definitions contained in that parent file.
+ Other sections also have a similar initial chunk, which makes construction
+ of each section possible without requiring construction of the entire document,
+ so working with the individual sections is faster and easier.
+ Otherwise, the Introduction.Rnw file is all text.
+ The 
+\begin_inset Quotes eld
+\end_inset
+
+Overview
+\begin_inset Quotes erd
+\end_inset
+
+ provides an initial description of the wind-sensing systems on the aircraft
+ and some references to previous studies and source material.
+ Section 1.2 provides the equations used to calculate wind, for all the systems,
+ including the determination of the air motion relative to the aircraft
+ (
+\begin_inset Quotes eld
+\end_inset
+
+relative wind
+\begin_inset Quotes erd
+\end_inset
+
+) and the angle transformations required to obtain the Earth-relative wind
+ vector from the relative wind and the aircraft orientation and motion.
+ This material is drawn from standard sources as cited, but it is included
+ because it provides a reference for calculations used throughout the Technical
+ Note.
+\end_layout
+
+\begin_layout Standard
+Throughout this and all other sections, there are interspersed 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+index
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+sindex
+\begin_inset Quotes erd
+\end_inset
+
+ LaTeX commands that are used to compile the index, list of symbols, and
+ list of variable names provided at the end of the document.
+ These have been inserted manually, so they represent considerable work
+ yet have led to results that are incomplete because selections for inclusion
+ have been made subjectively and with varying care throughout the document.
+ This is an aspect of the Technical Note that could be improved by additional
+ work and review, so the present status is a compromise made on the basis
+ of estimated added value vs effort required.
+ Another aspect of the document structure that might be questioned is the
+ frequent use of footnotes.
+ Despite standard advice that such footnotes should be avoided where possible,
+ they are included liberally in this document in order to document subtle
+ aspects of the work while not distracting from the main flow of the text.
+ 
+\end_layout
+
+\begin_layout Standard
+In the case of this and most other sections of the document, the initial
+ draft was constructed using 
+\begin_inset Quotes eld
+\end_inset
+
+LyX
+\begin_inset Quotes erd
+\end_inset
+
+ because it provides a convenient way of generating LaTeX code while also
+ incorporating R chunks and the results can be exported to .Rnw format.
+ The LyX files are not included in the project archive because there has
+ usually been significant editing after the initial files were generated
+ so they would not represent the final product.
+ The resulting .Rnw file was then further edited in RStudio and converted
+ to the final text document using the 
+\begin_inset Quotes eld
+\end_inset
+
+compile PDF
+\begin_inset Quotes erd
+\end_inset
+
+ function in RStudio.
+ The references and Appendix C in the Technical Note provide further information
+ on the specific versions used and citations to authors of the packages
+ used for R and RStudio as well as 
+\begin_inset Quotes eld
+\end_inset
+
+knitr
+\begin_inset Quotes erd
+\end_inset
+
+ which provides the capability of generating text documents from the Rnw
+ files.
+\end_layout
+
+\begin_layout Subsection
+Components of the wind-sensing systems
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Workflow2.png
+	lyxscale 50
+	width 75text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Workflow-diagram-2.1"
+
+\end_inset
+
+Workflow diagram for Section 2, generated by 
+\begin_inset Quotes eld
+\end_inset
+
+ComponentsOfWindSensingSystem.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Workflow-diagram-2.1"
+
+\end_inset
+
+ shows the general workflow for Section 2.
+ There are three subsections, respectively discussing the radome-based,
+ gust-pod, and LAMS measuring systems for measuring wind.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+The radome-based system
+\end_layout
+
+\begin_layout Standard
+The first is the conventional system and the basis for most past measurements
+ This is the system in most common use, so the section devotes the most
+ space to it.
+ Much of the information contained in these pages comes from web sites or
+ manuals provided by manufacturers of the components or from the 
+\begin_inset CommandInset href
+LatexCommand href
+name "EOL instrument web pages"
+target "http://www.eol.ucar.edu/aircraft-instrumentation"
+
+\end_inset
+
+, especially the section on 
+\begin_inset Quotes eld
+\end_inset
+
+State Parameters
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The section begins with a table (Table 1) giving instrument characteristics
+ from these sources or occasionally from intercomparison results, and that
+ table also includes estimates of standard uncertainties associated with
+ the measurements.
+ Then, for each measurement, the text includes a discussion of the component,
+ the basis for the uncertainty estimate, and other characteristics like
+ time response or limitations.
+ These sections of the text then themselves serve as workflow templates
+ for the construction of the text.
+ References are given to documents that discuss processing algorithms or
+ the basis for some of the estimates.
+ In some cases (e.g., for the attitude angles measured by the inertial reference
+ systems), comparisons between identical or similar systems are used to
+ justify the estimates; these comparisons have been done external to this
+ document and the results inserted manually, a violation of the general
+ principle that the document be self-contained and self-generating.
+ In the cases of pressure, temperature, and airspeed, a recent publication
+ is cited because it provides more detail than it is reasonable to duplicate
+ here and because the document is available on-line.
+ In many cases, the specific links to the EOL instrument pages are provided
+ where there are photographs and additional instrument characteristics for
+ the component measurements.
+ Some photographs of these components have been inserted into the text to
+ show their appearance on the aircraft.
+ 
+\end_layout
+
+\begin_layout Standard
+After the detailed discussion of entries in Table 1, some examples of the
+ measurements are included to show the general nature of the measurements.
+ The workflow diagram shows the general path taken to generate these examples,
+ and the red arrow in the figure shows that this sequence is followed repeatedly
+ to construct diagrams for the component measurements.
+ For example, Fig.
+\begin_inset space ~
+\end_inset
+
+3 shows the attitude angles measured by three different inertial reference
+ systems in the course of one flight.
+ This figure is generated by the R code in the chunk 
+\begin_inset Quotes eld
+\end_inset
+
+radome-plot-angles
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The following sequence can be seen in that chunk:
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Select appropriate times: 
+\emph default
+Flight rf16 from the DEEPWAVE project is selected, and the plot is made
+ to cover the entire flight.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Load flight data: 
+\emph default
+A set of variables is defined and then retrieved from the archived NetCDF
+ file, and the retrieved subset is saved in a much smaller R data file that
+ can be retrieved for subsequent runs or archived with the document.
+ The netCDF access routine 
+\begin_inset Quotes eld
+\end_inset
+
+getNetCDF()
+\begin_inset Quotes erd
+\end_inset
+
+, part of the 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu
+\begin_inset Quotes erd
+\end_inset
+
+ package, is used for this retrieval.
+ That package resides on 
+\begin_inset Newline newline
+\end_inset
+
+https://github.com/WilliamCooper/Ranadu.git along with instructions for its
+ use.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Define plot in an R chunk: 
+\emph default
+The plot is then generated by calls in the chunk labeled 
+\begin_inset Quotes eld
+\end_inset
+
+radome-plot-angles
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The statements generating the plot are the calls to 
+\begin_inset Quotes eld
+\end_inset
+
+plotWAC()
+\begin_inset Quotes erd
+\end_inset
+
+, also part of the 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu
+\begin_inset Quotes erd
+\end_inset
+
+ package.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Use knitr to include plot in text: 
+\emph default
+The processing program 
+\begin_inset Quotes eld
+\end_inset
+
+knitr
+\begin_inset Quotes erd
+\end_inset
+
+ then places the plot at an appropriate place in the text file, with caption
+ as specified in the header of the R chunk and with sizes and locations
+ controlled by global options set in the parent document.
+\end_layout
+
+\begin_layout Standard
+This sequence is repeated for Figs.
+\begin_inset space ~
+\end_inset
+
+4--7, in the respective R chunks 
+\begin_inset Quotes eld
+\end_inset
+
+radome-plot-pressures
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+radome-plot-airflow-angles
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+radome-plot-groundspeed
+\begin_inset Quotes erd
+\end_inset
+
+, and 
+\begin_inset Quotes eld
+\end_inset
+
+radome-plot-wind
+\begin_inset Quotes erd
+\end_inset
+
+.
+ These all use the data retrieved for Fig.
+\begin_inset space ~
+\end_inset
+
+3, so step 2 above does not need to be repeated.
+ 
+\end_layout
+
+\begin_layout Standard
+The example plots could be changed easily be selecting another flight or
+ another time period, or be selecting different variables to pass to the
+ plotting commands.
+\end_layout
+
+\begin_layout Subsubsection
+The gust-pod system
+\end_layout
+
+\begin_layout Standard
+The workflow for the gust-pod system is mostly a duplicate of that for the
+ radome-based system, but for the component measurements for the gust-pod
+ system (usually with variable names that include 
+\begin_inset Quotes eld
+\end_inset
+
+_GP
+\begin_inset Quotes erd
+\end_inset
+
+).
+ Table 2 provides entries similar to those in Table 1 for this system.
+ An additional plot is generated in this section to compare the vertical
+ wind provided by the gust-pod system to that from the radome-based system.
+ The algorithm providing the vertical wind for the gust-pod system is newly
+ developed in this report (Section 5), so there is extra documentation associate
+d with it (Figs.
+\begin_inset space ~
+\end_inset
+
+8--10).
+ Like most other figures, they are generated in R chunks, respectively 
+\begin_inset Quotes eld
+\end_inset
+
+vw-gp-vs-wic
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+hw-gp-vs-std
+\begin_inset Quotes erd
+\end_inset
+
+, and 
+\begin_inset Quotes eld
+\end_inset
+
+gp-small-segment
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Note that in the first of these a variable sdWICmWIG is defined as the
+ standard deviation of the difference between the two measurements of vertical
+ wind, and that the comparison plotted in Fig.
+\begin_inset space ~
+\end_inset
+
+8 is restricted to measurements at altitudes above 25,000
+\begin_inset space \thinspace{}
+\end_inset
+
+ft and with roll between -5 and 5
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+; these were the conditions of most interest in DEEPWAVE and avoided some
+ larger errors in the gust-pod vertical wind that arose in turns.
+ The variable sdWICmWIG was used in a 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+Sexpr{}
+\begin_inset Quotes erd
+\end_inset
+
+ statement to be able to quote this result in the text.
+ Figure 3, presented earlier in connection with the radome-based system,
+ also included some measurements from components in the gust-pod system.
+\end_layout
+
+\begin_layout Standard
+Figure 11 is another exception in the effort to make the generation of plots
+ self-contained, because it shows the variance spectra calculated externally
+ and inserted into this document.
+ It was generated by a private package (called Xanadu) that is not generally
+ available, but it uses methods documented as described in the text and
+ as cited in earlier references.
+ Figure 12 is also generated specially by shifting some measurements in
+ time; the code for this shift is included in the .Rnw file but is commented
+ and was enabled only to produce this plot, so it is another plot that is
+ inserted into the text manually.
+\end_layout
+
+\begin_layout Subsubsection
+The LAMS
+\end_layout
+
+\begin_layout Standard
+This system is still undergoing development and testing, and has been the
+ subject of two publications references in the Technical Report, so the
+ description included here has a different and more tentative structure.
+ The discussion includes definition of the beam pointing angles and uncertaintie
+s associated with them, some photographs and a schematic diagram showing
+ the system (Figs.
+\begin_inset space ~
+\end_inset
+
+13--16), a discussion of data-handling procedures, and some examples of
+ measurements from the system.
+ Figure 17 shows some sample measurements, generated in the standard way
+ via code in R chunks 
+\begin_inset Quotes eld
+\end_inset
+
+LAMS-example-1
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+transform
+\begin_inset Quotes erd
+\end_inset
+
+, using data from another project and flight (HCRTEST, flight 3).
+ The latter chunk also includes the code to transform from the aircraft
+ reference frame (where the relative wind is defined) to the Earth-based
+ system, following the math specified in Section 1.
+ 
+\end_layout
+
+\begin_layout Subsection
+Calibration procedures
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Workflow3.png
+	lyxscale 50
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Workflow-chart-3"
+
+\end_inset
+
+Workflow chart for Section 3, implemented in 
+\begin_inset Quotes eld
+\end_inset
+
+CalibrationProcedures.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The workflow for Section 3 is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Workflow-chart-3"
+
+\end_inset
+
+.
+ The section is mostly descriptive, so the workflow is relatively simple,
+ consisting of describing how calibrations are performed for the component
+ measurements of the various systems and how measurements are checked before,
+ during, and after projects.
+ The radome-based and gust-pod systems both rely on empirically determined
+ functions to represent airflow angles in terms of measured pressures, so
+ these functions are introduced here, with references to more detailed discussio
+ns to follow.
+ This section also introduces the value of the circle maneuver when checking
+ performance of the wind-sensing systems and refers to later discussions
+ for the details.
+ The reason for introducing these latter calibration procedures here is
+ that they are used in the next section to reduce uncertainty limits for
+ some measurements.
+ 
+\end_layout
+
+\begin_layout Subsection
+Elements of uncertainty and summary
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Workflow4.png
+	lyxscale 50
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Workflow-chart-4"
+
+\end_inset
+
+Workflow chart for Section 4, implemented by ElementsOfUncertaintyAndSummary.Rnw.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Section 4 is the summary section for the Technical Note, and its conclusions
+ are the key ones for the entire document.
+ It serves as a summary of everything that was considered when estimating
+ the uncertainty in wind measurements, and it provides links to other parts
+ of the report where they justify or provide a basis for the values used
+ in this summary.
+ The workflow is summarized in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Workflow-chart-4"
+
+\end_inset
+
+.
+ Each vertical column represents a subsection, and each will be discussed
+ below.
+\end_layout
+
+\begin_layout Subsubsection
+General structure (Section 4.1)
+\end_layout
+
+\begin_layout Standard
+This is a text-only subsection without calculations.
+ It outlines the structure to follow and calls attention to Appendix A where
+ the structure is discussed in more detail.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Elemental sources, vertical wind (Section 4.2)
+\end_layout
+
+\begin_layout Standard
+Section 4.2 contains two parallel branches, as shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Workflow-chart-4"
+
+\end_inset
+
+, one for the radome-based system and a second for the gust-pod system.
+ Each has the same structure:
+\end_layout
+
+\begin_layout Enumerate
+A summary table that lists the individual contributions to uncertainty in
+ vertical wind at the most basic level (e.g., the transducer used to make
+ a contributing measurement) and a estimate of the estimated limit to the
+ bias error in that measurement, the random component of the standard uncertaint
+y, the degrees of freedom associated with the random component, and the
+ contribution to uncertainty in vertical wind obtained by propagating the
+ bias limit and the standard uncertainty in the elemental source to the
+ vertical wind through the calculation chain used for data processing.
+ For each entry in the 
+\begin_inset Quotes eld
+\end_inset
+
+bias
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+random
+\begin_inset Quotes erd
+\end_inset
+
+ columns, the type of uncertainty estimate (either A or B) is also indicated;
+ these types are discussed in Appendix A.
+ Determining the appropriate entries in this table is the central task required
+ to construct the analysis of uncertainty reported in this Technical Note,
+ and substantial work is required to obtain and justify the entries in this
+ table, as discussed in the next item.
+ The entries in the table are defined in the R chunk labeled 
+\begin_inset Quotes eld
+\end_inset
+
+table-1-elements
+\begin_inset Quotes erd
+\end_inset
+
+ (for the radome system), although the table is actually Table 6.
+ The entries are defined as R variables in this way to ensure consistency
+ among the table entries, the discussion, and the propagated uncertainty
+ leading to net uncertainty in the vertical wind.
+ For the gust pod (a new and possibly evolving system), the table entries
+ in Table 7 are simply entered into the LaTeX table, although a better structure
+ would duplicate that used for the radome system.
+ 
+\end_layout
+
+\begin_layout Enumerate
+For each elemental source, the table entries are then discussed and justified,
+ often with links to material elsewhere in the document including that in
+ Tables 1 and 2 where the component measurements are listed along with specifica
+tions.
+ In some cases (e.g., pitch) the entries included in Table 7 are substantially
+ smaller than those in Table 1, so the discussion justifies that change.
+ In other cases (e.g., QCF and ADIFR), the noise limit observed in variance
+ spectra in regions of low turbulence is used to support the table entries.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Each branch concludes with a summary that provides the net uncertainty in
+ vertical wind and any qualifications limiting the conditions under which
+ that estimated uncertainty is valid.
+ This estimate is then the primary result of the analysis in this Technical
+ Note.
+ The procedure used for the radome-based system is to reference the result
+ from the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+table-1-elements
+\begin_inset Quotes erd
+\end_inset
+
+ where the tabular entries are added in quadrature to obtain the net uncertainty
+, and these results are then referenced via 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+Sexpr{}
+\begin_inset Quotes erd
+\end_inset
+
+ in the LaTeX text.
+\end_layout
+
+\begin_layout Subsubsection
+Elemental sources, horizontal wind (Section 4.3)
+\end_layout
+
+\begin_layout Standard
+Section 4.3 is constructed following the model defined above for Section
+ 4.2, as also shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Workflow-chart-4"
+
+\end_inset
+
+, so the discussion above applies to this section also.
+ The only complication arising in this section is that the estimates need
+ to be made separately for the longitudinal and lateral components of the
+ horizontal wind, so the table entries (Tables 8 and 9) include two propagated
+ uncertainties for these two components, and the net uncertainty then is
+ determined for each separately.
+\end_layout
+
+\begin_layout Subsubsection
+Uncertainties associated with the LAMS (Section 4.4)
+\end_layout
+
+\begin_layout Standard
+The LAMS is still under development, so the information presented here is
+ preliminary and likely to change with new versions of the instrument.
+ This is an all-text subsection without R code.
+ The workflow leading to the mathematical derivations is described by including
+ complete derivations (constructed by Matt Hayman).
+ For the discussion of beam pointing angles, the results from section 2.3.2
+ are used for the estimated uncertainty in pointing angle that is then propagate
+d to wind measurements.
+ This is followed by a mathematical discussion of the effect of uncertainty
+ in measurements from the inertial reference system (referencing equations
+ in section 1), the frequency precision is estimated from instrument characteris
+tics, and the discussion of flow distortion uses an airflow field from computati
+onal fluid dynamics modeling that was provided (as proprietary information
+ to be used for purposes like this but not to be distributed further) by
+ the aircraft manufacturer.
+ This subsection concludes with a discussion of effects arising in turbulent
+ conditions from different wind vectors being present in the different sensitive
+ volumes of a multi-beam system, again based on theoretical arguments.
+\end_layout
+
+\begin_layout Subsubsection
+Conclusions (Section 4.5)
+\end_layout
+
+\begin_layout Standard
+In this concluding summary of the results, the uncertainty estimates are
+ presented in Table 10, which is constructed for the radome items by reference
+ to the R variables calculated in the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+table-1-elements
+\begin_inset Quotes erd
+\end_inset
+
+ but for the gust-pod by manual repetition of the results presented in the
+ earlier sections.
+ This table is then discussed with consideration of resulting uncertainty
+ in wind speed and wind direction, and the dominant sources of uncertainty
+ are highlighted to guide possible efforts to improve the measurements.
+ This section is the 
+\begin_inset Quotes eld
+\end_inset
+
+Conclusions
+\begin_inset Quotes erd
+\end_inset
+
+ section for the entire Technical Note.
+\end_layout
+
+\begin_layout Standard
+The final component constructed in this section is a plot showing the distributi
+on in the differences between the vertical wind as measured by the radome-based
+ system and the gust-pod system.
+ To construct this plot, an R data.frame was constructed in R chunk WICWIGcalc
+ by including measurements from all DEEPWAVE research flights where the
+ gust-pod measurements appeared valid, with a few additional periods excluded
+ when there seemed to be problems with one of the measurements.
+ Specifically, measurements from flights 1, 5--10, 12--14, 16, 20--22, and
+ 26 were used, except the time period from 8:05:00 to 8:40:00 was excluded
+ from flight 1 and the period from 9:50:00 to 10:30:00 was excluded from
+ flight 23.
+ Most exclusions were because the inertial system used with the gust pod
+ seemed to have anomalously large differences vs.
+\begin_inset space ~
+\end_inset
+
+that used with the radome system, and a few exclusions were because icing
+ or freezing water in the sensing lines interfered with the measurements
+ of angle of attack from the radome.
+ The measurements used in the plot were also restricted to flight levels
+ above 35,000
+\begin_inset space ~
+\end_inset
+
+ft and having roll in the range from $-5$ to 5
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+ (to eliminate turns).
+ The data.frame was constructed by a series of calls to Ranadu::getNetCDF()
+\begin_inset Quotes erd
+\end_inset
+
+ to retrieve the variables needed.
+ The data.frame so constructed was saved with the name Sect4WICvsWIG.Rdata,
+ and this data.frame is included in the data archive for this Technical Note.
+ Then the plot itself was constructed in the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+WICWIGdiff
+\begin_inset Quotes erd
+\end_inset
+
+, in this case using the R package ggplot2 with a specific theme (theme_WAC)
+ provided by the 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu
+\begin_inset Quotes erd
+\end_inset
+
+ package.
+ As for other plots generated in R chunks, this plot was included at an
+ appropriate location in the text file after processing by the 
+\begin_inset Quotes eld
+\end_inset
+
+knitr
+\begin_inset Quotes erd
+\end_inset
+
+ package, with caption as provided in the chunk header.
+\end_layout
+
+\begin_layout Subsection
+Sensitivity coefficients (empirical coefficients)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Workflow5.png
+	lyxscale 50
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Workflow-diagram-5"
+
+\end_inset
+
+Workflow diagram for Section 5, produced by 
+\begin_inset Quotes eld
+\end_inset
+
+SensitivityCoefficients.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Section 5 contains the work to determine sensitivity coefficients for the
+ radome-based and gust-pod systems.
+ The sensitivity coefficients result from linear fits that provide measurements
+ of angle of attack and sideslip angle from the pressure differences measured
+ on the radome or gust pod.
+ They are determined empirically because, for the radome system, the geometry
+ is not a simple shape that would be amenable to theoretical representation,
+ and for the gust pod the location of the probe below the wing of the aircraft
+ introduces significant flow-distortion effects not easily represented theoretic
+ally.
+ To find empirical relationships that provide valid estimates of the angle
+ of attack or sideslip angle, some basis for calibration is needed.
+ Because when the vertical wind is zero the angle of attack can be calculated
+ from the pitch angle, airspeed, and rate of climb, this provides the needed
+ basis for the fits if flight segments can be used where the vertical wind
+ is zero.
+ Even for varying vertical wind, the fit procedure will be valid if the
+ vertical wind averages to zero over the flight segment used (provided the
+ fluctuations are not correlated with the pitch angle).
+ For the sideslip angle, a similar reference can be obtained using the assumptio
+n that, when the sideslip angle is changed by the pilots, the horizontal
+ wind should remain the same.
+ The preferred way to obtain data to support these fits is, in the case
+ of angle of attack, to fly level and straight 
+\begin_inset Quotes eld
+\end_inset
+
+speed runs
+\begin_inset Quotes erd
+\end_inset
+
+ where the airspeed is varied through the flight envelope of the aircraft,
+ and in the case of sideslip angle to use 
+\begin_inset Quotes eld
+\end_inset
+
+yaw maneuvers
+\begin_inset Quotes erd
+\end_inset
+
+ in which sideslip is forced by rudder action in level flight without roll
+ (to the extent that this is possible).
+ 
+\end_layout
+
+\begin_layout Standard
+Separate empirical relationships are needed for the radome-based system
+ and for the gust-pod system, and each system needs relationships for both
+ airflow angles, so there are four parallel workflow branches, two each
+ in Sections 5.1 and 5.2.
+ The steps are similar in all, so only the case of angle-of-attack for the
+ radome-based system will be presented in detail.
+ Only comments about how they differ will be offered for the other three.
+\end_layout
+
+\begin_layout Subsubsection
+Angle of attack (Section 5.1) -- radome-based system
+\end_layout
+
+\begin_layout Enumerate
+Present the mathematics that provides a reference for the calibrations,
+ and describe the required nature of the data to be used.
+ The key equation is (31), and the task becomes to find a representation
+ of 
+\begin_inset Formula $\alpha^{*}$
+\end_inset
+
+ as given by that formula in terms of measured quantities, especially the
+ pressure difference between top and bottom ports on the radome (called
+ ADIFR in the netCDF variables in the data files).
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Select best speed-run data, 
+\emph default
+make data selections and then load the required measurements.
+ An example is the R chuck titled 
+\begin_inset Quotes eld
+\end_inset
+
+getData-AOA
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This chunk includes specifications of the measurements needed and then
+ uses Ranadu::getNetCDF() to load the data.frame.
+ For initial calculations, four speed runs were identified by searching
+ for level flight segments where the airspeed was varied from minimum to
+ maximum flight speed, thus changing the angle of attack through a wide
+ range of angles.
+ The selected times are listed in the text.
+ It was necessary to perform these maneuvers during the DEEPWAVE flights
+ to have these measurements available, so the workflow in this case extended
+ back to the flight plans used for the field project.
+ In addition, 
+\begin_inset Quotes eld
+\end_inset
+
+getData-AOA
+\begin_inset Quotes erd
+\end_inset
+
+ loaded other data that were used later in the analysis to expand the data
+ used for fits.
+ Another subtle point in data acquisition for these fits was that an algorithm
+ for correcting the measured pitch, developed in Section 6.4 of the Technical
+ Note, was applied to the measurement of pitch before calculating the reference
+ values 
+\begin_inset Formula $\alpha^{*}$
+\end_inset
+
+ specified by (31).
+ The justification is that it is desirable to use the best available measurement
+s of pitch in these fits, even though the correction has not yet been presented
+ and justified in the document.
+ For this purpose, the routine Ranadu::CorrectPitch() was used to add a
+ variable 
+\begin_inset Quotes eld
+\end_inset
+
+PITCHC
+\begin_inset Quotes erd
+\end_inset
+
+ to each retrieved data.frame, and that variable was then used to calculate
+ the reference value 
+\begin_inset Formula $\alpha^{*}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Find fit coefficients.
+ 
+\emph default
+For this step, there was a substantial amount of exploratory work not reported
+ in the section, as various combinations of measurements were used in linear
+ fits and tested for their ability to represent 
+\begin_inset Formula $\alpha^{*}$
+\end_inset
+
+ as in (31).
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Perhaps a more systematic approach would have been better, but the guidance
+ used was to check the standard deviation between angle of attack as generated
+ by the empirical formula vs.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\alpha^{*}$
+\end_inset
+
+ and judge the value of added complexity in the formula by the resulting
+ reduction in standard deviation.
+\end_layout
+
+\begin_layout Enumerate
+The R linear-fit routine 
+\begin_inset Quotes eld
+\end_inset
+
+lm
+\begin_inset Quotes erd
+\end_inset
+
+ itself provides information on the significance of each term in the linear
+ fit, so that was also helpful in deciding if it was worthwhile to keep
+ additional terms.
+ However, a strong preference was given to simpler formulas because a danger
+ in this approach is that, if high-order terms are included and then conditions
+ outside the range of parameters used in the fit subsequently occur in routine
+ usage, extrapolation beyond the valid range of the formula can give large
+ errors.
+ Therefore, in cases where formulas with more terms gave a better fit, if
+ the standard deviation decreased by less than about 10%, the simpler formula
+ was favored.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Many of the possible dependences are listed in the text.
+ All these and others were explored in the process of constructing this
+ section of the Technical Note.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The result for the radome was that a simple linear dependence on ADIFR/QCF
+ (the ratio of the pressure difference on the radome between bottom and
+ top ports, normalized by the measured dynamic pressure QCF) was adequate.
+ The next term having a significant effect was that term multiplied by the
+ Mach number 
+\begin_inset Formula $M$
+\end_inset
+
+; i.e., 
+\begin_inset Formula $M\thinspace\mathrm{ADIFR/QCR}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Early in this section, in the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+Initialization
+\begin_inset Quotes erd
+\end_inset
+
+, a function 
+\begin_inset Quotes eld
+\end_inset
+
+SummarizeFit()
+\begin_inset Quotes erd
+\end_inset
+
+ was defined for printing results obtained from 
+\begin_inset Quotes eld
+\end_inset
+
+lm
+\begin_inset Quotes erd
+\end_inset
+
+ during fitting.
+ This function was used to include fit results into the text, for example
+ as listed in identifiable font with gray shading in Section 5.1.2.
+ 
+\end_layout
+
+\begin_layout Enumerate
+To check the fit results visually, a scatterplot of 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ as produced by the empirical formula with fit coefficients vs 
+\begin_inset Formula $\alpha^{*}$
+\end_inset
+
+ was constructed, in R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+AOA-fit-and-plot
+\begin_inset Quotes erd
+\end_inset
+
+, This plot appears in the text as Fig.
+\begin_inset space ~
+\end_inset
+
+19, placed by 
+\begin_inset Quotes eld
+\end_inset
+
+knitr
+\begin_inset Quotes erd
+\end_inset
+
+ after construction using routines from the R package 
+\begin_inset Quotes eld
+\end_inset
+
+ggplot2
+\begin_inset Quotes erd
+\end_inset
+
+ using the custom theme 
+\begin_inset Quotes eld
+\end_inset
+
+theme_WAC
+\begin_inset Quotes erd
+\end_inset
+
+ provided by the package 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu
+\begin_inset Quotes erd
+\end_inset
+
+ and with the caption provided by the chunk header.
+\end_layout
+
+\begin_layout Enumerate
+At this point in the analysis, there were some checks to see if shifts in
+ timing of the measurements could improve the fits.
+ The code for this purpose is included (see R chunks 
+\begin_inset Quotes eld
+\end_inset
+
+adjust-timing
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+cycle-thru-times
+\begin_inset Quotes erd
+\end_inset
+
+), but the result was that adjustments did not have a significant effect
+ so this code is commented and suppressed during final generation of the
+ Technical Note.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Compare to similar results.
+ 
+\emph default
+Because measurements of vertical wind are of paramount importance to the
+ DEEPWAVE project, the selected coefficients were those providing the best
+ representation for that project.
+ However, the approach documented in this section has been followed using
+ data from previous projects, and an emperical relationship has been developed
+ that is considered 
+\begin_inset Quotes eld
+\end_inset
+
+standard
+\begin_inset Quotes erd
+\end_inset
+
+ and is documented in the technical note on 
+\begin_inset CommandInset href
+LatexCommand href
+name "Processing Algorithms"
+target "https://drive.google.com/open?id=0B1kIUH45ca5Ab2Z6cld1M1cydjA"
+
+\end_inset
+
+.
+ Therefore, Fig.
+\begin_inset space ~
+\end_inset
+
+20 was constructed to show that the fit obtained for DEEPWAVE produces almost
+ the same results as using that standard relationship.
+ This plot is generated by R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+plot-comparison-to-standard
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Expand the range of data used for the fit
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+An expanded data set was then used to repeat the fit.
+ The data used for that fit was selected to include altitudes up to FL450
+ (to be sure to span the region of interest to DEEPWAVE).
+ Times selected are given in the text.
+ The selections were made to include cases spanning a wider range in altitude
+ and to include measurements later in flights (where fuel born changed to
+ typical angle of attack), but to emphasize regions where it appeared reasonable
+ to assume the vertical wind was zero at least in the average over short
+ flight legs.
+ Fit results from this data set are quoted in the text.
+ See the R chunks 
+\begin_inset Quotes eld
+\end_inset
+
+switch-to-expanded-dataset
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+get-data-all-flights-radome-aoa
+\begin_inset Quotes erd
+\end_inset
+
+ as well as the earlier chunk 
+\begin_inset Quotes eld
+\end_inset
+
+AOA-fit-and-plot
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+A recommendation was then made to use the best coefficients determined to
+ this point with (35) to represent angle of attack for the DEEPWAVE project,
+ but to return to the standard coefficients as a starting point for other
+ projects.
+ The coefficients from the best fit are incorporated into the text vis 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+Sexpr{}
+\begin_inset Quotes erd
+\end_inset
+
+ commands after the coefficients were isolated from the summary returned
+ by 
+\begin_inset Quotes eld
+\end_inset
+
+lm
+\begin_inset Quotes erd
+\end_inset
+
+ using the R function 
+\begin_inset Quotes eld
+\end_inset
+
+coef()
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Generate plots to illustrate the fits.
+ 
+\emph default
+The remaining plot (Fig.
+\begin_inset space ~
+\end_inset
+
+21) was generated in the 
+\begin_inset Quotes eld
+\end_inset
+
+get-data-all-flights-radome-aoa
+\begin_inset Quotes erd
+\end_inset
+
+ chunk.
+ A comparison to the measurements from the entire project was also added
+ and a summary of the fit results was included in the text.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Consider uncertainty.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+For the next segment of the text, the uncertainty applicable to the empirical
+ coefficients obtained in the earlier part of this subsection was discussed.
+ The fit results from the R routine 
+\begin_inset Quotes eld
+\end_inset
+
+lm
+\begin_inset Quotes erd
+\end_inset
+
+ provided a full correlation matrix for the uncertainty in the fit results,
+ which indicated that the uncertainties in the two coefficients of a fit
+ to (33) were highly correlated with negative correlation, leading to the
+ estimated uncertainty in angle of attack quoted in the text.
+\end_layout
+
+\begin_layout Enumerate
+The 
+\begin_inset Quotes eld
+\end_inset
+
+expanded
+\begin_inset Quotes erd
+\end_inset
+
+ dataset (not the full-project dataset) was then subdivided into subsets
+ where selections were random but exclusive, and fit coefficients were calculate
+d from those subsets to determine the range of coefficients that would result.
+ Different subset sizes were explored, as were different repetitions of
+ the random selections.
+ A subset size of 100 (or 177 measurements per subset) was selected, and
+ the experiment (consisting of assignment of all measurements to subgroups
+ and the calculation of fit coefficients for each subgroup) was repeated
+ 50 times, giving 5000 values for each coefficient.
+ The standard deviations in the coefficients so determined, reduced by an
+ estimated number of degrees of freedom for this approach, then gave values
+ that could be compared to the values estimated from the fit as in item
+ (a) above, with reasonable consistency.
+\end_layout
+
+\begin_layout Enumerate
+A comment was then added to indicate that the largest undertainty associated
+ with these fits arises from the assumption that the vertical wind is zero
+ when using (31) as the reference for the fit.
+ Some arguments were offered to support that this assumption might be reasonable
+, and an estimated uncertainty assigned, but this remains a critical weakness
+ of the approach.
+ In the future, this might be helped by the analysis of more measurements
+ from other projects.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Angle of attack (Section 5.1) -- gust-pod system
+\end_layout
+
+\begin_layout Standard
+The primary differences in workflow for the gust-pod system vs.
+\begin_inset space ~
+\end_inset
+
+that for the radome-based system are that the development is less extensive
+ (because the system is new and not crucial to most science applications)
+ and, because the gust-pod is located under the wing in a region of disturbed
+ airflow, a more elaborate empirical formula turned out to be required for
+ a good representation of the reference values from (31).
+ After substantial but unsystematic exploration of possibilities, (36) was
+ selected as the least complicated choice that could provide an acceptable
+ standard deviation between the results and the calibration values.
+ A figure (Fig.
+ 22) similar to Fig.
+\begin_inset space ~
+\end_inset
+
+19 was generated, following the model used for Fig.
+\begin_inset space ~
+\end_inset
+
+19, to illustrate the results, and the summary of the fit is included in
+ the text for this case and also for the all-project results.
+\end_layout
+
+\begin_layout Subsubsection
+Sideslip angle (Section 5.2) -- radome-based system and gust-pod system
+\end_layout
+
+\begin_layout Standard
+For sideslip, the reference value 
+\begin_inset Formula $\beta^{*}$
+\end_inset
+
+ given by (38) arises instead from the assumption that the horizontal wind
+ remains steady through yaw maneuvers so changes in heading, corrected for
+ any changes in the vector difference between groundspeed and wind during
+ the maneuver, will provide a reference sideslip for calibration.
+ The workflow is a straightforward adaptation of that for angle of attack:
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Select appropriate data periods for the fit, and acquire the data.
+
+\emph default
+ This step requires that appropriate maneuvers be flown during the research
+ project, in this case DEEPWAVE, and that the times for the maneuver be
+ found manually and entered into the processing program, just as for angle
+ of attack.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Find best fit and plot: 
+\emph default
+In the case of sideslip, a simple linear dependence on the pressure difference
+ measured by the horizontally separated ports on the radome or the gust
+ pod was adequate.
+ Fit coefficients and a plot are included for the radome-based and gust-pod
+ systems, and listings documenting the fit results are included in the text.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Independent calibration using LAMS (Section 5.3)
+\end_layout
+
+\begin_layout Standard
+The LAMS was not operational during DEEPWAVE, the project used for most
+ of this report, but a comparison between LAMS measurements and those from
+ the radome-based system was possible using the subsequent flights in the
+ 
+\begin_inset Quotes eld
+\end_inset
+
+HCRTEST
+\begin_inset Quotes erd
+\end_inset
+
+ program.
+ Appropriate data were loaded as part of the section provided by 
+\begin_inset Quotes eld
+\end_inset
+
+ComponentsOfWindSensingSystem.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+, so that saved data.frame was loaded from the saved file (DataFrameL.Rdata
+\begin_inset Quotes erd
+\end_inset
+
+) for reuse here.
+ The line-of-sight airspeed measurements from the LAMS were transformed
+ to wind measurements in the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+LAMS-transform
+\begin_inset Quotes erd
+\end_inset
+
+, with appropriate geometry for this project as specified by the angles
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Theta
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+Phi
+\begin_inset Quotes erd
+\end_inset
+
+ in that chunk.
+ Because beam-2 was forward in that project, the wind calculations had to
+ be based on three beams with beams 1 and 3 off-axis but beam 2 forward,
+ a special configuration.
+ In addition to normal wind calculations (following the approach of Section
+ 1b of the Technical Note), the measurements were also used to calculate
+ the angle of attack and the sideslip angle solely from the LAMS measurements.
+ These provided independent measurements that could be compared to the results
+ using the empirical coefficients and equations of the preceding subsections.
+ The comparisons were made as follows:
+\end_layout
+
+\begin_layout Enumerate
+A suitable data segment that included a good speed run (judged to be good
+ because of the relative constant values of horizontal and vertical wind)
+ was selected and specified in the text.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The fit procedure described in the subsection 
+\begin_inset Quotes eld
+\end_inset
+
+Angle of attack (Section 5.1) -- radome-based system
+\begin_inset Quotes erd
+\end_inset
+
+, item 3, was repeated using the LAMS-measured angle of attack as the reference
+ for the fit instead of (31).
+ The resulting slope of the fit was then compared to that obtained previously.
+ (Comparing the constant term in the fit was not meaningful because the
+ orientation of the LAMS was offset from the longitudinal axis of the aircraft,
+ leading to an expected difference in the first term in the fit coefficients.)
+ 
+\end_layout
+
+\begin_layout Enumerate
+In addition, the angle of attack determined in the standard way was compared
+ to that determined from the LAMS measurements by constructing a scatterplot
+ of the two measurements, as shown in Fig.
+\begin_inset space ~
+\end_inset
+
+25.
+ That figure was generated in the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+LAMS-attack-plot
+\begin_inset Quotes erd
+\end_inset
+
+ using the R package ggplot2.
+ 
+\end_layout
+
+\begin_layout Enumerate
+This was then repeated for sideslip, except that the results are discussed
+ only in terms of the fit results and no plot was included.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+True airspeed from the gust-pod system (Section 5.4)
+\end_layout
+
+\begin_layout Standard
+The goal of this subsection is to obtain an empirical relationship for the
+ airspeed that references only the measurements made by the gust-pod system,
+ so that the two systems might provide independent measurements of the wind.
+ (The gust-pod system does not measure temperature or humidity, both of
+ which enter the calculation of airspeed, so that dependence still is shared
+ between the two systems.) This goal proved difficult to achieve because
+ the gust-pod is in a location where there is significant airflow distortion,
+ and as a result all the measurements including those of static and dynamic
+ pressure are affected.
+ The approach taken was to argue that, for the conventional radome-based
+ system, the airspeed is a function only of 
+\begin_inset Formula $q/p$
+\end_inset
+
+, the ratio of dynamic to static pressure, temperature, and (to a small
+ degree) humidity, so if the gust-pod measurements can be used in an empirical
+ formula that gives 
+\begin_inset Formula $q/p$
+\end_inset
+
+ then an airspeed can be measured that does not rely on the standard measurement
+s of pressure.
+\end_layout
+
+\begin_layout Standard
+These were the workflow steps:
+\end_layout
+
+\begin_layout Enumerate
+Select appropriate measurements and load them into an R data.frame.
+ Describe the selections made in the text and document the restrictions
+ imposed on the data to avoid problematic regions (like turns or low-level
+ flight).
+ 
+\end_layout
+
+\begin_layout Enumerate
+Explore fits using equations with various measurements and ratios of measurement
+s that might be good candidates for representing the desired pressure ratio
+ 
+\begin_inset Formula $q/p$
+\end_inset
+
+ in terms of measurements from the gust pod.
+ For reference, 
+\begin_inset Formula $q/p$
+\end_inset
+
+ as measured by the radome-based system was used.
+ It was found that it was difficult to find a simple relationship, but one
+ involving 8 terms and coefficients (including a constant-offset coefficient)
+ gave an acceptable fit.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The characteristics of this fit (e.g., standard deviation between the result
+ of the empirical formula and the reference measurements) were then presented
+ and discussed in the text, and the formula leading to airspeed from 
+\begin_inset Formula $q/p$
+\end_inset
+
+ was cited and used to estimate the resulting uncertainty in airspeed.
+\end_layout
+
+\begin_layout Enumerate
+Two plots, Fig.
+\begin_inset space ~
+\end_inset
+
+26 and 27, were then generated to compare, respectively, the pressure ratio
+ and the airspeed obtained from the gust pod as a function of the reference
+ value from the radome-based system.
+ These were generated in the R chunks 
+\begin_inset Quotes eld
+\end_inset
+
+plot-qp-fit
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+TAS-from-the-gust-pod-2
+\begin_inset Quotes erd
+\end_inset
+
+ using standard R plot routines.
+\end_layout
+
+\begin_layout Subsubsection
+Summary of sensitivity coefficients (Section 5.5)
+\end_layout
+
+\begin_layout Standard
+Section 5 concludes with a summary of the results obtained in the preceding
+ subsections.
+ Because the key results are scattered throughout the section, it was thought
+ useful to repeat them in one summary.
+ The summary is LaTeX with references via 
+\begin_inset Quotes eld
+\end_inset
+
+knitr
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+Sexpr{}
+\begin_inset Quotes erd
+\end_inset
+
+ statements to earlier results, to ensure consistence between this summary
+ and the earlier statements of results.
+ The summary also specifies the appropriate equation for which to use the
+ specified coefficients.
+ 
+\end_layout
+
+\begin_layout Subsection
+Studies of the vertical wind (Section 6)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Workflow6.png
+	lyxscale 50
+	width 60text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Workflow-chart-6"
+
+\end_inset
+
+Workflow chart for Section 6, as incorporated in 
+\begin_inset Quotes eld
+\end_inset
+
+VerticalWindStudies.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After an overview that states the intent and content of this section, there
+ are three subsections, with workflow as indicated by Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Workflow-chart-6"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Subsubsection
+The vertical velocity of the aircraft (Section 6.2)
+\end_layout
+
+\begin_layout Standard
+These steps were used to construct this subsection:
+\end_layout
+
+\begin_layout Enumerate
+the available measurements of rate of climb of the aircraft were discussed
+ and presented in a table.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Some variance spectra were constructed for these measurements to illustrate
+ their characteristics (Fig.
+\begin_inset space ~
+\end_inset
+
+28).
+ That figure includes variance spectra for the primary calculated vertical
+ wind (WIC) as well as for two candidate measurements of rate of climb (GGVSPD
+ and VSPD), as well as the relative-wind contribution (plotted as GUSTW).
+ Like all the variance spectra in this technical note, these were constructed
+ using the analysis program 
+\begin_inset Quotes eld
+\end_inset
+
+Xanadu
+\begin_inset Quotes erd
+\end_inset
+
+, which uses the 
+\begin_inset Quotes eld
+\end_inset
+
+all-poles
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+maximum entropy
+\begin_inset Quotes erd
+\end_inset
+
+ method of Press et al., as listed in the references.
+ The construction of this plot showing many different variance spectra was
+ somewhat complex; it consisted of using the python-generated code from
+ Xanadu for each spectrum but editing the generating routine to combine
+ all the measurements into a single python-generated plot.
+ The plot, archived as 
+\begin_inset Quotes eld
+\end_inset
+
+SpecialGraphics/VSPDspectraDW16.pdf
+\begin_inset Quotes erd
+\end_inset
+
+, was generated by the python routine MEMPlotVSPD.py which referenced the
+ temporary data files DXDAT16WIC, DXDAT16WI, DXDAT16GUSTW, DXDAT16GGVSPD,
+ and DXDAT16VSPD.
+ These files were all generated by individual processing in Xanadu, and
+ the resulting python files were edited by combining the plotting segments
+ into one file.
+ All these files and the underlying Xanadu routine are archived in the Technical
+ Note archive, with the exception of the core spectra analysis routine that
+ is part of the proprietary Numerical Recipes in C package.
+ The final plot was included in the LaTeX file using an 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+includegraphics{}
+\begin_inset Quotes erd
+\end_inset
+
+ statement and an associated 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+caption{}
+\begin_inset Quotes erd
+\end_inset
+
+ statement.
+ The text description was then generated based on the features of this plot.
+ 
+\end_layout
+
+\begin_layout Enumerate
+On the basis of these results, arguments were presented that favor use of
+ a particular choice (GGVSPD) for rate-of-climb to be used when calculating
+ the vertical wind, and hence a particular variable (WIC) for vertical wind.
+\end_layout
+
+\begin_layout Standard
+For reference elsewhere in the Technical Note, an additional plot was generated
+ that shows the variance spectrum for the vertical wind and separately its
+ gust and rate-of-climb components for a region with very low turbulence.
+ This plot (Fig.
+\begin_inset space ~
+\end_inset
+
+29) was generated in ways analogous to those described in item 2 above.
+ The discussion of this figure highlights tha noise level evident at high
+ frequency and argues that this indicates a minimum level of turbulence
+ that can be measured with the radome-based wind system because of random
+ errors in measurements of the radome-port pressure and the dynamic pressure.
+ An additional plot, Fig.
+\begin_inset space ~
+\end_inset
+
+30, was constructed from a segment of the data used for the previous figure.
+ This plot illustrates a basic flight mode of the aircraft and the generation
+ of regular aircraft motions that must be removed for proper operation of
+ the wind sensing system.
+ This figure is generated in the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+phugoid-plot
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Timing of measurements (Section 6.3)
+\end_layout
+
+\begin_layout Standard
+This section contains studies of the possible delays among component measurement
+s affecting the vertical wind.
+\end_layout
+
+\begin_layout Enumerate
+First information on lags used in processing is reviewed for the key measurement
+s, in an itemized list.
+ This information regarding processing is gleaned from the netCDF data files,
+ which include information on time lags as variable attributes.
+ Some information here is also quoted from instrument specifications obtained
+ from the manufacturers.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Pitch maneuvers, during which the angle-of-attack and pitch are varied to
+ induce a porpoising motion of the aircraft with period of 20 s or so, were
+ then used to evaluate possible lags still present in the measurements.
+ The approach taken was to search for the lags that gave the smallest variance
+ in measured vertical wind during the pitch maneuver, because any delay
+ among component measurements like angle of attack, pitch, and rate of climb
+ would result in sinusoidal components in the measured vertical wind.
+ Code for testing various shifts in included in the 
+\begin_inset Quotes eld
+\end_inset
+
+VerticalWindStudies.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+ file but is not used in a standard run; instead, special runs were made
+ to find the best lags, and that result is quoted in the text.
+ 
+\end_layout
+
+\begin_layout Standard
+A plot showing the measured vertical wind during a pitch maneuver was then
+ constructed (Fig.
+\begin_inset space ~
+\end_inset
+
+31) to show that the best lag indeed effectively removes the imposed aircraft
+ motion and results in measurements showing only small residual effects
+ from the large imposed motions.
+ That plot is generated by R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+plot-shifted-vertical-wind
+\begin_inset Quotes erd
+\end_inset
+
+, where the data selection for the plot is also specified.
+\end_layout
+
+\begin_layout Subsubsection
+Correcting pitch for the Schuler oscillation (Section 6.4)
+\end_layout
+
+\begin_layout Standard
+To generate this subsection of the report, a separate child document called
+ 
+\begin_inset Quotes eld
+\end_inset
+
+SchulerSection.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+ is included by an R-chunk reference in the report, via a chunk named 
+\begin_inset Quotes eld
+\end_inset
+
+E3
+\begin_inset Quotes erd
+\end_inset
+
+ in 
+\begin_inset Quotes eld
+\end_inset
+
+VerticalWindStudies.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This section includes these steps:
+\end_layout
+
+\begin_layout Enumerate
+A brief 
+\emph on
+discussion of the Schuler oscillation
+\emph default
+ and how measuring the error in Earth-relative velocity components from
+ an inertial reference unit by comparison to GPS can lead to a correction
+ for the error in the measurement of pitch.
+\end_layout
+
+\begin_layout Enumerate
+A 
+\emph on
+tutorial section
+\emph default
+ that illustrates the nature of the Schuler oscillation, with diagrams that
+ are generated by the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+plot-illustrating-pitch-coupling
+\begin_inset Quotes erd
+\end_inset
+
+ and equations developed to relate the errors in pitch and roll to the errors
+ in groundspeed components.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Justification for 
+\emph on
+the correction algorithm.
+ 
+\emph default
+The key to the algorithm is presented in equations (51) and (52).
+ 
+\end_layout
+
+\begin_layout Enumerate
+An example with plots of the error components is then constructed using
+ one of the DEEPWAVE ferry flights, selected because the heading was steady
+ and southbound so angle transformations do not play a significant role
+ in the results.
+ The errors in groundspeed components are plotted in Fig.
+\begin_inset space ~
+\end_inset
+
+33, generated by the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+v-errors-straight-leg
+\begin_inset Quotes erd
+\end_inset
+
+ using plot routines from the 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu
+\begin_inset Quotes erd
+\end_inset
+
+ package and with data provided by the 
+\begin_inset Quotes eld
+\end_inset
+
+reinitialization
+\begin_inset Quotes erd
+\end_inset
+
+ chunk where variables and the data source are specified.
+ The data.frame resulting from the 
+\begin_inset Quotes eld
+\end_inset
+
+reinitialization
+\begin_inset Quotes erd
+\end_inset
+
+ chunk is saved as 
+\begin_inset Quotes eld
+\end_inset
+
+SchulerData1.Rdata
+\begin_inset Quotes erd
+\end_inset
+
+ in the 
+\begin_inset Quotes eld
+\end_inset
+
+DataFrames
+\begin_inset Quotes erd
+\end_inset
+
+ directory, which is included in the project archive.
+ In this section, the specific method used for determining the errors in
+ pitch and roll, restated as in (53) and (54), is to use Savitzky-Golay
+ polynomials fitted to the errors in groundspeed components to determine
+ the derivatives of those errors over a running-average period of 1013
+\begin_inset space ~
+\end_inset
+
+s, a period selected to be small enough to show changes occurring even within
+ one Schuler-oscillation period.
+ The correction procedure for this case (without mixing of pitch and roll
+ angles as required if the heading changes) is implemented in the R chunk
+ 
+\begin_inset Quotes eld
+\end_inset
+
+sg-poly-smoothing
+\begin_inset Quotes erd
+\end_inset
+
+, and that chunk also contains the code for generating Fig.
+\begin_inset space ~
+\end_inset
+
+34 showing the deduced errors in pitch and roll for this flight.
+\end_layout
+
+\begin_layout Enumerate
+Because in the general case the heading does not stay constant, transformations
+ from the Earth-based local reference frame (with east-north-up coordinates)
+ to the aircraft body frame with axes defined by the attitude angles of
+ the aircraft (heading, pitch, and roll).
+ The required rotation matrix is developed in this section, using rotation
+ matrices that are the same as those in the 
+\begin_inset Quotes eld
+\end_inset
+
+Introduction
+\begin_inset Quotes erd
+\end_inset
+
+ section of the Technical Note except applied in reverse order.
+ In this way, the error components determined via (53) and (54) can be transform
+ed to give the error components applicable to the measurements of pitch
+ and roll in the appropriate reference frame relative to the aircraft.
+ Because this gives the estimated error, the correction to be applied to
+ the pitch is the negative of that estimated error.
+ The correction procedure as described in the text was also coded into the
+ R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+processing-2
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The R package 
+\begin_inset Quotes eld
+\end_inset
+
+signal
+\begin_inset Quotes erd
+\end_inset
+
+ was used to determine the Savitzky-Golay smoothing and differentiation,
+ after interpolation was included from the 
+\begin_inset Quotes eld
+\end_inset
+
+zoo
+\begin_inset Quotes erd
+\end_inset
+
+ package to deal with some missing values in the measurements.
+ This procedure was also included in the Ranadu::CorrectPitch() function,
+ which has been used elsewhere in this Technical Report to improve the measureme
+nts of pitch.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+An application to research flights
+\emph default
+ is then shown in which there are frequent changes in heading and the errors
+ in pitch and roll are significantly larger than in the first example.
+ Figure
+\begin_inset space ~
+\end_inset
+
+35 shows the errors in groundspeed components, and Fig.
+\begin_inset space ~
+\end_inset
+
+36 shows the resulting errors in pitch and roll.
+ These are generated in the R chunks 
+\begin_inset Quotes eld
+\end_inset
+
+processing-1
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+processing-2
+\begin_inset Quotes erd
+\end_inset
+
+ using data selected in the first chunk and the Ranadu plot routines 
+\begin_inset Quotes eld
+\end_inset
+
+plotWAC()
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+lineWAC()
+\begin_inset Quotes erd
+\end_inset
+
+, which in turn use standard base R plotting calls.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Finally, two 
+\emph on
+tests of the pitch-correction algorithm
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\emph default
+are presented.
+ For the first, flight periods were compiled in which the aircraft reversed
+ course in level flight.
+ A pitch error present in such a maneuver should change sign when the flight
+ direction reverses, leading to a change in the measured vertical wind.
+ To be able to detect such a change, regions were sought with relatively
+ low turbulence and steady vertical wind in the two legs before and after
+ the course-reversal turn.
+ A table of these flight segments was generated, and the average vertical
+ wind measurements in the straight-and-level segments preceding and following
+ the turn were then compared in Fig.
+\begin_inset space ~
+\end_inset
+
+37, generated in R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+reverse-course-w-comparison
+\begin_inset Quotes erd
+\end_inset
+
+ to show the improvement resulting from the pitch-correction algorithm.
+ For the second test, mean values of the vertical wind are compiled for
+ all research flights in the DEEPWAVE project, excluding only three with
+ measurement problems.
+ The mean values were calculated in the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+mean-vertical-wind-by-flight
+\begin_inset Quotes erd
+\end_inset
+
+, where the netCDF files were read and the averages calculated with and
+ without pitch correction.
+ Table 11 was then generated by 
+\begin_inset Quotes eld
+\end_inset
+
+knitr::Sexpr()
+\begin_inset Quotes erd
+\end_inset
+
+ references to those calculated mean values, as were the summary mean values
+ then quoted in the text.
+ A small improvement resulted from the pitch correction, but perhaps more
+ significant was the calculation of the standard deviation of the change
+ in the vertical wind produced by the pitch-correction algorithm, which
+ was calculated in the preceding R chunk and quoted in the text via an 
+\begin_inset Quotes eld
+\end_inset
+
+Sexpr{}
+\begin_inset Quotes erd
+\end_inset
+
+ function.
+ 
+\end_layout
+
+\begin_layout Subsection
+Studies of the horizontal wind (Section 7)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Workflow7.png
+	lyxscale 50
+	width 55text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Workflow-chart-7"
+
+\end_inset
+
+Workflow chart for Section 7 of the Technical Note, as generated by 
+\begin_inset Quotes eld
+\end_inset
+
+HorizontalWindStudies.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The general workflow for Section 7 is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Workflow-chart-7"
+
+\end_inset
+
+.
+ There are two subsections, dealing with circle maneuvers and with the complemen
+tary filter used to combine the measurements of aircraft ground speed from
+ the inertial reference system and those from GPS.
+\end_layout
+
+\begin_layout Subsubsection
+The circle maneuvers (Section 7.1)
+\end_layout
+
+\begin_layout Standard
+This section begins with a discussion of how the circle patterns were flown
+ in the DEEPWAVE project and of the uses that can be made of these maneuvers.
+ Figure_38 was generated to show an example.
+ The measurements were specified in the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+getData
+\begin_inset Quotes erd
+\end_inset
+
+ using a special high-rate (25-Hz) file constructed to include only the
+ variables and times needed, and the resulting data.frame was saved in the
+ 
+\begin_inset Quotes eld
+\end_inset
+
+DataFrameCircles
+\begin_inset Quotes erd
+\end_inset
+
+ for archival with the data files for this Technical Note.
+ The plots, generated in the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+circle-tracks
+\begin_inset Quotes erd
+\end_inset
+
+, used 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu::plotTrack()
+\begin_inset Quotes erd
+\end_inset
+
+ to generate the two parts of the plot.
+ The 
+\begin_inset Quotes eld
+\end_inset
+
+drifting
+\begin_inset Quotes erd
+\end_inset
+
+ plot was generated using an option in the 
+\begin_inset Quotes eld
+\end_inset
+
+plotTrack()
+\begin_inset Quotes erd
+\end_inset
+
+ routine that generates a 
+\begin_inset Quotes eld
+\end_inset
+
+dead-reckoning
+\begin_inset Quotes erd
+\end_inset
+
+ plot with the flight track corrected for the drift caused by the wind.
+ The text specifies the time segments and flight used.
+ These were selected because the selected flight featured circle and other
+ maneuvers flown to assist in study of the wind measurements, so generation
+ of the data used began during flight planning for the experiment and the
+ times of the various maneuvers were recorded during operations.
+\end_layout
+
+\begin_layout Standard
+The workflow for Section 7.1, after generation of the illustrative plot,
+ included these steps:
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Justification for the analysis.
+ 
+\emph default
+Arguments were offered to explain what is expected to be learned from the
+ circle maneuvers and why they serve to constrain the errors entering wind
+ calculations.
+ This step includes development of the equations used in the analysis (59--61)
+ and the reasons to expect that errors in airspeed and heading can be determined
+ from fits of those equations to measurements from the circle maneuvers.
+ Figure
+\begin_inset space ~
+\end_inset
+
+39 was generated by simulation (in R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+sine-plot
+\begin_inset Quotes erd
+\end_inset
+
+) to show the expected variation in measured wind speed for specified errors
+ in airspeed or heading and how they can be determined from the measurements.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Selection of data.
+
+\emph default
+ The different circle maneuvers are listed in the text, and the data are
+ loaded into a data.frame as specified in 
+\begin_inset Quotes eld
+\end_inset
+
+getData
+\begin_inset Quotes erd
+\end_inset
+
+, as explained above.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Finding the wind from the GPS ground track.
+
+\emph default
+ Measurements from a circle maneuver flown in constant-wind conditions with
+ steady roll can be fitted using the equations developed in step 1 to find
+ the wind without any reference to any meeasurements from the aircraft data
+ system except the GPS ground-speed components.
+ The results from fitting to the first circle maneuver are tabulated in
+ Table 12, which was generated in R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+fitGSRMS
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Two functions are defined in that chunk for use when fitting: 
+\begin_inset Quotes eld
+\end_inset
+
+csq()
+\begin_inset Quotes erd
+\end_inset
+
+ to provide the chi-square function for fitting, and 
+\begin_inset Quotes eld
+\end_inset
+
+fitGS()
+\begin_inset Quotes erd
+\end_inset
+
+ to call the R fitting routine 
+\begin_inset Quotes eld
+\end_inset
+
+stats::nlm()
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In addition, the routine 
+\begin_inset Quotes eld
+\end_inset
+
+GSfit.R
+\begin_inset Quotes erd
+\end_inset
+
+ was loaded via a 
+\begin_inset Quotes eld
+\end_inset
+
+source
+\begin_inset Quotes erd
+\end_inset
+
+ statement from the 
+\begin_inset Quotes eld
+\end_inset
+
+chunks
+\begin_inset Quotes erd
+\end_inset
+
+ directory.
+ This performed the fit and saved the results in R variables that were then
+ included in the table via 
+\begin_inset Quotes eld
+\end_inset
+
+Sexpr{}
+\begin_inset Quotes erd
+\end_inset
+
+ references.
+ A discussion of the table was constructed to highlight features in it and
+ summarize implications for errors and uncertainties in the measurements.
+ Because assumptions made in processing, like the assumed heading lag, affect
+ the results, a listing of attributes in the original netCDF data file was
+ included in the text via the R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+list-THDG-attributes
+\begin_inset Quotes erd
+\end_inset
+
+ and the function 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu::getAttributes()
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The process was then repeated for two additional circle patterns, for which
+ Tables
+\begin_inset space ~
+\end_inset
+
+13 and 14 were generated as described above for Table 12.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Minimizing the variation in measured wind speed.
+
+\emph default
+ Next, fits of (61) to the measurements are used to determine possible correctio
+ns to airspeed and heading that will minimize variation in the wind speed
+ around the circles.
+ The R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+circle-fit-results
+\begin_inset Quotes erd
+\end_inset
+
+, which included execution of the 
+\begin_inset Quotes eld
+\end_inset
+
+chunks/fitCircle.R
+\begin_inset Quotes erd
+\end_inset
+
+ script via a 
+\begin_inset Quotes eld
+\end_inset
+
+source
+\begin_inset Quotes erd
+\end_inset
+
+ reference, generated the fit coefficients.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Tabulated results.
+ 
+\emph default
+Tables 15--17 were generated by 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+Sexpr{}
+\begin_inset Quotes erd
+\end_inset
+
+ references to the fit results from the previous step.
+ In addition, plots of the mean measurements of wind speed around the circles
+ were generated as Figs.
+\begin_inset space ~
+\end_inset
+
+40--42, in R chunks 
+\begin_inset Quotes eld
+\end_inset
+
+first-circles
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+second-circles
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+third-circles
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Preceding these plots are a number of R chunks that were remnants from
+ early stages of the analysis and are no longer used.
+ They are suppressed by the tag 
+\begin_inset Quotes eld
+\end_inset
+
+eval=FALSE
+\begin_inset Quotes erd
+\end_inset
+
+ in the headers, but are kept here are a reference of some steps that were
+ explored but not incorporated in the final document.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Offset in sideslip angle.
+
+\emph default
+ The preceding analyses attributed the error defined as 
+\begin_inset Formula $\delta\psi^{\prime}$
+\end_inset
+
+ to the heading, but an offset in sideslip also contributes to this error.
+ This section therefore determines the error in sideslip separately so that
+ can be subtracted from 
+\begin_inset Formula $\delta\psi^{\prime}$
+\end_inset
+
+ to isolate the error in heading.
+ Figures
+\begin_inset space ~
+\end_inset
+
+43 and 44 were generated (in R chunks 
+\begin_inset Quotes eld
+\end_inset
+
+plotSS
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+sideslip-error-histogram
+\begin_inset Quotes erd
+\end_inset
+
+) using the equations developed in the text.
+ This result indicated that a change should be made to the sideslip sensitivity
+ coefficient determined in Section 5, so there is a forward reference to
+ this result in that section.
+ The mean error in Fig.
+\begin_inset space ~
+\end_inset
+
+44 is then used to correct the deduced error in heading also, and the associated
+ uncertainties in these corrections are discussed.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Summary.
+
+\emph default
+ Because the key results are scattered through this section, a summary was
+ constructed at the end of the section to repeat and discuss the key conclusions.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+The complementary filter (Section 7.2)
+\end_layout
+
+\begin_layout Standard
+The complementary filter is use for wind processing is discussed in this
+ section, and some minor changes are proposed.
+ The workflow steps are these:
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Discuss the purpose of the filter and how it has been used in past projects.
+
+\emph default
+ This is an all-text discussion that reviews the purpose and history of
+ the filter.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Recommended changes.
+
+\emph default
+ The reasons for recommending changes, including the improved performance
+ of GPS receivers and the discovery of an error in the filter in use, are
+ reviewed.
+ As part of that review, a plot showing the variance spectra for the measurement
+s to which the complementary filter is applied is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+45, and the coherence between the two signals in shown in Fig.
+\begin_inset space ~
+\end_inset
+
+46.
+ In addition, Fig.
+\begin_inset space ~
+\end_inset
+
+47 shows the transmission of the filter previously used and the new one,
+ which highlights the need for a change.
+ The code includes an R equivalent of the filter used previously as well
+ as an R representation that can be used as a replacement.
+ The figures provide justification for the selected cutoff frequency for
+ the new filter.
+ The response functions are generated in R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+CF-response
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The step concludes with recommendations for the replacement filter to be
+ used for future projects.
+\end_layout
+
+\begin_layout Section
+Workflow for the appended material
+\end_layout
+
+\begin_layout Subsection
+Appendix A and Appendix C
+\end_layout
+
+\begin_layout Standard
+These two appendices are mostly text representing supplementary material,
+ and the workflow is evident from the text so detailed descriptions will
+ not be induded here.
+\end_layout
+
+\begin_layout Subsection
+Appendix B
+\end_layout
+
+\begin_layout Standard
+The description of the ability of the wind-sensing systems to measure turbulent
+ fluctuations and characterize the turbulent energy spectrum is ancillary
+ to the report, and the workflow is relatively similar to other sections
+ of the Technical Note, so only a few comments are included here to highlight
+ special features of the workflow.
+\end_layout
+
+\begin_layout Enumerate
+Because the spectral analysis routine that relies on the 
+\begin_inset Quotes eld
+\end_inset
+
+Xanadu
+\begin_inset Quotes erd
+\end_inset
+
+ analysis package, external to R and knitr, is used often in this appendix,
+ some special steps were used in this section.
+ The high-rate measurements (at 25 Hz) were loaded to R data.frames from
+ specially generated netCDF files, generated with the standard RAF processor
+ 
+\begin_inset Quotes eld
+\end_inset
+
+nimbus
+\begin_inset Quotes erd
+\end_inset
+
+, and then those data.frames were written via the function 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu::makeNetCDF()
+\begin_inset Quotes erd
+\end_inset
+
+ to new temporary files in netCDF format that could be used by 
+\begin_inset Quotes eld
+\end_inset
+
+Xanadu
+\begin_inset Quotes erd
+\end_inset
+
+.
+ A function 
+\begin_inset Quotes eld
+\end_inset
+
+setXanadu()
+\begin_inset Quotes erd
+\end_inset
+
+ was constructed to set the default specifications for Xanadu runs (like
+ the start and end times and the axis limits for plots), and then system
+ calles were used to run Xanadu to generate the variance spectra.
+ These were renamed after return from the system call and then incorporated
+ into the text via normal LaTeX 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+includegraphics{}
+\begin_inset Quotes erd
+\end_inset
+
+ calls.
+ The plots are also saved in the 
+\begin_inset Quotes eld
+\end_inset
+
+SpecialGraphics
+\begin_inset Quotes erd
+\end_inset
+
+ subdirectory for archival with the Technical Note.
+\end_layout
+
+\begin_layout Enumerate
+Some special analysis to characterize the effect of pressure lines was performed
+ by Don Lenschow using other analysis tools and the plots were incorporated
+ into the text without inclusion of the processing code.
+\end_layout
+
+\begin_layout Enumerate
+The lists of symbols and variables were generated by inclusion of LaTeX
+ commands like 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+sindex[var]{...}
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+sindex[lis]{...}
+\begin_inset Quotes erd
+\end_inset
+
+, inserted manually in the text.
+ The lists are then generated by the LaTeX command 
+\begin_inset Quotes eld
+\end_inset
+
+printindex[lis]{}
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+printindex[var]{}
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The index is generated similarly by including 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+index{}
+\begin_inset Quotes erd
+\end_inset
+
+ commands and using :printindex[idx]{}
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes eld
+\end_inset
+
+bibtex
+\begin_inset Quotes erd
+\end_inset
+
+ is used for the references.
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\family sans
+\color blue
+-- End of Memo --
+\end_layout
+
+\end_body
+\end_document
