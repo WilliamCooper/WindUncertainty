@@ -1,0 +1,22 @@
+
+<<parent-intro, echo=FALSE>>=
+
+set_parent ("WindUncertainty.Rnw")
+
+@
+
+This section describes the workflow for the code in "WindUncertainty.Rnw" that generates the document and also includes the processing code for the analysis in this Technical Note. It includes the process of collecting the observations and processing them to data files, the data archives used, the steps required to generate the plots and other results including the instances where manual intervention is required to identify appropriate subsets of the data, the relevant R code and LaTeX documents, and all the steps leading to the generation of the text in the Technical Note. The parent document "WindUncertainty.Rnw" incorporates a set of child documents containing the individual sections of the document, so the workflow of each of those child documents is also described in detail. The final authority regarding workflow is the set of ".Rnw" documents themselves, but the overview and diagram presented in this section will help explain that without reference to the R and LaTeX code.
+
+\subsection{Acquisition of the primary data}
+
+Most of the measurements used in this report were collected using the NSF/NCAR GV research aircraft during the DEEPWAVE project of 2014. As described elsewhere in this report, the onboard program 'aeros' recorded the data in digital format, and those data files were then processed by the program 'nimbus' to produce an archive in NetCDF format. The software management group of NCAR/EOL maintains a version-controlled archive of these programs, so if they are of interest they can be obtained by contacting the data-management group of EOL at the email address provided in XXX of this report. The details of the processing algorithms are documented here:  XXX. These procedures as they pertain to the measurement of wind are also documented in the "Introduction" to this document. The resulting data files contain measurements in scientific units and brief descriptions of each measurement. These data files can be obtained by contacting XXX.
+
+\subsection{"ComponentsOfWindSensingSystem.Rnw"}
+
+After the introduction, the next section describes the wind-sensing systems in detail. The individual measurements used by each of the three wind-sensing systems on the aircraft are described, photographs and diagrams are included with these descriptions, and examples of measurements are included for most of the basic measurements. In terms of workflow, this requires manual intervention to select photograms, generate diagrams, and select time periods with illustrative data, so there are references to photographs loaded manually and time periods and flights defined in the R code. The tables with entries like "Standard Uncertainty" were obtained by reference to published instrument characteristics or from intercomparisons of similar sensors. More information on the system components is contained on the NCAR/EOL web pages that describe airborne instruments. XXX The examples of data were extracted from appropriately selected data segments. These data were also preserved in R data files (with names like "DataFrame1.Rdata"), and these data frames were then saved as described in Appendix B. The reason was that the subsets of data are much smaller than the data files from the primary DEEPWAVE data archive, and this also ensures that if that archive changes the exact data used for these plots can still be recovered. 
+
+\subsection{"CalibrationProcedures.Rnw"}
+
+The section on calibration procedures describes ways in which the measurements are 
+calibrated, both via laboratory/bench calibrations and in-flight maneuvers. 
+
