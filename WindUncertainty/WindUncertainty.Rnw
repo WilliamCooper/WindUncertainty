@@ -335,18 +335,24 @@ the performance of the instrumentation used for this application.
 \newpage
 \pagenumbering{arabic}
 <<A, child='Introduction.Rnw'>>=
+@
 <<B, child='ComponentsOfWindSensingSystem.Rnw'>>=
+@
 <<C, child='CalibrationProcedures.Rnw'>>=
+@
 <<G, child='ElementsOfUncertaintyAndSummary.Rnw'>>=
-#<<C, child='SchulerSection.Rnw'>>=
+@
 <<D, child='SensitivityCoefficients.Rnw'>>=
+@
 <<E, child='VerticalWindStudies.Rnw'>>=
+@
 <<F, child='HorizontalWindStudies.Rnw'>>=
 @
 
 \appendix
 
 <<H, child='Conventions.Rnw'>>=
+@
 <<I, child='Turbulence.Rnw'>>=
 @
 

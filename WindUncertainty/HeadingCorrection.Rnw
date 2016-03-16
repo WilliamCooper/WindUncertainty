@@ -94,12 +94,13 @@ a_{y}^{*}
 \end{array}\right]=\left[\begin{array}{c}
 d(GGVEW)/dt\\
 d(GGVNS)/dt
-\end{array}\right]\_\_\_.\label{eq:acceleration-from-GPS}
+\end{array}\right]\ \ \ .\label{eq:acceleration-from-GPS}
 \end{equation}
 
 The transformation from the \emph{l}-frame to the \emph{b}-frame was
 developed in section 6.4.5 of the Wind Uncertainty technical note,
-following standard sources; see equation (55). Here the inverse transformation
+following standard sources; see equation (55) in that document. 
+Here the inverse transformation
 is needed, which is just the transpose of the matrix given there.
 The appropriate body-relative accelerations are represented by the
 variables BACCX, BACCY, BACCZ for respectively the x, y, and z components
@@ -139,9 +140,10 @@ opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
 opts_chunk$set(fig.width=6, fig.height=5, fig.loc="center", digits=4)
 thisFileName <- "HeadingCorrection"
 Directory <- DataDirectory ()
-Flight <- "rf15" 				
+Flight <- "rf16h" 				
 Project = "DEEPWAVE"			 
 fname = sprintf("%s%s/%s%shPC.nc", Directory,Project,Project,Flight)
+fname = sprintf ("%s%s/%s%s.nc", Directory, Project, Project, Flight)
 VarNames <- c("BLATA", "BLONGA", "BNORMA", 
               "VNS", "VEW", "VSPD", "GGVNS", "GGVEW", 
               "GGVSPD", "LAT", "LON", "ALT", "THDG", "PITCH", "ROLL") 
@@ -149,16 +151,36 @@ Data <- getNetCDF (fname, standardVariables(VarNames))
 SaveRData <- sprintf("%s.Rdata", thisFileName)
 data.rate <- 1
 if ((Data$Time[2]-Data$Time[1]) <= 0.04) {data.rate <- 25}
+
+####
+transferAttributes <- function (dsub, d) {    ## unused function, just saved here
+  ds <- dsub
+  for (nm in names (ds)) {
+    var <- sprintf ("d$%s", nm)
+    A <- attributes (eval (parse (text=var)))
+    # A[[1]] <- nrow (ds)
+    A$dim <- nrow (ds)
+    if (!grepl ('Time', nm)) {A$dim <- NULL}
+    # A$class <- NULL
+    attributes (ds[,nm]) <- A
+  }
+  return(ds)
+}
+####
+
 ## delay or advance the heading by n samples, for testing
 n <- -7
 n <- 7
-n <- 0
+n <- -2
 NL = nrow(Data)
+DS <- Data
 if (n < 0) {
   Data$THDG <- c(Data$THDG[(1-n):NL],rep(Data$THDG[NL],-n))
 } else if (n > 0) {
   Data$THDG <- c(rep(Data$THDG[1], n), Data$THDG[1:(NL-n)])
 }
+## preserve attributes, potentially lost for THDG with time shift
+Data <- transferAttributes (Data, DS)
 Cradeg <- pi / 180
 
 @
@@ -241,6 +263,7 @@ in Fig.~\ref{fig:sg-poly-smoothing2}.
 
 # deal with missing values:
 D <- Data[!is.na (Data$Time), ]
+D <- transferAttributes (D, Data)
 #interpolate if necessary:
 D$GGVNS <- zoo::na.approx (as.vector(D$GGVNS), maxgap=100*data.rate, na.rm = FALSE)
 D$GGVEW <- zoo::na.approx (as.vector(D$GGVEW), maxgap=100*data.rate, na.rm = FALSE)
@@ -292,13 +315,15 @@ D$LACCZ <- d$AZ
 D$LACCX <- signal::sgolayfilt (D$LACCX, 3, NF*data.rate+1, m=0)
 D$LACCY <- signal::sgolayfilt (D$LACCY, 3, NF*data.rate+1, m=0)
 D$LACCZ <- signal::sgolayfilt (D$LACCZ, 3, NF*data.rate+1, m=0)
-r <- setRange(D$Time, 33800,35500)
+r <- setRange(D$Time, 0, 0)
+if (Flight == "rf16h") {r <- setRange(D$Time, 80700,82000)}
+if (Flight == "rf15h") {r <- setRange(D$Time, 33800, 35500)}
 plotWAC(D[r, c("Time", "LACCX", "LACCY", "LACCZ")], ylab="acceleration [m/s^2]")
 V <- c("Time", "LACCX", "LACCY", "LACCZ", "vedot", "vndot", "vzdot")
-r <- setRange(D$Time, 33800,35500)
+#r <- setRange(D$Time, 33800,35500)
 plotWAC(D[r,V], lw=c(3,3,3,5,5,5), lty=c(1,1,1,3,3,3))
-r <- setRange(D$Time, 42500, 43000)
-plotWAC(D[r,V], lw=c(3,3,3,5,5,5), lty=c(1,1,1,3,3,5))
+# r <- setRange(D$Time, 42500, 43000)
+# plotWAC(D[r,V], lw=c(3,3,3,5,5,5), lty=c(1,1,1,3,3,5))
 # lineWAC(D$Time[r], D$vzdot[r], col='green', lwd=2, lty=2)
 
 
@@ -329,32 +354,39 @@ shows the two estimates of error and their combination as in (\ref{eq:error-esti
 # D$herr[t] <- NA
 # r <- setRange(D$Time, 33800,35500)
 # plotWAC (D[r, c("Time", "err1", "err2", "herr")], ylim=c(-10.,10.))
-D$ang1 <- atan2(D$vndot, D$vedot) / Cradeg
-D$ang2 <- atan2(D$LACCY, D$LACCX) / Cradeg
-plotWAC(D[, c("Time", "ang1", "ang2")])
-D$dang <- (D$ang1-D$ang2)
-t <- D$dang > 180
-D$dang[t] <- D$dang[t] - 360
-t <- D$dang < -180
-D$dang[t] <- D$dang[t] + 360
-D$dang <- signal::sgolayfilt (D$dang, 3, 60*data.rate+1, m=0)
-plotWAC(D$Time, D$dang, ylim=c(-2,2))
-r <- setRange(D$Time, 33800,35500)
-plotWAC(D$Time[r], D$dang[r], ylim=c(-2,2))
-t <- (D$LACCX^2+D$LACCY^2) < 1
-D$dang[t] <- NA
+
 D$DAX <- D$vedot - D$LACCX
 D$DAY <- D$vndot - D$LACCY
 D$DPSI <- (D$LACCY*D$DAX - D$LACCX*D$DAY) / (D$LACCX^2 + D$LACCY^2) / Cradeg
-D$DPSIS <- signal::sgolayfilt (D$DPSI, 3, 60*data.rate+1, m=0)
-VP <- c("Time", "DPSI", "DPSIS")
-plotWAC (D[, VP], ylim=c(-2,2))
+D$DPSI[D$ACC < 1] <- NA
+D$DPSI[D$TASX < 130] <- NA
+D$DPSI[abs(D$VSPD) > 4] <- NA
+D$HCOR <- zoo::na.approx (as.vector(D$DPSI), maxgap=50000*data.rate, na.rm = FALSE)
+D$DPSIS <- signal::sgolayfilt (D$HCOR, 3, 60*data.rate+1, m=0)
+
+VP <- c("Time", "DPSIS", "HCOR")
+plotWAC (D[, VP], ylim=c(-2,2), lwd=c(1,2), lty=c(1,2))
 plotWAC (D[r, VP], lwd=c(2,4), lty=c(1,2), ylim=c(-2,2))
 D$ACC <- sqrt(D$LACCX^2+D$LACCY^2)
 Valid <- D$TASX > 130 & D$ACC > 1
 DD <- D
 DD[!Valid,] <- NA
-plotWAC(DD[, VP], ylim=c(-2,2), lwd=c(1,3), col=c('blue', 'red'))
+plotWAC(DD[, VP], ylim=c(-.5,.5), lwd=c(1,3), col=c('blue', 'red'))
+
+## add a slowly updating heading-correction variable:
+D$DPSI[D$ACC < 1] <- NA
+D$DPSI[D$TASX < 130] <- NA
+D$HCOR <- zoo::na.approx (as.vector(D$DPSI), maxgap=50000*data.rate, na.rm = FALSE)
+HCOR <- 0
+f <- 300*25
+D$HCOR <- D$DPSI
+for (i in 1:nrow(D)) {
+  v <- (D$ACC[i] > 1) && (D$TASX[i] > 130) && (abs(D$VSPD) < 4)
+  if (v) {HCOR <- HCOR + (D$DPSI[i]-HCOR)/f}
+  D$HCOR[i] <- HCOR
+}
+lineWAC(D$Time, D$HCOR, col='darkgreen', lwd=2)
+
 
 
 @

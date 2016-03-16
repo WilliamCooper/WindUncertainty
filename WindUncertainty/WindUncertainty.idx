@@ -58,9 +58,9 @@
 \indexentry{attack!angle of!sign convention|hyperpage}{3}
 \indexentry{sideslip!sign convention|hyperpage}{3}
 \indexentry{coordinate system!aircraft|hyperpage}{3}
-\indexentry[sym]{xhatp@$\hat{x^{\prime}},\,\hat{y^{\prime}},\,\hat{z^{\prime}}$=coordinate axes of the aircraft|hyperpage}{3}
+\indexentry[lis]{xhatp@$\hat{x^{\prime}},\,\hat{y^{\prime}},\,\hat{z^{\prime}}$=coordinate axes of the aircraft|hyperpage}{3}
 \indexentry{coordinate system!Earth|hyperpage}{3}
-\indexentry[sym]{xhat@$\hat{x},\,\hat{y},\,\hat{z}$=coordinate axes of the Earth-based reference frame|hyperpage}{3}
+\indexentry[lis]{xhat@$\hat{x},\,\hat{y},\,\hat{z}$=coordinate axes of the Earth-based reference frame|hyperpage}{3}
 \indexentry[lis]{psi@$\psi$=heading|hyperpage}{3}
 \indexentry[lis]{theta@$\theta$=pitch angle|hyperpage}{3}
 \indexentry[lis]{phi@$\phi$=roll angle|hyperpage}{3}
@@ -249,7 +249,7 @@
 \indexentry{temperature!uncertainty|hyperpage}{10}
 \indexentry{dew point|hyperpage}{10}
 \indexentry{humidity, effect on airspeed|hyperpage}{10}
-\indexentry[sym]{qh@$q_h$=specific humidity|hyperpage}{10}
+\indexentry[lis]{qh@$q_h$=specific humidity|hyperpage}{10}
 \indexentry{example of measurements!attitude angles|hyperpage}{11}
 \indexentry[var]{UTC=Coordinated Universal Time|hyperpage}{11}
 \indexentry[var]{ROLL>@ROLL|hyperpage}{11}
@@ -918,7 +918,7 @@
 \indexentry{maneuver!circle|hyperpage}{112}
 \indexentry{DEEPWAVE|hyperpage}{112}
 \indexentry{maneuver!circle!plotted track|hyperpage}{112}
-\indexentry{DEEPWAVE!flight 15|hyperpage}{113}
+\indexentry{DEEPWAVE!flight 15|hyperpage}{112}
 \indexentry{speed of aircraft!ground speed!time offset|hyperpage}{113}
 \indexentry[var]{ROLL>@ROLL|hyperpage}{113}
 \indexentry[lis]{psiprime@$\psi^{\prime}$=heading angle adjusted in turns for sideslip angle and angle of attack|hyperpage}{113}
@@ -1038,7 +1038,7 @@
 \indexentry[var]{URL=Uniform Resource Locator|hyperpage}{147}
 \indexentry{R!the programming language|hyperpage}{147}
 \indexentry{R!RStudio used with|hyperpage}{147}
-\indexentry{Ranadu|hyperpage}{147}
+\indexentry{Ranadu|hyperpage}{148}
 \indexentry{data files|hyperpage}{148}
 \indexentry[var]{HPSS=High Performance Storage System|hyperpage}{148}
 \indexentry{data!requesting|hyperpage}{148}
