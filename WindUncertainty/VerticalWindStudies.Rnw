@@ -267,7 +267,7 @@ if (ReloadData) {
 # Ddelay$GGVSPD <- Ddelay$GGVSPD*0.98
 # Ddelay$PITCH <- Ddelay$PITCH * 1.00
 # Ddelay$AKRD <- Ddelay$AKRD * 1.00
-  Ddelay$PITCH <- Ddelay$PITCH - CorrectPitch(Ddelay)
+  Ddelay$PITCH <- Ddelay$PITCH - CorrectPitch(Ddelay)[, 1]
   save (Ddelay, file="DataFrames/VWdelay.Rdata")
 } else {
   load (file="DataFrames/VWdelay.Rdata")

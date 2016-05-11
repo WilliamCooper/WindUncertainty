@@ -126,7 +126,7 @@ VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
               "ATX", "GGVSPD", "QCF", "PSF")
 if (ReloadData) {
   D <- getNetCDF (fname, VarNames)      # this handles high-rate data also
-  PC <- CorrectPitch(D)
+  PC <- CorrectPitch(D)[, 1]
   # Valid <- (D$TASX > 130)
   # Valid[abs(D$ROLL) > 5] <- FALSE
   # hist(PC[Valid], xlim=c(-0.02,0.02))
@@ -139,7 +139,7 @@ Flight <- "rf11"        # this had  cal maneuvers at 40K ft
 fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
 if (ReloadData) {
   D2x <- getNetCDF (fname, VarNames)
-  D2x["PITCHC"] <- D2x$PITCH - CorrectPitch (D2x)
+  D2x["PITCHC"] <- D2x$PITCH - CorrectPitch (D2x)[, 1]
   r4 <- setRange (D2x$Time, 103000,104000)
   D2 <- D2x[r4,]
   D2 <- transferAttributes (D2, D2x)  # preserve attributes after subsetting
@@ -151,7 +151,7 @@ Flight <- "rf16"        # 43000-ft leg
 fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
 if (ReloadData) {
   D3x <- getNetCDF (fname, VarNames)
-  D3x["PITCHC"] <- D3x$PITCH - CorrectPitch (D3x)
+  D3x["PITCHC"] <- D3x$PITCH - CorrectPitch (D3x)[, 1]
   r5 <- setRange (D3x$Time, 94000,110000)
   D3 <- D3x[r5, ]
   D3 <- transferAttributes (D3, D3x)
@@ -163,7 +163,7 @@ if (ReloadData) {
   Flight <- "rf14"        # 45000-ft leg
   fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
   D4x <- getNetCDF (fname, VarNames)
-  D4x["PITCHC"] <- D4x$PITCH - CorrectPitch (D4x)
+  D4x["PITCHC"] <- D4x$PITCH - CorrectPitch (D4x)[, 1]
   r6 <- setRange (D4x$Time, 113000,122000)
   D4 <- D4x[r6, ]
   D4 <- transferAttributes (D4, D4x)
@@ -175,7 +175,7 @@ if (ReloadData) {
   flight = "rf11"
   fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
   D5x <- getNetCDF (fname, VarNames)
-  D5x["PITCHC"] <- D5x$PITCH - CorrectPitch (D5x)
+  D5x["PITCHC"] <- D5x$PITCH - CorrectPitch (D5x)[, 1]
   r7 <- setRange (D5x$Time, 70000, 100000)
   D5 <- D5x[r7, ]
   D5 <- transferAttributes (D5, D5x)
@@ -187,7 +187,7 @@ if (ReloadData) {
   flight = "rf03"
   fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
   D6x <- getNetCDF (fname, VarNames)
-  D6x["PITCHC"] <- D6x$PITCH - CorrectPitch (D6x)
+  D6x["PITCHC"] <- D6x$PITCH - CorrectPitch (D6x)[, 1]
   D6 <- D6x[D6x$GGALT/0.3048 > 35000, ]
   D6 <- transferAttributes (D6, D6x)
   save (D6, file="DataFrames/SC6.Rdata")
@@ -556,7 +556,7 @@ if (ReloadData) {
     if (j == 16) {DW16 <- DW}    # save to preserve attributes
     DW$AR <- DW$ADIFR / DW$QCF
     plotWAC(DW[, c("Time", "WIC")])
-    PC <- CorrectPitch (DW)
+    PC <- CorrectPitch (DW)[, 1]
     DW$WIX <- DW$WIC + DW$TASX * PC * pi/180
     Valid <- DW$TASX > 130
     DW$AOAREF <- DW$PITCH - (DW$GGVSPD/DW$TASX)*180/pi
@@ -676,7 +676,7 @@ if (ReloadData) {
     DW$MACHG <- MachNumber (DW$PS_GP, DW$QC_GP)
     DW$AQRM_GP <- DW$AQR_GP * DW$MACHG
     DW$RR_GP <- DW$QC_GP / DW$PS_GP
-    PC <- CorrectPitch (DW)
+    PC <- CorrectPitch (DW)[, 1]
     DW$WIX <- DW$WIC + DW$TASX * PC * pi/180
     Valid <- DW$TASX > 130
     DW$AOAREF_GP <- DW$CPITCH_GP - (DW$CVSPD_GP/DW$TASX)*180/pi
@@ -1089,6 +1089,8 @@ angle of attack, it appears preferable to regard this as a check not requiring a
 in the coefficient determined from a larger data set and under typical conditions for
 DEEPWAVE flights. This result does provide a useful check on the validity of the
 procedure used to determine the sideslip sensitivity coefficients.
+
+It is a significant weakness that the data for the calibrations are all collected under conditions where the flight conditions varied only slowly. It is known, however, that when conditions change abruptly there can be transient effects on the airflow around the aircraft that cause departures from the near-steady-state conditions on which the calibrations are based. Under steady conditions,\index{upwash}\index{sidewash}\index{upwash!see also {sidewash}}\index{sidewash!see also {upwash}} steady "upwash" or "sidewash" in the distorted airflow around the aircraft is incorporated into the calibrations that lead to sensitivity coefficients. Transient effects, however, can lead to upwash or sidewash that is not consistent with steady-state conditions, and such effects therefore can compromise the validity of the calibrations developed in this document. Transient effects only last a short time and therefore only affect high-frequency measurements, especially for vertical gusts, but this is nevertheless a source of uncertainty that is outside the studies of this technical note. The comparisons to LAMS discussed above are the best evidence available that these effects might be ignored, but further study of transient effects is still needed. See also the discussion of this point in Sect.\ \ref{sub:conclusions-radome}.
 
 \subsection{True Airspeed from the Gust Pod\label{sub:GP-TAS}}
 

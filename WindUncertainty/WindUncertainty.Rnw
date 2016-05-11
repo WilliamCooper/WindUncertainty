@@ -161,7 +161,7 @@
 \author{W. A. Cooper, R. B. Friesen, M. Hayman, J. B. Jensen, D. H. Lenschow, \\P. A. Romashkin, A. J. Schanot, S. M. Spuler, J. L. Stith, C. Wolff}
 
 
-\date{\textcolor{red}{} 9/23/2015}
+\date{\textcolor{red}{} 5/9/2016}
 \thispagestyle{empty}
 \maketitle
 \vfill{}
@@ -436,7 +436,7 @@ system (sprintf("zip %s.zip %s.Rnw %s.pdf SessionInfo Introduction.Rnw Component
 
 The research aircraft discussed in this report, often called "HIAPER,"\sindex[var]{HIAPER=High-Performance Airborne Platform for Environmental Research} was the result of an extensive effort both within and outside of NCAR, and especially at the National Science Foundation. Everyone at the Research Aviation Facility contributed, and additional key contributions were made by Krista Laursen, who led the HIAPER Project Office that oversaw this initial development, and Jim Huning and Cliff Jacobs at the NSF, whose contributions pervade the system as it exists today. The staff of the UCAR Contracts Office made essential contributions through negotiation and oversight. Chris Webster's development and maintenance of the software used for data processing over this entire cycle was also crucial. The technical staff of the NCAR Earth Observing Laboratory were involved in all stages of the development and operation of this research platform, and the project management staff, operations staff, and computing and data management groups of that Laboratory conducted the projects that produced the data used in this report. Without all these contributions, the measurements characterized in this report would not have been available to the community.
 
-To maintain focus and avoid even greater length, this technical report does not acknowledge the many contributions made to measurement science related to wind measurement by other research groups, but their work has influenced our approaches and thinking significantly. We especially acknowledge the advances and related work at the University of Wyoming, the German Aerospace Center (DLR), the Facility for Airborne Atmospheric Measurements (FAAM), as well as much published literature originating from NASA and other aeronautical groups, all of which have had important influences on our approach to these measurements.
+To maintain focus and avoid even greater length, this technical report does not acknowledge the many contributions made to measurement science related to wind measurement by other research groups, but their work has influenced our approaches and thinking significantly. We especially acknowledge the advances and related work at the University of Wyoming, the German Aerospace Center (DLR), the Facility for Airborne Atmospheric Measurements (FAAM), as well as much published literature originating from NASA and other aeronautical groups, all of which have had important influences on our approach to these measurements. We also appreciate the very constructive reviews provided by Ulrich Schumann and Al Rodi.
 
 Almost all of the analyses reported here were performed using R (\citet{Rlanguage}), with RStudio  \citet{RStudio2012} and knitr (\citet{Xie2014a,Xie2014b}). The
 "ggplot2" package (\citet{wickham2009}) was used for many of the figures. The effort to make these results reproducible benefited greatly by the work represented in these analysis tools, especially that provided by Y. Xie. The book by C. Gandrud (\citet{Gandrud2014}) also had a strong influence on our approach to this report.

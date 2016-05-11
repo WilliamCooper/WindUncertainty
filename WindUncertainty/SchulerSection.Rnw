@@ -4,6 +4,7 @@
 
 if (!exists ("ReloadData")) {
   ReloadData <- FALSE
+  # ReloadData <- TRUE
   print (" forced ReloadData FALSE because variable doesn't exist")
   library (knitr)
   set_parent ("WindUncertainty.Rnw")
@@ -113,7 +114,7 @@ The result of this erroneous acceleration is growth of a false northward velocit
 \sindex[lis]{lambdaE@$\lambda_E$=latitude}
 At the point where the error in latitude cancels the error in pitch, there is an accumulated error in velocity, so the integrated solution for position overshoots the equilibrium position by an amount such that the error in pitch becomes the negative of the original error, at which point the integrated velocity is zero but the new error in pitch now causes a reversal of the position error. The result is that the errors in pitch, velocity and position all oscillate with a period equal to the Schuler period $T_{Sch}$. 
 
-These equations predicting how this oscillation will occur:\sindex[lis]{x@$x$=northward coordinate in an Earth reference frame}\sindex[lis]{vn@$v_{n}$=northward component of velocity}\sindex[lis]{an@$a_{n}$=northward component of acceleration} 
+These equations predict how this oscillation will occur:\sindex[lis]{x@$x$=northward coordinate in an Earth reference frame}\sindex[lis]{vn@$v_{n}$=northward component of velocity}\sindex[lis]{an@$a_{n}$=northward component of acceleration} 
 
 \begin{equation}
 v_{n}=\frac{dx_{n}}{dt}=R_{e}\frac{d\lambda_E}{dt}\label{eq:vn} 
@@ -125,13 +126,13 @@ v_{n}=\frac{dx_{n}}{dt}=R_{e}\frac{d\lambda_E}{dt}\label{eq:vn}
 \end{equation}
 
 
-where $x_{n}$ and $v_n$ are the measured north coordinate of position and
-northward component of aircraft motion, $R_e$ the radius of the Earth, and $a_{n}$ is the measured northward acceleration. However, if $a_{n}=a_{n}^{*}+\delta a_{n}$ where $a_{n}^{*}$ is the true northward acceleration of the aircraft and $\delta a_{n}$ is the erroneous acceleration that results from pitch and displacement errors, then 
+where $x_{n}$ and $v_n$ are respectively the measured north coordinate of position and
+northward component of aircraft motion, $R_e$ the radius of the Earth, and $a_{n}$ is the measured northward acceleration. Regardless of the history of the pitch error $\delta\theta$ or the source of that error, it can be detected by the error it creates in the northward acceleration. If $a_{n}=a_{n}^{*}+\delta a_{n}$ where $a_{n}^{*}$ is the true northward acceleration of the aircraft and $\delta a_{n}$ is the erroneous acceleration that results from the pitch error, then 
 
 \begin{equation}
-\delta a_{n}=g(\delta\lambda_E-\delta\theta)\label{eq:delta-an} 
+\delta a_{n}=-g\delta\theta\label{eq:delta-an} 
 \end{equation}
-with $\lambda_E$ the latitude, $\delta\lambda_E=\delta x_{n}/R_{e}$ the error in latitude, and $\delta\theta$ the error in pitch. Then\\ 
+where the critical assumption is that the accelerometers themselves do not introduce error. Then\\ 
 \begin{equation}
 \frac{d(\delta v_{n})}{dt}=-g\delta\theta\label{eq:delta-vn-dot}
 \end{equation}
@@ -196,11 +197,15 @@ legend ('topright', legend=c('VEW-GGVEW', 'VNS-GGVNS'), lwd=2, col=c('blue', 'da
 
 \begin{eqnarray}
 \delta\theta & = & -\frac{1}{g}\frac{d(\delta v_{n})}{dt}\label{eq:delta-theta}\\ 
-\delta\phi & = & -\frac{1}{g}\frac{d(\delta v_{e})}{dt}\label{eq:delta-phi} 
+\delta\phi & = & \frac{1}{g}\frac{d(\delta v_{e})}{dt}\label{eq:delta-phi} 
 \end{eqnarray}
 
+An alternative to fitting variations like those shown in Fig.~\ref{fig:v-errors-straight-leg} to sine and cosine functions is to estimate the time derivatives of the velocity-error terms over shorter intervals by differentiating the measured velocities provided by GPS and then use those derivatives in (\ref{eq:delta-theta}) or (\ref{eq:delta-phi}) to find the errors in pitch and roll. This gives errors in the local reference frame\index{coordinate system!local reference frame}\index{coordinate system!l-frame|see {coordinate system, local reference frame}} with axes eastward, northward, and upward, here called the\emph{ l}-frame, and these errors then must be transformed to the aircraft body frame\index{coordinate system!aircraft reference frame} to get errors in the measured quantities. The choice made here is to estimate the derivatives using fitted \index{Savitzky-Golay polynomials}Savitzky-Golay polynomials, as shown in Fig.~\ref{fig:sg-poly-smoothing}. Savitzky-Golay polynomials were chosen because they are computationally efficient, do not introduce a time shift, and can provide derivatives directly. A rather long averaging period of 1013 s, or about 1/5 of a Schuler oscillation, was used to reduce noise in the result, and interpolation filled some gaps in the measurements. 
 
-Therefore, rather than fitting variations like that shown in Fig.~\ref{fig:v-errors-straight-leg} to sine and cosine functions, it is possible to obtain an estimate of the time derivatives of the velocity-error terms over some shorter interval and then use that derivative in (\ref{eq:delta-theta}) or (\ref{eq:delta-phi}) to find the errors in pitch and roll. This gives errors in the local reference frame\index{coordinate system!local reference frame}\index{coordinate system!l-frame|see {coordinate system, local reference frame}} with axes eastward, northward, and upward, here called the\emph{ l}-frame, and these errors then must be transformed to the aircraft reference frame\index{coordinate system!aircraft reference frame} to get errors in the measured quantities. The choice made here is to estimate the derivatives using fitted \index{Savitzky-Golay polynomials}Savitzky-Golay polynomials, as shown in Fig.~\ref{fig:sg-poly-smoothing}. Savitzky-Golay polynomials were chosen because they are computationally efficient, do not introduce a time shift, and can provide derivatives directly. A rather long averaging period of 1009 s, or about 1/5 of a Schuler oscillation, was used to reduce noise in the result, and interpolation filled some gaps in the measurements. 
+Equations (\ref{eq:delta-theta}) and (\ref{eq:delta-phi}) are valid if the entire error in acceleration arises from platform mis-alignment and the associated false resolution of the gravity vector into horizontal components of acceleration. Errors in the measured accelerations would also contribute an additional term to these equations, so the validity of the proposed correction to pitch depends on the accuracy of the accelerometers. 
+To check the calibration of the accelerometers, GPS measurements of the aircraft velocity were differentiated to obtain estimates of accelerations in the l-frame, and those accelerations after correction for inertial effects (Cf.\ Sect.\ \ref{sub:angle-transforms-for-pitch-correction}) were transformed to the aircraft reference frame and compared to the measured accelerations in that frame. 
+When fitted to the GPS-derived measurements, the fit coefficients for the measured longitudinal accelerations (intercept and slope) were $-0.0033$ and 1.0014, with a residual standard error of 0.01\,m\,s$^{-2}$. 
+The bias error would lead to a change in the pitch correction of about $0.02^{\circ}$, so this is an upper estimate of the approximate uncertainty in the pitch correction.
 
 <<sg-poly-smoothing, include=TRUE, fig.lp="fig:", fig.cap="Deduced error in pitch and roll angles for DEEPWAVE ferry flight ff02.">>=
 
@@ -215,61 +220,114 @@ GGVEW <- zoo::na.approx (as.vector(D$GGVEW), maxgap=100, na.rm = FALSE)
 vndot <- signal::sgolayfilt (VNS-GGVNS, 3, 1013, m=1)  # m=1 for first deriv.
 vedot <- signal::sgolayfilt (VEW-GGVEW, 3, 1013, m=1)
 deltaPitch <- -vndot/Ranadu::Gravity (D$LAT, D$GGALT)
-deltaRoll <- -vedot/Ranadu::Gravity (D$LAT, D$GGALT)
+deltaRoll <- vedot/Ranadu::Gravity (D$LAT, D$GGALT)
 Z <- plotWAC(D$Time, deltaRoll/Cradeg, ylab='Error in Angle [deg]', col='darkgreen')
 Z <- lineWAC (D$Time, deltaPitch/Cradeg, col='blue')
 legend('top', legend=c("Pitch error", "Roll Error"), lwd=2, col=c("blue", "darkgreen"), text.col=c("blue", "darkgreen"), cex=0.8)
 
 @
 
-The result is that the estimated pitch error is less than about 0.01$^{\circ}$ in magnitude for most of this flight, except for the final descent, and the roll error is limited to less than about 0.015$^{\circ}$ for the same period. This is evidence for low uncertainty in the pitch measurement for this flight, well below the specification of 0.05$^{\circ}$. Section \ref{sub:Application-to-research} contains further discussion of the errors from the research flights, where the estimated errors sometimes can be larger. However, the smooth oscillations in Fig.~\ref{fig:sg-poly-smoothing} indicate that even those small errors can be detected and corrected.
+The result for this flight is that the estimated pitch error is less than about 0.01$^{\circ}$ in magnitude, except for the final descent, and the roll error is limited to less than about 0.015$^{\circ}$ for the same period. This is evidence for low uncertainty in the pitch measurement for this flight, well below the specification of 0.05$^{\circ}$. Section \ref{sub:Application-to-research} contains further discussion of the errors from the research flights, where the estimated errors sometimes can be larger. However, the smooth oscillations in Fig.~\ref{fig:sg-poly-smoothing} indicate that even those small errors can be detected and corrected.
 
 
 \subsubsection{Transformation of attitude angles\label{sub:angle-transforms-for-pitch-correction}}
 
-In a reference frame\index{coordinate system!local reference frame}\index{coordinate system!ENU frame|see {coordinate system, local reference frame}} called the $l$-frame or ENU\sindex[var]{ENU=east-north-up local reference frame} frame, where the coordinate axes are local-east, local-north, and upward, the preceding subsection showed that the pitch and roll errors are related, via (\ref{eq:delta-theta}) and (\ref{eq:delta-phi}), to the time-derivatives of the errors in horizontal velocity. Pitch and roll errors as used in these equations will be the respective errors in platform alignment\footnote{The inertial system used is a strap-down system, so there is no actual motion of the ``platform''. Instead, from measured rotations and accelerations, the system calculates the expected orientation if there were a true stabilized platform. The errors referenced here are those relative to that calculated platform orientation.} in the north-south and east-west directions, so these angles must be transformed to account for the orientation of the aircraft when it is not flying straight-and-level to the north. Coordinates in the body or $b$-frame of the aircraft\index{coordinate system!b-frame|see {coordinate system, aircraft reference frame}}\index{coordinate system!body frame|see {coordinate system, aircraft reference frame}} are obtained from those in the ENU or $l$-frame by applying three rotations\index{coordinate system!rotation} to account for the heading, pitch, and roll of the $b$-frame. This transformation leads to pitch errors in the body frame of the aircraft (where pitch and roll are measured and where the pitch measurement affects the calculated vertical wind) that are mixtures of pitch and roll errors in the $l$-frame, with the mixture dependent primarily on the heading. A positive pitch error for northbound level flight will be a negative pitch error for southbound level flight, and for eastbound flight an $l$-frame roll error becomes a $b$-frame pitch error while an $l$-frame pitch error become a negative $b$-frame roll error. 
+In a reference frame\index{coordinate system!local reference frame}\index{coordinate system!ENU frame|see {coordinate system, local reference frame}} called the $l$-frame or ENU\sindex[var]{ENU=east-north-up local reference frame} frame, where the coordinate axes are local-east, local-north, and upward, the preceding subsection showed that the pitch and roll errors are related, via (\ref{eq:delta-theta}) and (\ref{eq:delta-phi}), to the time-derivatives of the errors in horizontal velocity. Pitch and roll errors as used in these equations will be the respective errors in platform alignment\footnote{The inertial system used is a strap-down system, so there is no actual motion of the ``platform''. Instead, from measured rotations and accelerations, the system calculates the expected orientation if there were a true stabilized platform. The errors referenced here are those relative to that calculated platform orientation.} in the north-south and east-west directions, so these angles must be transformed to account for the orientation of the aircraft when it is not flying straight-and-level to the north. 
 
-Consider a unit vector $\mathbf{b}^{(l)}$ \sindex[lis]{bl@$\mathbf{b}^{(l)}$=unit vector representing errors in attitude angles in the \emph{l}-frame}representing the orientation errors in pitch and roll in the $l$-frame, with components \{$\sin\delta\phi,\,\sin\delta\theta,\,\sqrt{1-\sin^{2}\delta\phi-\sin^{2}\delta\theta}$\} or, because the errors are always small, approximately \{$\delta\phi,\,\delta\theta,\,1$\}. The three-angle transformation of this vector from the $l$-frame to the $b$-frame is then represented by the following matrix, with 
-\{$\phi,\,\theta,\,\psi$\} denoting \{roll, pitch, heading\}:\sindex[lis]{Rlb@$R_{l}^{b}$=rotation matrix from \emph{l}-frame to \emph{b}-frame}
-
-\begin{equation}
-R_{l}^{b}=\begin{bmatrix}\cos\psi\cos\phi+\sin\psi\sin\phi\sin\theta & -\sin\psi\cos\phi+\cos\psi\sin\phi\sin\theta & -\cos\theta\sin\phi\\ 
-\sin\psi\cos\theta & \cos\psi\cos\theta & \sin\theta\\ 
-\cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi & -\sin\psi\sin\phi-\cos\psi\sin\theta\sin\phi & \cos\theta\cos\phi 
-\end{bmatrix}\label{eq:transform-l-to-b}
-\end{equation}
-If the roll and pitch angles are small,\sindex[lis]{bb@$\mathbf{b}^{(b)}$=unit vector representing errors in attitude angles in the \emph{b}-frame} 
+Consider a unit vector $\mathbf{b}^{(l)}$ \sindex[lis]{bl@$\mathbf{b}^{(l)}$=unit vector representing errors in attitude angles in the \emph{l}-frame}representing the orientation errors in pitch and roll in the $l$-frame, with components \{$\sin\delta\phi,\,-\sin\delta\theta,\,\sqrt{1-\sin^{2}\delta\phi-\sin^{2}\delta\theta}$\} or, because the errors are always small, approximately \{$\delta\phi,\,-\delta\theta,\,1$\}. Transformation of these errors from the $l$-frame to the $a$-frame requires rotation by the \emph{negative} of
+the heading angle $\psi$ in the $l$-frame but does not require further transformation because
+differences in pitch and roll between the $l$-frame and the $a$-frame do not affect the estimate of platform misalignment and how that misalignment is resolved into pitch and roll components. Therefore,
 
 \begin{eqnarray}
 \mathbf{b^{(b)}=}R_{l}^{b}\mathbf{b^{(l)}} & \approx & \left[\begin{array}{ccc}
-\cos\psi & -\sin\psi & 0\\ 
-\sin\psi & \cos\psi & 0\\ 0 & 0 & 1 
-\end{array}\right]\begin{bmatrix}\delta\phi\\ 
-\delta\theta\\ 1 
-\end{bmatrix}=\begin{bmatrix}\cos\psi\delta\phi-\sin\psi\delta\theta\\ 
-\sin\psi\delta\phi+\cos\psi\delta\theta\\ 1 
-\end{bmatrix}\label{eq:b-vector-in-b-frame}
+\cos\psi & -\sin\psi & 0\\
+\sin\psi & \cos\psi & 0\\
+0 & 0 & 1
+\end{array}\right]\begin{bmatrix}\delta\phi^{(l)}\\
+-\delta\theta^{(l)}\\
+1
+\end{bmatrix}\label{eq:b-vector-in-b-frame}\\
+ & \simeq & \begin{bmatrix}\cos\psi\delta\phi^{(l)}+\sin\psi\delta\theta^{(l)}\\
+\sin\psi\delta\phi^{(l)}-\cos\psi\delta\theta^{(l)}\\
+1
+\end{bmatrix}
 \end{eqnarray}
-
-
-which leads to $\delta\theta^{(b)}$ and $\delta\phi^{(b)}$, the pitch and roll errors in the $b$-frame: 
+which leads to $\delta\theta^{(b)}$ and $\delta\phi^{(b)}$, the
+pitch and roll errors in the $b$-frame:
 
 \begin{eqnarray}
-\delta\theta^{(b)} & \simeq & \sin\psi\delta\phi+\cos\psi\delta\theta\label{eq:final-answer}\\ 
-\delta\phi^{(b)} & \approx & \cos\psi\delta\phi-\sin\psi\delta\theta\nonumber  
+\delta\theta^{(b)} & \simeq & -b_{2}^{(b)}/b_{3}^{(b)}=-\sin\psi\delta\phi^{(l)}+\cos\psi\delta\theta^{(l)}\label{eq:final-answer}\\
+\delta\phi^{(b)} & \approx & b_{1}^{(b)}/b_{3}^{(b)}=\cos\psi\delta\phi^{(l)}+\sin\psi\delta\theta^{(l)}\,\,\,.\nonumber 
 \end{eqnarray}
-In turns, the roll angle is no longer negligible, so in general the full transformation matrix \eqref{eq:transform-l-to-b} should be used. Because this matrix imposes rotations by the measured pitch and roll angles, the unit vector representing the errors in pitch and roll after transformation will have components from which the true pitch and roll can be determined, so subtracting the corrected pitch from the measured pitch gives the error in measured pitch: \\ 
-\begin{equation}
-\delta\theta^{(b)}=\theta-\arctan\frac{b_{2}^{(b)}}{b_{3}^{(b)}}\label{eq:pitch-error-wo-approx} 
-\end{equation}
-This pitch error should then be subtracted from the measured pitch to obtain a corrected value of the pitch for use in the calculation of vertical wind.\index{pitch!correction!equation} 
+
+% \[
+% \mathbf{R}_{a}^{l}=\left(\begin{array}{ccc}
+% 0 & 1 & 0\\
+% 1 & 0 & 0\\
+% 0 & 0 & -1
+% \end{array}\right)\left(\begin{array}{ccc}
+% \cos\psi & -\sin\psi & 0\\
+% \sin\psi & \cos\psi & 0\\
+% 0 & 0 & 1
+% \end{array}\right)\left(\begin{array}{ccc}
+% \cos\theta & 0 & -\sin\theta\\
+% 0 & 1 & 0\\
+% \sin\theta & 0 & \cos\theta
+% \end{array}\right)\left(\begin{array}{ccc}
+% 1 & 0 & 0\\
+% 0 & \cos\phi & \sin\phi\\
+% 0 & -\sin\phi & \cos\phi
+% \end{array}\right)
+% \]
+% \\
+% \[
+% R_{a}^{l}=\begin{bmatrix}\sin\psi\cos\theta & \sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi & \cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi\\
+% \cos\psi\cos\theta & \cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi & -\cos\psi\sin\theta\cos\phi-\sin\psi\sin\phi\\
+% -\sin\theta & \cos\theta\sin\phi & -\cos\theta\cos\phi
+% \end{bmatrix}\label{eq:transform-a-to-l}
+% \]
+
+% 
+% \begin{equation}
+% R_{l}^{b}=\begin{bmatrix}\cos\psi\cos\phi+\sin\psi\sin\phi\sin\theta & -\sin\psi\cos\phi+\cos\psi\sin\phi\sin\theta & -\cos\theta\sin\phi\\ 
+% \sin\psi\cos\theta & \cos\psi\cos\theta & \sin\theta\\ 
+% \cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi & -\sin\psi\sin\phi-\cos\psi\sin\theta\sin\phi & \cos\theta\cos\phi 
+% \end{bmatrix}\label{eq:transform-l-to-b}
+% \end{equation}
+% The transformation from the $l$ to $a$-frame, $R_l^a$, is the inverse (or transpose) of this matrix. If the roll and pitch angles are small,\sindex[lis]{bb@$\mathbf{b}^{(b)}$=unit vector representing errors in attitude angles in the \emph{b}-frame} 
+% 
+% \begin{eqnarray}
+% \mathbf{b^{(a)}=}R_{l}^{b}\mathbf{b^{(l)}} & \approx & \left[\begin{array}{ccc}
+% \cos\psi & -\sin\psi & 0\\ 
+% \sin\psi & \cos\psi & 0\\ 0 & 0 & 1 
+% \end{array}\right]\begin{bmatrix}\delta\phi\\ 
+% \delta\theta\\ 1 
+% \end{bmatrix}=\begin{bmatrix}\cos\psi\delta\phi-\sin\psi\delta\theta\\ 
+% \sin\psi\delta\phi+\cos\psi\delta\theta\\ 1 
+% \end{bmatrix}\label{eq:b-vector-in-b-frame}
+% \end{eqnarray}
+% 
+% 
+% which leads to $\delta\theta^{(b)}$ and $\delta\phi^{(b)}$, the pitch and roll errors in the $b$-frame: 
+% 
+% \begin{eqnarray}
+% \delta\theta^{(a)} & \simeq & \sin\psi\delta\phi+\cos\psi\delta\theta\label{eq:final-answer}\\ 
+% \delta\phi^{(a)} & \approx & \cos\psi\delta\phi-\sin\psi\delta\theta\nonumber  
+% \end{eqnarray}
+% In turns, the roll angle is no longer negligible, so in general the full transformation matrix (the inverse of \eqref{eq:transform-a-to-l}) should be used. Because this matrix imposes rotations by the measured pitch and roll angles, the unit vector representing the errors in pitch and roll after transformation will have components from which the true pitch and roll can be determined, so subtracting the corrected pitch from the measured pitch gives the error in measured pitch: \\ 
+% \begin{equation}
+% \delta\theta^{(b)}=\theta-\arctan\frac{b_{2}^{(b)}}{b_{3}^{(b)}}\label{eq:pitch-error-wo-approx} 
+% \end{equation}
+This pitch error should then be \emph{subtracted} from the measured pitch to obtain a corrected value of the pitch to be used in the calculation of vertical wind.\index{pitch!correction!equation} 
 
 
 \subsubsection{Application to research flights\label{sub:Application-to-research}}
 
-The research flights have frequent changes in heading, with mixing of the roll and pitch errors but also accelerations that affect those errors and introduce new errors from heading errors. The corrections to pitch therefore appear much less systematic than was the case for the ferry flight. An example with larger pitch errors than those in most DEEPWAVE flights, DEEPWAVE\index{DEEPWAVE!flight 1} flight 1, is presented here. Figure \ref{fig:processing-1}\sindex[var]{GGVEW>@GGVEW}\sindex[var]{VEW>@VEW} shows the measured errors in ground-speed\index{speed of aircraft!ground speed} components, and Fig.~\ref{fig:processing-2}\sindex[var]{PITCH>@PITCH}\sindex[var]{ROLL>@ROLL} shows the deduced pitch and roll errors. There are instances where the pitch error abruptly reverses sign; those are cases where the flight direction changes by about 180 deg. During turns, the full transformation leads to a result significantly different from the small-angle-approximation result, as shown by the orange line in Fig.~\ref{fig:processing-2}, but when not turning the full-transformation results replicate the small-angle-approximation results (blue line), as indicated by the orange dashed line overlapping the blue line. The proposed solution is to use the full transformation to find a corrected pitch variable\sindex[var]{PITCHC=pitch corrected as described in Sect.~\ref{sub:angle-transforms-for-pitch-correction}} to be used for calculation of the vertical wind. In straight-and-level flight, the needed corrections for this flight are about $\pm$0.03$^{\circ}$ at some times, and this error can lead (for airspeed of 220 m/s) to an error in vertical wind of more than $\pm0.1$\,m/s. Correction for this error thus can lead to a useful reduction in the uncertainty associated with the measured vertical wind. 
+The research flights have frequent changes in heading, with mixing of the roll and pitch errors but also accelerations that affect those errors and introduce new errors from heading errors. The corrections to pitch therefore appear much less systematic than was the case for the ferry flight. An example with larger pitch errors than those in most DEEPWAVE flights, DEEPWAVE\index{DEEPWAVE!flight 1} flight 1, is presented here. Figure \ref{fig:processing-1}\sindex[var]{GGVEW>@GGVEW}\sindex[var]{VEW>@VEW} shows the measured errors in ground-speed\index{speed of aircraft!ground speed} components, and Fig.~\ref{fig:processing-2}\sindex[var]{PITCH>@PITCH}\sindex[var]{ROLL>@ROLL} shows the deduced pitch and roll errors. There are instances where the pitch error abruptly reverses sign; those are cases where the flight direction changed by about 180$^{\circ}$. 
+% During turns, the full transformation leads to a result significantly different from the small-angle-approximation result, as shown by the orange line in Fig.~\ref{fig:processing-2}, but when not turning the full-transformation results replicate the small-angle-approximation results (blue line), as indicated by the orange dashed line overlapping the blue line. The proposed solution is to use the full transformation to find a corrected pitch variable\sindex[var]{PITCHC=pitch corrected as described in Sect.~\ref{sub:angle-transforms-for-pitch-correction}} to be used for calculation of the vertical wind.
+In straight-and-level flight, the needed corrections for this flight are about $\pm$0.03$^{\circ}$ at some times, and this error can lead (for airspeed of 220 m/s) to an error in vertical wind of more than $\pm0.1$\,m/s. Correction for this error thus can lead to a useful reduction in the uncertainty associated with the measured vertical wind. 
 
-<<processing-1, fig.height=5.5, fig.cap="Measured errors in ground-speed components for DEEPWAVE flight 1. DifEW denotes GGVEW-VEW, the difference in eastward ground speed between measurements from the GPS and IRU, and DifNS denotes the corresponding difference for the northwas component.", include=TRUE>>=
+<<processing-1, fig.height=5.5, fig.cap="Measured errors in ground-speed components for DEEPWAVE flight 1. DifEW is GGVEW-VEW, the difference in eastward ground speed between measurements from the GPS and IRU, and DifNS is the corresponding difference for the northward component.", include=TRUE>>=
 
 Flight <- "rf01"
 #Flight <- "rf15"
@@ -287,7 +345,7 @@ D$DifNS <- D$GGVNS - D$VNS
 plotWAC (D[, c("Time", "DifEW", "DifNS")], ylab="Ve error [m/s]", ylim=c(-5, 5.),
                 legend.position='topright')
 
-figcapP2="Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft. The orange line labeled 'Full Xfm' uses (\\ref{eq:b-vector-in-b-frame}) and (\\ref{eq:pitch-error-wo-approx}), while the thick blue line uses the approximate result (\\ref{eq:final-answer}). The limits $\\pm$0.03 correspond to roll angle of $\\pm 30^{\\circ}$ after division by 1000, so the regions with vertical black lines are ones with significant roll and identify the turns in the flight track."
+figcapP2="Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft.  Gaps in plots are turns, identified when the absolute value of the roll angle is more than $3^{\\circ}$ and 30-s prior to and following such points. The pitch correction is not plotted there because the algorithm is not applicable to turns and small timing differences can lead to large errors when turning."
 
 @
 
@@ -296,40 +354,76 @@ figcapP2="Errors in pitch and roll determined from the measured errors in ground
 # deal with missing values:
 D <- D[!is.na (D$Time), ]
 #interpolate if necessary:
-VNS <- zoo::na.approx (as.vector(D$VNS), maxgap=100, na.rm = FALSE)
-VEW <- zoo::na.approx (as.vector(D$VEW), maxgap=100, na.rm = FALSE)
-GGVNS <- zoo::na.approx (as.vector(D$GGVNS), maxgap=100, na.rm = FALSE)
-GGVEW <- zoo::na.approx (as.vector(D$GGVEW), maxgap=100, na.rm = FALSE)
+D$VNS <- zoo::na.approx (as.vector(D$VNS), maxgap=1000, na.rm = FALSE)
+D$VEW <- zoo::na.approx (as.vector(D$VEW), maxgap=1000, na.rm = FALSE)
+GGVNS <- zoo::na.approx (as.vector(D$GGVNS), maxgap=1000, na.rm = FALSE)
+GGVEW <- zoo::na.approx (as.vector(D$GGVEW), maxgap=1000, na.rm = FALSE)
+VNS <- ShiftInTime(D$VNS, .shift=-850)
+VEW <- ShiftInTime(D$VEW, .shift=-850)
 # 1013 points (must be odd) to span about 1/5 Schuler osc. -- about 16.8 min
-vndot <- signal::sgolayfilt (VNS-GGVNS, 3, 1013, m=1)  # m=1 for first deriv.
-vedot <- signal::sgolayfilt (VEW-GGVEW, 3, 1013, m=1)
-deltaPitchL <- -vndot/Ranadu::Gravity (D$LAT, D$GGALT)
-deltaRollL <- -vedot/Ranadu::Gravity (D$LAT, D$GGALT)
+vndot <- signal::sgolayfilt (VNS-GGVNS, 3, 31, m=1)  # m=1 for first deriv.
+vedot <- signal::sgolayfilt (VEW-GGVEW, 3, 31, m=1)
+D$deltaPitchL <- -vndot/Ranadu::Gravity (D$LAT, D$GGALT) / Cradeg
+D$deltaRollL <- vedot/Ranadu::Gravity (D$LAT, D$GGALT) / Cradeg
 HDG <- D$THDG*Cradeg
-deltaPitch <- (sin(HDG)*deltaRollL + cos(HDG)*deltaPitchL)/Cradeg
-deltaRoll <- (cos(HDG)*deltaRollL - sin(HDG)*deltaPitchL)/Cradeg
-## replace with the full transformation matrix:
-deltaPitch2 <- vector ("numeric", length(deltaPitch))
-deltaRoll2  <- vector ("numeric", length(deltaRoll))
-for (i in 1:length(D$THDG)) {
-  bl <- c(sin(deltaRollL[i]), sin(deltaPitchL[i]), 
-          sqrt(1.-sin(deltaRollL[i])^2 - sin(deltaPitchL[i])^2))
-  bb <- as.vector(XformLB (bl, D$ROLL[i], D$PITCH[i], D$THDG[i], .reverse=TRUE))
-  deltaPitch2[i] <- atan(bb[2]/bb[3]) / Cradeg - D$PITCH[i]
-  deltaRoll2[i]  <- atan(bb[1]/bb[3]) / Cradeg - D$ROLL[i]
+## exclude turns, then smooth/interpolate result:
+excludeTurns <- function(D, L) {
+  rj <- abs(D$ROLL) > 3
+  rjj <- rj
+  for (i in 1:length(rj)) {
+    if (!rj[i]) {
+      mx <- min(i+L, length(rj))
+      if (any(rj[i:mx])) {rjj[i] <- TRUE}
+      mn <- max(1, i-L)
+      if (any(rj[mn:i])) {rjj[i] <- TRUE}
+    }
+  }
+  rj <- rjj
+  lr <- length(rj)
+  rj[(lr-L):lr] <- TRUE
+  rj[1:L] <- TRUE
+  return(rj)
 }
-#DeltaPitch2 <- CorrectPitch(D)
-Z <- plotWAC (D$Time, deltaPitch, ylab='Error in Angle [deg]', lwd=2.5)
-Z <- lineWAC (D$Time, deltaRoll, col='darkgreen', lty=2)
-Z <- lineWAC (D$Time, deltaPitch2, col='darkorange', lty=2, lwd=1.5)
-Z <- lineWAC (D$Time, D$ROLL/1000, col='black', lwd=2)
-legend('topleft', legend=c("Pitch error", "Full Xfm", "Roll Error", "Roll/1000"), lwd=c(2.5,2,1.5,1), lty=c(1,2,2,1), col=c("blue", "darkorange", "darkgreen", "black"), text.col=c("blue", "darkorange", "darkgreen", "black"), cex=0.8, bg='lightyellow')
+
+rj <- excludeTurns(D, 31)
+D$deltaPitchL[rj] <- NA
+D$deltaRollL[rj] <- NA
+D$deltaPitchL <- SmoothInterp (D$deltaPitchL, .maxGap=1000, .Length=601)
+D$deltaRollL <- SmoothInterp (D$deltaRollL, .maxGap=1000, .Length=601)
+# plotWAC(subset(D,, c(Time, deltaPitchL, deltaRollL)))
+D$deltaPitch <- (-sin(HDG)*D$deltaRollL + cos(HDG)*D$deltaPitchL)
+D$deltaRoll <- (cos(HDG)*D$deltaRollL + sin(HDG)*D$deltaPitchL)
+## replace with the full transformation matrix: (no, corrected now)
+# deltaPitch2 <- vector ("numeric", length(deltaPitch))
+# deltaRoll2  <- vector ("numeric", length(deltaRoll))
+# for (i in 1:length(D$THDG)) {
+#   bl <- c(sin(deltaRollL[i]), sin(deltaPitchL[i]), 
+#           sqrt(1.-sin(deltaRollL[i])^2 - sin(deltaPitchL[i])^2))
+#   bb <- as.vector(XformLB (bl, D$ROLL[i], D$PITCH[i], D$THDG[i], .reverse=TRUE))
+#   deltaPitch2[i] <- atan(bb[2]/bb[3]) / Cradeg - D$PITCH[i]
+#   deltaRoll2[i]  <- atan(bb[1]/bb[3]) / Cradeg - D$ROLL[i]
+# }
+# #DeltaPitch2 <- CorrectPitch(D)[, 1]
+# PC <- CorrectPitch(D)
+# D$deltaPitch <- PC[, 1]
+# D$deltaRoll <- PC[, 2]
+# DP <- with (D, data.frame(Time, deltaPitch, deltaRoll))
+# DP <- DP[abs(D$ROLL) < 3,]
+D$deltaPitch[rj] <- NA
+D$deltaRoll[rj] <- NA
+plotWAC (subset(D,, c(Time, deltaPitch, deltaRoll)), legend.position=NA, ylab=expression (paste ('error [', degree, ']')), lwd=c(2,1.2), lty=c(1,1))
+legend ('topleft', legend=c('Pitch error', 'Roll error'), lwd=c(2,1.2), lty=c(1,1), col=c('blue', 'darkgreen'), text.col=c('blue', 'darkgreen'), cex=0.8, bg='lightyellow')
+# Z <- plotWAC (D$Time, deltaPitch, ylab='Error in Angle [deg]', lwd=2.5)
+# Z <- lineWAC (D$Time, deltaRoll, col='darkgreen', lty=2)
+# # Z <- lineWAC (D$Time, deltaPitch2, col='darkorange', lty=2, lwd=1.5)
+# Z <- lineWAC (D$Time, D$ROLL/1000, col='black', lwd=2)
+# legend('topleft', legend=c("Pitch error",  "Roll Error", "Roll/1000"), lwd=c(2.5,1.5,1), lty=c(1,2,1), col=c("blue", "darkgreen", "black"), text.col=c("blue", "darkgreen", "black"), cex=0.8, bg='lightyellow')
 Valid <- (D$TASX > 130)
 Valid[abs(D$ROLL) > 5] <- FALSE
-## hist (CorrectPitch(D)[Valid], xlim=c(-0.05, 0.05))
+## hist (CorrectPitch(D)[Valid, 1], xlim=c(-0.05, 0.05))
 ## mean is very close to zero
-## mean (CorrectPitch(D)[Valid], na.rm=TRUE)
-sdc <- sd (CorrectPitch(D)[Valid], na.rm=TRUE)
+## mean (CorrectPitch(D)[Valid, 1], na.rm=TRUE)
+# sdc <- sd (CorrectPitch(D)[Valid, 1], na.rm=TRUE)
 
 @
 
@@ -423,7 +517,9 @@ for (j in rr) {
     fnm <- sprintf ("%s%s/%srf%02d.nc", DataDirectory (), Project, Project, RC[1,j])
     df <- getNetCDF (fnm, c("VNS", "VEW", "GGVNS", "GGVEW", "WIC", "TASX",
                          "LATC", "GGALT", "THDG", "PITCH", "ROLL"))
-    PC <- CorrectPitch (df)
+    df$VNS <- ShiftInTime(df$VNS, .shift=-850)
+    df$VEW <- ShiftInTime(df$VEW, .shift=-850)
+    PC <- CorrectPitch (df)[, 1]
     df$PITCHC <- df$PITCH - PC
     df$WIX <- df$WIC + df$TASX * PC * pi / 180
     df <- df[setRange(df$Time, RC[2,j], RC[5,j]), ]
@@ -443,7 +539,7 @@ for (j in rr) {
 }
 op <- par (mfrow=c(2,1), mar=c(5,5,2,2)+0.1)
 hist (abs(wid[rr]), border='blue', col=rgb(0,0,100,30, maxColorValue=255), 
-      breaks=10, angle=-45, xlim=c(0,.2), 
+      breaks=20, angle=-45, xlim=c(0,.2), 
       xlab='difference, uncorrected mean vertical wind [m/s]', main=NULL)
 hist (abs(widc[rr]), border='red', col=rgb(100,0,0,30,maxColorValue=255),lwd=3, 
       breaks=10, xlim=c(0,.2), xlab='difference, corrected mean vertical wind [m/s]', main=NULL)
@@ -453,7 +549,7 @@ hist (abs(widc[rr]), border='red', col=rgb(100,0,0,30,maxColorValue=255),lwd=3,
 
 The difference between average vertical wind measurements for each  pair of legs was calculated before and after applying the pitch-correction  algorithm developed in this subsection. The results are shown in Fig.~\ref{fig:reverse-course-w-comparison}. The measurements were in good agreement without any pitch correction, with an average absolute value of the difference between opposing legs of \Sexpr{round(mean(abs(wid[rr])),2)}\,m\,s$^{-1}$. The pitch correction kept the averages quite small and improved the agreement, reducing the mean value of the difference to \Sexpr{round(mean(abs(widc[rr])), 2)}\,m\,s$^{-1}$. More significant than this reduction is that the values were this small even before correction. This is a good indicator of the low uncertainty of the pitch measurement even without correction. A course-reversal difference of 0.1\,m\,s$^{-1}$ would result from a pitch error  of less than 0.015$^{\circ}$, so this suggests that the inertial system is performing significantly better than its specified uncertainty (0.05$^{\circ}$). After correction, the mean difference suggests an error of less than 0.005$^{\circ}$ for the corrected values. 
 
-Table\ \ref{tab:vw-by-flight} lists the mean vertical wind with and without pitch correction for each of the DEEPWAVE flights. For each flight, all measurements above 25,000\,ft with airspeed above 130\,m/s and roll between $-5$ and $5^{\circ}$ were included to emphasize normal research conditions. Any missing measurements were also excluded from the averages, and measurements from flights 6, 7, and 15 are not included because the first two were cases where the conventional vertical-wind measuring system malfunctioned and flight 15 was a flight devoted to calibration with little upper-level flight and frequent turns including circles. 
+Table\ \ref{tab:vw-by-flight} lists the mean vertical wind with and without pitch correction for each of the DEEPWAVE flights. For each flight, all measurements above 25,000\,ft with airspeed above 130\,m/s and roll between $-5$ and $5^{\circ}$ were included to emphasize normal research conditions. Any periods with missing measurements were also excluded from the averages, and measurements from flights 6, 7, and 15 are not included because the first two were cases where the conventional vertical-wind measuring system malfunctioned and flight 15 was a flight devoted to calibration with little upper-level flight and frequent turns including circles. 
 
 <<mean-vertical-wind-by-flight, include=FALSE>>=
 mvw <- vector ("numeric", 26)
@@ -467,7 +563,9 @@ for (j in 1:26) {
       fnm <- sprintf ("%s%s/%srf%02d.nc", DataDirectory (), Project, Project, j)
       df <- getNetCDF (fnm, c("VNS", "VEW", "GGVNS", "GGVEW", "WIC", "TASX",
                            "LATC", "GGALT", "THDG", "PITCH", "ROLL"), F=j)
-      PC <- CorrectPitch (df)
+      # df$VNS <- ShiftInTime(df$VNS, .shift=-850)
+      # df$VEW <- ShiftInTime(df$VEW, .shift=-850)
+      PC <- CorrectPitch (df)[, 1]
       df$PITCHC <- df$PITCH - PC
       df$WIX <- df$WIC + df$TASX * PC * pi / 180
       save (df, PC, file=sprintf ("DataFrames/SchulerWrf%02d.Rdata", j))
@@ -523,7 +621,7 @@ print (sprintf ("mean pitch correction %f st. dev. %f", mean (pcav, na.rm=TRUE),
 \end{tabular}
 \par\end{centering}
 
-\protect\caption[The average vertical wind for each flight, before and after application of the pitch-correction algorithm.]{The average vertical wind for each flight, before and after application of the pitch-correction algorithm developed in this subsection. The data restriction applied was that the airspeed be above 130\,m/s, absolute value of the roll less than $5^{\circ}$, and the flight level greater than FL250 (25,000\,ft or approximately 7.6\,km, to emphasize normal research measurement conditions in the DEEPWAVE project. Flights 6, 7, and 15 are also missing, as explained in the text.\label{tab:vw-by-flight}} 
+\protect\caption[The average vertical wind for each flight, before and after application of the pitch-correction algorithm.]{The average vertical wind for each flight, before and after application of the pitch-correction algorithm developed in this subsection. The data restriction applied was that the airspeed be above 130\,m/s, absolute value of the roll less than $5^{\circ}$, and the flight level greater than FL250 (25,000\,ft or approximately 7.6\,km, to emphasize normal research measurement conditions in the DEEPWAVE project. Flights 6, 7, and 15 were also excluded, as explained in the text.\label{tab:vw-by-flight}} 
 \end{table}
 
 \par\end{center}
@@ -533,6 +631,8 @@ The mean value of the vertical wind, for all flights combined, was
 \index{pitch!correction!magnitude of} 
 \Sexpr{round(mean(mvw[rv], na.rm=TRUE), 2)}\,m/s for the uncorrected measurements and \Sexpr{round(mean(mvwc[rv], na.rm=TRUE), 2)}\,m/s for the corrected measurements, with standard deviations of  
 \Sexpr{round(sd(mvw[rv], na.rm=TRUE), 2)}\,m/s,  so both are well within expected tolerances. The pitch correction has little effect on these mean measurements or the overall standard deviation.  However, the small offset obtained with the pitch corrections applied does not indicate that the measurements are only uncertain within these limits, because most flights are long compared to the Schuler-oscillation period of about 84 min. Flights will average over an oscillating correction and that average may be small compared to the correction applied. The standard deviation of the applied correction is \Sexpr{round(sd(pcav, na.rm=TRUE), 2)}$^{\circ}$ when calculated for the entire project. That indicates that the correction to vertical wind arising from application of the pitch-correction algorithm introduces changes with standard deviation of about 
-\Sexpr{round(sd(pcav, na.rm=TRUE)*240*pi/180, 2)}\,m\,s$^{-1}$  project-wide. Studies of individual flights  show that this varies significantly from flight to flight. This uncertainty, however, is a significant contributor to the uncertainty in vertical wind.  Without pitch correction, measurements of vertical wind  will have an error with typical period of the Schuler oscillation\index{oscillation!Schuler} that, for measurements spanning much shorter periods, will appear as a slowly varying bias. 
+\Sexpr{round(sd(pcav, na.rm=TRUE)*240*pi/180, 2)}\,m\,s$^{-1}$  project-wide. Studies of individual flights  show that this varies significantly from flight to flight. This uncertainty, however, is a significant contributor to the uncertainty in vertical wind.  Without pitch correction, measurements of vertical wind  will have an error with typical period of the Schuler oscillation\index{oscillation!Schuler} that, for measurements spanning much shorter periods, will appear as a slowly varying bias.
 
-The correction procedure developed here is not applied in normal processing of data files because it fits to the entire sequence of ground-speed measurements to find the corrections while the normal processor is sequential and has no access to future measurements while processing. To apply these corrections, an additional processing step is required. Code for this purpose has been developed to add values of pitch and vertical wind after correction, and this code was used for all the analyses reported here including the determinations of sensitivity coefficients in Sect.~\ref{sec:Calibrations}. The code can be accessed in the reference file for this document, WindUncertainty.Rnw; for details, see Appendix C.
+To check for possible changes in the variance spectra of measurements, the variance spectrum of the correction signal from some representative flight legs in DEEPWAVE were examined. Because changes in attitude angles affect the transformation of the deduced corrections to the aircraft reference frame, body motions of the aircraft introduce some high-frequency contributions to the correction that would otherwise be eliminated by the >1000-s filtering of the GPS-measured accelerations. However, for all flight conditions examined, the variance spectrum of the effect of the correction on vertical wind was less than 1\% of that of vertical wind without correction, for all wavelengths smaller than 100\ km, and was less than 0.01\% at 1\ Hz.
+
+The correction procedure developed here is not applied in normal processing of data files because it uses fits to the entire sequence of ground-speed measurements to find the corrections while the normal processor is sequential and has no access to future measurements while processing. To apply these corrections, an additional processing step is required. Code for this purpose has been developed to add values of pitch and vertical wind after correction, and this code was used for all the analyses reported here including the determinations of sensitivity coefficients in Sect.~\ref{sec:Calibrations}. The code can be accessed in the reference file for this document, WindUncertainty.Rnw; for details, see Appendix C.

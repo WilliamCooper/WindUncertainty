@@ -1,4 +1,7 @@
 %% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
+%DIF LATEXDIFF DIFFERENCE FILE
+%DIF DEL ReviewVersion/WindUncertainty.tex   Wed Mar 16 10:00:39 2016
+%DIF ADD WindUncertainty.tex                 Mon May  9 16:09:32 2016
 \documentclass[12pt,twoside,english]{article}\usepackage[]{graphicx}\usepackage[]{color}
 %% maxwidth is the original width if it is less than linewidth
 %% otherwise use linewidth (to make sure the graphics do not exceed the margin)
@@ -199,6 +202,26 @@
 \makeatother
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+
 \begin{document}
 
 \pagenumbering{gobble}
@@ -210,7 +233,7 @@
 \author{W. A. Cooper, R. B. Friesen, M. Hayman, J. B. Jensen, D. H. Lenschow, \\P. A. Romashkin, A. J. Schanot, S. M. Spuler, J. L. Stith, C. Wolff}
 
 
-\date{\textcolor{red}{} 5/9/2016}
+\date{\textcolor{red}{} \DIFaddbegin \DIFadd{5/}\DIFaddend 9/\DIFdelbegin \DIFdel{23/2015}\DIFdelend \DIFaddbegin \DIFadd{2016}\DIFaddend }
 \thispagestyle{empty}
 \maketitle
 \vfill{}
@@ -413,7 +436,9 @@ combined with its own IRU/GPS system. See also \citet{CooperEtAl2014}.
 Measurements from the LAMS derive from direct measurements of the Doppler shift\index{Doppler shift}
 and so do not depend on pressure, temperature, or humidity. However, the other
 two measurements depend on a measurement of temperature and humidity,\index{humidity!effect on airspeed} the
-latter used to correct for the influence of moisture on the specific heats and gas constant of moist air.\index{properties of moist air} Those two also share dependence on the measurement of ambient pressure\index{pressure!ambient}\index{pressure!static|see {pressure, ambient}} as delivered by static sources on the fuselage. Although the measurements differ among systems, for each the measurement of wind involves the vector sum of two components, the motion of the air relative to the aircraft and the motion of the aircraft relative to the Earth. The former is the ``relative wind\index{wind!relative}'' and is measured as a three-component vector having magnitude equal to the ``true airspeed''\index{airspeed!true} (referred to simply as the airspeed in this report) and angles relative to the aircraft reference frame characterized by the angle of attack\index{attack!angle of} and the sideslip angle.\index{sideslip} The angle of attack is considered\index{attack!angle of!sign convention}\index{sideslip!sign convention} positive if the relative wind is from below the aircraft, and the sideslip angle is considered positive if the relative wind is from the starboard side of the aircraft.\footnote{There is potential confusion arising from the signs of yaw and sideslip. The terms have different meaning and opposite sign conventions. Yaw refers to the orientation of the aircraft about an axis perpendicular to the longitudinal and lateral axes (i.e., upward when level), and it increases as the nose moves to starboard. Sideslip refers to the direction of the relative wind, and it is positive if the relative wind is from the starboard side.} Diagrams showing the attitude angles and relative-wind angles are included in \citet{NCAR_OpenSky_TECH-NOTE-000-000-000-064} and \href{https://www.eol.ucar.edu/raf/Bulletins/bulletin23.html}{RAF Bulletin 23}. The relative wind defined in the coordinate system\index{coordinate system!aircraft} of the aircraft (conventionally with $\hat{x^{\prime}}$ forward, $\hat{y^{\prime}}$ in the starboard direction, and $\hat{z^{\prime}}$ \sindex[lis]{xhatp@$\hat{x^{\prime}},\,\hat{y^{\prime}},\,\hat{z^{\prime}}$=coordinate axes of the aircraft}obtained from the cross product $\hat{x^{\prime}}\times\hat{y^{\prime}}$ and so approximately downward but oriented to align with the aircraft reference frame) must be transformed to an Earth-based reference system\index{coordinate system!Earth} (conventionally with $\hat{x}$ toward east, $\hat{y}$ toward north, and $\hat{z}$ upward) \sindex[lis]{xhat@$\hat{x},\,\hat{y},\,\hat{z}$=coordinate axes of the Earth-based reference frame}so that the components can be combined to yield the Earth-relative wind. This transformation is a function of the attitude angles of the aircraft\sindex[lis]{psi@$\psi$=heading}\sindex[lis]{theta@$\theta$=pitch angle}\sindex[lis]{phi@$\phi$=roll angle} (heading $\psi$, pitch $\theta$, and roll $\phi$), \index{heading}\index{roll angle}\index{pitch angle}\index{angle!attitude}measured by an inertial reference unit in all three cases discussed here. Once in an Earth-based reference system,\index{coordinate system!Earth} the relative wind\index{wind!relative} vector is added to the vector representing the aircraft motion relative to the Earth to obtain the wind. The sources of the various measurements entering this processing sequence vary among the three systems and will be discussed separately for each system. 
+latter used to correct for the influence of moisture on the specific heats and gas constant of moist air.\index{properties of moist air} Those two also share dependence on the measurement of ambient pressure\index{pressure!ambient}\index{pressure!static|see {pressure, ambient}} as delivered by static sources on the fuselage. Although the measurements differ among systems, for each the measurement of wind involves the vector sum of two components, the motion of the air relative to the aircraft and the motion of the aircraft relative to the Earth. The former is the ``relative wind\index{wind!relative}'' and is measured as a three-component vector having magnitude equal to the ``true airspeed''\index{airspeed!true} (referred to simply as the airspeed in this report) and angles relative to the aircraft reference frame characterized by the angle of attack\index{attack!angle of} and the sideslip angle.\index{sideslip} The angle of attack is considered\index{attack!angle of!sign convention}\index{sideslip!sign convention} positive if the relative wind is from below the aircraft, and the sideslip angle is considered positive if the relative wind is from the starboard side of the aircraft.\footnote{There is potential confusion arising from the signs of yaw and sideslip. The terms have different meaning and opposite sign conventions. Yaw refers to the orientation of the aircraft about an axis perpendicular to the longitudinal and lateral axes (i.e., upward when level), and it increases as the nose moves to starboard. Sideslip refers to the direction of the relative wind, and it is positive if the relative wind is from the starboard side.} Diagrams showing the attitude angles and relative-wind angles are included in \citet{NCAR_OpenSky_TECH-NOTE-000-000-000-064} and \href{https://www.eol.ucar.edu/raf/Bulletins/bulletin23.html}{RAF Bulletin 23}. The relative wind defined in the coordinate system\index{coordinate system!aircraft} of the aircraft (conventionally with $\hat{x^{\prime}}$ forward, $\hat{y^{\prime}}$ in the starboard direction, and $\hat{z^{\prime}}$ \DIFdelbegin %DIFDELCMD < \sindex[sym]{xhatp@$\hat{x^{\prime}},\,\hat{y^{\prime}},\,\hat{z^{\prime}}$=coordinate axes of the aircraft}%%%
+\DIFdelend \DIFaddbegin \sindex[lis]{xhatp@$\hat{x^{\prime}},\,\hat{y^{\prime}},\,\hat{z^{\prime}}$=coordinate axes of the aircraft}\DIFaddend obtained from the cross product $\hat{x^{\prime}}\times\hat{y^{\prime}}$ and so approximately downward but oriented to align with the aircraft reference frame) must be transformed to an Earth-based reference system\index{coordinate system!Earth} (conventionally with $\hat{x}$ toward east, $\hat{y}$ toward north, and $\hat{z}$ upward) \DIFdelbegin %DIFDELCMD < \sindex[sym]{xhat@$\hat{x},\,\hat{y},\,\hat{z}$=coordinate axes of the Earth-based reference frame}%%%
+\DIFdelend \DIFaddbegin \sindex[lis]{xhat@$\hat{x},\,\hat{y},\,\hat{z}$=coordinate axes of the Earth-based reference frame}\DIFaddend so that the components can be combined to yield the Earth-relative wind. This transformation is a function of the attitude angles of the aircraft\sindex[lis]{psi@$\psi$=heading}\sindex[lis]{theta@$\theta$=pitch angle}\sindex[lis]{phi@$\phi$=roll angle} (heading $\psi$, pitch $\theta$, and roll $\phi$), \index{heading}\index{roll angle}\index{pitch angle}\index{angle!attitude}measured by an inertial reference unit in all three cases discussed here. Once in an Earth-based reference system,\index{coordinate system!Earth} the relative wind\index{wind!relative} vector is added to the vector representing the aircraft motion relative to the Earth to obtain the wind. The sources of the various measurements entering this processing sequence vary among the three systems and will be discussed separately for each system. 
 
 
 \subsubsection{The Relative Wind\label{sub:The-Relative-Wind}}
@@ -640,7 +665,7 @@ Ambient or ``static'' pressure \index{pressure!ambient} is measured on the GV at
 
 \subsubsection{Dynamic pressure\label{sub:Dynamic-pressure}}
 
-The dynamic pressure\index{pressure!dynamic} is the pressure difference above ambient that develops if air is compressed and adiabatically brought to rest relative to the moving aircraft. The total pressure, the sum of ambient and dynamic pressure, is sensed using a pitot\index{pitot tube} tube, a tube pointed in the direction of the relative airflow and designed to be relatively insensitive to small-angle changes in the direction of the relative airflow. Figure~\ref{fig:pitot-tube-photo} shows the location of the research-system pitot tube on the GV as well as one of the avionics-system pitot tubes.\index{pitot tube!location} The excess pressure $q$ above the ambient sensed by a pitot tube or, approximately, by the center port on the radome is $q=0.5\rho_{a}V^{2}$ where\sindex[lis]{q@$q$=dynamic pressure} $\rho_{a}$ \sindex[lis]{rho@$\rho_{a}$=density of air}is the density of the ambient air and $V$ the airspeed, so this excess pressure can be used to determine the airspeed\index{airspeed} of the aircraft. On NSF/NCAR aircraft, the measurement of dynamic pressure is made using differential sensors connected between a static source and a total-pressure source from either a pitot tube (QCF)\sindex[var]{QCF=dynamic pressure measured using a fuselage-mounted pitot tube} or the front port on the radome (QCR).\sindex[var]{QCR=dynamic pressure measured at the center port on the radome} The sensor used, with specifications listed in Table~\ref{tab:Radome-system-measurements}, has these additional characteristics: resolution\index{sensor!pressure!resolution} is 0.0011\% of full scale or 0.0076 hPa, which is better than 16-bit resolution; the maximum sampling rate is 120 Hz, \index{sensor!pressure!response time}response time 50\,ms and response delay\index{sensor!pressure!delay} 21 ms or about one sample period at 50\,Hz sample rate. The response time is affected further by the pressure lines between the pressure ports and the transducers, as discussed above. The transducer provides 50-Hz output that is then filtered digitally to 25\,Hz or 1\,Hz in processing.\footnote{The specifications indicate that the appropriate time lag to apply in processing would be 21 ms but there is additional delay introduced by the sample tubing. Most processing including preliminary processing for DEEPWAVE has not included a delay for QCF or QCR.} 
+The dynamic pressure\index{pressure!dynamic} is the pressure difference above ambient that develops if air is compressed and adiabatically brought to rest relative to the moving aircraft. The total pressure, the sum of ambient and dynamic pressure, is sensed using a pitot\index{pitot tube} tube, a tube pointed in the direction of the relative airflow and designed to be relatively insensitive to small-angle changes in the direction of the relative airflow. Figure~\ref{fig:pitot-tube-photo} shows the location of the research-system pitot tube on the GV as well as one of the avionics-system pitot tubes.\index{pitot tube!location} The excess pressure $q$ above the ambient sensed by a pitot tube or, approximately, by the center port on the radome is $q=0.5\rho_{a}V^{2}$ where\sindex[lis]{q@$q$=dynamic pressure} $\rho_{a}$ \sindex[lis]{rho@$\rho_{a}$=density of air}is the density of \DIFaddbegin \DIFadd{the ambient }\DIFaddend air and $V$ the airspeed, so this excess pressure can be used to determine the airspeed\index{airspeed} of the aircraft. On NSF/NCAR aircraft, the measurement of dynamic pressure is made using differential sensors connected between a static source and a total-pressure source from either a pitot tube (QCF)\sindex[var]{QCF=dynamic pressure measured using a fuselage-mounted pitot tube} or the front port on the radome (QCR).\sindex[var]{QCR=dynamic pressure measured at the center port on the radome} The sensor used, with specifications listed in Table~\ref{tab:Radome-system-measurements}, has these additional characteristics: resolution\index{sensor!pressure!resolution} is 0.0011\% of full scale or 0.0076 hPa, which is better than 16-bit resolution; the maximum sampling rate is 120 Hz, \index{sensor!pressure!response time}response time 50\,ms and response delay\index{sensor!pressure!delay} 21 ms or about one sample period at 50\,Hz sample rate. The response time is affected further by the pressure lines between the pressure ports and the transducers, as discussed above. The transducer provides 50-Hz output that is then filtered digitally to 25\,Hz or 1\,Hz in processing.\footnote{The specifications indicate that the appropriate time lag to apply in processing would be 21 ms but there is additional delay introduced by the sample tubing. Most processing including preliminary processing for DEEPWAVE has not included a delay for QCF or QCR.} 
 
 Because any errors affecting the measurement of static pressure\index{pressure!ambient!corrections}\index{pressure!dynamic!corrections}\index{static defect} also affect the difference between dynamic and static pressure, the same corrections that are applied to static pressure (for errors in the pressure delivered by the static ports) are also applied to the dynamic pressure. See the references in the preceding subsection for more information. \citet{CooperEtAl2014} argue that the measurements of static and dynamic pressure, corrected for flow distortion or generation of a ``static defect'' at the static-pressure ports, each have standard uncertainty of 0.3 hPa and precision (for straight and level flight) of 0.1 hPa.\index{pressure!ambient!uncertainty}\index{pressure!dynamic!uncertainty}\index{pitot tube!photo} 
 
@@ -672,7 +697,7 @@ The radome gust-sensing system consists of five pressure ports\index{radome!port
 
 There are two sources of information regarding the \index{speed of aircraft!ground speed}ground-speed vector, an inertial reference unit (IRU)\index{inertial reference unit} and a Global Positioning System (GPS).\index{Global Positioning System}  
 \begin{enumerate}
-\item \uline{The IRU:} The inertial system on the GV is a Honeywell\index{inertial reference unit!Honeywell!characteristics} Laseref IV Model HG2001 GD03, with specifications listed in Table~\ref{tab:Radome-system-measurements}.  There are three units on the aircraft, two of which are recorded via the ARINC\sindex[var]{ARINC=Aeronautical Radio, Inc.; ARINC-429 is a communications standard} data bus to standard data files. These are strap-down ring-laser "gyro micro" inertial systems. The measurements of ground-speed components are affected by errors that arise from initial alignment errors or orientation errors resulting from gyro responses to acceleration and so often exhibit a characteristic Schuler\index{Schuler oscillation} oscillation with magnitude that can be as much as 1--3 m\,s$^{-1}$. This is a potentially important source of error in the measurements of wind, so for aircraft velocity components it is important to remove these errors by comparison to lower-uncertainty measurements, provided by the GPS, that are not subject to the Schuler oscillation. However, the Honeywell IRUs on the GV are stand-alone inertial navigation systems and do not use any external information except pressure which is used to control the instability of the vertical integration of position. As received by the GV data system, there are also errors that arise from signal delays\index{GPS!delay time}. These must be accounted for in post processing to align measurements with other recorded data, and there are also some inherent filters\index{inertial reference unit!filters} in the IRU computer that affect the signals transmitted to the recording system. The orientation\index{inertial reference unit!orientation} of this unit was defined and checked by initial survey to coincide with the aircraft reference axes.  
+\item \uline{The IRU:} The inertial system on the GV is a Honeywell\index{inertial reference unit!Honeywell!characteristics} Laseref IV Model HG2001 GD03, with specifications listed in Table~\ref{tab:Radome-system-measurements}.  There are three units on the aircraft, two of which are recorded via the ARINC\sindex[var]{ARINC=Aeronautical Radio, Inc.; ARINC-429 is a communications standard} data bus to standard data files. These are strap-down ring-laser "gyro micro" inertial systems. The measurements of ground-speed components are affected by errors that arise from initial alignment errors or orientation errors resulting from gyro responses to acceleration and so often exhibit a characteristic Schuler\index{Schuler oscillation} oscillation with magnitude that can be as much as 1--3 m\,s$^{-1}$. This is \DIFdelbegin \DIFdel{the primary }\DIFdelend \DIFaddbegin \DIFadd{a potentially important }\DIFaddend source of error in the measurements of wind, so for aircraft velocity components it is important to remove these errors by comparison to lower-uncertainty measurements, provided by the GPS, that are not subject to the Schuler oscillation. \DIFdelbegin \DIFdel{In addition, there are }\DIFdelend \DIFaddbegin \DIFadd{However, the Honeywell IRUs on the GV are stand-alone inertial navigation systems and do not use any external information except pressure which is used to control the instability of the vertical integration of position. As received by the GV data system, there are also errors that arise from }\DIFaddend signal delays\index{GPS!delay time}\DIFdelbegin \DIFdel{that are }\DIFdelend \DIFaddbegin \DIFadd{. These must be }\DIFaddend accounted for in post processing to align measurements with other recorded data, and there are \DIFaddbegin \DIFadd{also }\DIFaddend some inherent filters\index{inertial reference unit!filters} in the IRU computer that affect the signals transmitted to the \DIFdelbegin \DIFdel{GV data }\DIFdelend \DIFaddbegin \DIFadd{recording }\DIFaddend system. The orientation\index{inertial reference unit!orientation} of this unit was defined and checked by initial survey to coincide with the aircraft reference axes.  
 \item The \uline{GPS:} The primary GPS\index{Global Positioning System}
 unit is a Novatel OEMV differential GPS unit (L1/L2) with OmniSTAR\index{OmniSTAR} XP satellite update for ionospheric and other corrections. As used on the GV, it reports ground-speed components at a rate of 5 Hz, although faster rates are possible and 10\,Hz is in standard use after DEEPWAVE. The claimed standard uncertainty\index{GPS!uncertainty} for position is 0.15~m for vertical position; the standard uncertainty in velocity is 0.03 m\,s$^{-1}$, with still better
 performance  when OmniSTAR corrections are available.
@@ -684,7 +709,8 @@ A measurement of temperature\index{temperature} is needed to calculate the wind 
 
 \subsubsection{Humidity (dew point)\label{sub:dewpoint}}
 
-The calculation of true \index{dew point}\index{humidity, effect on airspeed}airspeed from measured dynamic and static pressure involves the specific heats and gas constant for air, and this can depart from dry-air values when water vapor is present in significant amounts. This correction is usually insignificant for dew-point temperatures below about -20$^{\circ}$C. The equations used are those in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{the document on processing algorithms}. The correction to airspeed is approximately a factor of (1+0.3$q_{h}$) where $q_{h}$ is the dimensionless specific humidity,\sindex[lis]{qh@$q_h$=specific humidity} typically about 0.01 at 10$^{\circ}$C dew point and 700~hPa pressure. In this case the correction to airspeed, typically 150~m/s at this altitude, is about 0.45~m/s, so the correction is not negligible but is relatively insensitive to uncertainty in the measured humidity. The dew point measurements become more uncertain than listed here at the low end of this range, but the humidity correction is insignificant there. Those measurements are likely better than listed here for the upper range, in level flight, but lags and overshooting introduce errors when conditions are changing rapidly as in climbs or descents. 
+The calculation of true \index{dew point}\index{humidity, effect on airspeed}airspeed from measured dynamic and static pressure involves the specific heats and gas constant for air, and this can depart from dry-air values when water vapor is present in significant amounts. This correction is usually insignificant for dew-point temperatures below about -20$^{\circ}$C. The equations used are those in \href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{the document on processing algorithms}. The correction to airspeed is approximately a factor of (1+0.3$q_{h}$) where $q_{h}$ is the dimensionless specific humidity,\DIFdelbegin %DIFDELCMD < \sindex[sym]{qh@$q_h$=specific humidity} %%%
+\DIFdelend \DIFaddbegin \sindex[lis]{qh@$q_h$=specific humidity} \DIFaddend typically about 0.01 at 10$^{\circ}$C dew point and 700~hPa pressure. In this case the correction to airspeed, typically 150~m/s at this altitude, is about 0.45~m/s, so the correction is not negligible but is relatively insensitive to uncertainty in the measured humidity. The dew point measurements become more uncertain than listed here at the low end of this range, but the humidity correction is insignificant there. Those measurements are likely better than listed here for the upper range, in level flight, but lags and overshooting introduce errors when conditions are changing rapidly as in climbs or descents. 
 
 \subsubsection{Examples of measurements}
 
@@ -843,7 +869,10 @@ A new calibration is developed in Section \ref{sec:Calibrations}. On the basis o
 
 
 \end{knitrout}
-\begin{knitrout}
+\DIFdelbegin %DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdelend \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
 \includegraphics[width=\maxwidth]{figure/hw-gp-vs-std-1} \caption[Horizontal wind direction and speed from the gust pod and from the conventional radome-based system.]{Comparison of horizontal wind direction (top panel) and horizontal wind speed (bottom panel) as determined from the gust pod and from the conventional radome-based system, for measurements where the airspeed is greater than 130 m/s (to exclude periods of possible flap deployment). Only measurements considered valid are plotted for the gust pod; the restrictions where the gust-pod measurement is flagged as missing and therefore is not plotted here are: altitude (GGALT) > 5000 m, absolute value of roll (ROLL) < 5$^{\circ}$. This causes exclusion of some measurements near the start and end of the flight and during turns.}\label{fig:hw-gp-vs-std}
 \end{figure}
@@ -1666,7 +1695,7 @@ ATX\sindex[var]{ATX>@ATX}  &
 \item \textbf{AKRD coefficients} (coefficients for determining angle of attack from the radome measurements of pressure): \sindex[var]{AKRD=angle of attack measured using the\\radome-based system}\index{relationship!empirical!angle of attack}The calibration procedure of Sect.~\ref{sub:radome-sensitivity} effectively removes the effects of possible biases in ADIFR\sindex[var]{ADIFR>@ADIFR} and QCF\sindex[var]{QCF>@QCF} and instead replaces them with uncertainties arising from the coefficients \{$c_{0},\,c_{1}$\} in (\ref{eq:AOArecommended}).\sindex[lis]{c0@$c_{0},\thinspace c_{1}$=coefficients used to calculate angle of attack} The estimated bias and random error are those obtained and discussed in that section using the estimated uncertainties in the coefficients in (\ref{eq:AOArecommended}). For propagation to vertical wind $w$, (\ref{eq:VWind}) indicates that the result is approximately $\delta w=V\delta\alpha$ where $V$ is airspeed,\index{true airspeed|see airspeed}\index{airspeed}\index{speed of aircraft!airspeed!see airspeed} with additional contributions from correlated errors involving $V$ that are small in comparison to that listed. A typical value for V is about 240\,m\,s$^{-1}$, leading to the listed elemental uncertainties in $w$ arising from uncertainty in AKRD.\sindex[var]{AKRD>@AKRD} It is important, though, that the calibration is dependent on the assumption that the mean vertical wind where the calibration data were collected be zero. This is discussed in Sect.~\ref{sub:radome-sensitivity}. There is no independent way to check this except by comparing results from different regions as done in this report. That remains a major weakness in calibration and is the major contributor to uncertainty in angle of attack, but it introduces a bias arising from a possible calibration error. The type listed for the uncertainty estimate in the first sensitivity coefficient, or the bias, is listed as Type-A because this estimate was obtained from considering a set of different fits from different regions and finding the associated standard deviation. There is still a component of Type-B evaluation entering this estimate because it is not known if the true average vertical wind over these regions averages to zero with this uncertainty. Fluctuations from the mean value are measured with uncertainty a factor of ten smaller than this bias. The assumed mean value of the vertical wind leading to this bias was $\pm$0.03\,m/s, which could well be an over-estimate for the large datasets used in Section~\ref{sub:radome-sensitivity}.  
 \item \textbf{BDIFR}\sindex[var]{BDIFR>@BDIFR} (pressure difference between horizontally separated ports on the radome):\index{relationship!empirical!sideslip}The sideslip angle has negligible effect on the vertical wind as long as the roll angle is small, so for measurements made during straight-and-level flight this contribution to uncertainty in vertical wind is negligible. The table entries duplicate those for ADIFR because the same transducer is used.
 \item \textbf{QCF}\sindex[var]{QCF>@QCF} (dynamic pressure measured by the pitot tube):\index{pressure!dynamic!uncertainty}The values listed in Table~\ref{tab:Radome-system-measurements} are the characteristics of the transducer. Application of the calibration procedure based on comparison to the \index{laser air-motion sensor}laser air-motion sensor (\citet{CooperEtAl2014}) led to an alternate uncertainty estimate of 0.3\,hPa, best interpreted as a bias but evaluated there as a Type-A uncertainty. As in the case of ADIFR,\sindex[var]{ADIFR>@ADIFR} the procedure to determine sensitivity coefficients removes any effect on AKRD\sindex[var]{AKRD>@AKRD} resulting from bias in QCF\sindex[var]{QCF>@QCF} by calibration in terms of the coefficients \{$c_{0},\,c_{1}$\}, so the effect on bias in $w$ is replaced by possible bias in those coefficients, as discussed for element 2. The random error in QCF\sindex[var]{QCF>@QCF} is estimated from the noise\index{noise!QCF} limit of typical variance spectra, as for ADIFR, to be about 0.1\,Hz for 1-Hz measurements. The effect of this random error in QCF\sindex[var]{QCF>@QCF} is, from (\ref{eq:AOArecommended}), to introduce an uncertainty in angle of attack of about 0.002$^{\circ}$ or a contribution to uncertainty in $w$ of less than 0.01\,m\,s$^{-1}$. QCF\sindex[var]{QCF>@QCF} is also used to determine the airspeed, which affects $w$, but the effect is negligible for the estimated uncertainty in QCF\sindex[var]{QCF>@QCF} (<0.2\% of the measured value of $w$, or <0.02\,m\,s$^{-1}$ for 10\,m\,s$^{-1}$ vertical wind).  
-\item \textbf{PITCH}\sindex[var]{PITCH>@PITCH} (pitch as measured by the Honeywell IRU):\index{pitch!uncertainty}The estimates listed for uncertainty in measured pitch are those that apply without the pitch-correction procedure of Sect.~\ref{sub:Schuler}. In that section, it was estimated that the standard error in pitch is 0.02$^{\circ}$ and that this is primarily in the form of a slowly varying error that, over measurement periods short compared to the Schuler oscillation period of 84.4~min, will appear as a bias. The correction procedure represented by Eq.~\ref{eq:final-answer} corrects for this error well enough to leave the residual bias negligible, so the bias entry in Table~\ref{tab:Elemental-w} can be eliminated by application of that algorithm. The partitioning between bias and random uncertainty depends on the interval considered, because Schuler precession will cause sinusoidal variation in this error with the Schuler-oscillation period of about 84 min. For periods long compared to this the error will have the character of a random-error component, so using 0.08\,m/s would be appropriate for random uncertainty of such long-term measurements while the bias would be reduced substantially, perhaps to 0.02\,m/s. For periods small compared to the Schuler period, the pitch error appears as a varying bias and there is a much smaller random error, evaluated in Sect.~\ref{sub:Attitude-angles} to be about 0.007$^{\circ}$ in pitch or about 0.03\,m/s in vertical wind. This is the usual case for measurements of interest, so the bias and random errors are partitioned as appropriate for this case in the table. The uncertainty in pitch is the leading contributor to the standard uncertainty in vertical wind and is also the leading contributor to the overall estimate of bias. The correction technique of Sect.~\ref{sub:Schuler} is not incorporated in routine processing so needs special calculation.  
+\item \textbf{PITCH}\sindex[var]{PITCH>@PITCH} (pitch as measured by the Honeywell IRU):\index{pitch!uncertainty}The estimates listed for uncertainty in measured pitch are those that apply without the pitch-correction procedure of Sect.~\ref{sub:Schuler}. In that section, it was estimated that the standard error in pitch is 0.02$^{\circ}$ and that this is primarily in the form of a slowly varying error that, over measurement periods short compared to the Schuler oscillation period of 84.4~min, will appear as a bias. The correction procedure represented by Eq.~\DIFdelbegin \DIFdel{\ref{eq:pitch-error-wo-approx} }\DIFdelend \DIFaddbegin \DIFadd{\ref{eq:final-answer} }\DIFaddend corrects for this error well enough to leave the residual bias negligible, so the bias entry in Table~\ref{tab:Elemental-w} can be eliminated by application of that algorithm. The partitioning between bias and random uncertainty depends on the interval considered, because Schuler precession will cause sinusoidal variation in this error with the Schuler-oscillation period of about 84 min. For periods long compared to this the error will have the character of a random-error component, so using 0.08\,m/s would be appropriate for random uncertainty of such long-term measurements while the bias would be reduced substantially, perhaps to 0.02\,m/s. For periods small compared to the Schuler period, the pitch error appears as a varying bias and there is a much smaller random error, evaluated in Sect.~\ref{sub:Attitude-angles} to be about 0.007$^{\circ}$ in pitch or about 0.03\,m/s in vertical wind. This is the usual case for measurements of interest, so the bias and random errors are partitioned as appropriate for this case in the table. The uncertainty in pitch is the leading contributor to the standard uncertainty in vertical wind and is also the leading contributor to the overall estimate of bias. The correction technique of Sect.~\ref{sub:Schuler} is not incorporated in routine processing so needs special calculation.  
 \item \textbf{GV Vertical Velocity:} \index{speed!vertical!aircraft}The measurement used for vertical motion of the aircraft is discussed in Sect.~\ref{sec:VerticalVelocity}. The values listed here are those specified for the instrument.
 %for measurements when ``OmniSTAR'' corrections\index{OmniSTAR} are available; if not, the values should be increased to about 0.1\,m\,s$^{-1}$ and so will make a contributor to uncertainty in vertical wind that is comparable to the contributions from pitch and angle of attack. 
 The error in aircraft vertical speed is likely a mixture of bias and random error, because the primary source is uncertainty in ionospheric corrections which will be persistent for important parts of flights but likely to change at least from flight to flight. Because of the likely persistence of the error, it is assigned here primarily to bias.  
@@ -1674,7 +1703,8 @@ The error in aircraft vertical speed is likely a mixture of bias and random erro
 \item \textbf{ATX}\sindex[var]{ATX>@ATX} (air temperature): The listed uncertainty for temperature (ATX) is that determined by \citet{CooperEtAl2014}, where a large set of climbs and descents were used with the hydrostatic equation to develop these Type-A estimates. Temperature is needed to calculate the airspeed, but as for ambient pressure the effect of uncertainty in temperature is very small. This was tested as for PSF by evaluating at representative points. A representative result was that the listed bias in temperature would lead to a bias in airspeed of about 0.05\%, leading to a similar percentage change in the value of the vertical wind. This is negligible in comparison to other sources of uncertainty.  
 \end{enumerate}
 
-The result of adding the elemental sources of uncertainty\index{uncertainty!vertical wind}\index{wind!vertical!uncertainty} in quadrature is an estimated bias uncertainty of %0.10
+The result of adding the elemental sources of uncertainty\index{uncertainty!vertical wind}\DIFdelbegin %DIFDELCMD < \index{wind!vertical!net uncertainty} %%%
+\DIFdelend \DIFaddbegin \index{wind!vertical!uncertainty} \DIFaddend in quadrature is an estimated bias uncertainty of %0.10
 0.10~m\,s$^{-1}$ and an estimated random uncertainty of %0.07
 0.07~m\,s$^{-1}$. This estimate applies to measurements without pitch correction,\index{pitch!correction} and for such measurements the contribution from uncertainty in pitch is the dominant source of uncertainty. With the correction, the bias estimate decreases to 0.06\,m\,s$^{-1}$, so the pitch correction reduces the uncertainty significantly. 
 
@@ -1808,7 +1838,8 @@ effectively removes the effects of possible biases in ADIFR\sindex[var]{ADIFR>@A
 \item \textbf{ATX:}\sindex[var]{ATX>@ATX} Temperature\index{temperature!uncertainty}\index{uncertainty!temperature} is needed to calculate airspeed, but as for ambient pressure the effect is negligible. See the radome discussion above.  
 \end{enumerate}
 
-The result of adding the elemental sources of uncertainty\index{uncertainty!wind!vertical}\index{wind!vertical!uncertainty} in quadrature is an uncertainty estimate for bias of 0.18\,m\,s and a estimate of random uncertainty of 0.12\,m\,s$^{-1}$. The dominant contribution in both cases is that from measured pitch, although the uncertainty in vertical motion of the aircraft also makes a significant contribution to the random component of uncertainty. \index{gust pod!limitations}It is important that these estimates only apply to cases where the roll is within 5$^{\circ}$ of level.\footnote{At this time, no evaluation has been made of the potential for improving the measurement of pitch using the correction procedure of Sect.~\ref{sub:Schuler}. A built-in Kalman filter makes a similar correction, so it is not clear if further improvement is possible.} 
+The result of adding the elemental sources of uncertainty\index{uncertainty!wind!vertical}\DIFdelbegin %DIFDELCMD < \index{wind!vertical!net uncertainty} %%%
+\DIFdelend \DIFaddbegin \index{wind!vertical!uncertainty} \DIFaddend in quadrature is an uncertainty estimate for bias of 0.18\,m\,s and a estimate of random uncertainty of 0.12\,m\,s$^{-1}$. The dominant contribution in both cases is that from measured pitch, although the uncertainty in vertical motion of the aircraft also makes a significant contribution to the random component of uncertainty. \index{gust pod!limitations}It is important that these estimates only apply to cases where the roll is within 5$^{\circ}$ of level.\footnote{At this time, no evaluation has been made of the potential for improving the measurement of pitch using the correction procedure of Sect.~\ref{sub:Schuler}. A built-in Kalman filter makes a similar correction, so it is not clear if further improvement is possible.} 
 
 \fbox{\begin{minipage}[t]{.95\textwidth}
 \textbf{Summary, gust-pod vertical wind:}
@@ -1971,7 +2002,8 @@ Temperature is needed to calculate airspeed. Other studies (\citet{CooperEtAl201
 The dynamic and static pressure\index{pressure!dynamic}\index{pressure!static} measurements are corrected for the static defect at the pressure ports using the formulas developed in (\citet{CooperEtAl2014}). The uncertainty in the determination of the correction was estimated in that source as less than 0.3\,m/s. Here we use similar estimates of 0.2 (bias) and 0.1\,hPa (random error). Corrections to static and dynamic pressure are correlated such that the error in static pressure is the negative of the error in dynamic pressure. For DEEPWAVE\index{DEEPWAVE} research flights these errors propagate to 0.3\,m/s bias and 0.15\,m/s random uncertainty.They have negligible effect on the lateral component of the horizontal wind.
 \end{enumerate}
 
-For the lateral\index{uncertainty!wind!lateral}\index{wind!lateral component} component of the wind, adding the elemental contributions to uncertainty in quadrature leads to a net bias estimate of 0.4\,m/s and a random uncertainty of 0.2\,m/s. The measurement of heading\index{heading!uncertainty} makes a dominating contribution to each. For the longitudinal\index{uncertainty!wind!longitudinal} component, the corresponding results are 0.34 and 0.2\,m/s. For the longitudinal component, the dominant contribution arises from the corrections applied to dynamic pressure to address the measured static defect as determined from calibrations. Measurements of the longitudinal wind provided by the LAMS have uncertainty of only about 0.1\,m/s, so when this instrument is available the uncertainty could be reduced; the tabulated uncertainty includes an estimate of how well the parameterized function used to correct pressure in the absence of LAMS actually represents those measurements adequately. Some of the uncertainty entering this assessment arises because the LAMS and the radome gust-sensing system measure at locations displaced from each other and so may encounter slightly different wind conditions. 
+For the lateral\DIFdelbegin %DIFDELCMD < \index{wind!uncertainty!lateral}%%%
+\DIFdelend \index{uncertainty!wind!lateral}\index{wind!lateral component} component of the wind, adding the elemental contributions to uncertainty in quadrature leads to a net bias estimate of 0.4\,m/s and a random uncertainty of 0.2\,m/s. The measurement of heading\index{heading!uncertainty} makes a dominating contribution to each. For the longitudinal\index{uncertainty!wind!longitudinal} component, the corresponding results are 0.34 and 0.2\,m/s. For the longitudinal component, the dominant contribution arises from the corrections applied to dynamic pressure to address the measured static defect as determined from calibrations. Measurements of the longitudinal wind provided by the LAMS have uncertainty of only about 0.1\,m/s, so when this instrument is available the uncertainty could be reduced; the tabulated uncertainty includes an estimate of how well the parameterized function used to correct pressure in the absence of LAMS actually represents those measurements adequately. Some of the uncertainty entering this assessment arises because the LAMS and the radome gust-sensing system measure at locations displaced from each other and so may encounter slightly different wind conditions. 
 
 \fbox{\begin{minipage}[t]{.95\textwidth}
 \textbf{Summary, radome-based horizontal wind:}
@@ -2488,7 +2520,7 @@ vertical wind, radome  &
 0.07  &
 0.12  &
 Flight altitudes greater than 5000 m, and without pitch correction\footnote{With application of the pitch-correction algorithm of Sect.~\ref{sub:Schuler},
-Eq.~\ref{eq:final-answer}, the bias estimate is 0.05\,m\,s$^{-1}$
+Eq.~\DIFdelbeginFL \DIFdelFL{\ref{eq:pitch-error-wo-approx}}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{\ref{eq:final-answer}}\DIFaddendFL , the bias estimate is 0.05\,m\,s$^{-1}$
 and the net uncertainty is 0.06\,m/s.}\tabularnewline
 \midrule 
 horizontal wind components, radome  &
@@ -2518,7 +2550,7 @@ measurement to get the listed performance. Not valid in turns.}\tabularnewline
 
 
 
-\subsubsection{The radome-based system.\label{sub:conclusions-radome}}
+\subsubsection{The radome-based system.\DIFaddbegin \label{sub:conclusions-radome}\DIFaddend }
 
 The standard wind measuring system\index{system!standard!uncertainty} on the GV is called the radome-based system and results in the basic wind measurements with variable names WDC,\sindex[var]{WDC>@WDC} WSC,\sindex[var]{WSC>@WSC} and WIC\sindex[var]{WIC>@WIC} respectively representing the horizontal wind direction (degrees relative to true north), horizontal wind speed (m/s) and vertical wind speed (m/s). For this system, the estimated bias limit, random component of standard uncertainty, and net uncertainty are listed in Table~\ref{tab:Summary-of-uncertainty}. These are estimates intended to provide coverage of one standard deviation and should be doubled to obtain approximate estimates of 95\% confidence limits. The combined uncertainty is obtained by adding the estimate of bias and the estimate of random error in quadrature, but this characteristic can be questioned because the bias estimate does not have normal statistical characteristics. It is preferable to use the estimates of bias and of the random component of standard uncertainty separately when characterizing a measurement. As an approximation, it is reasonable to consider about 0.4\,m/s as the uncertainty in each component of the measurement of horizontal wind and 0.1\,m/s as the corresponding uncertainty in vertical wind. In any specific direction, the uncertainty in horizontal wind\index{uncertainty!wind speed} remains about 0.4\,m/s, so this is also the uncertainty in measured wind speed. Translation to uncertainty\index{uncertainty!wind direction} in wind direction depends on the magnitude of the wind speed: If the wind speed is $u$ and the uncertainty in the component of the wind transverse to the wind speed is $\delta_{u}$, the uncertainty in wind direction $\delta\lambda_w$ is about $\delta_{u}$/u. For example, for $u=20$\,m/s and $\delta_{u}=0.4$\,m/s, $\delta\lambda_w=0.02$ rad. or about 1\,$^{\circ}$.\sindex[lis]{lambdaw@$\lambda_w$=wind direction} 
 
@@ -2526,10 +2558,11 @@ There is some potential for improvement in the vertical wind\index{wind!vertical
 
 In the case of horizontal wind, the leading uncertainty is that associated with heading, which could be improved by implementation of a full Kalman filter\index{filter!Kalman} to adjust the heading or by replacement of the IRU with a higher-quality system with inherent Kalman filtering. There are systems available with much lower specified uncertainty that could reduce the uncertainty in lateral wind significantly. 
 
-An unknown aspect of uncertainty arises from the use of sensitivity coefficients determined from slowly changing flight conditions. Such empirical relationships may fail to represent transient effects on the\index{upwash}\index{sidewash} upwash, sidewash, and other distortions in the airflow near the aircraft, and so might lead to transient errors. This problem, discussed further at the end of Sect.\ \ref{sub:LAMS-aoa-and-sideslip}, needs further study. Measurements from the LAMS such as those included in that section are now available and, with further study, may be able to set better limits on transient errors. 
+\DIFaddbegin \DIFadd{An unknown aspect of uncertainty arises from the use of sensitivity coefficients determined from slowly changing flight conditions. Such empirical relationships may fail to represent transient effects on the}\index{upwash}\index{sidewash} \DIFadd{upwash, sidewash, and other distortions in the airflow near the aircraft, and so might lead to transient errors. This problem, discussed further at the end of Sect.}\ \DIFadd{\ref{sub:LAMS-aoa-and-sideslip}, needs further study. Measurements from the LAMS such as those included in that section are now available and, with further study, may be able to set better limits on transient errors. 
+}
 
 
-\subsubsection{The gust-pod system}
+\DIFaddend \subsubsection{The gust-pod system}
 
 The vertical wind measured by the \index{gust pod}gust pod is surprisingly good, when it is considered that the measurements are made under the wing of the aircraft in a region of seriously distorted airflow. While of lesser quality than the measurements from the radome, the measurements based on the gust pod have estimated uncertainty\index{uncertainty!vertical wind!gust pod} only about twice that of the radome-based measurement. On the other hand, the measurements of horizontal wind from the gust pod have significantly greater uncertainty\index{uncertainty!horizontal wind!gust pod} than those from the radome. The uncertainty approaches 2\,m/s even in the selected best cases, and there are examples where the discrepancy between similar measurements of heading becomes much larger than the tabulated values and the associated uncertainty in horizontal wind becomes even larger. Vertical and horizontal winds from the gust pod are both problematic\index{gust pod!limitations} in turns and should not be used for roll angles exceeding about 5$^{\circ}$ in magnitude. The problem with measurements in turns arises because the gust-pod system is not aligned with the longitudinal axis of the aircraft so, in turns, the three attitude angles (pitch, roll, heading) become intermixed. It may be that the appropriate angle transformations can be found to handle this problem, but current processing leads to obvious errors in turns. 
 
@@ -3047,9 +3080,10 @@ in the coefficient determined from a larger data set and under typical condition
 DEEPWAVE flights. This result does provide a useful check on the validity of the
 procedure used to determine the sideslip sensitivity coefficients.
 
-It is a significant weakness that the data for the calibrations are all collected under conditions where the flight conditions varied only slowly. It is known, however, that when conditions change abruptly there can be transient effects on the airflow around the aircraft that cause departures from the near-steady-state conditions on which the calibrations are based. Under steady conditions,\index{upwash}\index{sidewash}\index{upwash!see also {sidewash}}\index{sidewash!see also {upwash}} steady "upwash" or "sidewash" in the distorted airflow around the aircraft is incorporated into the calibrations that lead to sensitivity coefficients. Transient effects, however, can lead to upwash or sidewash that is not consistent with steady-state conditions, and such effects therefore can compromise the validity of the calibrations developed in this document. Transient effects only last a short time and therefore only affect high-frequency measurements, especially for vertical gusts, but this is nevertheless a source of uncertainty that is outside the studies of this technical note. The comparisons to LAMS discussed above are the best evidence available that these effects might be ignored, but further study of transient effects is still needed. See also the discussion of this point in Sect.\ \ref{sub:conclusions-radome}.
+\DIFaddbegin \DIFadd{It is a significant weakness that the data for the calibrations are all collected under conditions where the flight conditions varied only slowly. It is known, however, that when conditions change abruptly there can be transient effects on the airflow around the aircraft that cause departures from the near-steady-state conditions on which the calibrations are based. Under steady conditions,}\index{upwash}\index{sidewash}\index{upwash!see also {sidewash}}\index{sidewash!see also {upwash}} \DIFadd{steady "upwash" or "sidewash" in the distorted airflow around the aircraft is incorporated into the calibrations that lead to sensitivity coefficients. Transient effects, however, can lead to upwash or sidewash that is not consistent with steady-state conditions, and such effects therefore can compromise the validity of the calibrations developed in this document. Transient effects only last a short time and therefore only affect high-frequency measurements, especially for vertical gusts, but this is nevertheless a source of uncertainty that is outside the studies of this technical note. The comparisons to LAMS discussed above are the best evidence available that these effects might be ignored, but further study of transient effects is still needed. See also the discussion of this point in Sect.}\ \DIFadd{\ref{sub:conclusions-radome}.
+}
 
-\subsection{True Airspeed from the Gust Pod\label{sub:GP-TAS}}
+\DIFaddend \subsection{True Airspeed from the Gust Pod\label{sub:GP-TAS}}
 
 % \subsection*{The Components of the Relative Wind}% % The gust pod is a new wind-sensing system so it is useful to document how the measurements are handled. The probe itself has five pressure-sensing holes located on a hemispheric cap pointed into the wind. The pressure difference between the two ports located upward and downward from centerline, measured as ADIF\_GP, is used in the calculation of angle of attack. The similar pressure difference between the two ports located toward starboard and toward port of centerline, measured as BDIF\_GP, are used in the calculation of sideslip. In addition, the probe has static ports located on the side of the cylinder carrying the hemispheric cap, and the difference between the pressure at the forward port and that at the static ports is measured as the dynamic pressure QC\_GP. The static pressure is also measured, as PS\_GP.% % In addition, there is an inertial reference unit mounted with the gust pod to measure its attitude angles (roll, pitch, heading) and to measure the three components of motion of the aircraft relative to the Earth. This unit receives GPS information and uses it to update its measurements via a Kalman filter.
 
@@ -3507,7 +3541,7 @@ The result of this erroneous acceleration is growth of a false northward velocit
 \sindex[lis]{lambdaE@$\lambda_E$=latitude}
 At the point where the error in latitude cancels the error in pitch, there is an accumulated error in velocity, so the integrated solution for position overshoots the equilibrium position by an amount such that the error in pitch becomes the negative of the original error, at which point the integrated velocity is zero but the new error in pitch now causes a reversal of the position error. The result is that the errors in pitch, velocity and position all oscillate with a period equal to the Schuler period $T_{Sch}$. 
 
-These equations predict how this oscillation will occur:\sindex[lis]{x@$x$=northward coordinate in an Earth reference frame}\sindex[lis]{vn@$v_{n}$=northward component of velocity}\sindex[lis]{an@$a_{n}$=northward component of acceleration} 
+These equations \DIFdelbegin \DIFdel{predicting }\DIFdelend \DIFaddbegin \DIFadd{predict }\DIFaddend how this oscillation will occur:\sindex[lis]{x@$x$=northward coordinate in an Earth reference frame}\sindex[lis]{vn@$v_{n}$=northward component of velocity}\sindex[lis]{an@$a_{n}$=northward component of acceleration} 
 
 \begin{equation}
 v_{n}=\frac{dx_{n}}{dt}=R_{e}\frac{d\lambda_E}{dt}\label{eq:vn} 
@@ -3519,13 +3553,13 @@ v_{n}=\frac{dx_{n}}{dt}=R_{e}\frac{d\lambda_E}{dt}\label{eq:vn}
 \end{equation}
 
 
-where $x_{n}$ and $v_n$ are respectively the measured north coordinate of position and
-northward component of aircraft motion, $R_e$ the radius of the Earth, and $a_{n}$ is the measured northward acceleration. Regardless of the history of the pitch error $\delta\theta$ or the source of that error, it can be detected by the error it creates in the northward acceleration. If $a_{n}=a_{n}^{*}+\delta a_{n}$ where $a_{n}^{*}$ is the true northward acceleration of the aircraft and $\delta a_{n}$ is the erroneous acceleration that results from the pitch error, then 
+where $x_{n}$ and $v_n$ are \DIFaddbegin \DIFadd{respectively }\DIFaddend the measured north coordinate of position and
+northward component of aircraft motion, $R_e$ the radius of the Earth, and $a_{n}$ is the measured northward acceleration. \DIFdelbegin \DIFdel{However, if }\DIFdelend \DIFaddbegin \DIFadd{Regardless of the history of the pitch error $\delta\theta$ or the source of that error, it can be detected by the error it creates in the northward acceleration. If }\DIFaddend $a_{n}=a_{n}^{*}+\delta a_{n}$ where $a_{n}^{*}$ is the true northward acceleration of the aircraft and $\delta a_{n}$ is the erroneous acceleration that results from \DIFdelbegin \DIFdel{pitch and displacement errors}\DIFdelend \DIFaddbegin \DIFadd{the pitch error}\DIFaddend , then 
 
 \begin{equation}
-\delta a_{n}=-g\delta\theta\label{eq:delta-an} 
+\delta a_{n}=\DIFdelbegin \DIFdel{g(}\DIFdelend \DIFaddbegin \DIFadd{-g}\DIFaddend \delta\DIFdelbegin \DIFdel{\lambda_E-\delta}\DIFdelend \theta\DIFdelbegin \DIFdel{)}\DIFdelend \label{eq:delta-an} 
 \end{equation}
-where the critical assumption is that the accelerometers themselves do not introduce error. Then\\ 
+\DIFdelbegin \DIFdel{with $\lambda_E$ the latitude, $\delta\lambda_E=\delta x_{n}/R_{e}$ the error in latitude, and $\delta\theta$ the error in pitch}\DIFdelend \DIFaddbegin \DIFadd{where the critical assumption is that the accelerometers themselves do not introduce error}\DIFaddend . Then\\ 
 \begin{equation}
 \frac{d(\delta v_{n})}{dt}=-g\delta\theta\label{eq:delta-vn-dot}
 \end{equation}
@@ -3592,17 +3626,18 @@ The errors can be determined directly from the time-derivatives of the error ter
 
 \begin{eqnarray}
 \delta\theta & = & -\frac{1}{g}\frac{d(\delta v_{n})}{dt}\label{eq:delta-theta}\\ 
-\delta\phi & = & \frac{1}{g}\frac{d(\delta v_{e})}{dt}\label{eq:delta-phi} 
+\delta\phi & = & \DIFdelbegin \DIFdel{-}\DIFdelend \frac{1}{g}\frac{d(\delta v_{e})}{dt}\label{eq:delta-phi} 
 \end{eqnarray}
 
-An alternative to fitting variations like those shown in Fig.~\ref{fig:v-errors-straight-leg} to sine and cosine functions is to estimate the time derivatives of the velocity-error terms over shorter intervals by differentiating the measured velocities provided by GPS and then use those derivatives in (\ref{eq:delta-theta}) or (\ref{eq:delta-phi}) to find the errors in pitch and roll. This gives errors in the local reference frame\index{coordinate system!local reference frame}\index{coordinate system!l-frame|see {coordinate system, local reference frame}} with axes eastward, northward, and upward, here called the\emph{ l}-frame, and these errors then must be transformed to the aircraft body frame\index{coordinate system!aircraft reference frame} to get errors in the measured quantities. The choice made here is to estimate the derivatives using fitted \index{Savitzky-Golay polynomials}Savitzky-Golay polynomials, as shown in Fig.~\ref{fig:sg-poly-smoothing}. Savitzky-Golay polynomials were chosen because they are computationally efficient, do not introduce a time shift, and can provide derivatives directly. A rather long averaging period of 1013 s, or about 1/5 of a Schuler oscillation, was used to reduce noise in the result, and interpolation filled some gaps in the measurements. 
+\DIFdelbegin \DIFdel{Therefore, rather than }\DIFdelend \DIFaddbegin \DIFadd{An alternative to }\DIFaddend fitting variations like \DIFdelbegin \DIFdel{that }\DIFdelend \DIFaddbegin \DIFadd{those }\DIFaddend shown in Fig.~\ref{fig:v-errors-straight-leg} to sine and cosine functions \DIFdelbegin \DIFdel{, it is possible to obtain an estimate of }\DIFdelend \DIFaddbegin \DIFadd{is to estimate }\DIFaddend the time derivatives of the velocity-error terms over \DIFdelbegin \DIFdel{some shorter interval }\DIFdelend \DIFaddbegin \DIFadd{shorter intervals by differentiating the measured velocities provided by GPS }\DIFaddend and then use \DIFdelbegin \DIFdel{that derivative }\DIFdelend \DIFaddbegin \DIFadd{those derivatives }\DIFaddend in (\ref{eq:delta-theta}) or (\ref{eq:delta-phi}) to find the errors in pitch and roll. This gives errors in the local reference frame\index{coordinate system!local reference frame}\index{coordinate system!l-frame|see {coordinate system, local reference frame}} with axes eastward, northward, and upward, here called the\emph{ l}-frame, and these errors then must be transformed to the aircraft \DIFdelbegin \DIFdel{reference }\DIFdelend \DIFaddbegin \DIFadd{body }\DIFaddend frame\index{coordinate system!aircraft reference frame} to get errors in the measured quantities. The choice made here is to estimate the derivatives using fitted \index{Savitzky-Golay polynomials}Savitzky-Golay polynomials, as shown in Fig.~\ref{fig:sg-poly-smoothing}. Savitzky-Golay polynomials were chosen because they are computationally efficient, do not introduce a time shift, and can provide derivatives directly. A rather long averaging period of \DIFdelbegin \DIFdel{1009 }\DIFdelend \DIFaddbegin \DIFadd{1013 }\DIFaddend s, or about 1/5 of a Schuler oscillation, was used to reduce noise in the result, and interpolation filled some gaps in the measurements. 
 
-Equations (\ref{eq:delta-theta}) and (\ref{eq:delta-phi}) are valid if the entire error in acceleration arises from platform mis-alignment and the associated false resolution of the gravity vector into horizontal components of acceleration. Errors in the measured accelerations would also contribute an additional term to these equations, so the validity of the proposed correction to pitch depends on the accuracy of the accelerometers. 
-To check the calibration of the accelerometers, GPS measurements of the aircraft velocity were differentiated to obtain estimates of accelerations in the l-frame, and those accelerations after correction for inertial effects (Cf.\ Sect.\ \ref{sub:angle-transforms-for-pitch-correction}) were transformed to the aircraft reference frame and compared to the measured accelerations in that frame. 
-When fitted to the GPS-derived measurements, the fit coefficients for the measured longitudinal accelerations (intercept and slope) were $-0.0033$ and 1.0014, with a residual standard error of 0.01\,m\,s$^{-2}$. 
+\DIFaddbegin \DIFadd{Equations (\ref{eq:delta-theta}) and (\ref{eq:delta-phi}) are valid if the entire error in acceleration arises from platform mis-alignment and the associated false resolution of the gravity vector into horizontal components of acceleration. Errors in the measured accelerations would also contribute an additional term to these equations, so the validity of the proposed correction to pitch depends on the accuracy of the accelerometers. 
+To check the calibration of the accelerometers, GPS measurements of the aircraft velocity were differentiated to obtain estimates of accelerations in the l-frame, and those accelerations after correction for inertial effects (Cf.}\ \DIFadd{Sect.}\ \DIFadd{\ref{sub:angle-transforms-for-pitch-correction}) were transformed to the aircraft reference frame and compared to the measured accelerations in that frame. 
+When fitted to the GPS-derived measurements, the fit coefficients for the measured longitudinal accelerations (intercept and slope) were $-0.0033$ and 1.0014, with a residual standard error of 0.01}\,\DIFadd{m}\,\DIFadd{s$^{-2}$. 
 The bias error would lead to a change in the pitch correction of about $0.02^{\circ}$, so this is an upper estimate of the approximate uncertainty in the pitch correction.
+}
 
-\begin{knitrout}\footnotesize
+\DIFaddend \begin{knitrout}\footnotesize
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
 
 {\centering \includegraphics[width=\maxwidth]{figure/WU-sg-poly-smoothing-1} 
@@ -3615,105 +3650,144 @@ The bias error would lead to a change in the pitch correction of about $0.02^{\c
 
 \end{knitrout}
 
-The result for this flight is that the estimated pitch error is less than about 0.01$^{\circ}$ in magnitude, except for the final descent, and the roll error is limited to less than about 0.015$^{\circ}$ for the same period. This is evidence for low uncertainty in the pitch measurement for this flight, well below the specification of 0.05$^{\circ}$. Section \ref{sub:Application-to-research} contains further discussion of the errors from the research flights, where the estimated errors sometimes can be larger. However, the smooth oscillations in Fig.~\ref{fig:sg-poly-smoothing} indicate that even those small errors can be detected and corrected.
+The result \DIFaddbegin \DIFadd{for this flight }\DIFaddend is that the estimated pitch error is less than about 0.01$^{\circ}$ in magnitude\DIFdelbegin \DIFdel{for most of this flight}\DIFdelend , except for the final descent, and the roll error is limited to less than about 0.015$^{\circ}$ for the same period. This is evidence for low uncertainty in the pitch measurement for this flight, well below the specification of 0.05$^{\circ}$. Section \ref{sub:Application-to-research} contains further discussion of the errors from the research flights, where the estimated errors sometimes can be larger. However, the smooth oscillations in Fig.~\ref{fig:sg-poly-smoothing} indicate that even those small errors can be detected and corrected.
 
 
 \subsubsection{Transformation of attitude angles\label{sub:angle-transforms-for-pitch-correction}}
 
 In a reference frame\index{coordinate system!local reference frame}\index{coordinate system!ENU frame|see {coordinate system, local reference frame}} called the $l$-frame or ENU\sindex[var]{ENU=east-north-up local reference frame} frame, where the coordinate axes are local-east, local-north, and upward, the preceding subsection showed that the pitch and roll errors are related, via (\ref{eq:delta-theta}) and (\ref{eq:delta-phi}), to the time-derivatives of the errors in horizontal velocity. Pitch and roll errors as used in these equations will be the respective errors in platform alignment\footnote{The inertial system used is a strap-down system, so there is no actual motion of the ``platform''. Instead, from measured rotations and accelerations, the system calculates the expected orientation if there were a true stabilized platform. The errors referenced here are those relative to that calculated platform orientation.} in the north-south and east-west directions, so these angles must be transformed to account for the orientation of the aircraft when it is not flying straight-and-level to the north. 
+\DIFdelbegin \DIFdel{Coordinates in the body or $b$-frame of the aircraft}%DIFDELCMD < \index{coordinate system!b-frame|see {coordinate system, aircraft reference frame}}\index{coordinate system!body frame|see {coordinate system, aircraft reference frame}} %%%
+\DIFdel{are obtained from those in the ENU or $l$-frame by applying three rotations}%DIFDELCMD < \index{coordinate system!rotation} %%%
+\DIFdel{to account for the heading, pitch, and roll of the $b$-frame. This transformation leads to pitch errors in the body frame of the aircraft (where pitch and roll are measured and where the pitch measurement affects the calculated vertical wind) that are mixtures of pitch and roll errors in the $l$-frame, with the mixture dependent primarily on the heading. A positive pitch error for northbound level flight will be a negative pitch error for southbound level flight, and for eastbound flight an $l$-frame roll error becomes a $b$-frame pitch error while an $l$-frame pitch error become a negative $b$-frame roll error. 
+}\DIFdelend 
 
-Consider a unit vector $\mathbf{b}^{(l)}$ \sindex[lis]{bl@$\mathbf{b}^{(l)}$=unit vector representing errors in attitude angles in the \emph{l}-frame}representing the orientation errors in pitch and roll in the $l$-frame, with components \{$\sin\delta\phi,\,-\sin\delta\theta,\,\sqrt{1-\sin^{2}\delta\phi-\sin^{2}\delta\theta}$\} or, because the errors are always small, approximately \{$\delta\phi,\,-\delta\theta,\,1$\}. Transformation of these errors from the $l$-frame to the $a$-frame requires rotation by the \emph{negative} of
+Consider a unit vector $\mathbf{b}^{(l)}$ \sindex[lis]{bl@$\mathbf{b}^{(l)}$=unit vector representing errors in attitude angles in the \emph{l}-frame}representing the orientation errors in pitch and roll in the $l$-frame, with components \{\DIFdelbegin \DIFdel{$\sin\delta\phi,\,\sin\delta\theta,\,\sqrt{1-\sin^{2}\delta\phi-\sin^{2}\delta\theta}$}\DIFdelend \DIFaddbegin \DIFadd{$\sin\delta\phi,\,-\sin\delta\theta,\,\sqrt{1-\sin^{2}\delta\phi-\sin^{2}\delta\theta}$}\DIFaddend \} or, because the errors are always small, approximately \{\DIFdelbegin \DIFdel{$\delta\phi,\,\delta\theta,\,1$\}. The three-angle transformation of this vector }\DIFdelend \DIFaddbegin \DIFadd{$\delta\phi,\,-\delta\theta,\,1$\}. Transformation of these errors }\DIFaddend from the $l$-frame to the \DIFdelbegin \DIFdel{$b$}\DIFdelend \DIFaddbegin \DIFadd{$a$}\DIFaddend -frame \DIFdelbegin \DIFdel{is then represented by the following matrix, with 
+\{$\phi,\,\theta,\,\psi$\} denoting \{roll, pitch, heading \}:}%DIFDELCMD < \sindex[lis]{Rlb@$R_{l}^{b}$=rotation matrix from \emph{l}-frame to \emph{b}-frame}
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \DIFadd{requires rotation by the }\emph{\DIFadd{negative}} \DIFadd{of
 the heading angle $\psi$ in the $l$-frame but does not require further transformation because
 differences in pitch and roll between the $l$-frame and the $a$-frame do not affect the estimate of platform misalignment and how that misalignment is resolved into pitch and roll components. Therefore,
+}\DIFaddend 
 
-\begin{eqnarray}
+\DIFdelbegin \begin{displaymath}\DIFdel{
+R_{l}^{b}=\begin{bmatrix}\cos\psi\cos\phi+\sin\psi\sin\phi\sin\theta & -\sin\psi\cos\phi+\cos\psi\sin\phi\sin\theta & -\cos\theta\sin\phi\\ 
+\sin\psi\cos\theta & \cos\psi\cos\theta & \sin\theta\\ 
+\cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi & -\sin\psi\sin\phi-\cos\psi\sin\theta\sin\phi & \cos\theta\cos\phi 
+\end{bmatrix}\label{eq:transform-l-to-b}
+}\end{displaymath}
+%DIFAUXCMD
+\DIFdel{If the roll and pitch angles are small,
+}%DIFDELCMD < \sindex[lis]{bb@$\mathbf{b}^{(b)}$=unit vector representing errors in attitude angles in the \emph{b}-frame} 
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdelend \begin{eqnarray}
 \mathbf{b^{(b)}=}R_{l}^{b}\mathbf{b^{(l)}} & \approx & \left[\begin{array}{ccc}
 \cos\psi & -\sin\psi & 0\\
 \sin\psi & \cos\psi & 0\\
 0 & 0 & 1
-\end{array}\right]\begin{bmatrix}\delta\phi^{(l)}\\
+\end{array}\right]\DIFdelbegin %DIFDELCMD < \begin{bmatrix}\delta\phi\\ 
+%DIFDELCMD < \delta\theta\\ 1 
+%DIFDELCMD < \end{bmatrix}%%%
+\DIFdel{=}%DIFDELCMD < \begin{bmatrix}\cos\psi\delta\phi-\sin\psi\delta\theta\\ 
+%DIFDELCMD < \sin\psi\delta\phi+\cos\psi\delta\theta\\ 1 
+%DIFDELCMD < \end{bmatrix}%%%
+\DIFdelend \DIFaddbegin \begin{bmatrix}\delta\phi^{(l)}\\
 -\delta\theta^{(l)}\\
 1
-\end{bmatrix}\label{eq:b-vector-in-b-frame}\\
- & \simeq & \begin{bmatrix}\cos\psi\delta\phi^{(l)}+\sin\psi\delta\theta^{(l)}\\
+\end{bmatrix}\DIFaddend \label{eq:b-vector-in-b-frame}\DIFaddbegin \\
+ & \DIFadd{\simeq }& \begin{bmatrix}\cos\psi\delta\phi^{(l)}+\sin\psi\delta\theta^{(l)}\\
 \sin\psi\delta\phi^{(l)}-\cos\psi\delta\theta^{(l)}\\
 1
 \end{bmatrix}
-\end{eqnarray}
-which leads to $\delta\theta^{(b)}$ and $\delta\phi^{(b)}$, the
+\DIFaddend \end{eqnarray}
+\DIFdelbegin %DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdelend which leads to $\delta\theta^{(b)}$ and $\delta\phi^{(b)}$, the
 pitch and roll errors in the $b$-frame:
 
 \begin{eqnarray}
-\delta\theta^{(b)} & \simeq & -b_{2}^{(b)}/b_{3}^{(b)}=-\sin\psi\delta\phi^{(l)}+\cos\psi\delta\theta^{(l)}\label{eq:final-answer}\\
-\delta\phi^{(b)} & \approx & b_{1}^{(b)}/b_{3}^{(b)}=\cos\psi\delta\phi^{(l)}+\sin\psi\delta\theta^{(l)}\,\,\,.\nonumber 
+\delta\theta^{(b)} & \simeq & \DIFaddbegin \DIFadd{-b_{2}^{(b)}/b_{3}^{(b)}=-}\DIFaddend \sin\psi\delta\phi\DIFaddbegin \DIFadd{^{(l)}}\DIFaddend +\cos\psi\delta\theta\DIFaddbegin \DIFadd{^{(l)}}\DIFaddend \label{eq:final-answer}\\
+\delta\phi^{(b)} & \approx & \DIFaddbegin \DIFadd{b_{1}^{(b)}/b_{3}^{(b)}=}\DIFaddend \cos\psi\delta\phi\DIFdelbegin \DIFdel{-}\DIFdelend \DIFaddbegin \DIFadd{^{(l)}+}\DIFaddend \sin\psi\delta\theta\DIFaddbegin \DIFadd{^{(l)}}\,\,\,\DIFadd{.}\DIFaddend \nonumber 
 \end{eqnarray}
+\DIFdelbegin \DIFdel{In turns, the roll angle is no longer negligible, so in general the full transformation matrix }%DIFDELCMD < \eqref{eq:transform-l-to-b} %%%
+\DIFdel{should be used. Because this matrix imposes rotations by the measured pitch and roll angles, the unit vector representing the errors in pitch and roll after transformation will have components from which the true pitch and roll can be determined, so subtracting the corrected pitch from the measured pitch gives the error in measured pitch: }%DIFDELCMD < \\ 
+%DIFDELCMD < %%%
+\begin{displaymath}\DIFdel{
+\delta\theta^{(b)}=\theta-\arctan\frac{b_{2}^{(b)}}{b_{3}^{(b)}}\label{eq:pitch-error-wo-approx} 
+}\end{displaymath}
+%DIFAUXCMD
+\DIFdelend \DIFaddbegin 
 
-% \[
-% \mathbf{R}_{a}^{l}=\left(\begin{array}{ccc}
-% 0 & 1 & 0\\
-% 1 & 0 & 0\\
-% 0 & 0 & -1
-% \end{array}\right)\left(\begin{array}{ccc}
-% \cos\psi & -\sin\psi & 0\\
-% \sin\psi & \cos\psi & 0\\
-% 0 & 0 & 1
-% \end{array}\right)\left(\begin{array}{ccc}
-% \cos\theta & 0 & -\sin\theta\\
-% 0 & 1 & 0\\
-% \sin\theta & 0 & \cos\theta
-% \end{array}\right)\left(\begin{array}{ccc}
-% 1 & 0 & 0\\
-% 0 & \cos\phi & \sin\phi\\
-% 0 & -\sin\phi & \cos\phi
-% \end{array}\right)
-% \]
-% \\
-% \[
-% R_{a}^{l}=\begin{bmatrix}\sin\psi\cos\theta & \sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi & \cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi\\
-% \cos\psi\cos\theta & \cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi & -\cos\psi\sin\theta\cos\phi-\sin\psi\sin\phi\\
-% -\sin\theta & \cos\theta\sin\phi & -\cos\theta\cos\phi
-% \end{bmatrix}\label{eq:transform-a-to-l}
-% \]
+%DIF >  \[
+%DIF >  \mathbf{R}_{a}^{l}=\left(\begin{array}{ccc}
+%DIF >  0 & 1 & 0\\
+%DIF >  1 & 0 & 0\\
+%DIF >  0 & 0 & -1
+%DIF >  \end{array}\right)\left(\begin{array}{ccc}
+%DIF >  \cos\psi & -\sin\psi & 0\\
+%DIF >  \sin\psi & \cos\psi & 0\\
+%DIF >  0 & 0 & 1
+%DIF >  \end{array}\right)\left(\begin{array}{ccc}
+%DIF >  \cos\theta & 0 & -\sin\theta\\
+%DIF >  0 & 1 & 0\\
+%DIF >  \sin\theta & 0 & \cos\theta
+%DIF >  \end{array}\right)\left(\begin{array}{ccc}
+%DIF >  1 & 0 & 0\\
+%DIF >  0 & \cos\phi & \sin\phi\\
+%DIF >  0 & -\sin\phi & \cos\phi
+%DIF >  \end{array}\right)
+%DIF >  \]
+%DIF >  \\
+%DIF >  \[
+%DIF >  R_{a}^{l}=\begin{bmatrix}\sin\psi\cos\theta & \sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi & \cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi\\
+%DIF >  \cos\psi\cos\theta & \cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi & -\cos\psi\sin\theta\cos\phi-\sin\psi\sin\phi\\
+%DIF >  -\sin\theta & \cos\theta\sin\phi & -\cos\theta\cos\phi
+%DIF >  \end{bmatrix}\label{eq:transform-a-to-l}
+%DIF >  \]
 
-% 
-% \begin{equation}
-% R_{l}^{b}=\begin{bmatrix}\cos\psi\cos\phi+\sin\psi\sin\phi\sin\theta & -\sin\psi\cos\phi+\cos\psi\sin\phi\sin\theta & -\cos\theta\sin\phi\\ 
-% \sin\psi\cos\theta & \cos\psi\cos\theta & \sin\theta\\ 
-% \cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi & -\sin\psi\sin\phi-\cos\psi\sin\theta\sin\phi & \cos\theta\cos\phi 
-% \end{bmatrix}\label{eq:transform-l-to-b}
-% \end{equation}
-% The transformation from the $l$ to $a$-frame, $R_l^a$, is the inverse (or transpose) of this matrix. If the roll and pitch angles are small,\sindex[lis]{bb@$\mathbf{b}^{(b)}$=unit vector representing errors in attitude angles in the \emph{b}-frame} 
-% 
-% \begin{eqnarray}
-% \mathbf{b^{(a)}=}R_{l}^{b}\mathbf{b^{(l)}} & \approx & \left[\begin{array}{ccc}
-% \cos\psi & -\sin\psi & 0\\ 
-% \sin\psi & \cos\psi & 0\\ 0 & 0 & 1 
-% \end{array}\right]\begin{bmatrix}\delta\phi\\ 
-% \delta\theta\\ 1 
-% \end{bmatrix}=\begin{bmatrix}\cos\psi\delta\phi-\sin\psi\delta\theta\\ 
-% \sin\psi\delta\phi+\cos\psi\delta\theta\\ 1 
-% \end{bmatrix}\label{eq:b-vector-in-b-frame}
-% \end{eqnarray}
-% 
-% 
-% which leads to $\delta\theta^{(b)}$ and $\delta\phi^{(b)}$, the pitch and roll errors in the $b$-frame: 
-% 
-% \begin{eqnarray}
-% \delta\theta^{(a)} & \simeq & \sin\psi\delta\phi+\cos\psi\delta\theta\label{eq:final-answer}\\ 
-% \delta\phi^{(a)} & \approx & \cos\psi\delta\phi-\sin\psi\delta\theta\nonumber  
-% \end{eqnarray}
-% In turns, the roll angle is no longer negligible, so in general the full transformation matrix (the inverse of \eqref{eq:transform-a-to-l}) should be used. Because this matrix imposes rotations by the measured pitch and roll angles, the unit vector representing the errors in pitch and roll after transformation will have components from which the true pitch and roll can be determined, so subtracting the corrected pitch from the measured pitch gives the error in measured pitch: \\ 
-% \begin{equation}
-% \delta\theta^{(b)}=\theta-\arctan\frac{b_{2}^{(b)}}{b_{3}^{(b)}}\label{eq:pitch-error-wo-approx} 
-% \end{equation}
-This pitch error should then be \emph{subtracted} from the measured pitch to obtain a corrected value of the pitch to be used in the calculation of vertical wind.\index{pitch!correction!equation} 
+%DIF >  
+%DIF >  \begin{equation}
+%DIF >  R_{l}^{b}=\begin{bmatrix}\cos\psi\cos\phi+\sin\psi\sin\phi\sin\theta & -\sin\psi\cos\phi+\cos\psi\sin\phi\sin\theta & -\cos\theta\sin\phi\\ 
+%DIF >  \sin\psi\cos\theta & \cos\psi\cos\theta & \sin\theta\\ 
+%DIF >  \cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi & -\sin\psi\sin\phi-\cos\psi\sin\theta\sin\phi & \cos\theta\cos\phi 
+%DIF >  \end{bmatrix}\label{eq:transform-l-to-b}
+%DIF >  \end{equation}
+%DIF >  The transformation from the $l$ to $a$-frame, $R_l^a$, is the inverse (or transpose) of this matrix. If the roll and pitch angles are small,\sindex[lis]{bb@$\mathbf{b}^{(b)}$=unit vector representing errors in attitude angles in the \emph{b}-frame} 
+%DIF >  
+%DIF >  \begin{eqnarray}
+%DIF >  \mathbf{b^{(a)}=}R_{l}^{b}\mathbf{b^{(l)}} & \approx & \left[\begin{array}{ccc}
+%DIF >  \cos\psi & -\sin\psi & 0\\ 
+%DIF >  \sin\psi & \cos\psi & 0\\ 0 & 0 & 1 
+%DIF >  \end{array}\right]\begin{bmatrix}\delta\phi\\ 
+%DIF >  \delta\theta\\ 1 
+%DIF >  \end{bmatrix}=\begin{bmatrix}\cos\psi\delta\phi-\sin\psi\delta\theta\\ 
+%DIF >  \sin\psi\delta\phi+\cos\psi\delta\theta\\ 1 
+%DIF >  \end{bmatrix}\label{eq:b-vector-in-b-frame}
+%DIF >  \end{eqnarray}
+%DIF >  
+%DIF >  
+%DIF >  which leads to $\delta\theta^{(b)}$ and $\delta\phi^{(b)}$, the pitch and roll errors in the $b$-frame: 
+%DIF >  
+%DIF >  \begin{eqnarray}
+%DIF >  \delta\theta^{(a)} & \simeq & \sin\psi\delta\phi+\cos\psi\delta\theta\label{eq:final-answer}\\ 
+%DIF >  \delta\phi^{(a)} & \approx & \cos\psi\delta\phi-\sin\psi\delta\theta\nonumber  
+%DIF >  \end{eqnarray}
+%DIF >  In turns, the roll angle is no longer negligible, so in general the full transformation matrix (the inverse of \eqref{eq:transform-a-to-l}) should be used. Because this matrix imposes rotations by the measured pitch and roll angles, the unit vector representing the errors in pitch and roll after transformation will have components from which the true pitch and roll can be determined, so subtracting the corrected pitch from the measured pitch gives the error in measured pitch: \\ 
+%DIF >  \begin{equation}
+%DIF >  \delta\theta^{(b)}=\theta-\arctan\frac{b_{2}^{(b)}}{b_{3}^{(b)}}\label{eq:pitch-error-wo-approx} 
+%DIF >  \end{equation}
+\DIFaddend This pitch error should then be \DIFdelbegin \DIFdel{subtracted }\DIFdelend \DIFaddbegin \emph{\DIFadd{subtracted}} \DIFaddend from the measured pitch to obtain a corrected value of the pitch \DIFdelbegin \DIFdel{for use }\DIFdelend \DIFaddbegin \DIFadd{to be used }\DIFaddend in the calculation of vertical wind.\index{pitch!correction!equation} 
 
 
 \subsubsection{Application to research flights\label{sub:Application-to-research}}
 
-The research flights have frequent changes in heading, with mixing of the roll and pitch errors but also accelerations that affect those errors and introduce new errors from heading errors. The corrections to pitch therefore appear much less systematic than was the case for the ferry flight. An example with larger pitch errors than those in most DEEPWAVE flights, DEEPWAVE\index{DEEPWAVE!flight 1} flight 1, is presented here. Figure \ref{fig:processing-1}\sindex[var]{GGVEW>@GGVEW}\sindex[var]{VEW>@VEW} shows the measured errors in ground-speed\index{speed of aircraft!ground speed} components, and Fig.~\ref{fig:processing-2}\sindex[var]{PITCH>@PITCH}\sindex[var]{ROLL>@ROLL} shows the deduced pitch and roll errors. There are instances where the pitch error abruptly reverses sign; those are cases where the flight direction changed by about 180$^{\circ}$. 
-% During turns, the full transformation leads to a result significantly different from the small-angle-approximation result, as shown by the orange line in Fig.~\ref{fig:processing-2}, but when not turning the full-transformation results replicate the small-angle-approximation results (blue line), as indicated by the orange dashed line overlapping the blue line. The proposed solution is to use the full transformation to find a corrected pitch variable\sindex[var]{PITCHC=pitch corrected as described in Sect.~\ref{sub:angle-transforms-for-pitch-correction}} to be used for calculation of the vertical wind.
-In straight-and-level flight, the needed corrections for this flight are about $\pm$0.03$^{\circ}$ at some times, and this error can lead (for airspeed of 220 m/s) to an error in vertical wind of more than $\pm0.1$\,m/s. Correction for this error thus can lead to a useful reduction in the uncertainty associated with the measured vertical wind. 
+The research flights have frequent changes in heading, with mixing of the roll and pitch errors but also accelerations that affect those errors and introduce new errors from heading errors. The corrections to pitch therefore appear much less systematic than was the case for the ferry flight. An example with larger pitch errors than those in most DEEPWAVE flights, DEEPWAVE\index{DEEPWAVE!flight 1} flight 1, is presented here. Figure \ref{fig:processing-1}\sindex[var]{GGVEW>@GGVEW}\sindex[var]{VEW>@VEW} shows the measured errors in ground-speed\index{speed of aircraft!ground speed} components, and Fig.~\ref{fig:processing-2}\sindex[var]{PITCH>@PITCH}\sindex[var]{ROLL>@ROLL} shows the deduced pitch and roll errors. There are instances where the pitch error abruptly reverses sign; those are cases where the flight direction \DIFdelbegin \DIFdel{changes }\DIFdelend \DIFaddbegin \DIFadd{changed }\DIFaddend by about 180\DIFdelbegin \DIFdel{deg. 
+During turns, the full transformation leads to a result significantly different from the small-angle-approximation result, as shown by the orange line in Fig.~\ref{fig:processing-2}, but when not turning the full-transformation results replicate the small-angle-approximation results (blue line), as indicated by the orange dashed line overlapping the blue line. The proposed solution is to use the full transformation to find a corrected pitch variable}%DIFDELCMD < \sindex[var]{PITCHC=pitch corrected as described in Sect.~\ref{sub:angle-transforms-for-pitch-correction}} %%%
+\DIFdel{to be used for calculation of the vertical wind. }\DIFdelend \DIFaddbegin \DIFadd{$^{\circ}$. 
+%DIF >  During turns, the full transformation leads to a result significantly different from the small-angle-approximation result, as shown by the orange line in Fig.~\ref{fig:processing-2}, but when not turning the full-transformation results replicate the small-angle-approximation results (blue line), as indicated by the orange dashed line overlapping the blue line. The proposed solution is to use the full transformation to find a corrected pitch variable\sindex[var]{PITCHC=pitch corrected as described in Sect.~\ref{sub:angle-transforms-for-pitch-correction}} to be used for calculation of the vertical wind.
+}\DIFaddend In straight-and-level flight, the needed corrections for this flight are about $\pm$0.03$^{\circ}$ at some times, and this error can lead (for airspeed of 220 m/s) to an error in vertical wind of more than $\pm0.1$\,m/s. Correction for this error thus can lead to a useful reduction in the uncertainty associated with the measured vertical wind. 
 
 \begin{knitrout}\footnotesize
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
@@ -3722,7 +3796,7 @@ In straight-and-level flight, the needed corrections for this flight are about $
 
 }
 
-\caption[Measured errors in ground-speed components for DEEPWAVE flight 1]{Measured errors in ground-speed components for DEEPWAVE flight 1. DifEW is GGVEW-VEW, the difference in eastward ground speed between measurements from the GPS and IRU, and DifNS is the corresponding difference for the northward component.}\label{fig:processing-1}
+\caption[Measured errors in ground-speed components for DEEPWAVE flight 1]{Measured errors in ground-speed components for DEEPWAVE flight 1. DifEW \DIFdelbeginFL \DIFdelFL{denotes }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{is }\DIFaddendFL GGVEW-VEW, the difference in eastward ground speed between measurements from the GPS and IRU, and DifNS \DIFdelbeginFL \DIFdelFL{denotes }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{is }\DIFaddendFL the corresponding difference for the \DIFdelbeginFL \DIFdelFL{northwas }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{northward }\DIFaddendFL component.}\label{fig:processing-1}
 \end{figure}
 
 
@@ -3735,7 +3809,7 @@ In straight-and-level flight, the needed corrections for this flight are about $
 
 }
 
-\caption[Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft.]{Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft.  Gaps in plots are turns, identified when the absolute value of the roll angle is more than $3^{\circ}$ and 30-s prior to and following such points. The pitch correction is not plotted there because the algorithm is not applicable to turns and small timing differences can lead to large errors when turning.}\label{fig:processing-2}
+\caption[Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft.]{Errors in pitch and roll determined from the measured errors in ground-speed components, after transformation to the reference frame that is the body frame of the aircraft.  \DIFdelbeginFL \DIFdelFL{The orange line labeled 'Full Xfm' uses (\ref{eq:b-vector-in-b-frame}) and (\ref{eq:pitch-error-wo-approx})}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{Gaps in plots are turns}\DIFaddendFL , \DIFdelbeginFL \DIFdelFL{while }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{identified when }\DIFaddendFL the \DIFdelbeginFL \DIFdelFL{thick blue line uses the approximate result (\ref{eq:final-answer}). The limits $\pm$0.03 correspond to roll angle }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{absolute value }\DIFaddendFL of \DIFdelbeginFL \DIFdelFL{$\pm 30^{\circ}$ after division by 1000, so }\DIFdelendFL the \DIFdelbeginFL \DIFdelFL{regions with vertical black lines are ones with significant }\DIFdelendFL roll \DIFaddbeginFL \DIFaddFL{angle is more than $3^{\circ}$ }\DIFaddendFL and \DIFdelbeginFL \DIFdelFL{identify }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{30-s prior to and following such points. The pitch correction is not plotted there because }\DIFaddendFL the \DIFaddbeginFL \DIFaddFL{algorithm is not applicable to }\DIFaddendFL turns \DIFdelbeginFL \DIFdelFL{in the flight track}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{and small timing differences can lead to large errors when turning}\DIFaddendFL .}\label{fig:processing-2}
 \end{figure}
 
 
@@ -3802,9 +3876,9 @@ The following is a tabulation of five instances where the flight track reversed 
 
 \end{knitrout}
 
-The difference between average vertical wind measurements for each  pair of legs was calculated before and after applying the pitch-correction  algorithm developed in this subsection. The results are shown in Fig.~\ref{fig:reverse-course-w-comparison}. The measurements were in good agreement without any pitch correction, with an average absolute value of the difference between opposing legs of 0.09\,m\,s$^{-1}$. The pitch correction kept the averages quite small and improved the agreement, reducing the mean value of the difference to 0.05\,m\,s$^{-1}$. More significant than this reduction is that the values were this small even before correction. This is a good indicator of the low uncertainty of the pitch measurement even without correction. A course-reversal difference of 0.1\,m\,s$^{-1}$ would result from a pitch error  of less than 0.015$^{\circ}$, so this suggests that the inertial system is performing significantly better than its specified uncertainty (0.05$^{\circ}$). After correction, the mean difference suggests an error of less than 0.005$^{\circ}$ for the corrected values. 
+The difference between average vertical wind measurements for each  pair of legs was calculated before and after applying the pitch-correction  algorithm developed in this subsection. The results are shown in Fig.~\ref{fig:reverse-course-w-comparison}. The measurements were in good agreement without any pitch correction, with an average absolute value of the difference between opposing legs of 0.09\,m\,s$^{-1}$. The pitch correction kept the averages quite small and improved the agreement, reducing the mean value of the difference to \DIFdelbegin \DIFdel{0.09}\DIFdelend \DIFaddbegin \DIFadd{0.05}\DIFaddend \,m\,s$^{-1}$. More significant than this reduction is that the values were this small even before correction. This is a good indicator of the low uncertainty of the pitch measurement even without correction. A course-reversal difference of 0.1\,m\,s$^{-1}$ would result from a pitch error  of less than 0.015$^{\circ}$, so this suggests that the inertial system is performing significantly better than its specified uncertainty (0.05$^{\circ}$). After correction, the mean difference suggests an error of less than 0.005$^{\circ}$ for the corrected values. 
 
-Table\ \ref{tab:vw-by-flight} lists the mean vertical wind with and without pitch correction for each of the DEEPWAVE flights. For each flight, all measurements above 25,000\,ft with airspeed above 130\,m/s and roll between $-5$ and $5^{\circ}$ were included to emphasize normal research conditions. Any periods with missing measurements were also excluded from the averages, and measurements from flights 6, 7, and 15 are not included because the first two were cases where the conventional vertical-wind measuring system malfunctioned and flight 15 was a flight devoted to calibration with little upper-level flight and frequent turns including circles. 
+Table\ \ref{tab:vw-by-flight} lists the mean vertical wind with and without pitch correction for each of the DEEPWAVE flights. For each flight, all measurements above 25,000\,ft with airspeed above 130\,m/s and roll between $-5$ and $5^{\circ}$ were included to emphasize normal research conditions. Any \DIFaddbegin \DIFadd{periods with }\DIFaddend missing measurements were also excluded from the averages, and measurements from flights 6, 7, and 15 are not included because the first two were cases where the conventional vertical-wind measuring system malfunctioned and flight 15 was a flight devoted to calibration with little upper-level flight and frequent turns including circles. 
 
 
 
@@ -3816,33 +3890,37 @@ Table\ \ref{tab:vw-by-flight} lists the mean vertical wind with and without pitc
 \textbf{flight}  & \textbf{mean WIC [m/s]}  & \textbf{mean corrected WIC [m/s]}\tabularnewline 
 \midrule 
 \midrule  1 & \ensuremath{-0.01} & \ensuremath{-0.02}\tabularnewline 
-\midrule  2 & 0.03 & 0.03\tabularnewline 
+\midrule  2 & 0.03 & \DIFdelbeginFL \DIFdelFL{0.02}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.03}\DIFaddendFL \tabularnewline 
 \midrule  3 & \ensuremath{-0.07} & \ensuremath{-0.07}\tabularnewline 
-\midrule  4 & \ensuremath{-0.09} & \ensuremath{-0.13}\tabularnewline 
-\midrule  5 & 0.03 & 0\tabularnewline 
-\midrule  8 & 0.01 & \ensuremath{-0.02}\tabularnewline 
-\midrule  9 & 0.02 & 0.02\tabularnewline 
-\midrule  10 & 0.15 & 0.14\tabularnewline 
+\midrule  4 & \ensuremath{-0.09} & \DIFdelbeginFL %DIFDELCMD < \ensuremath{-0.14}%%%
+\DIFdelendFL \DIFaddbeginFL \ensuremath{-0.13}\DIFaddendFL \tabularnewline 
+\midrule  5 & 0.03 & \DIFdelbeginFL %DIFDELCMD < \ensuremath{-0.02}%%%
+\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0}\DIFaddendFL \tabularnewline 
+\midrule  8 & 0.01 & \DIFdelbeginFL %DIFDELCMD < \ensuremath{-0.03}%%%
+\DIFdelendFL \DIFaddbeginFL \ensuremath{-0.02}\DIFaddendFL \tabularnewline 
+\midrule  9 & 0.02 & \DIFdelbeginFL \DIFdelFL{0.01}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.02}\DIFaddendFL \tabularnewline 
+\midrule  10 & 0.15 & \DIFdelbeginFL \DIFdelFL{0.13}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.14}\DIFaddendFL \tabularnewline 
 \midrule  11 & 0.08 & 0.08\tabularnewline 
-\midrule  12 & \ensuremath{-0.07} & \ensuremath{-0.08}\tabularnewline 
-\midrule  13 & 0.02 & 0.01\tabularnewline 
-\midrule  14 & 0.08 & 0.09\tabularnewline 
-\midrule  16 & 0.07 & 0.06\tabularnewline 
-\midrule  17 & 0.01 & 0.01\tabularnewline 
+\midrule  12 & \DIFdelbeginFL \DIFdelFL{0.07 }\DIFdelendFL \DIFaddbeginFL \ensuremath{-0.07} \DIFaddendFL & \DIFdelbeginFL \DIFdelFL{0.04}\DIFdelendFL \DIFaddbeginFL \ensuremath{-0.08}\DIFaddendFL \tabularnewline 
+\midrule  13 & 0.02 & \DIFdelbeginFL %DIFDELCMD < \ensuremath{-0.01}%%%
+\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.01}\DIFaddendFL \tabularnewline 
+\midrule  14 & 0.08 & \DIFdelbeginFL \DIFdelFL{0.08}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.09}\DIFaddendFL \tabularnewline 
+\midrule  16 & 0.07 & \DIFdelbeginFL \DIFdelFL{0.05}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.06}\DIFaddendFL \tabularnewline 
+\midrule  17 & \DIFdelbeginFL \DIFdelFL{0.02 }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.01 }\DIFaddendFL & 0.01\tabularnewline 
 \midrule  18 & \ensuremath{-0.07} & \ensuremath{-0.07}\tabularnewline 
 \midrule  19 & 0.08 & 0.08\tabularnewline 
-\midrule  20 & 0.07 & 0.07\tabularnewline 
-\midrule  21 & \ensuremath{-0.02} & \ensuremath{-0.04}\tabularnewline 
-\midrule  22 & 0.02 & 0.01\tabularnewline 
+\midrule  20 & 0.07 & \DIFdelbeginFL \DIFdelFL{0.06}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.07}\DIFaddendFL \tabularnewline 
+\midrule  21 & \DIFdelbeginFL \DIFdelFL{0.11 }\DIFdelendFL \DIFaddbeginFL \ensuremath{-0.02} \DIFaddendFL & \DIFdelbeginFL \DIFdelFL{0.08}\DIFdelendFL \DIFaddbeginFL \ensuremath{-0.04}\DIFaddendFL \tabularnewline 
+\midrule  22 & 0.02 & \DIFdelbeginFL \DIFdelFL{0}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.01}\DIFaddendFL \tabularnewline 
 \midrule  23 & 0.07 & 0.07\tabularnewline 
 \midrule  24 & 0.03 & 0.03\tabularnewline 
 \midrule  25 & \ensuremath{-0.02} & \ensuremath{-0.02}\tabularnewline 
-\midrule  26 & 0.03 & 0.05\tabularnewline 
+\midrule  26 & 0.03 & \DIFdelbeginFL \DIFdelFL{0.03}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{0.05}\DIFaddendFL \tabularnewline 
 \bottomrule 
 \end{tabular}
 \par\end{centering}
 
-\protect\caption[The average vertical wind for each flight, before and after application of the pitch-correction algorithm.]{The average vertical wind for each flight, before and after application of the pitch-correction algorithm developed in this subsection. The data restriction applied was that the airspeed be above 130\,m/s, absolute value of the roll less than $5^{\circ}$, and the flight level greater than FL250 (25,000\,ft or approximately 7.6\,km, to emphasize normal research measurement conditions in the DEEPWAVE project. Flights 6, 7, and 15 were also excluded, as explained in the text.\label{tab:vw-by-flight}} 
+\protect\caption[The average vertical wind for each flight, before and after application of the pitch-correction algorithm.]{The average vertical wind for each flight, before and after application of the pitch-correction algorithm developed in this subsection. The data restriction applied was that the airspeed be above 130\,m/s, absolute value of the roll less than $5^{\circ}$, and the flight level greater than FL250 (25,000\,ft or approximately 7.6\,km, to emphasize normal research measurement conditions in the DEEPWAVE project. Flights 6, 7, and 15 \DIFdelbeginFL \DIFdelFL{are }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{were }\DIFaddendFL also \DIFdelbeginFL \DIFdelFL{missing}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{excluded}\DIFaddendFL , as explained in the text.\label{tab:vw-by-flight}} 
 \end{table}
 
 \par\end{center}
@@ -3850,13 +3928,14 @@ Table\ \ref{tab:vw-by-flight} lists the mean vertical wind with and without pitc
 
 The mean value of the vertical wind, for all flights combined, was 
 \index{pitch!correction!magnitude of} 
-0.02\,m/s for the uncorrected measurements and 0.01\,m/s for the corrected measurements, with standard deviations of  
+\DIFdelbegin \DIFdel{0.03}\DIFdelend \DIFaddbegin \DIFadd{0.02}\DIFaddend \,m/s for the uncorrected measurements and \DIFdelbegin \DIFdel{0.02}\DIFdelend \DIFaddbegin \DIFadd{0.01}\DIFaddend \,m/s for the corrected measurements, with standard deviations of  
 0.06\,m/s,  so both are well within expected tolerances. The pitch correction has little effect on these mean measurements or the overall standard deviation.  However, the small offset obtained with the pitch corrections applied does not indicate that the measurements are only uncertain within these limits, because most flights are long compared to the Schuler-oscillation period of about 84 min. Flights will average over an oscillating correction and that average may be small compared to the correction applied. The standard deviation of the applied correction is 0.02$^{\circ}$ when calculated for the entire project. That indicates that the correction to vertical wind arising from application of the pitch-correction algorithm introduces changes with standard deviation of about 
-0.08\,m\,s$^{-1}$  project-wide. Studies of individual flights  show that this varies significantly from flight to flight. This uncertainty, however, is a significant contributor to the uncertainty in vertical wind.  Without pitch correction, measurements of vertical wind  will have an error with typical period of the Schuler oscillation\index{oscillation!Schuler} that, for measurements spanning much shorter periods, will appear as a slowly varying bias.
+\DIFdelbegin \DIFdel{0.09}\DIFdelend \DIFaddbegin \DIFadd{0.08}\DIFaddend \,m\,s$^{-1}$  project-wide. Studies of individual flights  show that this varies significantly from flight to flight. This uncertainty, however, is a significant contributor to the uncertainty in vertical wind.  Without pitch correction, measurements of vertical wind  will have an error with typical period of the Schuler oscillation\index{oscillation!Schuler} that, for measurements spanning much shorter periods, will appear as a slowly varying bias.
 
-To check for possible changes in the variance spectra of measurements, the variance spectrum of the correction signal from some representative flight legs in DEEPWAVE were examined. Because changes in attitude angles affect the transformation of the deduced corrections to the aircraft reference frame, body motions of the aircraft introduce some high-frequency contributions to the correction that would otherwise be eliminated by the >1000-s filtering of the GPS-measured accelerations. However, for all flight conditions examined, the variance spectrum of the effect of the correction on vertical wind was less than 1\% of that of vertical wind without correction, for all wavelengths smaller than 100\ km, and was less than 0.01\% at 1\ Hz.
+\DIFaddbegin \DIFadd{To check for possible changes in the variance spectra of measurements, the variance spectrum of the correction signal from some representative flight legs in DEEPWAVE were examined. Because changes in attitude angles affect the transformation of the deduced corrections to the aircraft reference frame, body motions of the aircraft introduce some high-frequency contributions to the correction that would otherwise be eliminated by the >1000-s filtering of the GPS-measured accelerations. However, for all flight conditions examined, the variance spectrum of the effect of the correction on vertical wind was less than 1\% of that of vertical wind without correction, for all wavelengths smaller than 100}\ \DIFadd{km, and was less than 0.01\% at 1}\ \DIFadd{Hz.
+}
 
-The correction procedure developed here is not applied in normal processing of data files because it uses fits to the entire sequence of ground-speed measurements to find the corrections while the normal processor is sequential and has no access to future measurements while processing. To apply these corrections, an additional processing step is required. Code for this purpose has been developed to add values of pitch and vertical wind after correction, and this code was used for all the analyses reported here including the determinations of sensitivity coefficients in Sect.~\ref{sec:Calibrations}. The code can be accessed in the reference file for this document, WindUncertainty.Rnw; for details, see Appendix C.
+\DIFaddend The correction procedure developed here is not applied in normal processing of data files because it \DIFaddbegin \DIFadd{uses }\DIFaddend fits to the entire sequence of ground-speed measurements to find the corrections while the normal processor is sequential and has no access to future measurements while processing. To apply these corrections, an additional processing step is required. Code for this purpose has been developed to add values of pitch and vertical wind after correction, and this code was used for all the analyses reported here including the determinations of sensitivity coefficients in Sect.~\ref{sec:Calibrations}. The code can be accessed in the reference file for this document, WindUncertainty.Rnw; for details, see Appendix C.
 
 % \subsubsection{Unresolved Questions}
 % \begin{enumerate}
@@ -4471,7 +4550,7 @@ The required heading correction is then the negative of this value, and the resu
 \subsubsection{Summary\label{sub:HWsummary}}
 
 The results obtained from analysis of the circle maneuvers are these:\index{maneuver!circle!summary of results} 
- 
+
 \begin{enumerate}
 \item The circle maneuvers indicate that the measured airspeed (TASF)\sindex[var]{TASF>@TASF} with current LAMS-based pressure corrections is accurate to within expected uncertainty. The fits indicate an error in airspeed 
 of 0.25$\pm$0.32\,m/s,% 
@@ -4608,7 +4687,7 @@ A good choice for the cutoff frequency is thus $f_c=0.04$\,Hz. This gives low tr
 % 
 % where $V_{0,0}=1$, $V_{0,1}=V_{1,0}=\sin(\Omega_{S}t)$, $V_{0,2}=V_{2,0}=\cos(\Omega_{S}t)$, $V_{1,1}=\sin^{2}(\Omega_{S}t)$, $V_{1,2}=V_{2,1}=\sin(\Omega_{S}t)\cos(\Omega_{S}t)$, and $V_{2,2}=\cos^{2}(\Omega_{S}t)$. When the fit is needed, the matrix $H_{i,j}$ is inverted and the result multiplied by the measurement matrix $A_{i,j}$ to get the fit coefficients $C_{ij}$ to use for predicting the results for $\delta u$, $\delta v$, $\delta\theta$, 
 % and $\delta\phi$ via equations like $\delta u=C_{0,1}+C_{1,1}\sin(\Omega_{S}t)+C_{2,1}\cos(\Omega t)$.% 
-% \end{minipage}} % \end{document}
+% \ENDDIF{minipage}} % \end{document}
 % % \end{document}
 
 \appendix
@@ -4840,7 +4919,7 @@ See Table~\ref{tab:Summary-of-uncertainty} and related discussion in this report
 % 
 % The sum of these matrices can be used in (\ref{eq:refa}) to evaluate the variance in the measured temperature:  
 % \begin{equation}
-% V_{TT}=\begin{pmatrix}a_{1}\end{pmatrix}\begin{pmatrix}S_{1}^{2}+B_{1}^{2}\end{pmatrix}\begin{pmatrix}a_{1}\\ a_{2}\\ 1 
+% V_{TT}=\begin{pmatrix}a_{1}\end{pmatrix}\BEGINDIF{pmatrix}S_{1}^{2}+B_{1}^{2}\end{pmatrix}\begin{pmatrix}a_{1}\\ a_{2}\\ 1 
 % \end{pmatrix}
 % \end{equation}
 % \begin{equation}
@@ -5128,13 +5207,16 @@ The conclusion from this appendix is that the lateral components of the wind mea
 \textsf{\textsc{\textcolor{blue}{Archive package:}}} & WindUncertainty.zip\tabularnewline
 \textsf{\textsc{\textcolor{blue}{Contains:}}} & attachment list below\tabularnewline
 \textsf{\textsc{\textcolor{blue}{Program:}}} & WindUncertainty.Rnw\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Workflow:}}} & Workflow.pdf\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Original Data:}}} & /scr/raf\_data/\{ProjectName\}/ [accessed May 2015] \tabularnewline
+\DIFaddbegin \textsf{\textsc{\DIFadd{\textcolor{blue}{Workflow:}}}} & \DIFadd{Workflow.pdf}\tabularnewline
+\DIFaddend \textsf{\textsc{\textcolor{blue}{Original Data:}}} & /scr/raf\_data/\{ProjectName\}/ [accessed May 2015] \tabularnewline
 \textsf{\textsc{\textcolor{blue}{DataFrame Archive:}}} & NCAR HPSS\tabularnewline
 \textsf{\textsc{\textcolor{blue}{Git:}}} & https://github.com/WilliamCooper/WindUncertainty.git\tabularnewline
 \end{tabular}
 
-\attachm{WindUncertainty.Rnw\\WindUncertainty.pdf\\SessionInfo\\Ranadu\_2.1-15-5-29.tar.gz\\Introduction.Rnw\\ComponentsOfWindSensingSystem.Rnw\\Conventions.Rnw\\CalibrationProcedures.Rnw\\ElementsOfUncertaintyAndSummary.Rnw\\SensitivityCoefficients.Rnw\\SchulerSection.Rnw\\VerticalWindStudies.Rnw\\HorizontalWindStudies.Rnw\\Turbulence.Rnw\\./chunks\\./SpecialGraphics\\WAC.bib\\Workflow.pdf}
+\DIFdelbegin %DIFDELCMD < \attachm{WindUncertainty.Rnw\\WindUncertainty.pdf\\SessionInfo\\Ranadu\_2.1-15-5-29.tar.gz\\Introduction.Rnw\\ComponentsOfWindSensingSystem.Rnw\\Conventions.Rnw\\CalibrationProcedures.Rnw\\ElementsOfUncertaintyAndSummary.Rnw\\SensitivityCoefficients.Rnw\\SchulerSection.Rnw\\VerticalWindStudies.Rnw\\HorizontalWindStudies.Rnw\\Turbulence.Rnw\\./chunks\\./SpecialGraphics\\WAC.bib}
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \attachm{WindUncertainty.Rnw\\WindUncertainty.pdf\\SessionInfo\\Ranadu\_2.1-15-5-29.tar.gz\\Introduction.Rnw\\ComponentsOfWindSensingSystem.Rnw\\Conventions.Rnw\\CalibrationProcedures.Rnw\\ElementsOfUncertaintyAndSummary.Rnw\\SensitivityCoefficients.Rnw\\SchulerSection.Rnw\\VerticalWindStudies.Rnw\\HorizontalWindStudies.Rnw\\Turbulence.Rnw\\./chunks\\./SpecialGraphics\\WAC.bib\\Workflow.pdf}
+\DIFaddend 
 
 \index{reproducibility of this document}This document is constructed in ways that support duplication of the
 study. The processing programs are incorporated into the same file
@@ -5145,7 +5227,7 @@ The core program, 'WindUncertainty.Rnw', is archived on 'GitHub'
 the directory at \href{https://github.com/WilliamCooper/WindUncertainty.git}{this URL}.\sindex[var]{URL=Uniform Resource Locator}
 There is some supplemental material in that directory, like the bibliography, special graphics not generated by the R code,
 and many code segments saved in the 'chunks' subdirectory, so the
-full directory should be downloaded in order to run the program. The file WindUncertainty.zip will contain all the files needed to generate this document. It also contains a file called Workflow.pdf that describes the steps that created the document. This description should be of use to anyone wanting to reproduce or extend the results. The calculations
+full directory should be downloaded in order to run the program. The file WindUncertainty.zip will contain all the files needed to generate this document. \DIFaddbegin \DIFadd{It also contains a file called Workflow.pdf that describes the steps that created the document. This description should be of use to anyone wanting to reproduce or extend the results. }\DIFaddend The calculations
 use the programming language R\index{R!the programming language}\index{R!RStudio used with} (\citet{Rlanguage}) and were run within RStudio
 (\citet{RStudio2012}), so this is the most straightforward way to replicate the
 calculations and the generation of this document. To duplicate the list of symbols, list of variable names and acronyms, and the index, once the 'WindUncertainty.tex' file is generated by RStudio, run 'pdflatex WindUncertainty' three times to generate the index files, run 'splitindex WindUncertainty' and then 'makeindex WindUncertainty', then 'pdflatex WindUncertainty' again to update the indices.
@@ -5195,7 +5277,7 @@ is thus preserved.
 
 The research aircraft discussed in this report, often called "HIAPER,"\sindex[var]{HIAPER=High-Performance Airborne Platform for Environmental Research} was the result of an extensive effort both within and outside of NCAR, and especially at the National Science Foundation. Everyone at the Research Aviation Facility contributed, and additional key contributions were made by Krista Laursen, who led the HIAPER Project Office that oversaw this initial development, and Jim Huning and Cliff Jacobs at the NSF, whose contributions pervade the system as it exists today. The staff of the UCAR Contracts Office made essential contributions through negotiation and oversight. Chris Webster's development and maintenance of the software used for data processing over this entire cycle was also crucial. The technical staff of the NCAR Earth Observing Laboratory were involved in all stages of the development and operation of this research platform, and the project management staff, operations staff, and computing and data management groups of that Laboratory conducted the projects that produced the data used in this report. Without all these contributions, the measurements characterized in this report would not have been available to the community.
 
-To maintain focus and avoid even greater length, this technical report does not acknowledge the many contributions made to measurement science related to wind measurement by other research groups, but their work has influenced our approaches and thinking significantly. We especially acknowledge the advances and related work at the University of Wyoming, the German Aerospace Center (DLR), the Facility for Airborne Atmospheric Measurements (FAAM), as well as much published literature originating from NASA and other aeronautical groups, all of which have had important influences on our approach to these measurements. We also appreciate the very constructive reviews provided by Ulrich Schumann and Al Rodi.
+To maintain focus and avoid even greater length, this technical report does not acknowledge the many contributions made to measurement science related to wind measurement by other research groups, but their work has influenced our approaches and thinking significantly. We especially acknowledge the advances and related work at the University of Wyoming, the German Aerospace Center (DLR), the Facility for Airborne Atmospheric Measurements (FAAM), as well as much published literature originating from NASA and other aeronautical groups, all of which have had important influences on our approach to these measurements\DIFaddbegin \DIFadd{. We also appreciate the very constructive reviews provided by Ulrich Schumann and Al Rodi}\DIFaddend .
 
 Almost all of the analyses reported here were performed using R (\citet{Rlanguage}), with RStudio  \citet{RStudio2012} and knitr (\citet{Xie2014a,Xie2014b}). The
 "ggplot2" package (\citet{wickham2009}) was used for many of the figures. The effort to make these results reproducible benefited greatly by the work represented in these analysis tools, especially that provided by Y. Xie. The book by C. Gandrud (\citet{Gandrud2014}) also had a strong influence on our approach to this report.
