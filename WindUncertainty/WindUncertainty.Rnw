@@ -161,7 +161,7 @@
 \author{W. A. Cooper, R. B. Friesen, M. Hayman, J. B. Jensen, D. H. Lenschow, \\P. A. Romashkin, A. J. Schanot, S. M. Spuler, J. L. Stith, C. Wolff}
 
 
-\date{\textcolor{red}{} 5/9/2016}
+%\date{\textcolor{red}{} 5/9/2016}
 \thispagestyle{empty}
 \maketitle
 \vfill{}

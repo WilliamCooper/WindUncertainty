@@ -112,7 +112,7 @@ read_chunk ("chunks/getGGshift-function.R")
 
 r <- setRange (D$Time, 33830,35430)
 library(maps)
-library(mapdata)
+# library(mapdata)
 source ("chunks/plotTrack.R")    ## special version with changed font size
 plotTrack (D[r, ], .Spacing=2)
 plotTrack (D[r, ], .Spacing=2, xc=NA)    ##xc=NA is flag for drifting plot
