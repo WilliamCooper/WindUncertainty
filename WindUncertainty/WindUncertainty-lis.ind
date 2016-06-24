@@ -1,51 +1,49 @@
 \begin{theindex}
 
   \item $A_{e}$=amplitude of east component of the Schuler oscillation in ground speed, 
-		\hyperpage{101}
+		\hyperpage{102}
   \item $\alpha$=angle of attack, \hyperpage{3}
   \item $\alpha_{fit}$=empirical function representing angle of attack, 
-		\hyperpage{66}
-  \item $\alpha_{g}$=angle of attack, gust pod, \hyperpage{75}
+		\hyperpage{67}
+  \item $\alpha_{g}$=angle of attack, gust pod, \hyperpage{76}
   \item $\alpha^{*}$=reference angle of attack for calibration, 
-		\hyperpage{66}
+		\hyperpage{67}
   \item $A_{n}$=amplitude of north component of the Schuler oscillation in ground speed, 
-		\hyperpage{101}
-  \item $a_{n}$=northward component of acceleration, \hyperpage{99}
+		\hyperpage{102}
+  \item $a_{n}$=northward component of acceleration, \hyperpage{100}
 
   \indexspace
 
   \item $b_{0},\thinspace b_{1},\thinspace b_{2}\thinspace,b_{3}$=empirical coefficients relating angle of attack to pressure measurements from the gust pod {[}deg{]}, 
 		\hyperpage{45}
-  \item $\mathbf{b}^{(b)}$=unit vector representing errors in attitude angles in the \emph{b}-frame, 
-		\hyperpage{104}
   \item $\beta$=sideslip angle, \hyperpage{3}
   \item $\mathbf{b}^{(l)}$=unit vector representing errors in attitude angles in the \emph{l}-frame, 
-		\hyperpage{104}
+		\hyperpage{105}
 
   \indexspace
 
   \item $c_{0},\thinspace c_{1}$=coefficients used to calculate angle of attack, 
-		\hyperpage{42}, \hyperpage{72}
+		\hyperpage{42}, \hyperpage{73}
   \item $c_{p}$=specific heat of moist air at constant pressure, 
-		\hyperpage{84}
+		\hyperpage{86}
   \item $c^{\prime}$=standard coefficients for calculating the angle of attack, 
-		\hyperpage{69}
+		\hyperpage{70}
   \item $c_{0}^{*},\,c_{1}^{*}$=empirical coefficients for angle of attack, alternates to \{$c_{0},\,c_{1}$\}, 
-		\hyperpage{67}
+		\hyperpage{68}
   \item $c_{v}$=specific heat of moist air at constant volume, 
-		\hyperpage{84}
+		\hyperpage{86}
 
   \indexspace
 
   \item $\delta$=measurement uncertainty, \hyperpage{60}
   \item $\Delta p_{\alpha,g}$=gust pod pressure difference, bottom vs top, 
-		\hyperpage{84}
+		\hyperpage{85}
   \item $\Delta p_{\alpha}$=pressure difference between bottom and top ports on the radome or gust pod {[}hPa{]}, 
-		\hyperpage{69}
+		\hyperpage{70}
   \item $\delta p_{\beta}$=pressure difference between starboard and port sources on the radome or gust pod {[}hPa{]}, 
-		\hyperpage{69}
+		\hyperpage{70}
   \item $d_{i}$=coefficients for fit representing the gust-pod airspeed, 
-		\hyperpage{84}
+		\hyperpage{86}
 
   \indexspace
 
@@ -64,8 +62,8 @@
 
   \indexspace
 
-  \item $g$=acceleration of gravity, \hyperpage{98}
-  \item $G^{*}$=gust-pod fit for q/p, \hyperpage{84}
+  \item $g$=acceleration of gravity, \hyperpage{99}
+  \item $G^{*}$=gust-pod fit for q/p, \hyperpage{86}
 
   \indexspace
 
@@ -74,29 +72,29 @@
   \indexspace
 
   \item $\lambda$=laser wavelength, LAMS, \hyperpage{58}
-  \item $\lambda_E$=latitude, \hyperpage{99}
+  \item $\lambda_E$=latitude, \hyperpage{100}
   \item $\lambda_w$=wind direction, \hyperpage{61}
 
   \indexspace
 
-  \item $M$=Mach number, \hyperpage{69}
+  \item $M$=Mach number, \hyperpage{70}
   \item $\mathbf{v_{E}}$=vector wind relative to the Earth reference frame, 
 		\hyperpage{5}
   \item $\mathbf{v_{r}}$=vector relative wind, \hyperpage{5}
   \item $M_{g}$=Mach number calculated using gust-pod pressure measurements, 
-		\hyperpage{75}
+		\hyperpage{76}
   \item $m_{i}$=measured quantities used in empirical functions, 
-		\hyperpage{66}
+		\hyperpage{67}
 
   \indexspace
 
-  \item $\Omega_{Sch}$=angular velocity, \hyperpage{100}
+  \item $\Omega_{Sch}$=angular velocity, \hyperpage{101}
 
   \indexspace
 
-  \item $p_{g}$=ambient pressure measurement, gust pod, \hyperpage{84}
+  \item $p_{g}$=ambient pressure measurement, gust pod, \hyperpage{85}
   \item $\phi$=roll angle, \hyperpage{3}
-  \item $\phi_{L}$=LAMS azimuthal pointing angle, \hyperpage{27}
+  \item $\phi_{L}$=LAMS azimuthal pointing angle, \hyperpage{30}
   \item $\varphi_{T}$=azimuth angle, telescope mount, LAMS calibration, 
 		\hyperpage{32}
   \item $\psi$=heading, \hyperpage{3}
@@ -106,7 +104,8 @@
   \indexspace
 
   \item $q$=dynamic pressure, \hyperpage{8}
-  \item $q_{g}$=dynamic pressure, gust pod, \hyperpage{84}
+  \item $q_{g}$=dynamic pressure, gust pod, \hyperpage{85}
+  \item $q_h$=specific humidity, \hyperpage{11}
 
   \indexspace
 
@@ -114,22 +113,20 @@
 		\hyperpage{32}
   \item $\mathbf{R}(\gamma,\hat{v})$=rotation matrix used for LAMS calibration, 
 		\hyperpage{32}
-  \item $R_{a}$=gas constant for moist air, \hyperpage{84}
-  \item $R_{e}$=radius of the Earth, \hyperpage{98}
+  \item $R_{a}$=gas constant for moist air, \hyperpage{86}
+  \item $R_{e}$=radius of the Earth, \hyperpage{99}
   \item $\rho_{a}$=density of air, \hyperpage{8}
-  \item $R_{l}^{b}$=rotation matrix from \emph{l}-frame to \emph{b}-frame, 
-		\hyperpage{104}
 
   \indexspace
 
-  \item $T_{a}$=temperature, absolute units, \hyperpage{84}
+  \item $T_{a}$=temperature, absolute units, \hyperpage{86}
   \item $\theta$=pitch angle, \hyperpage{3}
   \item $\theta_{L}$=LAMS pointing angle from longitudinal axis, 
-		\hyperpage{27}
+		\hyperpage{30}
   \item $\vartheta_{T}$=altitude angle, telescope mount, LAMS calibration, 
 		\hyperpage{32}
   \item $T_{Sch}$=period of the Schuler oscillation (84.4 min), 
-		\hyperpage{98}
+		\hyperpage{99}
 
   \indexspace
 
@@ -141,7 +138,7 @@
   \item $\mathbf{v}$=wind vector, \hyperpage{60}
   \item $v$=component of wind along the y-axis, \hyperpage{60}
   \item $v$=wind speed (relative to the Earth), \hyperpage{114}
-  \item $v_{n}$=northward component of velocity, \hyperpage{99}
+  \item $v_{n}$=northward component of velocity, \hyperpage{100}
   \item $V^{*}$=longitudinal component of airspeed, \hyperpage{3}
 
   \indexspace
@@ -152,7 +149,11 @@
   \indexspace
 
   \item $x$=northward coordinate in an Earth reference frame, 
-		\hyperpage{99}
+		\hyperpage{100}
+  \item $\hat{x},\,\hat{y},\,\hat{z}$=coordinate axes of the Earth-based reference frame, 
+		\hyperpage{3}
+  \item $\hat{x^{\prime}},\,\hat{y^{\prime}},\,\hat{z^{\prime}}$=coordinate axes of the aircraft, 
+		\hyperpage{3}
   \item $\xi$=angle between the relative wind and Earth-referenced wind, 
 		\hyperpage{114}
 

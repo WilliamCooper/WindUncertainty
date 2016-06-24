@@ -48,6 +48,12 @@
  pdfkeywords={wind,uncertainty, NCAR Research Aviation Facility, research aircraft, NCAR/EOL/RAF}}
 %\usepackage{breakurl}
 %\usepackage{html}
+\usepackage[titletoc,title,toc]{appendix}
+\usepackage{pdfpages}
+\usepackage{bookmark}
+\renewcommand\appendixtocname{Appendices}
+%\renewcommand\appendixpagename{Appx.}
+%\renewcommand\appendixname{Appx.}
 
 \makeatletter
 
@@ -198,44 +204,23 @@ transferAttributes <- function (dsub, d) {
 
 @
 
-\begin{abstract}
-
-This technical note presents an analysis of uncertainty for measurements
-of wind from the Gulfstream V research aircraft operated by the National
-Center for Atmospheric Research for the National Science Foundation,
-with emphasis on measurements made in the DEEPWAVE field project in
-2014. It begins with a description of the instruments used to make
-the needed measurements and the algorithms used for calculation of
-wind. Three systems are described, the primary system in depth, a
-new system based on a gust pod in lesser detail, and a laser air motion
-sensor in preliminary fashion because the latter is still under development.
-In addition to specifying the characteristics of the component measurements
-and propagating their uncertainty to the final measurement of wind,
-the document presents detailed information on how the measurements
-are calibrated in terms of airflow, are processed to incorporate corrections,
-and are checked with flight maneuvers. The results are presented in
-terms of standard uncertainties where possible, so if for example
-coverage intended to match 95\% confidence intervals is desired the
-values quoted should be doubled. The net uncertainty in the standard
-measurement of vertical wind is 0.12~m\,s$^{-1}$, and a correction
-procedure for removing the Schuler oscillation in pitch is developed
-that with special processing can reduce this value. For the standard
-measurement of horizontal wind, the estimated standard uncertainty
-is about 0.4~m\,s$^{-1}$ for each component of the vector wind.
-These estimates are supported by itemized lists of the sources of
-error and how the associated uncertainty has been measured. The report
-also offers some suggestions regarding methods to improve the measurements,
-focused on the horizontal wind where the weakest measurement is that
-of heading. Appendices to the report discuss the conventions used
-for characterization of uncertainty and the high-rate (25~Hz) measurements
-used to characterize turbulence. Finally, the last appendix discusses
-how the analysis programs and data are preserved in ways that address
-reproducibility of the analyses, so that others can duplicate these
-results.
-\end{abstract}
+\renewcommand{\contentsname}{Table of Contents}
+\phantomsection
+\addcontentsline{toc}{section}{Table of Contents}
+\tableofcontents{}
 \clearpage
+\phantomsection
+\addcontentsline{toc}{section}{List of Figures}
+\listoffigures
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{List of Tables}
+\listoftables
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{section}{Foreword}
 \subsection*{\centering{Foreword}}
-\addcontentsline{toc}{subsection}{Foreword}
+%\addcontentsline{toc}{subsection}{Foreword}
 %%\source('foreword_wind_doc.tex')
 {\centering
 Jeff Stith
@@ -321,18 +306,58 @@ this important technology. It represents a continuation of the
 pioneering work on airborne wind measurements done by Lenschow and
 colleagues, done now with modern technology and a continuing focus on
 the performance of the instrumentation used for this application. 
-
-\tableofcontents{}
-\clearpage
-\phantomsection
-\addcontentsline{toc}{section}{List of Figures}
-\listoffigures
-\clearpage
-\phantomsection
-\addcontentsline{toc}{section}{List of Tables}
-\listoftables
 \cleardoublepage
-\newpage
+\renewcommand{\abstractname}{Preface and Abstract}
+\phantomsection
+\begin{abstract}
+\addcontentsline{toc}{section}{Preface and Abstract}
+
+This technical note presents an analysis of uncertainty for measurements
+of wind from the Gulfstream V research aircraft operated by the National
+Center for Atmospheric Research for the National Science Foundation,
+with emphasis on measurements made in the DEEPWAVE field project in
+2014. It begins with a description of the instruments used to make
+the needed measurements and the algorithms used for calculation of
+wind. Three systems are described, the primary system in depth, a
+new system based on a gust pod in lesser detail, and a laser air motion
+sensor in preliminary fashion because the latter is still under development.
+In addition to specifying the characteristics of the component measurements
+and propagating their uncertainty to the final measurement of wind,
+the document presents detailed information on how the measurements
+are calibrated in terms of airflow, are processed to incorporate corrections,
+and are checked with flight maneuvers. The results are presented in
+terms of standard uncertainties where possible, so if for example
+coverage intended to match 95\% confidence intervals is desired the
+values quoted should be doubled. The net uncertainty in the standard
+measurement of vertical wind is 0.12~m\,s$^{-1}$, and a correction
+procedure for removing the Schuler oscillation in pitch is developed
+that with special processing can reduce this value. For the standard
+measurement of horizontal wind, the estimated standard uncertainty
+is about 0.4~m\,s$^{-1}$ for each component of the vector wind.
+These estimates are supported by itemized lists of the sources of
+error and how the associated uncertainty has been measured. The report
+also offers some suggestions regarding methods to improve the measurements,
+focused on the horizontal wind where the weakest measurement is that
+of heading. Appendices to the report discuss the conventions used
+for characterization of uncertainty and the high-rate (25~Hz) measurements
+used to characterize turbulence. Finally, the last appendix discusses
+how the analysis programs and data are preserved in ways that address
+reproducibility of the analyses, so that others can duplicate these
+results.
+\end{abstract}
+\clearpage
+\section*{Acknowledgments}
+\addcontentsline{toc}{section}{Acknowledgements}
+\label{sec:acknowledgements}
+
+The research aircraft discussed in this report, often called "HIAPER,"\sindex[var]{HIAPER=High-Performance Airborne Platform for Environmental Research} was the result of an extensive effort both within and outside of NCAR, and especially at the National Science Foundation. Everyone at the Research Aviation Facility contributed, and additional key contributions were made by Krista Laursen, who led the HIAPER Project Office that oversaw this initial development, and Jim Huning and Cliff Jacobs at the NSF, whose contributions pervade the system as it exists today. The staff of the UCAR Contracts Office made essential contributions through negotiation and oversight. Chris Webster's development and maintenance of the software used for data processing over this entire cycle was also crucial. The technical staff of the NCAR Earth Observing Laboratory were involved in all stages of the development and operation of this research platform, and the project management staff, operations staff, and computing and data management groups of that Laboratory conducted the projects that produced the data used in this report. Without all these contributions, the measurements characterized in this report would not have been available to the community.
+
+To maintain focus and avoid even greater length, this technical report does not acknowledge the many contributions made to measurement science related to wind measurement by other research groups, but their work has influenced our approaches and thinking significantly. We especially acknowledge the advances and related work at the University of Wyoming, the German Aerospace Center (DLR), the Facility for Airborne Atmospheric Measurements (FAAM), as well as much published literature originating from NASA and other aeronautical groups, all of which have had important influences on our approach to these measurements. We also appreciate the very constructive reviews provided by Ulrich Schumann and Al Rodi.
+
+Almost all of the analyses reported here were performed using R (\citet{Rlanguage}), with RStudio  \citet{RStudio2012} and knitr (\citet{Xie2014a,Xie2014b}). The
+"ggplot2" package (\citet{wickham2009}) was used for many of the figures. The effort to make these results reproducible benefited greatly by the work represented in these analysis tools, especially that provided by Y. Xie. The book by C. Gandrud (\citet{Gandrud2014}) also had a strong influence on our approach to this report.
+
+\cleardoublepage
 \pagenumbering{arabic}
 <<A, child='Introduction.Rnw'>>=
 @
@@ -349,12 +374,18 @@ the performance of the instrumentation used for this application.
 <<F, child='HorizontalWindStudies.Rnw'>>=
 @
 
-\appendix
-
+\cleardoublepage
+\begin{appendices}
+%\appendix
+%\bookmark[page=143,level=1]{Appx.~A}
 <<H, child='Conventions.Rnw'>>=
 @
+
+
 <<I, child='Turbulence.Rnw'>>=
 @
+
+
 
 \section{Reproducibility}
 
@@ -423,6 +454,8 @@ documentation of what data were used. Key information like the processing
 date, the program version, and the selection of primary variables
 is thus preserved.
 
+\end{appendices}
+
 <<make-zip-archive, include=FALSE, echo=FALSE>>=
 
 cat (toLatex(sessionInfo()), file="SessionInfo")
@@ -431,22 +464,6 @@ system (sprintf("zip %s.zip %s.Rnw %s.pdf SessionInfo Introduction.Rnw Component
 @
 
 
-\section*{Acknowledgments}
-\label{sec:acknowledgements}
-
-The research aircraft discussed in this report, often called "HIAPER,"\sindex[var]{HIAPER=High-Performance Airborne Platform for Environmental Research} was the result of an extensive effort both within and outside of NCAR, and especially at the National Science Foundation. Everyone at the Research Aviation Facility contributed, and additional key contributions were made by Krista Laursen, who led the HIAPER Project Office that oversaw this initial development, and Jim Huning and Cliff Jacobs at the NSF, whose contributions pervade the system as it exists today. The staff of the UCAR Contracts Office made essential contributions through negotiation and oversight. Chris Webster's development and maintenance of the software used for data processing over this entire cycle was also crucial. The technical staff of the NCAR Earth Observing Laboratory were involved in all stages of the development and operation of this research platform, and the project management staff, operations staff, and computing and data management groups of that Laboratory conducted the projects that produced the data used in this report. Without all these contributions, the measurements characterized in this report would not have been available to the community.
-
-To maintain focus and avoid even greater length, this technical report does not acknowledge the many contributions made to measurement science related to wind measurement by other research groups, but their work has influenced our approaches and thinking significantly. We especially acknowledge the advances and related work at the University of Wyoming, the German Aerospace Center (DLR), the Facility for Airborne Atmospheric Measurements (FAAM), as well as much published literature originating from NASA and other aeronautical groups, all of which have had important influences on our approach to these measurements. We also appreciate the very constructive reviews provided by Ulrich Schumann and Al Rodi.
-
-Almost all of the analyses reported here were performed using R (\citet{Rlanguage}), with RStudio  \citet{RStudio2012} and knitr (\citet{Xie2014a,Xie2014b}). The
-"ggplot2" package (\citet{wickham2009}) was used for many of the figures. The effort to make these results reproducible benefited greatly by the work represented in these analysis tools, especially that provided by Y. Xie. The book by C. Gandrud (\citet{Gandrud2014}) also had a strong influence on our approach to this report.
-
-\bibliographystyle{plainnat}
-\label{sec:bibliography}
-\clearpage
-\phantomsection
-\addcontentsline{toc}{section}{References}
-\bibliography{WAC}
 \clearpage
 \phantomsection
 \addcontentsline{toc}{section}{List of Symbols}
@@ -459,7 +476,12 @@ Almost all of the analyses reported here were performed using R (\citet{Rlanguag
 \phantomsection
 \addcontentsline{toc}{section}{Index}
 \printindex[idx]{}
-
+\bibliographystyle{plainnat}
+\label{sec:bibliography}
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\bibliography{WAC}
 \clearpage
 
 \centerline{-- Blank Page, End of this Technical Report --}

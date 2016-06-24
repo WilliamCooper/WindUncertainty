@@ -293,7 +293,8 @@ The other wind-sensing systems on the GV can help provide valid measurements of 
 \protect\protect\protect\caption{\label{fig:AppxB-PSD1314}Variance spectra for the dynamic pressure measurements from the radome-based system (QCF) and from the gust-pod system (QC\_GP) for the flight segment from 21:02:00 to 21:09:00 UTC on 24 Nov.\ 2014.} 
 \end{figure}
 
-\sindex[var]{QC_GP>@QC\_GP}\sindex[var]{QCF>@QCF}Figure \ref{fig:AppxB-PSD1314}\index{variance spectrum!comparison of QCF and QC_GP@comparison of QCF and QC\_GP} shows the variance spectra for the gust-pod dynamic pressure (QC\_GP) and for the radome-system dynamic pressure (QCF).\sindex[var]{QCF>@QCF} This comparison shows that there appears to be noise\index[noise|radome system} in the radome-system measurement at high frequency but the gust-pod measurement\index[noise!gust-pod system} looks reasonable up to about 10\,Hz. (The reduced amplitude for QC\_GP at frequencies lower than about 0.1\,Hz arises from the reduction in dynamic pressure measured under the wing because of disturbed airflow. This is corrected when the gust-pod airspeed TAS\_GP is calculated.) To see how this is reflected in the wind measurements and in a proposed new variable that blends measurements from the gust-pod and radome systems, these steps were used: 
+\sindex[var]{QC_GP>@QC\_GP}\sindex[var]{QCF>@QCF}Figure \ref{fig:AppxB-PSD1314}\index{variance spectrum!comparison of QCF and QC_GP@comparison of QCF and QC\_GP} shows the variance spectra for the gust-pod dynamic pressure (QC\_GP) and for the radome-system dynamic pressure (QCF).\sindex[var]{QCF>@QCF} This comparison shows that there appears to be 
+noise\index{noise!radome system} in the radome-system measurement at high frequency but the gust-pod measurement\index{noise!gust-pod system} looks reasonable up to about 10\,Hz. (The reduced amplitude for QC\_GP at frequencies lower than about 0.1\,Hz arises from the reduction in dynamic pressure measured under the wing because of disturbed airflow. This is corrected when the gust-pod airspeed TAS\_GP is calculated.) To see how this is reflected in the wind measurements and in a proposed new variable that blends measurements from the gust-pod and radome systems, these steps were used: 
 
 \begin{enumerate}
 \item Develop a calibration for airspeed from the gust pod, similar to that developed in Sect.~\ref{sub:GP-TAS}. There the fit was restricted to measurements at high flight levels because that was of primary interest to DEEPWAVE\index{DEEPWAVE}, but for measurements in the boundary layer this needs to be repeated. The same equation was used to represent the fit, and the fit used the measurements from flight 3 of the HCRTEST\index{HCRTEST}\sindex[var]{HCRTEST=HIAPER Cloud Radar test flights} program were used, but all measurements with conventionally measured airspeed (TASF)\sindex[var]{TASF>@TASF} above 130\,m/s and magnitude of the roll angle less than $5^{\circ}$ were used. A fit of \eqref{eq:TASfit} to these measurements then produced coefficients from which the ratio of dynamic to static pressure could be determined. 
@@ -404,7 +405,12 @@ file.rename ("MEMPlot.png", "PSD19.png")
 
 VarList <- c("QCXC", "PSXC", "QC_GP", "PS_GP", "ADIF_GP", "BDIF_GP",
 "AKRD", "SSRD", "TASX", "ROLL", "GGALT", "ATX", "EWX", "TAS_GP")
-Data <- getNetCDF ("/Data/HCRTEST/HCRTESTrf03.nc", VarList)
+if (ReloadData) {
+  Data <- getNetCDF ("/Data/HCRTEST/HCRTESTrf03.nc", VarList)
+  save(Data, file="./DataFrames/Turb4.Rdata")
+} else { 
+  load("./DataFrames/Turb4.Rdata")
+}
 Data$B1 <- Data$QCXC/Data$PSXC
 Data$B2 <- Data$QC_GP/Data$PS_GP
 Data$AQR_GP <- Data$ADIF_GP/Data$QC_GP # basic pressure ratio for AOA
@@ -459,7 +465,12 @@ fn2 <- "/Data/HCRTEST/HTrf03_50.nc"
 VarList <- c("QCXC", "PSXC", "QC_GP", "PS_GP", "ADIF_GP", "BDIF_GP", "CVSPD_GP",
 "AKRD", "SSRD", "TASX", "ROLL", "GGALT", "ATX", "EWX", "TAS_GP", "UXC", "VYC", "WIC",
 "GGVEW", "GGVNS", "GGVSPD", "PITCH", "ROLL", "THDG", "VEW", "VNS")
-DataH <- getNetCDF(fn2, VarList)
+if (ReloadData) {
+  DataH <- getNetCDF(fn2, VarList)
+  save(DataH, file="./DataFrames/Turb5.Rdata")
+} else {
+  load ('./DataFrames/Turb5.Rdata')
+}
 DataH$B1 <- DataH$QCXC/DataH$PSXC
 DataH$B2 <- DataH$QC_GP/DataH$PS_GP
 DataH$AQR_GP <- DataH$ADIF_GP/DataH$QC_GP # basic pressure ratio for AOA

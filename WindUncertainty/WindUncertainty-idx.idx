@@ -32,9 +32,14 @@
 \indexentry{wind!measurement!standard system|hyperpage}{2}
 \indexentry{speed of aircraft!ground speed|hyperpage}{2}
 \indexentry{wind!measurement!gust pod|hyperpage}{2}
+\indexentry{Rosemount 858 airflow sensor|hyperpage}{2}
+\indexentry{inertial reference unit|hyperpage}{2}
+\indexentry{filter!Kalman|hyperpage}{2}
 \indexentry{wind!measurement!laser air-motion sensor|hyperpage}{2}
 \indexentry{laser air-motion sensor|hyperpage}{2}
 \indexentry{LAMS|hyperindexformat{\see {laser air-motion sensor}}}{2}
+\indexentry{Doppler shift|hyperpage}{3}
+\indexentry{humidity!effect on airspeed|hyperpage}{3}
 \indexentry{properties of moist air|hyperpage}{3}
 \indexentry{pressure!ambient|hyperpage}{3}
 \indexentry{pressure!static|hyperindexformat{\see {pressure, ambient}}}{3}
@@ -49,6 +54,8 @@
 \indexentry{heading|hyperpage}{3}
 \indexentry{roll angle|hyperpage}{3}
 \indexentry{pitch angle|hyperpage}{3}
+\indexentry{angle!attitude|hyperpage}{3}
+\indexentry{coordinate system!Earth|hyperpage}{3}
 \indexentry{wind!relative|hyperpage}{3}
 \indexentry{coordinate system!aircraft|hyperpage}{3}
 \indexentry{wind!relative|hyperpage}{3}
@@ -56,7 +63,7 @@
 \indexentry{airspeed!longitudinal|hyperpage}{3}
 \indexentry{attack!angle of|hyperpage}{3}
 \indexentry{sideslip|hyperpage}{3}
-\indexentry{sign convention|hyperpage}{3}
+\indexentry{wind!relative!sign convention|hyperpage}{3}
 \indexentry{transformation!to Earth reference frame|hyperpage}{4}
 \indexentry{coordinate system!Earth|hyperpage}{4}
 \indexentry{gust pod|hyperpage}{4}
@@ -69,6 +76,7 @@
 \indexentry{Global Positioning System|hyperpage}{4}
 \indexentry{speed of aircraft!ground speed|hyperpage}{4}
 \indexentry{transformation!coordinate|hyperpage}{4}
+\indexentry{wind!coordinate transformation|hyperpage}{4}
 \indexentry{rotation matrices|hyperpage}{4}
 \indexentry{transformation!rotation|hyperpage}{4}
 \indexentry{matrices!rotation|hyperpage}{4}
@@ -89,6 +97,7 @@
 \indexentry{wind!north component|hyperpage}{5}
 \indexentry{wind!east component|hyperpage}{5}
 \indexentry{wind!vertical|hyperpage}{5}
+\indexentry{wind!equation for components|hyperpage}{5}
 \indexentry{wind!measurement!standard system|hyperpage}{6}
 \indexentry{pitot tube|hyperpage}{6}
 \indexentry{angle!airflow|hyperpage}{6}
@@ -160,7 +169,7 @@
 \indexentry{processing algorithms|hyperpage}{10}
 \indexentry{temperature!uncertainty|hyperpage}{10}
 \indexentry{dew point|hyperpage}{10}
-\indexentry{humidity, effect of|hyperpage}{10}
+\indexentry{humidity, effect on airspeed|hyperpage}{10}
 \indexentry{example of measurements!attitude angles|hyperpage}{11}
 \indexentry{example of measurements!pressure|hyperpage}{11}
 \indexentry{example of measurements!airspeed|hyperpage}{11}
@@ -168,8 +177,8 @@
 \indexentry{example of measurements!angle of attack|hyperpage}{11}
 \indexentry{example of measurements!sideslip|hyperpage}{11}
 \indexentry{speed of aircraft!ground speed|hyperpage}{11}
-\indexentry{example of measurements!wind components|hyperpage}{11}
-\indexentry{wind!example of measurements|hyperpage}{11}
+\indexentry{example of measurements!wind components|hyperpage}{17}
+\indexentry{wind!example of measurements|hyperpage}{17}
 \indexentry{gust pod|hyperpage}{17}
 \indexentry{all-weather wind pod|hyperindexformat{\see {gust pod}}}{17}
 \indexentry{DEEPWAVE|hyperpage}{17}
@@ -179,10 +188,10 @@
 \indexentry{IRU!C-MIGITS|hyperpage}{17}
 \indexentry{IRU!C-MIGITS!specifications|hyperpage}{17}
 \indexentry{gust pod!photograph|hyperpage}{17}
-\indexentry{angle!attitude!gust pod|hyperpage}{17}
-\indexentry{gust pod!components|hyperpage}{17}
-\indexentry{IRU!C-MIGITS!uncertainty|hyperpage}{17}
 \indexentry{specifications!gust pod|hyperpage}{18}
+\indexentry{angle!attitude!gust pod|hyperpage}{19}
+\indexentry{gust pod!components|hyperpage}{19}
+\indexentry{IRU!C-MIGITS!uncertainty|hyperpage}{19}
 \indexentry{pressure!ambient!gust pod|hyperpage}{19}
 \indexentry{gust pod!components|hyperpage}{19}
 \indexentry{pressure!dynamic!gust pod|hyperpage}{19}
@@ -194,9 +203,9 @@
 \indexentry{example of measurements!gust pod|hyperpage}{20}
 \indexentry{variance spectrum!vertical wind!gust pod|hyperpage}{24}
 \indexentry{power spectrum|hyperindexformat{\see {variance spectrum}}}{24}
-\indexentry{gust pod!problem in turns|hyperpage}{24}
+\indexentry{gust pod!problem in turns|hyperpage}{26}
 \indexentry{DEEPWAVE!flight 18|hyperpage}{26}
-\indexentry{laser air-motion sensor|hyperpage}{26}
+\indexentry{laser air-motion sensor|hyperpage}{27}
 \indexentry{LAMS!schematic|hyperpage}{27}
 \indexentry{IRU!LAMS|hyperpage}{27}
 \indexentry{IRU!SDN500|hyperpage}{27}
@@ -208,7 +217,7 @@
 \indexentry{LAMS!photograph|hyperpage}{29}
 \indexentry{LAMS!pointing angles|hyperpage}{29}
 \indexentry{LAMS!pointing angles!survey|hyperpage}{30}
-\indexentry{LAMS!angle calibration!telescope method|hyperpage}{32}
+\indexentry{LAMS!angle calibration!telescope method|hyperpage}{33}
 \indexentry{calibrations!general|hyperpage}{36}
 \indexentry{calibrations!laboratory/bench|hyperpage}{36}
 \indexentry{temperature!calibration of sensors|hyperpage}{36}
@@ -257,7 +266,7 @@
 \indexentry{speed!vertical!aircraft|hyperpage}{43}
 \indexentry{pressure!ambient!uncertainty|hyperpage}{43}
 \indexentry{uncertainty!vertical wind|hyperpage}{44}
-\indexentry{wind!vertical!net uncertainty|hyperpage}{44}
+\indexentry{wind!vertical!uncertainty|hyperpage}{44}
 \indexentry{pitch!correction|hyperpage}{44}
 \indexentry{gust pod|hyperpage}{45}
 \indexentry{system!gust pod|hyperpage}{45}
@@ -277,7 +286,7 @@
 \indexentry{temperature!uncertainty|hyperpage}{47}
 \indexentry{uncertainty!temperature|hyperpage}{47}
 \indexentry{uncertainty!wind!vertical|hyperpage}{47}
-\indexentry{wind!vertical!net uncertainty|hyperpage}{47}
+\indexentry{wind!vertical!uncertainty|hyperpage}{47}
 \indexentry{gust pod!limitations|hyperpage}{47}
 \indexentry{uncertainty!elemental sources|hyperpage}{48}
 \indexentry{wind!horizontal!uncertainty|hyperpage}{48}
@@ -298,7 +307,6 @@
 \indexentry{pressure!dynamic|hyperpage}{51}
 \indexentry{pressure!static|hyperpage}{51}
 \indexentry{DEEPWAVE|hyperpage}{51}
-\indexentry{wind!uncertainty!lateral|hyperpage}{51}
 \indexentry{uncertainty!wind!lateral|hyperpage}{51}
 \indexentry{wind!lateral component|hyperpage}{51}
 \indexentry{heading!uncertainty|hyperpage}{51}
@@ -331,131 +339,134 @@
 \indexentry{uncertainty!wind direction|hyperpage}{61}
 \indexentry{wind!vertical!potential for improvement|hyperpage}{61}
 \indexentry{filter!Kalman|hyperpage}{63}
+\indexentry{upwash|hyperpage}{63}
+\indexentry{sidewash|hyperpage}{63}
 \indexentry{gust pod|hyperpage}{63}
 \indexentry{uncertainty!vertical wind!gust pod|hyperpage}{63}
 \indexentry{uncertainty!horizontal wind!gust pod|hyperpage}{63}
 \indexentry{gust pod!limitations|hyperpage}{63}
-\indexentry{wind!vertical!inter-comparison|hyperpage}{63}
-\indexentry{wind!relative|hyperpage}{65}
-\indexentry{attack!angle of|hyperpage}{65}
-\indexentry{sideslip|hyperpage}{65}
-\indexentry{DEEPWAVE!flight 15|hyperpage}{65}
-\indexentry{maneuvers!calibration|hyperpage}{65}
-\indexentry{DEEPWAVE!flight 11|hyperpage}{65}
-\indexentry{attack!angle of!calibration equation|hyperpage}{65}
-\indexentry{attack!angle of!empirical representation|hyperpage}{66}
-\indexentry{maneuver!speed run|hyperpage}{66}
-\indexentry{DEEPWAVE!calibration maneuvers|hyperpage}{66}
-\indexentry{residual standard deviation|hyperpage}{67}
-\indexentry{attack!angle of!standard coefficients|hyperpage}{69}
-\indexentry{Mach number|hyperpage}{69}
-\indexentry{attack!angle of!alternate fit|hyperpage}{69}
-\indexentry{attack!angle of!fit with expanded data set|hyperpage}{71}
-\indexentry{attack!angle of!recommended coefficients|hyperpage}{72}
-\indexentry{representation!empirical!re-randomization tests|hyperpage}{74}
-\indexentry{attack!angle of!effect of mean vertical wind in calibration data|hyperpage}{74}
-\indexentry{DEEPWAVE!flights with bad measurements|hyperpage}{74}
-\indexentry{attack!angle of!fit coefficients, all DEEPWAVE flights|hyperpage}{75}
-\indexentry{attack!angle of!gust pod!coefficients|hyperpage}{77}
-\indexentry{DEEPWAVE!flight 15|hyperpage}{77}
-\indexentry{maneuver!yaw|hyperpage}{77}
-\indexentry{sideslip!fit coefficients for DEEPWAVE|hyperpage}{78}
-\indexentry{sideslip!standard coefficients|hyperpage}{80}
-\indexentry{sideslip!fit coefficients for gust pod|hyperpage}{80}
-\indexentry{airspeed!gust pod|hyperpage}{83}
-\indexentry{DEEPWAVE!restrictions on gust-pod airspeed measurements|hyperpage}{83}
-\indexentry{pressure!dynamic!corrected|hyperpage}{84}
-\indexentry{pressure!ambient!corrected|hyperpage}{84}
-\indexentry{pressure!dynamic!gust pod|hyperpage}{84}
-\indexentry{pressure!ambient!gust pod|hyperpage}{84}
-\indexentry{Mach number|hyperpage}{84}
-\indexentry{airspeed!gust pod!fit equation and coefficients|hyperpage}{84}
-\indexentry{DEEPWAVE!obstructed radome|hyperpage}{86}
-\indexentry{wind!gust pod!using TASF for airspeed|hyperpage}{86}
-\indexentry{rate of climb|hyperpage}{88}
-\indexentry{velocity!aircraft!vertical|hyperpage}{88}
-\indexentry{speed of aircraft!vertical|hyperpage}{88}
-\indexentry{timing of measurements|hyperpage}{88}
-\indexentry{Schuler oscillation|hyperindexformat{\see {oscillation, Schuler}}}{88}
-\indexentry{oscillation!Schuler|hyperpage}{88}
-\indexentry{inertial reference unit|hyperpage}{88}
-\indexentry{pitch!correction|hyperpage}{88}
-\indexentry{velocity!aircraft!available measurements|hyperpage}{88}
-\indexentry{baro-inertial updating|hyperpage}{88}
-\indexentry{nimbus!gust.c|hyperpage}{88}
-\indexentry{gust.c|hyperpage}{88}
-\indexentry{baro-inertial updating|hyperpage}{88}
-\indexentry{inertial reference unit!filter|hyperpage}{88}
-\indexentry{Global Positioning System|hyperpage}{89}
-\indexentry{OmniSTAR|hyperpage}{89}
-\indexentry{filter!complementary|hyperpage}{89}
-\indexentry{variance spectrum!vertical wind components|hyperpage}{89}
-\indexentry{DEEPWAVE!flight 16|hyperpage}{89}
-\indexentry{noise!DEEPWAVE flights|hyperpage}{89}
-\indexentry{variance spectrum!vertical wind components|hyperpage}{89}
-\indexentry{IRU!Honeywell|hyperpage}{89}
-\indexentry{inertial subrange|hyperpage}{90}
-\indexentry{eddy dissipation rate|hyperpage}{90}
-\indexentry{spectral variance@WIC|hyperpage}{91}
-\indexentry{WI!recommendation against use|hyperpage}{91}
-\indexentry{WIC!recommended variable|hyperpage}{91}
-\indexentry{variance spectrum!concern re GPS variable GGVSPD|hyperpage}{91}
-\indexentry{variance spectrum!low-turbulence case|hyperpage}{92}
-\indexentry{DEEPWAVE!flight 15|hyperpage}{92}
-\indexentry{noise!low-intensity turbulence|hyperpage}{92}
-\indexentry{variance spectrum!white noise|hyperpage}{92}
-\indexentry{noise!white|hyperpage}{92}
-\indexentry{variance spectrum!noise in|hyperpage}{92}
-\indexentry{noise!ADIFR|hyperpage}{92}
-\indexentry{noise!QCF|hyperpage}{92}
-\indexentry{noise!QCR|hyperpage}{92}
-\indexentry{noise!digitization|hyperpage}{92}
-\indexentry{noise!ADIFR|hyperpage}{92}
-\indexentry{phugoid|hyperpage}{94}
-\indexentry{oscillation!in aircraft altitude|hyperpage}{94}
-\indexentry{OmniSTAR|hyperpage}{94}
-\indexentry{timing of measurements|hyperpage}{95}
-\indexentry{attack!angle of!timing|hyperpage}{95}
-\indexentry{time lag!AKRD|hyperpage}{95}
-\indexentry{pitch!timing|hyperpage}{95}
-\indexentry{timing!pitch|hyperpage}{95}
-\indexentry{timing!heading|hyperpage}{95}
-\indexentry{timing!roll|hyperpage}{95}
-\indexentry{timing!QCF|hyperpage}{95}
-\indexentry{DEEPWAVE!reference temperature|hyperpage}{95}
-\indexentry{timing!GGVSPD|hyperpage}{96}
-\indexentry{wind!vertical!first-order equation|hyperpage}{96}
-\indexentry{DEEPWAVE!flight 15|hyperpage}{96}
+\indexentry{wind!vertical!inter-comparison|hyperpage}{65}
+\indexentry{wind!relative|hyperpage}{66}
+\indexentry{attack!angle of|hyperpage}{66}
+\indexentry{sideslip|hyperpage}{66}
+\indexentry{DEEPWAVE!flight 15|hyperpage}{66}
+\indexentry{maneuvers!calibration|hyperpage}{66}
+\indexentry{DEEPWAVE!flight 11|hyperpage}{66}
+\indexentry{attack!angle of!calibration equation|hyperpage}{66}
+\indexentry{attack!angle of!empirical representation|hyperpage}{67}
+\indexentry{maneuver!speed run|hyperpage}{67}
+\indexentry{DEEPWAVE!calibration maneuvers|hyperpage}{67}
+\indexentry{residual standard deviation|hyperpage}{68}
+\indexentry{attack!angle of!standard coefficients|hyperpage}{70}
+\indexentry{Mach number|hyperpage}{70}
+\indexentry{attack!angle of!alternate fit|hyperpage}{70}
+\indexentry{attack!angle of!fit with expanded data set|hyperpage}{72}
+\indexentry{attack!angle of!recommended coefficients|hyperpage}{73}
+\indexentry{representation!empirical!re-randomization tests|hyperpage}{75}
+\indexentry{attack!angle of!effect of mean vertical wind in calibration data|hyperpage}{75}
+\indexentry{DEEPWAVE!flights with bad measurements|hyperpage}{75}
+\indexentry{attack!angle of!fit coefficients, all DEEPWAVE flights|hyperpage}{76}
+\indexentry{attack!angle of!gust pod!coefficients|hyperpage}{78}
+\indexentry{DEEPWAVE!flight 15|hyperpage}{78}
+\indexentry{maneuver!yaw|hyperpage}{78}
+\indexentry{sideslip!fit coefficients for DEEPWAVE|hyperpage}{79}
+\indexentry{sideslip!standard coefficients|hyperpage}{81}
+\indexentry{sideslip!fit coefficients for gust pod|hyperpage}{81}
+\indexentry{upwash|hyperpage}{84}
+\indexentry{sidewash|hyperpage}{84}
+\indexentry{upwash!see also {sidewash}|hyperpage}{84}
+\indexentry{sidewash!see also {upwash}|hyperpage}{84}
+\indexentry{airspeed!gust pod|hyperpage}{84}
+\indexentry{DEEPWAVE!restrictions on gust-pod airspeed measurements|hyperpage}{85}
+\indexentry{pressure!dynamic!corrected|hyperpage}{85}
+\indexentry{pressure!ambient!corrected|hyperpage}{85}
+\indexentry{pressure!dynamic!gust pod|hyperpage}{85}
+\indexentry{pressure!ambient!gust pod|hyperpage}{85}
+\indexentry{Mach number|hyperpage}{85}
+\indexentry{airspeed!gust pod!fit equation and coefficients|hyperpage}{85}
+\indexentry{DEEPWAVE!obstructed radome|hyperpage}{87}
+\indexentry{wind!gust pod!using TASF for airspeed|hyperpage}{87}
+\indexentry{rate of climb|hyperpage}{89}
+\indexentry{velocity!aircraft!vertical|hyperpage}{89}
+\indexentry{speed of aircraft!vertical|hyperpage}{89}
+\indexentry{timing of measurements|hyperpage}{89}
+\indexentry{Schuler oscillation|hyperindexformat{\see {oscillation, Schuler}}}{89}
+\indexentry{oscillation!Schuler|hyperpage}{89}
+\indexentry{inertial reference unit|hyperpage}{89}
+\indexentry{pitch!correction|hyperpage}{89}
+\indexentry{velocity!aircraft!available measurements|hyperpage}{89}
+\indexentry{baro-inertial updating|hyperpage}{89}
+\indexentry{nimbus!gust.c|hyperpage}{89}
+\indexentry{gust.c|hyperpage}{89}
+\indexentry{baro-inertial updating|hyperpage}{89}
+\indexentry{inertial reference unit!filter|hyperpage}{89}
+\indexentry{Global Positioning System|hyperpage}{90}
+\indexentry{OmniSTAR|hyperpage}{90}
+\indexentry{filter!complementary|hyperpage}{90}
+\indexentry{variance spectrum!vertical wind components|hyperpage}{90}
+\indexentry{DEEPWAVE!flight 16|hyperpage}{90}
+\indexentry{noise!DEEPWAVE flights|hyperpage}{90}
+\indexentry{variance spectrum!vertical wind components|hyperpage}{90}
+\indexentry{IRU!Honeywell|hyperpage}{90}
+\indexentry{inertial subrange|hyperpage}{91}
+\indexentry{eddy dissipation rate|hyperpage}{91}
+\indexentry{spectral variance@WIC|hyperpage}{92}
+\indexentry{WI!recommendation against use|hyperpage}{92}
+\indexentry{WIC!recommended variable|hyperpage}{92}
+\indexentry{variance spectrum!concern re GPS variable GGVSPD|hyperpage}{92}
+\indexentry{variance spectrum!low-turbulence case|hyperpage}{93}
+\indexentry{DEEPWAVE!flight 15|hyperpage}{93}
+\indexentry{noise!low-intensity turbulence|hyperpage}{93}
+\indexentry{variance spectrum!white noise|hyperpage}{93}
+\indexentry{noise!white|hyperpage}{93}
+\indexentry{variance spectrum!noise in|hyperpage}{93}
+\indexentry{noise!ADIFR|hyperpage}{93}
+\indexentry{noise!QCF|hyperpage}{93}
+\indexentry{noise!QCR|hyperpage}{93}
+\indexentry{noise!digitization|hyperpage}{93}
+\indexentry{noise!ADIFR|hyperpage}{93}
+\indexentry{phugoid|hyperpage}{95}
+\indexentry{oscillation!in aircraft altitude|hyperpage}{95}
+\indexentry{OmniSTAR|hyperpage}{95}
+\indexentry{timing of measurements|hyperpage}{96}
+\indexentry{attack!angle of!timing|hyperpage}{96}
+\indexentry{time lag!AKRD|hyperpage}{96}
+\indexentry{pitch!timing|hyperpage}{96}
 \indexentry{timing!pitch|hyperpage}{96}
-\indexentry{maneuver!pitch|hyperpage}{96}
-\indexentry{pitch!correction|hyperpage}{98}
-\indexentry{oscillation!Schuler|hyperpage}{98}
-\indexentry{inertial reference unit!alignment|hyperpage}{98}
-\indexentry{oscillation!Schuler|hyperpage}{98}
-\indexentry{oscillation!Schuler!period of|hyperpage}{98}
-\indexentry{oscillation!Schuler|hyperpage}{98}
-\indexentry{pitch!correction|hyperpage}{98}
-\indexentry{inertial reference unit!Schuler oscillation|hyperpage}{98}
-\indexentry{IRU!Honeywell!Schuler oscillation|hyperpage}{98}
-\indexentry{oscillation!Schuler!tutorial|hyperpage}{99}
-\indexentry{oscillation!Schuler!angular velocity|hyperpage}{100}
-\indexentry{speed of aircraft!ground speed|hyperpage}{101}
-\indexentry{DEEPWAVE!ferry flight|hyperpage}{101}
-\indexentry{speed of aircraft!ground speed|hyperpage}{101}
-\indexentry{coordinate system!local reference frame|hyperpage}{101}
-\indexentry{coordinate system!l-frame|hyperindexformat{\see {coordinate system, local reference frame}}}{101}
-\indexentry{coordinate system!aircraft reference frame|hyperpage}{101}
-\indexentry{Savitzky-Golay polynomials|hyperpage}{101}
-\indexentry{coordinate system!local reference frame|hyperpage}{104}
-\indexentry{coordinate system!ENU frame|hyperindexformat{\see {coordinate system, local reference frame}}}{104}
-\indexentry{coordinate system!b-frame|hyperindexformat{\see {coordinate system, aircraft reference frame}}}{104}
-\indexentry{coordinate system!body frame|hyperindexformat{\see {coordinate system, aircraft reference frame}}}{104}
-\indexentry{coordinate system!rotation|hyperpage}{104}
+\indexentry{timing!heading|hyperpage}{96}
+\indexentry{timing!roll|hyperpage}{96}
+\indexentry{timing!QCF|hyperpage}{96}
+\indexentry{DEEPWAVE!reference temperature|hyperpage}{96}
+\indexentry{timing!GGVSPD|hyperpage}{97}
+\indexentry{wind!vertical!first-order equation|hyperpage}{97}
+\indexentry{DEEPWAVE!flight 15|hyperpage}{97}
+\indexentry{timing!pitch|hyperpage}{97}
+\indexentry{maneuver!pitch|hyperpage}{97}
+\indexentry{pitch!correction|hyperpage}{99}
+\indexentry{oscillation!Schuler|hyperpage}{99}
+\indexentry{inertial reference unit!alignment|hyperpage}{99}
+\indexentry{oscillation!Schuler|hyperpage}{99}
+\indexentry{oscillation!Schuler!period of|hyperpage}{99}
+\indexentry{oscillation!Schuler|hyperpage}{99}
+\indexentry{pitch!correction|hyperpage}{99}
+\indexentry{inertial reference unit!Schuler oscillation|hyperpage}{99}
+\indexentry{IRU!Honeywell!Schuler oscillation|hyperpage}{99}
+\indexentry{oscillation!Schuler!tutorial|hyperpage}{100}
+\indexentry{oscillation!Schuler!angular velocity|hyperpage}{101}
+\indexentry{speed of aircraft!ground speed|hyperpage}{102}
+\indexentry{DEEPWAVE!ferry flight|hyperpage}{102}
+\indexentry{speed of aircraft!ground speed|hyperpage}{102}
+\indexentry{coordinate system!local reference frame|hyperpage}{102}
+\indexentry{coordinate system!l-frame|hyperindexformat{\see {coordinate system, local reference frame}}}{102}
+\indexentry{coordinate system!aircraft reference frame|hyperpage}{102}
+\indexentry{Savitzky-Golay polynomials|hyperpage}{102}
+\indexentry{coordinate system!local reference frame|hyperpage}{105}
+\indexentry{coordinate system!ENU frame|hyperindexformat{\see {coordinate system, local reference frame}}}{105}
 \indexentry{pitch!correction!equation|hyperpage}{105}
 \indexentry{DEEPWAVE!flight 1|hyperpage}{105}
-\indexentry{speed of aircraft!ground speed|hyperpage}{105}
-\indexentry{pitch!correction!tests|hyperpage}{105}
-\indexentry{pitch!correction!tests!course reversal|hyperpage}{105}
+\indexentry{speed of aircraft!ground speed|hyperpage}{106}
+\indexentry{pitch!correction!tests|hyperpage}{106}
+\indexentry{pitch!correction!tests!course reversal|hyperpage}{108}
 \indexentry{pitch!correction!magnitude of|hyperpage}{110}
 \indexentry{oscillation!Schuler|hyperpage}{111}
 \indexentry{maneuver!circle|hyperpage}{112}
@@ -482,7 +493,7 @@
 \indexentry{analysis of uncertainty!conventions used|hyperpage}{129}
 \indexentry{GUM|hyperpage}{130}
 \indexentry{Guide to the expression of uncertainty in measurement|hyperpage}{130}
-\indexentry{NIST Technical Note1297|hyperpage}{130}
+\indexentry{NIST Technical Note 1297|hyperpage}{130}
 \indexentry{error!systematic|hyperpage}{130}
 \indexentry{error!random|hyperpage}{130}
 \indexentry{bias|hyperpage}{130}
@@ -508,8 +519,8 @@
 \indexentry{variance spectrum!UXC|hyperpage}{142}
 \indexentry{wind!blended variables|hyperpage}{142}
 \indexentry{variance spectrum!comparison of QCF and QC_GP@comparison of QCF and QC\_GP|hyperpage}{142}
-\indexentry{[|hyperpage}{142}
-\indexentry{[|hyperpage}{142}
+\indexentry{noise!radome system|hyperpage}{142}
+\indexentry{noise!gust-pod system|hyperpage}{142}
 \indexentry{DEEPWAVE|hyperpage}{144}
 \indexentry{HCRTEST|hyperpage}{144}
 \indexentry{variance spectrum!new blended variable for longitudinal wind|hyperpage}{144}
@@ -520,7 +531,7 @@
 \indexentry{GitHub repository|hyperpage}{147}
 \indexentry{R!the programming language|hyperpage}{147}
 \indexentry{R!RStudio used with|hyperpage}{147}
-\indexentry{Ranadu|hyperpage}{147}
+\indexentry{Ranadu|hyperpage}{148}
 \indexentry{data files|hyperpage}{148}
 \indexentry{data!requesting|hyperpage}{148}
 \indexentry{netCDF format|hyperpage}{148}

@@ -1,3 +1,4 @@
+\indexentry{HIAPER=High-Performance Airborne Platform for Environmental Research|hyperpage}{xii}
 \indexentry{NSF=National Science Foundation|hyperpage}{1}
 \indexentry{RAF=Research Aviation Facility|hyperpage}{1}
 \indexentry{EOL=Earth Observing Laboratory|hyperpage}{1}
@@ -16,6 +17,7 @@
 \indexentry{VNS=north component of ground speed, Honeywell IRU {[}m/s{]}|hyperpage}{4}
 \indexentry{VEW=east component of ground speed, Honeywell IRU {[}m/s{]}|hyperpage}{4}
 \indexentry{VSPD=vertical velocity of the aircraft, Honeywell IRU {[}m/s{]}|hyperpage}{4}
+\indexentry{VNSs=north component of the aircraft ground speed from the 's' measuring system, 's'=\{C, \_GP, \_LAMS\} for respectively the standard, gust-pod, and LAMS systems|hyperpage}{5}
 \indexentry{VNSC>@VNSC|hyperpage}{5}
 \indexentry{VEWC>@VEWC|hyperpage}{5}
 \indexentry{VSPD>@VSPD|hyperpage}{5}
@@ -85,10 +87,6 @@
 \indexentry{QC_GP@QC\_GP=pressure difference between forward and  static ports, 858  probe [hPa]|hyperpage}{17}
 \indexentry{C-MIGITS III=model of IRU used with the gust pod|hyperpage}{17}
 \indexentry{MEMS=micro-electro-mechanical system|hyperpage}{17}
-\indexentry{C-MIGITS>@C-MIGITS|hyperpage}{17}
-\indexentry{CROLL_GP>@CROLL\_GP|hyperpage}{17}
-\indexentry{CPITCH_GP>@CPITCH\_GP|hyperpage}{17}
-\indexentry{CTHDG_GP>@CTHDG\_GP|hyperpage}{17}
 \indexentry{CVNS_GP>@CVNS\_GP|hyperpage}{18}
 \indexentry{CVEW_GP>@CVEW\_GP|hyperpage}{18}
 \indexentry{CVSPD_GP>@CVSPD\_GP|hyperpage}{18}
@@ -99,6 +97,10 @@
 \indexentry{ADIF_GP>@ADIF\_GP|hyperpage}{18}
 \indexentry{BDIF_GP>@BDIF\_GP|hyperpage}{18}
 \indexentry{QC_GP>@QC\_GP|hyperpage}{18}
+\indexentry{C-MIGITS>@C-MIGITS|hyperpage}{19}
+\indexentry{CROLL_GP>@CROLL\_GP|hyperpage}{19}
+\indexentry{CPITCH_GP>@CPITCH\_GP|hyperpage}{19}
+\indexentry{CTHDG_GP>@CTHDG\_GP|hyperpage}{19}
 \indexentry{QC_GP>@QC\_GP|hyperpage}{19}
 \indexentry{ADIF_GP>@ADIF\_GP|hyperpage}{19}
 \indexentry{BDIF_GP>@BDIF\_GP|hyperpage}{19}
@@ -123,12 +125,12 @@
 \indexentry{SDN500=model of IRU used with the gust pod|hyperpage}{27}
 \indexentry{IDEAS-4-GV=Instrument Development and Education in Airborne Science Phase 4|hyperpage}{27}
 \indexentry{C-MIGITS>@C-MIGITS|hyperpage}{27}
-\indexentry{WDL=wind direction, LAMS|hyperpage}{35}
-\indexentry{WSL=wind speed, LAMS|hyperpage}{35}
-\indexentry{WIL=vertical wind, LAMS|hyperpage}{35}
-\indexentry{WDC>@WDC|hyperpage}{35}
-\indexentry{WSC>@WSC|hyperpage}{35}
-\indexentry{WIC>@WIC|hyperpage}{35}
+\indexentry{WDL=wind direction, LAMS|hyperpage}{34}
+\indexentry{WSL=wind speed, LAMS|hyperpage}{34}
+\indexentry{WIL=vertical wind, LAMS|hyperpage}{34}
+\indexentry{WDC>@WDC|hyperpage}{34}
+\indexentry{WSC>@WSC|hyperpage}{34}
+\indexentry{WIC>@WIC|hyperpage}{34}
 \indexentry{ADIFR>@ADIFR|hyperpage}{36}
 \indexentry{BDIFR>@BDIFR|hyperpage}{36}
 \indexentry{QCR>@QCR|hyperpage}{36}
@@ -256,129 +258,128 @@
 \indexentry{WIC>@WIC|hyperpage}{61}
 \indexentry{WIC>@WIC|hyperpage}{63}
 \indexentry{WIG>@WIG|hyperpage}{63}
-\indexentry{AKRD>@AKRD|hyperpage}{65}
-\indexentry{AK_GP>@AK\_GP|hyperpage}{65}
-\indexentry{SSRD>@SSRD|hyperpage}{65}
-\indexentry{SS_GP>@SS\_GP|hyperpage}{65}
-\indexentry{PITCH>@PITCH|hyperpage}{66}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{66}
-\indexentry{TASF>@TASF|hyperpage}{66}
-\indexentry{ADIFR>@ADIFR|hyperpage}{66}
-\indexentry{QCF|hyperpage}{66}
-\indexentry{QCFC=corrected dynamic pressure {[}hPa{]}|hyperpage}{66}
-\indexentry{QCR>@QCR|hyperpage}{66}
-\indexentry{ADIFR>@ADIFR|hyperpage}{66}
-\indexentry{CPITCH_GP>@CPITCH\_GP|hyperpage}{66}
-\indexentry{CVSPD_GP>@CVSPD\_GP|hyperpage}{66}
-\indexentry{TASF>@TASF|hyperpage}{66}
-\indexentry{ADIFR>@ADIFR|hyperpage}{66}
-\indexentry{ADIF_GP>@ADIF\_GP|hyperpage}{66}
-\indexentry{QC_GP>@QC\_GP|hyperpage}{66}
-\indexentry{AOAREFC=reference angle of attack with pitch correction|hyperpage}{67}
-\indexentry{AKRD>@AKRD|hyperpage}{69}
-\indexentry{ICAO=International Civil Aviation Authority|hyperpage}{71}
-\indexentry{ADIF_GP>@ADIF\_GP|hyperpage}{75}
-\indexentry{QC_GP>@QC\_GP|hyperpage}{75}
-\indexentry{C-MIGITS>@C-MIGITS|hyperpage}{77}
-\indexentry{QCF>@QCF|hyperpage}{78}
-\indexentry{BDIFR>@BDIFR|hyperpage}{78}
-\indexentry{QC_GP>@QC\_GP|hyperpage}{78}
-\indexentry{BDIF_GP>@BDIF\_GP|hyperpage}{78}
-\indexentry{AKRD>@AKRD|hyperpage}{82}
-\indexentry{ADIF_GP>@ADIF\_GP|hyperpage}{83}
-\indexentry{BDIF_GP>@BDIF\_GP|hyperpage}{83}
-\indexentry{QC_GP>@QC\_GP|hyperpage}{83}
-\indexentry{QCFC>@QCFC|hyperpage}{83}
-\indexentry{QCFC>@QCFC|hyperpage}{84}
-\indexentry{PSFC=corrected ambient pressure {[}hPa{]}|hyperpage}{84}
-\indexentry{QC_GP>@QC\_GP|hyperpage}{84}
+\indexentry{AKRD>@AKRD|hyperpage}{66}
+\indexentry{AK_GP>@AK\_GP|hyperpage}{66}
+\indexentry{SSRD>@SSRD|hyperpage}{66}
+\indexentry{SS_GP>@SS\_GP|hyperpage}{66}
+\indexentry{PITCH>@PITCH|hyperpage}{67}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{67}
+\indexentry{TASF>@TASF|hyperpage}{67}
+\indexentry{ADIFR>@ADIFR|hyperpage}{67}
+\indexentry{QCF|hyperpage}{67}
+\indexentry{QCFC=corrected dynamic pressure {[}hPa{]}|hyperpage}{67}
+\indexentry{QCR>@QCR|hyperpage}{67}
+\indexentry{ADIFR>@ADIFR|hyperpage}{67}
+\indexentry{CPITCH_GP>@CPITCH\_GP|hyperpage}{67}
+\indexentry{CVSPD_GP>@CVSPD\_GP|hyperpage}{67}
+\indexentry{TASF>@TASF|hyperpage}{67}
+\indexentry{ADIFR>@ADIFR|hyperpage}{67}
+\indexentry{ADIF_GP>@ADIF\_GP|hyperpage}{67}
+\indexentry{QC_GP>@QC\_GP|hyperpage}{67}
+\indexentry{AOAREFC=reference angle of attack with pitch correction|hyperpage}{68}
+\indexentry{AKRD>@AKRD|hyperpage}{70}
+\indexentry{ICAO=International Civil Aviation Authority|hyperpage}{72}
+\indexentry{ADIF_GP>@ADIF\_GP|hyperpage}{76}
+\indexentry{QC_GP>@QC\_GP|hyperpage}{76}
+\indexentry{C-MIGITS>@C-MIGITS|hyperpage}{78}
+\indexentry{QCF>@QCF|hyperpage}{79}
+\indexentry{BDIFR>@BDIFR|hyperpage}{79}
+\indexentry{QC_GP>@QC\_GP|hyperpage}{79}
+\indexentry{BDIF_GP>@BDIF\_GP|hyperpage}{79}
+\indexentry{AKRD>@AKRD|hyperpage}{83}
 \indexentry{ADIF_GP>@ADIF\_GP|hyperpage}{84}
+\indexentry{BDIF_GP>@BDIF\_GP|hyperpage}{84}
+\indexentry{QC_GP>@QC\_GP|hyperpage}{84}
+\indexentry{QCFC>@QCFC|hyperpage}{84}
+\indexentry{QCFC>@QCFC|hyperpage}{85}
+\indexentry{PSFC=corrected ambient pressure {[}hPa{]}|hyperpage}{85}
+\indexentry{QC_GP>@QC\_GP|hyperpage}{85}
+\indexentry{ADIF_GP>@ADIF\_GP|hyperpage}{85}
 \indexentry{TASF=true airspeed from the fuselage-mounted pitot tube|hyperpage}{86}
-\indexentry{ROLL>@ROLL|hyperpage}{86}
-\indexentry{GGALT>@GGALT|hyperpage}{86}
-\indexentry{TASF>@TASF|hyperpage}{86}
-\indexentry{TASF>@TASF|hyperpage}{86}
-\indexentry{VSPD>@VSPD|hyperpage}{88}
-\indexentry{VSPD_A=vertical motion of the aircraft as provided by the avionics  system@VSPD\_A=vertical motion of the aircraft as provided by the avionics system|hyperpage}{88}
-\indexentry{GGVSPD|hyperpage}{88}
-\indexentry{CVSPD_GP>@CVSPD\_GP|hyperpage}{88}
-\indexentry{CVSPD_LAMS>@CVSPD\_LAMS|hyperpage}{88}
-\indexentry{VSPD_G@VSPD\_G=alternate name used for VSPD\_A in some projects|hyperpage}{88}
-\indexentry{WP3=obsolete vertical-motion variable calculated using baro-inertial updating|hyperpage}{88}
-\indexentry{VSPD>@VSPD|hyperpage}{88}
-\indexentry{VSPD_A>@VSPD\_A|hyperpage}{88}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{88}
-\indexentry{CVSPD_GP>@CVSPD\_GP|hyperpage}{88}
-\indexentry{C-MIGITS>@C-MIGITS|hyperpage}{88}
-\indexentry{CVSPD_LAMS>@CVSPD\_LAMS|hyperpage}{88}
-\indexentry{VSPD>@VSPD|hyperpage}{88}
-\indexentry{VSPD_A>@VSPD\_A|hyperpage}{88}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{88}
-\indexentry{VSPD>@VSPD|hyperpage}{88}
-\indexentry{CVSPD_GP>@CVSPD\_GP|hyperpage}{88}
-\indexentry{CVSPD_LAMS>@CVSPD\_LAMS|hyperpage}{88}
-\indexentry{VSPD>@VSPD|hyperpage}{88}
-\indexentry{WI=vertical wind calculated using VSPD {[}m/s{]}|hyperpage}{89}
-\indexentry{WIC=vertical wind calculated using GGVSPD {[}m/s{]}|hyperpage}{89}
+\indexentry{ROLL>@ROLL|hyperpage}{87}
+\indexentry{GGALT>@GGALT|hyperpage}{87}
+\indexentry{TASF>@TASF|hyperpage}{87}
+\indexentry{TASF>@TASF|hyperpage}{87}
 \indexentry{VSPD>@VSPD|hyperpage}{89}
+\indexentry{VSPD_A=vertical motion of the aircraft as provided by the avionics  system@VSPD\_A=vertical motion of the aircraft as provided by the avionics system|hyperpage}{89}
+\indexentry{GGVSPD|hyperpage}{89}
+\indexentry{CVSPD_GP>@CVSPD\_GP|hyperpage}{89}
+\indexentry{CVSPD_LAMS>@CVSPD\_LAMS|hyperpage}{89}
+\indexentry{VSPD_G@VSPD\_G=alternate name used for VSPD\_A in some projects|hyperpage}{89}
+\indexentry{WP3=obsolete vertical-motion variable calculated using baro-inertial updating|hyperpage}{89}
+\indexentry{VSPD>@VSPD|hyperpage}{89}
+\indexentry{VSPD_A>@VSPD\_A|hyperpage}{89}
 \indexentry{GGVSPD>@GGVSPD|hyperpage}{89}
-\indexentry{GGQUAL=variable indicating GPS quality of measurement; 5 if OmniSTAR|hyperpage}{89}
+\indexentry{CVSPD_GP>@CVSPD\_GP|hyperpage}{89}
+\indexentry{C-MIGITS>@C-MIGITS|hyperpage}{89}
+\indexentry{CVSPD_LAMS>@CVSPD\_LAMS|hyperpage}{89}
 \indexentry{VSPD>@VSPD|hyperpage}{89}
+\indexentry{VSPD_A>@VSPD\_A|hyperpage}{89}
 \indexentry{GGVSPD>@GGVSPD|hyperpage}{89}
-\indexentry{GUSTW>@GUSTW|hyperpage}{89}
-\indexentry{GGVSPDB=high-resolution version, GGVSPD|hyperpage}{89}
 \indexentry{VSPD>@VSPD|hyperpage}{89}
+\indexentry{CVSPD_GP>@CVSPD\_GP|hyperpage}{89}
+\indexentry{CVSPD_LAMS>@CVSPD\_LAMS|hyperpage}{89}
 \indexentry{VSPD>@VSPD|hyperpage}{89}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{91}
-\indexentry{VSPD>@VSPD|hyperpage}{91}
-\indexentry{VSPD>@VSPD|hyperpage}{91}
-\indexentry{VSPD>@VSPD|hyperpage}{91}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{91}
-\indexentry{WIC>@WIC|hyperpage}{91}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{91}
-\indexentry{GUSTW=special-use variable representing the relative wind {[}m/s{]}|hyperpage}{91}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{91}
-\indexentry{VSPD>@VSPD|hyperpage}{92}
+\indexentry{WI=vertical wind calculated using VSPD {[}m/s{]}|hyperpage}{90}
+\indexentry{WIC=vertical wind calculated using GGVSPD {[}m/s{]}|hyperpage}{90}
+\indexentry{VSPD>@VSPD|hyperpage}{90}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{90}
+\indexentry{GGQUAL=variable indicating GPS quality of measurement; 5 if OmniSTAR|hyperpage}{90}
+\indexentry{VSPD>@VSPD|hyperpage}{90}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{90}
+\indexentry{GUSTW>@GUSTW|hyperpage}{90}
+\indexentry{GGVSPDB=high-resolution version, GGVSPD|hyperpage}{90}
+\indexentry{VSPD>@VSPD|hyperpage}{90}
+\indexentry{VSPD>@VSPD|hyperpage}{90}
 \indexentry{GGVSPD>@GGVSPD|hyperpage}{92}
 \indexentry{VSPD>@VSPD|hyperpage}{92}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{92}
+\indexentry{VSPD>@VSPD|hyperpage}{92}
 \indexentry{VSPD>@VSPD|hyperpage}{92}
 \indexentry{GGVSPD>@GGVSPD|hyperpage}{92}
-\indexentry{WIX>@WIX|hyperpage}{92}
-\indexentry{WIX=vertical wind, special calculation (e.g., recalculated with pitch correction)|hyperpage}{92}
-\indexentry{ADIFR>@ADIFR|hyperpage}{92}
-\indexentry{QCF>@QCF|hyperpage}{92}
-\indexentry{QCR>@QCR|hyperpage}{92}
-\indexentry{QCF>@QCF|hyperpage}{92}
-\indexentry{ADIFR>@ADIFR|hyperpage}{92}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{94}
-\indexentry{FMS=flight management system|hyperpage}{94}
-\indexentry{FMS=flight management system|hyperpage}{94}
-\indexentry{AKRD>@AKRD|hyperpage}{94}
-\indexentry{VSPD=vertical aircraft speed provided by the primary IRU|hyperpage}{94}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{94}
+\indexentry{WIC>@WIC|hyperpage}{92}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{92}
+\indexentry{GUSTW=special-use variable representing the relative wind {[}m/s{]}|hyperpage}{92}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{92}
+\indexentry{VSPD>@VSPD|hyperpage}{93}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{93}
+\indexentry{VSPD>@VSPD|hyperpage}{93}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{93}
+\indexentry{VSPD>@VSPD|hyperpage}{93}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{93}
+\indexentry{WIX>@WIX|hyperpage}{93}
+\indexentry{WIX=vertical wind, special calculation (e.g., recalculated with pitch correction)|hyperpage}{93}
+\indexentry{ADIFR>@ADIFR|hyperpage}{93}
+\indexentry{QCF>@QCF|hyperpage}{93}
+\indexentry{QCR>@QCR|hyperpage}{93}
+\indexentry{QCF>@QCF|hyperpage}{93}
+\indexentry{ADIFR>@ADIFR|hyperpage}{93}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{95}
+\indexentry{FMS=flight management system|hyperpage}{95}
+\indexentry{FMS=flight management system|hyperpage}{95}
 \indexentry{AKRD>@AKRD|hyperpage}{95}
-\indexentry{AKRD>@AKRD|hyperpage}{95}
-\indexentry{PITCH>@PITCH|hyperpage}{95}
-\indexentry{TASF>@TASF|hyperpage}{95}
-\indexentry{RTRL=recovery temperature, left-radome sensor|hyperpage}{95}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{96}
+\indexentry{VSPD=vertical aircraft speed provided by the primary IRU|hyperpage}{95}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{95}
+\indexentry{AKRD>@AKRD|hyperpage}{96}
+\indexentry{AKRD>@AKRD|hyperpage}{96}
 \indexentry{PITCH>@PITCH|hyperpage}{96}
-\indexentry{PITCH>@PITCH|hyperpage}{96}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{96}
-\indexentry{GGVSPD>@GGVSPD|hyperpage}{96}
-\indexentry{LAT=latitude measured by the Honeywell inertial reference unit|hyperpage}{100}
-\indexentry{GGLAT=latitude measured by the GPS receiver|hyperpage}{100}
-\indexentry{GGVNS>@GGVNS|hyperpage}{100}
-\indexentry{VNS>@VNS|hyperpage}{100}
-\indexentry{GGVEW>@GGVEW|hyperpage}{101}
-\indexentry{VEW>@VEW|hyperpage}{101}
-\indexentry{ENU=east-north-up local reference frame|hyperpage}{104}
-\indexentry{GGVEW>@GGVEW|hyperpage}{105}
-\indexentry{VEW>@VEW|hyperpage}{105}
-\indexentry{PITCH>@PITCH|hyperpage}{105}
-\indexentry{ROLL>@ROLL|hyperpage}{105}
-\indexentry{PITCHC=pitch corrected as described in Sect.~\ref{sub:angle-transforms-for-pitch-correction}|hyperpage}{105}
+\indexentry{TASF>@TASF|hyperpage}{96}
+\indexentry{RTRL=recovery temperature, left-radome sensor|hyperpage}{96}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{97}
+\indexentry{PITCH>@PITCH|hyperpage}{97}
+\indexentry{PITCH>@PITCH|hyperpage}{97}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{97}
+\indexentry{GGVSPD>@GGVSPD|hyperpage}{97}
+\indexentry{LAT=latitude measured by the Honeywell inertial reference unit|hyperpage}{101}
+\indexentry{GGLAT=latitude measured by the GPS receiver|hyperpage}{101}
+\indexentry{GGVNS>@GGVNS|hyperpage}{101}
+\indexentry{VNS>@VNS|hyperpage}{101}
+\indexentry{GGVEW>@GGVEW|hyperpage}{102}
+\indexentry{VEW>@VEW|hyperpage}{102}
+\indexentry{ENU=east-north-up local reference frame|hyperpage}{105}
+\indexentry{GGVEW>@GGVEW|hyperpage}{106}
+\indexentry{VEW>@VEW|hyperpage}{106}
+\indexentry{PITCH>@PITCH|hyperpage}{106}
+\indexentry{ROLL>@ROLL|hyperpage}{106}
 \indexentry{ROLL>@ROLL|hyperpage}{113}
 \indexentry{THDG>@THDG|hyperpage}{116}
 \indexentry{TASF>@TASF|hyperpage}{122}
@@ -435,4 +436,3 @@
 \indexentry{HCRTEST>@HCRTEST|hyperpage}{144}
 \indexentry{URL=Uniform Resource Locator|hyperpage}{147}
 \indexentry{HPSS=High Performance Storage System|hyperpage}{148}
-\indexentry{HIAPER=High-Performance Airborne Platform for Environmental Research|hyperpage}{149}
